@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    	http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring   
+    	http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+	<!-- 开启注解 -->
+	<ehcache:annotation-driven />
+	
+	
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:config/cache/ehcache.xml" />
+	</bean>
+
+	<!-- 自动更新配置 -->
+	<ehcache:config cache-manager="cacheManager">
+		<ehcache:evict-expired-elements interval="60" />
+	</ehcache:config>
+
+
+
+
+
+
+
+
+
+</beans>

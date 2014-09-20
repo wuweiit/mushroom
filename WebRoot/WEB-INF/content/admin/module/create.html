@@ -1,0 +1,70 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">创建模块</li>
+		</ul>
+		<button class="btn_tabbar" onclick="saveModule(this);">下一步</button> 
+	</div>
+	<form id="myForm">
+	<input id="m_uuid" name="uuid" type="hidden" value="${uuid!}" />
+	<div class="tab_content">
+		<div class="tab_item tab_show">  
+			<table class="table_for_add">
+				<tbody>
+					<tr class="rowBgColor">
+						<th width="140">模块编码：</th>
+						<td><b>${uuid!}</b> </td>
+						<td><span>模型UUID自动生成</span></td>
+					</tr>
+					<tr>
+						<th width="140">模块名称：</th>
+						<td><input id="m_name" class="input_for_add" name="name" type="text" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th width="140">开发者：</th>
+						<td><input id="m_author" class="input_for_add" name="author" type="text" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th width="140">模块描述：</th>
+						<td><textarea id="m_description" class="textarea_for_add" name="description"> </textarea></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form> 
+</div>
+<script type="text/javascript">
+function saveModule(){
+ 	var uuid = $("#m_uuid").val();
+	var formData = {
+		name:$("#m_name").val(),
+		author:$("#m_author").val(),
+		description:$("#m_description").val() 
+	};
+	alert(uuid);
+	var params = "uuid="+uuid +"&config="+JSON.stringify( formData);
+	
+	
+	
+	$.ajax({
+		url:"module/save.do",
+		type:"POST",
+		data: params,
+		dataType:"json",
+		success:function(json){
+			if(json.status){
+				refreshContentByURL("module/edit.do?uuid="+uuid); 
+			}else{
+				alert(json.message);
+			} 
+		}
+		
+	});
+	
+}
+
+</script>

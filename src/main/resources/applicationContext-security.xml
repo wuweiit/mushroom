@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:s="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd"
+	default-autowire="byType" default-lazy-init="true">
+
+    <s:http auto-config="true" access-denied-page="/accessDenied.jsp">
+        <!-- 采用XML配置HTTP过滤的形式来做到对http请求的安全访问控制,和下面使用数据库方式不一样。如果采用它请将下面配置的filterSecurityInterceptor,databaseDefinitionSource,resourceDetailsService三个BEAN删除配置和代码。 -->
+        <s:intercept-url pattern="/images/**" filters="none" />  
+        <s:intercept-url pattern="/js/**" filters="none"/>  
+        <s:intercept-url pattern="/css/**" filters="none" /> 
+        <s:intercept-url pattern="/admin/login.do*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <s:intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_FULLY" />
+		<s:intercept-url pattern="/admin.jsp" access="ROLE_ADMIN" />
+		<s:intercept-url pattern="/associateSearch.do" access="ROLE_ADMIN,ROLE_USER" />
+		<s:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		
+        <s:anonymous username="Guest"/>
+        <s:form-login login-page="/login.jsp"
+                authentication-failure-url="/login.jsp"
+                default-target-url="/user/login.jsp?method=getLoginPage" />
+        <s:logout invalidate-session="true" logout-success-url="/login.do" logout-url="/mywish_security_logout.do"/>
+        <!-- 同一个用户登陆控制，允许同时登陆3次,具体参考spring security详解。防止因为采用禁止使用造成以前用户关闭浏览器但是并没有正常logout造成不能登陆情况。 -->
+        <s:session-management session-fixation-protection="none">
+            <s:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+        </s:session-management>
+    </s:http>
+    
+    <!-- 认证配置 --> 
+    <s:authentication-manager alias="authenticationManager">
+    <!-- <s:authentication-provider user-service-ref="userDetailsService">
+         	 盐值加密，把用户名
+        <s:password-encoder hash="md5">
+            
+        </s:password-encoder>
+    </s:authentication-provider>
+    -->
+    </s:authentication-manager>
+    
+    <!-- 项目实现的用户查询服务 -->  
+	<bean id="userDetailsService" class="org.marker.mushroom.spring.security.UserDetailsServiceImpl">
+	</bean>
+    
+    <!-- 使用spring security2.0基于数据库的配置，以下的类都已经在项目中，如果不使用可以去掉。如果使用请将spring security3的JAR包替换成2，并且启用下面配置项删除上面的配置项。 所使用的数据库权限的简单模型已经存在。-->
+	
+	<!-- 采用XML配置HTTP过滤的形式来做到对http请求的安全访问控制,和下面使用数据库方式不一样。如果采用它请将下面配置的filterSecurityInterceptor,databaseDefinitionSource,resourceDetailsService三个BEAN删除配置和代码。--> 
+	<!-- 
+	<s:http auto-config="true" access-denied-page="/accessDenied.jsp">
+        
+        <s:intercept-url pattern="/images/**" filters="none" />  
+        <s:intercept-url pattern="/js/**" filters="none"/>  
+        <s:intercept-url pattern="/css/**" filters="none" /> 
+
+        <s:anonymous username="Guest"/>
+        <s:form-login login-page="/login.jsp"
+                authentication-failure-url="/login.jsp?error=true"
+                default-target-url="/user/login.do" />
+        <s:logout invalidate-session="true" logout-success-url="/login.jsp" logout-url="/mywish_security_logout.do"/>
+    </s:http>
+    -->
+    <!-- 
+    <s:authentication-provider user-service-ref="userDetailsService">
+        <s:password-encoder hash="md5">   
+        </s:password-encoder>
+    </s:authentication-provider>
+     -->
+    <!-- 项目实现的用户查询服务 -->
+    <!-- 
+	<bean id="userDetailsService" class="com.mywish.mywish.service.security.UserDetailsServiceImpl">
+	    <beans:property name="userManager" ref="userManager"></beans:property>
+	</bean>
+	-->
+	<!-- 重新定义的FilterSecurityInterceptor,使用databaseDefinitionSource提供的url-授权关系定义,采用数据库定义的方式需要在每次更改资源后要进行刷新内存操作，需要访问-->
+	<!--
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.intercept.web.FilterSecurityInterceptor" autowire="byType">
+		<s:custom-filter before="FILTER_SECURITY_INTERCEPTOR" />
+		<property name="objectDefinitionSource" ref="databaseDefinitionSource" />
+	</bean>
+    --> 
+	<!-- DefinitionSource工厂,使用resourceDetailsService提供的URL-授权关系.--> 
+	<!--
+	<bean id="databaseDefinitionSource" class="com.mywish.mywish.service.security.DefinitionSourceFactoryBean">
+		<property name="resourceDetailsService" ref="resourceDetailsService" />
+	</bean>
+	-->
+	<!-- 项目实现的URL-授权查询服务-->
+	<!-- 
+	<bean id="resourceDetailsService" class="com.mywish.mywish.service.security.ResourceDetailsServiceImpl">
+	    <property name="resourceManager" ref="resourceManager"></beans:property>
+	</bean>
+	-->
+</beans>

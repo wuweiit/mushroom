@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+    xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:mvc="http://www.springframework.org/schema/mvc/"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+ 	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+
+    "> 
+    
+ 	<!-- ①：启动Spring MVC3.2的注解功能(使用最新的处理类)  -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+ 
+    </bean>
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				 <bean class="org.springframework.http.converter.json.GsonHttpMessageConverter"/>
+			</list>
+		</property>
+	</bean> 
+ 
+    
+    <!-- ②：对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
+    <context:component-scan base-package="org.marker.mushroom" annotation-config="true" />
+
+
+    <bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		</bean>
+    
+    <!-- ③：对模型视图名称的解析，这里采用多视图支持框架 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+	  	<property name="cache" value="false"/>
+		<property name="prefix" value=""/>
+		<property name="suffix" value=".html"/>
+		<property name="contentType" value="text/html; charset=utf-8"></property>
+	</bean>
+	
+    <!-- 后台Freemarker模版引擎配置 -->
+ 	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+  		<property name="templateLoaderPath" value="/WEB-INF/content/"/>
+   		<property name="freemarkerSettings">
+       		<props>
+       			<prop key="defaultEncoding">UTF-8</prop>
+       			<prop key="template_update_delay">0</prop>
+       			 <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="number_format">0.##</prop> 
+       			<prop key="locale">zh_CN</prop>  
+       			<!-- 自动获取spring.ftl宏，此处路径是上面templateLoaderPath的相对路径 -->  
+            	<prop key="auto_import">common/spring.ftl as spring</prop>
+       		</props>
+       	</property>
+        <!-- freemarker变量注入 -->
+        <property name="freemarkerVariables">
+          <map>
+            <entry key="encoder"><bean class="org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel" /></entry>
+          </map>
+        </property>
+	</bean>
+	
+ 	
+ 	
+ 	
+ 	
+ 	<!-- 
+ 	  JSONP
+	 	访问: http://localhost:8080/json?callback=callback
+	 	响应: callback({"user":{"id":1,"name":"zhangsan"}});
+ 	
+ 	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+        <property name="jsonpParameterNames">
+            <set>
+                <value>jsonp</value>
+                <value>callback</value>
+            </set>
+       </property>
+    </bean>
+ 	 -->
+ 	 
+</beans>

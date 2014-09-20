@@ -1,0 +1,72 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">模块管理</li>
+		</ul>
+		<button class="btn_tabbar" action="module/create.do" onclick="refreshContentByElement(this);">创建模块</button> 
+	</div>
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_list">
+				<thead>
+				<tr>
+			        <th width="250">模块编码</th>
+			        <th>模块名称</th>
+			        <th>作者</th>
+			        <th>版本</th>
+			        <th>描述</th>
+			        <th>状态</th>
+			        <th width="120">操作</th>
+			      </tr>
+				</thead>
+			    <tbody>
+			      
+				  <#list modules as x>
+					<tr>
+						<td style="font-family: '宋体'; font-weight: bold;color: rgb(9, 202, 55);">${x.uuid!}</td>
+				        <td>${x.name!}</td>
+				        <td class="tac">${x.author!}</td>
+				        <td class="tac">${x.version!} </td>
+				        <td>${x.description!} </td>
+				        <td class="tac">
+				        	<#switch x.status>
+				        		<#case 0><span style="color:blue;"><i class="fa fa-check-circle"></i> 就绪</span><#break>
+ 				        		<#case 1><span style="color:green;"><i class="fa fa-check-circle"></i> 正常</span><#break>
+				        		<#case 2><span style="color:#ccc;"><i class="fa fa-check-circle"></i> 停用</span><#break>
+				        		<#case 3><span style="color:red;"><i class="fa fa-check-circle"></i> 错误</span><#break>
+				        	</#switch> 
+				       	</td>
+				        <td class="tac">
+			        	<#switch x.status>
+			        		<#case 0><a href="#" action="module/start.do?id=${x.uuid!}" onclick="refreshContentByElement(this);">启动</a><#break>
+			        		<#case 2><a href="#" action="module/start.do?id=${x.uuid!}" onclick="refreshContentByElement(this);">启动</a><#break>
+			        	    <#case 1><a href="#" action="module/stop.do?id=${x.uuid!}" onclick="refreshContentByElement(this);">停用</a><#break>
+			        	</#switch> | 
+			        	<a href="#" action="module/edit.do?uuid=${x.uuid!}" onclick="refreshContentByElement(this);"><i class="fa fa-pencil-square-o"></i></a> | 
+					    <a href="#" onclick="deleteModule('${x.uuid!}');"><i class="fa fa-trash-o"></i></a>
+				    	</td>
+				    </tr>
+				  </#list>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<<script type="text/javascript">
+<!--
+
+function deleteModule(uuid){
+	
+	zoom.showConfirmDialog("该操作会删除模块文件夹\n确定卸载吗？","消息提示",function(){
+
+		var url = "module/uninstall.do?id="+uuid; 
+		refreshContentByURL(url);
+		
+		zoom.closeConfirmDialog(); 
+	});
+	
+}
+
+
+//-->
+</script>

@@ -1,0 +1,67 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>添加用户</h3></li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="user/list.do?currentPageNo=1">保 存</button>
+	</div>
+	<form id="myForm" action="user/save.do" method="post">
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_add">
+				<tbody>
+					<tr class="rowBgColor">
+						<th width="140">用户分组：</th>
+						<td>
+						<select class="select_for_add" name="gid">
+						    <#list groups as g>
+					 	 	<option value="${g.id?c}">${g.name!} (${g.description!})</option>
+					 	 	</#list>
+						</select>
+						
+						
+						</td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th width="140">用户昵称：</th>
+						<td><input class="input_for_add" name="nickname" type="text" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>登录名称： </th>
+						<td><input class="input_for_add" name="name" type="text" /></td>
+						<td><span id="scope_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>用户密码：</th>
+						<td><input class="input_for_add" name="pass" type="text" /></td>
+						<td><span id="type_status"></span></td>
+					</tr>
+					<tr>
+						<th>描述信息：</th>
+						<td>
+							<textarea class="textarea_for_add" name="description"></textarea>
+						</td>
+						<td>
+							<span id="address_status"></span>
+						</td>
+					</tr>
+		 			<tr class="rowBgColor">
+						<th>用户状态：</th>
+						<td>
+							<select class="select_for_add" name="status">
+							<option value="1">启用</option>
+							<option value="0">禁用</option>
+							</select>
+						</td>
+						<td>
+							<span id="address_status"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form>
+</div>

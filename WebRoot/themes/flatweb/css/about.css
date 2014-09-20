@@ -1,0 +1,14 @@
+/* 响应式布局 */
+/* 设置顶部高度 */
+.affix-top{top:200px;}
+/* 设置移动固定高度 */
+.affix{ position:static;}
+
+@media (min-width: 1200px){
+	.affix{ position:fixed;}
+	.affix{ top:70px; width:262px !important;}
+} 
+@media (min-width: 992px) {
+	.affix{ position:fixed;}
+	.affix{ top:70px; width:212px;}
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>${config.title}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="keywords" content="${config.keywords}">
+	<meta name="description" content="${config.description}">
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+</head>
+<body>
+
+
+<!--#include file="header.html"-->
+	<div class="main center" style="width:980px;">
+	
+	<!--{pulgin: name=(search) invoke=(show)}-->
+	
+	
+	搜索结果<br />
+	<c:forEach var="x" items="${page.data}">
+	${x.title}<br />
+	
+	</c:forEach>
+	
+	</div>
+ 
+<!--#include file="footer.html"-->
+</body>
+</html>

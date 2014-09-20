@@ -1,0 +1,19 @@
+<#macro tree id node>
+	<#local temp = node + 1 />
+	<#list channels as comment>
+	  	<#if id == comment.pid>
+		<tr> 
+	      	<td align="center">${comment.id?c}</td>
+	        <td><#list 0..temp as x> &nbsp; &nbsp; </#list>${comment.name!}</td> 
+	        <td align="left">${comment.url!}</td>
+	        <td align="center">${comment.modulename!}</td>
+	        <td align="center">${comment.sort?c}</td>
+	        <td align="center"><#if comment.hide == true>显示<#else>隐藏</#if></td>
+	        <td align="center">
+	        <a href="#" action="channel/edit.do?id=${comment.id?c}" onclick="refreshContentByElement(this);">编辑</a>
+	        | <a href="#" action="channel/delete.do?rid=${comment.id?c}" return="channel/list.do" onclick="deleteById(this);">删除</a>
+	 	 </tr>
+	    <@tree id = comment.id node=temp/>
+      </#if>
+	</#list> 
+</#macro>

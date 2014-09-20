@@ -1,0 +1,94 @@
+@charset "utf-8"; 
+
+/* 通用样式 */
+a{ color: RGB(28,120,135); font-weight: bold;}
+
+
+
+.layout_style_top{background:#222; }
+.layout_style_left{ background:RGB(238,241,248); border-right:1px #CCCCCC solid;}
+
+/* (180 * 56）logo样式 */
+.layout_style_logo{  }
+
+
+
+
+/*
+   菜单样式
+ */
+
+/* 一级导航菜单悬停样式 */
+.layout_style_nav ul li:hover { background: RGB(167,220,224); }
+
+
+/* 二级导航 */
+.layout_style_menu_title{}
+.layout_style_menu_line{ border-bottom:1px #CCCCCC solid; }
+.layout_style_nav_menu{}
+.layout_style_nav_menu > ul > li{ border-left: 3px RGB(230,236,242) solid; }
+.layout_style_nav_menu > ul > li:hover{
+	background: RGB(230,236,242);
+}
+
+/* 一级导航右边用户信息 */
+.layout_info {color:#FFF; }
+.layout_info a{ color:RGB(214,200,75); }
+
+
+
+
+
+/*  默认主题样式 */
+
+/* 登录背景 */
+.loginPanelBackground{background:#222;}
+/* 登录Label的字体颜色 */
+.table_for_login tr th{ color:#FFF;}
+/* 登录输入框边线颜色 */
+.input_for_login{border:1px #CCCCCC solid;}
+/* 登录消息颜色 */
+.login_for_message{background:background:RGB(38,188,213);}
+.login_for_messageContent h2{color:#FFF}
+
+
+
+/* 导航文字阴影效果 */
+.font_shadow {
+	text-shadow: 1px 1px 2px #000;
+}
+
+
+
+/*
+   通用组件样式
+
+ 
+ */
+
+
+
+ /* 输入框样式 */
+.input_for_add { }
+.select_for_add { }
+.textarea_for_add { }
+.input_for_seo{}
+
+
+/* 按钮颜色 */
+button {background:#01a5af; color:#FFFFFF;border: none;}
+button:hover{ background:#018f98; color:RGB(225,233,220) ; }
+
+.button_for_login{
+	background:#01a5af;
+}
+
+
+/* 隔行渲染颜色 */
+.rowBgColor{background:#F6F6F6;}
+
+
+
+/* diglog窗口颜色 */
+.dialog_style_content{background:RGB(38,188,213);color:#FFF;}
+ 

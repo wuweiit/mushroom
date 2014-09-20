@@ -1,0 +1,56 @@
+<div class="content">
+	<h2>编辑碎片</h2>
+	<hr class="hrs"/>
+</div>
+<div class="content">
+	<form id="myForm" action="chip/update.do" method="post">
+	<input type="hidden" name="id" value="${chip.id?c}"/>
+	<table class="table_for_add">
+		<tbody> 
+			<tr class="rowBgColor">
+				<th>碎片名称： </th>
+				<td><input class="input_for_add" name="name" type="text" value="${chip.name!}" /></td>
+				<td><span id="scope_status"></span></td>
+			</tr>
+			<tr>
+				<th>碎片标签： </th>
+				<td><input class="input_for_add" name="mark" type="text" value="${chip.mark!}" /></td>
+				<td><span id="scope_status"></span></td>
+			</tr>
+			<tr class="rowBgColor">
+				<th>碎片内容：</th>
+				<td><textarea id="acontent" style="width:700px;height:400px;visibility:hidden;">${chip.content!}</textarea>
+	 			</td>
+				<td><span id="trade_status"></span></td>
+			</tr>
+			<tr>
+				<th>栏目描述：</th>
+				<td><textarea class="textarea_for_add" name="description">${chip.description!}</textarea></td>
+				<td><span id="type_status"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	<textarea style="display: none;" id="hahacontent" name="content">${chip.content!}</textarea>
+	</form>
+	<div class="center textcenter">
+		<button onclick="mySubmitForm(this);" return="chip/list.do?currentPageNo=1">提交 </button>
+		<button onclick=" resetActionForm();">重置 </button>
+	</div>
+</div>
+<script charset="utf-8" src="../../public/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+KindEditor.basePath = "/public/kindeditor/";
+</script>
+<script charset="utf-8" src="../../public/kindeditor/lang/zh_CN.js"></script>
+
+
+<script type="text/javascript"> 
+var editor = KindEditor.create('textarea[id="acontent"]');
+
+
+
+function mySubmitForm(obj){
+	$("#hahacontent").val(editor.html());
+	submitActionForm(obj);
+} 
+</script>

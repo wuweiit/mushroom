@@ -1,0 +1,25 @@
+<div class="content">
+	<h2>添加内容模型</h2>
+	<hr class="hrs"/>
+</div>
+<div class="content">
+	<form id="myForm" action="module/save.do" method="post" enctype="multipart/form-data">
+	<table class="table_for_add">
+		<tbody> 
+			<tr class="rowBgColor">
+				<th width="140">上传模型： </th>
+				<td><input class="input_for_add" name="module" type="file" placeholder="请填写碎片名称" /></td>
+				<td><span id="Validform_checktip"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	<input type="hidden" id="hahacontent" name="content" value=""></input>
+	</form>
+	<div class="center textcenter foot">
+		<button onclick="submitActionForm(this);" return="module/list.do?currentPageNo=1">提交 </button>
+		<button onclick="resetActionForm();">重置 </button>
+	</div>
+</div>
+<script type="text/javascript">
+ 
+</script>

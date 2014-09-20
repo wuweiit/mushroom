@@ -1,0 +1,50 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">关于我们</li>
+		</ul>
+		<button class="btn_tabbar" onclick="gotoWebSite();">访问官方网站</button>
+	</div>
+	<div class="tab_content">
+		<div class="tab_item tab_show">  
+			<div style="font-size:13px; line-height:25px; padding: 0 5px;">
+				<div><br />
+	    			<h2>关于项目追溯</h2> <br />
+	    			<b>软件作者：</b> marker 
+	    			<div style="margin-top:10px; border-top:1px solid #ccc;"></div>
+	  			</div> 
+	       		<br />
+			    <p style="text-indent: 2em; ">
+			    	MRCMS这款产品是我从入IT行业前的梦想，在我高中的时候使用别人的产品开发手机网站。觉得很多东西不是那么容易，
+			    	慢慢去学习CMS的使用方法，改别人的asp源代码做出自己想要的效果，很有成就感。虽然界面在我现在看来很丑陋，至少
+			    	激发了我对CMS产品的兴趣。而这款CMS产品的研发经过了几年时间的积累，这是从JSP版本的模板引擎的开发开始的，当时
+			    	我在读大学，偶然做了一个在界面里写sql语句，能通过一段表达式来获取数据库数据 并遍历数据数据。那时候，我很兴奋。
+			    	就是下边图中就是项目早期的JSP版的模板引擎(做的很龊)。
+			    	<img src="images/image.png" /><br />
+			    	突出的问题就是性能很低，每次请求都需要生成一个JSP页面，然后通过请求转发到JSP，访问JSP又会编译为Java在编译为class
+			    	字节码，天这样的过程效率能不低吗？？？？。当时，我只是想要实现这个效果，也没考虑那么多的。
+			    	要感谢的是我在大学的努力学习呀，所以作者我现在还没有找到女朋友。穷屌丝呀，呵呵！<br/>
+			    	
+			    	在这个过程中，也开发过Web框架(MyMVC)，DaoFactory(MyORM)、在做后台的时候，我想使用自己的框架来开发，也没写多少
+			    	我就发现了性能问题，并非处理很低劣。后来我使用了Spring3.2版本(优秀的Ioc容器，这个东西可强大了)
+			    	SpringMVC，这个单词在我一次面试时候，出现在我的简历上我都不知道怎么回事。后来专门去研究了这套东西，听不错的，目前
+			    	MRCMS后台核心就是SpringMVC驱动了，集成了JdbcTemplate数据库模板操作对象，采用C3p0作为数据库连接池提高效率，内部使用EhCache
+			    	作为缓存处理框架。支持多个项目部署，支持nginx反向代理引擎做集群等等。
+			    	这些功能让我想了很久的。我做过1年的通讯行业，打算集成我开发的微信通讯包，可现在我计划是作为一个插件来使用
+			    	，而目前插件功能还没有实现完全，还需要改进架构。慢慢来吧。
+			    	
+			    	
+			    	 
+			    </p>
+			</div>
+			<br /><br />
+		</div>
+	</div>
+</div>
+<form id="mrcmssite" action="http://cms.yl-blog.com" target="_blank"></form>
+<script type="text/javascript">
+
+function gotoWebSite(){
+	$("#mrcmssite").submit();
+}
+</script>

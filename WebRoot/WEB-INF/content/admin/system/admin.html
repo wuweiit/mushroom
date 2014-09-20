@@ -1,0 +1,32 @@
+<div class="content">
+	<h2>网站创始人信息</h2>
+	<hr class="hrs"/>
+</div>
+<div class="content">
+	<form id="myForm" action="system/saveadmin.do" method="post">
+	<input name="admin.createtime" type="hidden" value="${admin.createtime!}" />
+	<table class="table_for_add">
+		<tbody>
+			<tr class="rowBgColor">
+				<th width="140">创始人名：</th>
+				<td><input class="input_for_add" name="admin.username" type="text" value="${admin.username!}" /></td>
+				<td width="30"><span id="name_status"></span></td>
+			</tr>
+			<tr>
+				<th>创始密码： </th>
+				<td><input class="input_for_add" name="admin.password" type="password" value="${admin.password!}" /></td>
+				<td><span id="scope_status"></span></td>
+			</tr>
+			<tr class="rowBgColor">
+				<th>建站时间： </th>
+				<td><input class="input_for_add" type="text" value="${admin.createtime!}" disabled="disabled"/></td>
+				<td><span id="scope_status"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+	<div class="center textcenter foot">
+		<button onclick="submitActionForm(this);" return="system/originate.do">提交</button>
+		<button onclick=" resetActionForm();">重置 </button>
+	</div>
+</div>

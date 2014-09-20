@@ -1,0 +1,5 @@
+<!-- {c:list table=(article) cid=(5) order=(id asc)} -->
+ 	 <a href="${c.url}"><h2 id="direction_jieshao">${c.time format=(yyyy-MM-dd)}: ${c.title!}</h2></a>
+   
+      ${c.description!}  		
+<!--{/list}-->

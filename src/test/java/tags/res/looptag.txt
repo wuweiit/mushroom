@@ -1,0 +1,13 @@
+<!-- {loop dsadsad222} -->
+${dsadsad222.name}
+<!--{/loop}-->
+
+<!--{loop}-->
+	${it.name} 
+
+<!--{/loop}-->
+
+
+<!--{loop obj}-->
+	${obj.name}
+<!--{/loop}-->

@@ -1,0 +1,79 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑菜单</h3></li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="menu/list.do">保 存</button>
+	</div>
+	<form id="myForm" action="menu/update.do" method="post">
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+			<input type="hidden" name="id" value="${data.id?c}" />
+			<table class="table_for_add">
+				<tbody>
+				   <tr>
+						<th width="140">上级菜单：</th>
+						<td>
+							<select id="menuPid" class="select_for_add" name="pid" >
+								<option value="0">-----------顶级菜单---------</option>
+								<@menuTree id = 0 node = -1/>
+							</select>
+						</td>
+						<td> </td>
+					</tr>
+					<tr class="rowBgColor">
+						<th width="140">菜单图标：</th>
+						<td><input class="input_for_add" name="icon" type="text"  value='${data.icon!}' /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th width="140">菜单名称：</th>
+						<td><input class="input_for_add" name="name" type="text"  value="${data.name!}"/></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+				    <tr>
+						<th width="140">URL地址：</th>
+						<td><input class="input_for_add" name="url" type="text" value="${data.url!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th width="140">排序编号：</th>
+						<td><input class="input_for_add" name="sort" type="text" value="${data.sort!}"/></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr >
+						<th>描述信息：</th>
+						<td>
+							<textarea class="textarea_for_add" name="description">${data.description!}</textarea>
+						</td>
+						<td>
+							<span id="address_status"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+//设置栏目ID
+var pid = '${data.pid}';
+$("#menuPid").val(pid);
+</script>
+
+
+
+<#-- 树形结构生成器 -->
+<#macro menuTree id node>
+	<#local temp = node + 1 />
+	<#list menus as menu>
+		<#if menu.id != 0>
+		  	<#if id = menu.pid>
+		  		<option value="${menu.id}" ><#if temp gt 0 ><#list 1..temp as x>&nbsp; &nbsp;</#list>├</#if> ${menu.name!} </option>
+		    <@menuTree id = menu.id node=temp/>
+	      	</#if>
+      	</#if>
+	</#list> 
+</#macro>
+

@@ -1,0 +1,63 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0; padding:0;}
+body{ background:#ececec; font-size:12px; font-family:Arial, Helvetica, sans-serif}
+
+a{ text-decoration:none;}
+a:hover{ text-decoration:none;}
+.cb{clear:both;}
+.center{width:950px; margin: 0 auto;}
+.textcenter{ text-align:center;}
+.brline{ height:10px;}
+.fl{ float:left;}
+.fr{ float:right;}
+.ml20{ margin-left:20px;}
+
+.header{ height:80px;}
+.nav{ height:32px;}
+.nav_bg_left{background:url(nav_bg_left.png); height:32px; width:4px; float:left;}
+.nav_bg_center{background:url(nav_bg_center.png) repeat-x; height:32px;width:942px; float:left;}
+.nav_bg_right{background:url(nav_bg_right.png); height:32px; width:4px; float:right;}
+
+.nav{ list-style-type:none;}
+.nav li{ float:left; width:80px; height:32px; line-height:32px; text-align:center;}
+.nav li a{ color:#FFF; text-decoration:none; font-size:14px;}
+.nav li a:hover{ color: #CCC; text-decoration:none;}
+.nav .line{background:url(nav_bg_line.png) no-repeat 0 8px; width:2px; margin: 0 10px;}
+
+
+.banner{ margin: 5px auto;}
+
+.con_left{float:left; width:222px;}
+.con_center{width:412px; float:left; margin-left:10px;}
+.con_right{width:295px; float:right;}
+
+
+.footer{ height:90px; border-top:1px #CCCCCC solid; margin-top:20px; background:#FFF;}
+.footnav a{ color:#999;}
+
+
+.box1{ width:222px;}
+.box1_title{ background:url(box1_bg.png) no-repeat;width:222px; height:26px; line-height:26px; color:#FFF; padding-left:40px; font-size:14px; font-weight:bold;}
+.box1_content{background:#FFF; padding:10px;}
+.box1_content_inner{word-break: break-all; }
+.box1_content_title{color:#ca0000; margin: 5px auto; text-align:center;}
+.chengshijianzhan{float:left; margin:5px;}
+.tuanduiimage{ margin: 5px 3px;}
+
+
+.box2{ width:410px; background:#FFF; border:1px #CCCCCC solid; border-top:none;}
+.box2_title{background:url(box2_bg.png); height:26px; line-height:26px; font-size:14px; font-weight:bold; padding-left:20px; color:#ca0000;}
+.box2_content{ padding:10px; background: url(box2_bg2.png) repeat-x;}
+.box2_content_inner{}
+.anliimage{ margin:6px; width:115px; height:60px; float:left;}
+
+
+.box3{ width:290px; background:#FFF; border:1px #CCCCCC solid; border-top:none;}
+.box3_title{background:url(box2_bg.png); height:26px; line-height:26px; font-size:14px; font-weight:bold; padding-left:20px; color:#ca0000;}
+.box3_content{padding:10px; background: url(box2_bg2.png) repeat-x;}
+.content_title{margin:10px;}
+.content_list{margin:20px;}
+.content_list ul li{ border-bottom:1px #CCCCCC dotted; height:20px; line-height:20px; margin: 3px auto; }
+
+

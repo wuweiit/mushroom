@@ -1,0 +1,80 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>用户管理</h3></li> 
+		</ul>
+		<button class="btn_tabbar" action="user/add.do" onclick="refreshContentByElement(this);">添加用户</button>
+	</div> 
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_list">
+				<thead>
+				 	<tr> 
+				        <th width="30" class="quanxuan" onclick="allCheck();">全选</th>
+				        <th>用户名称</th>
+				        <th>用户昵称</th>
+				        <th>用户分组</th>
+				        <th>用户描述</th>
+				        <th width="130">创建时间</th>
+				        <th width="130">登录时间</th>
+				        <th align="center" width="40">状态</th>
+				        <th align="center" width="70">操作</th>
+			      	</tr>
+				</thead>
+			    <tbody>
+				  <#list page.data as x>
+					<tr>
+				      	<td class="checkbox"><input type="checkbox" value="${x.id?c}" /></td>
+				        <td>${x.name!}</td> 
+				        <td>${x.nickname!}</td>
+				        <td>${x.gname!}</td>
+				        <td>${x.description!}</td>
+				        <td>
+				        	<#if x.createtime?exists>${x.createtime?string("yyyy-MM-dd HH:mm:ss")}<#else>时间异常</#if>
+				        </td>
+				        <td>
+				         	<#if x.logintime?exists>${x.logintime?string("yyyy-MM-dd HH:mm:ss")}<#else>未登录过</#if>
+				        </td>
+				        <td>
+				       	 	<#if x.id == 1>
+				        	内置
+				        	<#else>
+					        	<#if x.status == 1>
+					        	<span class="label_for_userstatus" id="${x.id?c}" status="0" onclick="changeUserStatus(this)">启用</span>
+					        	<#else>
+					        	<span class="label_for_userstatus" id="${x.id?c}" status="1" onclick="changeUserStatus(this)">禁用</span>
+					        	</#if>
+				        	</#if>
+				        </td>
+				        <td>
+				        <a href="#" action="user/edit.do?id=${x.id?c}" onclick="refreshContentByElement(this);">修改</a> | 
+				        <a href="#" action="user/delete.do?rid=${x.id?c}" return="user/list.do?currentPageNo=${page.currentPageNo?c}" onclick="deleteById(this);">删除</a>
+				    </tr>
+				  </#list>
+				</tbody>
+			</table>
+			
+	    <#include "/common/_page.html" />
+	    <@paginate currentPage=page.currentPageNo totalPage=page.totalPages actionUrl="article/list.do" delUrl="article/delete.do" />
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+/* 修改用户状态 */
+function changeUserStatus(obj){
+	var id = $(obj).attr("id");
+	var status = $(obj).attr("status");
+	var params = "id="+id+"&status="+status;
+	$.getJSON("/admin/user/changestatus.do", params, function(json){
+		if(json.status){
+			if(status == 0){
+			 	$(obj).text('禁用'); $(obj).attr("status","1");  
+			}else if(status == 1){
+		 		$(obj).text('启用'); $(obj).attr("status","0");
+			}
+		}else{
+			zoom.showMessageDialog(json.message, "消息提示",1500);
+		}
+	});
+}
+</script>

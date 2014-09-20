@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="${article.description!}">
+  	<meta name="keywords" content="${article.keywords!}">
+    <meta name="author" content="marker">
+	<title>${article.title!} - ${config.title}</title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <!--#include file="common/js.html"-->
+</head>
+
+<body>
+<!-- Docs master nav -->
+<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">MRCMS</a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+       	<!-- {channel:list table=(channel) pid=(0) hide=(1) page=(1) limit=(7) order=(id asc)} -->
+            <li><a href="${channel.url}">${channel.name}</a></li>
+            <li class="line"></li> 
+        <!-- {/list} -->
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+ <div class="container" style="margin:30px auto;">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="content">
+	  	 
+	  	 <h2 style="margin-top:60px;">${article.title!}</h2>	
+	  	 <div>发布时间：${article.time}</div>
+	  	 <p> 
+	  	 	${article.content!} 
+	  	 </p>
+	  </div>
+	</div>
+  </div>
+</div>
+
+
+
+
+
+ 
+<!--#include file="common/footer.html"-->
+</body>
+</html>

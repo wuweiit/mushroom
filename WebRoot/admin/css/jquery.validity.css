@@ -1,0 +1,25 @@
+﻿/* 
+ * Style used by the label output mode.
+ * Applied to the error labels that get positioned after an input.
+ */
+label.error { color:#f00; margin-left:2px; }
+
+/*
+ * Styles used by the modal output mode.
+ * '.validity-modal-msg' is applied to the modal boxes 
+ * and '.validity-modal-msg:hover' is applied to suggest 
+ * to the user that the boxes are clickable.
+ */
+.validity-modal-msg { position:absolute; z-index:2; background-color:#999; border:solid 1px #000; padding:4px; cursor:pointer; }
+.validity-modal-msg:hover { background-color:#aaa; }
+
+/*
+ * Styles used by the summary output mode.
+ * '#validity-summary-container' is a container on the page that should contain a UL 
+ * named '#validity-summary-output', which is the actual summary. The container can hold 
+ * an extra bit of text (or anything really) that explains what the summary is.
+ * '.validity-erroneous' is applied to every input that fails.
+ */
+#validity-summary-container { display:none; }
+#validity-summary-output { }
+.validity-erroneous { border:solid 2px #f56600 !important; }

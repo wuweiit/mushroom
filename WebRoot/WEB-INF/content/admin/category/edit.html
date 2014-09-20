@@ -1,0 +1,132 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑分类</h3></li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitForm(this);" return="category/list.do">保 存</button>
+	</div>
+	<form id="myForm" action="category/update.do" method="post">
+	<input type="hidden" name="id" value="${category.id?c}"/>
+	<input id="rootFeild" name="root" value="${category.root?c}" type="hidden" />
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+			<table class="table_for_add">
+				<tbody>
+				   <tr class="rowBgColor">
+						<th width="140">上级菜单：</th>
+						<td>
+						<#if category.pid==0>
+							-------- 根级分类 --------
+							<input type="hidden" name="pid" value="0" />
+						<#else>
+							<select id="categorySelect" class="select_for_add" name="pid" onchange="changePid(this)">
+							 
+								<@categoryTree id = 0 node = -1/>
+							</select>
+						</#if>
+						</td>
+						<td></td>
+					</tr> 
+					<tr id="modelSelect">
+						<th width="140">内容模型：</th>
+						<td>
+						<#if category.pid==0>
+							<#list models as model>
+								<#if category.model == model.type>
+									${model.name!}
+									<input type="hidden" name="model" value="${category.model!}" /> 
+								</#if>
+							</#list>
+						<#else>
+							<select id="modelFeild" class="select_for_add"  name="model">
+								<option value="">无内容模型</option>
+								<#list models as model>
+								<option value="${model.type!}">${model.name!}</option>
+								</#list>
+							</select>
+						</#if>
+						</td>
+						<td><span id="name_status"></span></td>
+					</tr> 
+						
+					<tr class="rowBgColor">
+						<th width="140">分类名称：</th>
+						<td><input class="input_for_add" name="name" type="text" value="${category.name!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+				    <tr>
+						<th width="140">分类别名：</th>
+						<td><input class="input_for_add" name="alias" type="text" value="${category.alias!}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th width="140">分类排序：</th>
+						<td><input class="input_for_add" name="sort" type="text" value="${category.sort?c}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr >
+						<th>描述信息：</th>
+						<td>
+							<textarea class="textarea_for_add" name="description">${category.description!}</textarea>
+						</td>
+						<td>
+							<span id="address_status"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form> 
+</div>
+<script type="text/javascript">
+var pid = "${category.pid?c}";
+var model = "${category.model}";
+$("#categorySelect").val(pid);
+$("#modelFeild").val(model);
+
+if(pid != '0'){
+	$("#modelSelect").hide();
+}
+
+function changePid(obj){
+	var pid = $(obj).val();
+	if(pid == 0 ){
+		$("#modelSelect").show();
+		$("#rootFeild").val(1);
+	}else{
+		$("#modelSelect").hide();
+		$("#modelFeild").val("");
+		$("#rootFeild").val(0);
+	} 
+}
+
+function submitForm(obj){
+	if($("#categorySelect").val() == 0){
+		if($("#modelFeild").val() == ""){
+			zoom.showMessageDialog("请选择内容模型！","消息提示",1500);
+			return;
+		}
+	}
+	
+	
+	submitActionForm(obj);
+}
+
+</script>
+
+
+
+<#-- 树形结构生成器 -->
+<#macro categoryTree id node>
+	<#local temp = node + 1 />
+	<#list data as x>
+		<#if x.id != 0>
+		  	<#if id = x.pid>
+		  		<option value="${x.id?c}"><#if temp gt 0 ><#list 1..temp as i>&nbsp; &nbsp;</#list>┆┄</#if> ${x.name!} </option>
+		    <@categoryTree id = x.id node=temp/>
+	      	</#if>
+      	</#if>
+	</#list> 
+</#macro>
+

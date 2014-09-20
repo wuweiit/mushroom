@@ -1,0 +1,234 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+			http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>mushroom</groupId>
+  <artifactId>mushroom</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>mushroom</name>
+  <description/>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <build>
+    <defaultGoal>compiler</defaultGoal> 
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>    
+	      <groupId>org.apache.maven.plugins</groupId>    
+	      <artifactId>maven-surefire-plugin</artifactId>    
+	      <version>2.10</version>    
+	      <configuration>    
+	        <includes>    
+	          <include>**/*Test.java</include>   
+	        </includes>    
+	      </configuration>    
+	    </plugin> 
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <version>3.0</version>
+          <warSourceDirectory>WebRoot</warSourceDirectory>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      <plugin>
+	    	<groupId>maven</groupId>
+	    	<artifactId>maven-junit-report-plugin</artifactId>
+	    	<version>1.5.1</version> 
+    	</plugin>
+    </plugins>
+  </build>
+  
+  
+  
+  <!-- 依赖配置 -->
+  <dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>4.1.0.RELEASE</version>
+        <scope>runtime</scope>
+        <!-- Spring4 抛弃了JCL，使用SLF4J
+        <exclusions>
+            <exclusion>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+            </exclusion>
+        </exclusions> -->
+    </dependency>
+  	<dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>4.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-tx</artifactId>
+    	<version>4.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-beans</artifactId>
+    	<version>4.1.0.RELEASE</version>
+    </dependency>
+     <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-webmvc</artifactId>
+    	<version>4.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-jdbc</artifactId>
+    	<version>4.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-test</artifactId>
+    	<version>4.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-context-support</artifactId>
+    	<version>4.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-core</artifactId>
+    	<version>4.1.0.RELEASE</version>
+    </dependency>
+ 
+    
+    <dependency>  
+	    <groupId>org.slf4j</groupId>  
+	    <artifactId>slf4j-log4j12</artifactId>  
+	    <version>1.7.2</version>  
+	</dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.6.2</version>
+    </dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-jdk14</artifactId>
+		<version>1.6.2</version>
+	</dependency>
+    <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.14</version>
+    </dependency>
+ 	
+ 	
+    <dependency>
+    	<groupId>commons-fileupload</groupId>
+    	<artifactId>commons-fileupload</artifactId>
+    	<version>1.3.1</version>
+    </dependency>
+
+	<dependency>
+		<groupId>org.freemarker</groupId>
+		<artifactId>freemarker</artifactId>
+		<version>2.3.20</version>
+	</dependency>
+ 
+    
+	<!-- mongodb 支持 -->
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-mongodb</artifactId>
+        <version>1.6.0.RELEASE</version>
+    </dependency>
+
+    <dependency>
+    	<groupId>com.alibaba</groupId>
+    	<artifactId>fastjson</artifactId>
+    	<version>1.1.41</version>
+    </dependency>
+    <dependency>
+    	<groupId>net.sourceforge.jexcelapi</groupId>
+    	<artifactId>jxl</artifactId>
+    	<version>2.6.12</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.3</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    
+    <!-- Junit4 支持 -->
+    <dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.11</version>
+	</dependency>
+    <dependency>
+    	<groupId>org.ansj</groupId>
+    	<artifactId>ansj_seg</artifactId>
+    	<version>0.9</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.commonjava.googlecode.markdown4j</groupId>
+    	<artifactId>markdown4j</artifactId>
+    	<version>2.2-cj-1.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>commons-codec</groupId>
+    	<artifactId>commons-codec</artifactId>
+    	<version>1.9</version>
+    </dependency>
+    <dependency>
+    	<groupId>net.sf.ehcache</groupId>
+    	<artifactId>ehcache-core</artifactId>
+    	<version>2.6.9</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+    	<artifactId>ehcache-spring-annotations-parent</artifactId>
+    	<version>3</version>
+    	<type>pom</type>
+    </dependency>
+    <dependency>
+    	<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+    	<artifactId>ehcache-spring-annotations</artifactId>
+    	<version>1.2.0-M1</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.marker</groupId>
+    	<artifactId>weixinapi</artifactId>
+    	<version>0.2.0</version>
+    </dependency>
+
+    <dependency>
+    	<groupId>com.mchange</groupId>
+    	<artifactId>c3p0</artifactId>
+    	<version>0.9.5-pre8</version>
+    </dependency>
+	<dependency>
+		<groupId>org.codehaus.groovy</groupId>
+		<artifactId>groovy</artifactId>
+		<version>1.5.7</version>
+	</dependency>
+  	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+		<version>2.3</version>
+	</dependency>
+  
+  </dependencies>
+ 
+</project>

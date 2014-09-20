@@ -1,0 +1,93 @@
+@charset "utf-8";
+/*
+    界面布局
+ 	@author marker
+ */
+
+
+/* 布局 */
+.layout_style_top{height:55px; margin: 0 auto; min-width:960px;}
+.layout_style_left{left:0; top:55px; bottom:0; width:180px; overflow: auto;}
+#admin_right{background:#FFF; right:0; bottom:0; top:86px; left:181px;}
+#bread_crumb{background:RGB(230,236,242);top:55px; height:30px;right:0;left:181px;
+line-height: 30px; font-size: 12px;
+border-bottom: 1px #CCCCCC solid;	
+}
+
+/* 一级导航菜单样式 */ 
+.layout_style_nav > ul{ height:55px; font-size:16px; margin: 0;padding: 0;}
+.layout_style_nav > ul > li{ 
+	width:60px;color:#FFF; text-align:center; float:left; list-style-type:none; height:55px;
+	line-height:55px;
+	cursor:pointer;
+}
+ 
+
+
+/* 登录的用户信息 */
+#admin_info {width:230px; height:25px; margin:10px; }
+
+
+
+/* 皮肤选择器 */
+#admin_face{right:5px;top:20px; cursor: pointer; background: url(images/admin_face.gif); width: 15px; height: 15px;}
+#admin_face:hover{border: 1px blue solid;}
+
+
+/* 二级导航 */
+.menu_title{font-size:18px; margin: 5px auto; height:40px; line-height:40px; text-align: center; background:RGB(230,236,242)}
+.menu_title i{ font-size: 22px;}
+.menu_line{margin: 5px 0;}
+.menu_content{font-size:14px; color:#333; height:100%;}
+.menu_content ul{ margin: 0; padding:0;}
+.menu_content ul li{
+	list-style-type:none; height:30px; line-height:30px;  
+	padding-left:30px; cursor:pointer;
+} 
+.menu_content i{font-size: 16px; width: 16px; }
+
+/* 面包屑导航 */
+#bread_crumb ul{ margin: 0; padding:0;} 
+#bread_crumb ul li{ display: inline-block; margin-left: 10px;}
+#bread_crumb ul li i{ font-size: 14px}
+#bread_crumb .bc_line{font-size: 12px; color: #666;}
+#bread_crumb .bc_line .fa-chevron-right{color:#999;font-size: 12px; }
+
+
+/* 内容 */
+.admin_content{ height: 100%; min-width:550px; overflow: auto;  }
+.content{ margin:5px; font-size:12px; height: 100%; position: relative;  }
+
+
+.tab_content{ height: 100%;}
+
+/* 内容区域选项卡 */
+.tab_bar{
+	background: url("images/bar_bg.png") repeat-x;
+	background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#efefef));
+	background:-moz-linear-gradient(center top , rgb(255, 255, 255), rgb(239, 239, 239)) repeat scroll 0% 0% transparent;
+	border:1px solid #CCC; height:35px; line-height: 35px;
+	
+}
+.tab_bar ul	{ display:inline-block; margin: 0; padding:0;}
+.tab_bar ul li{display:inline-block; padding: 0px 20px; cursor: pointer; font-size:12px; font-weight: bold; }
+.tab_bar ul li h3{ margin:0;}
+.tab_index{
+	background: url("images/bar_bg_reverse.png") repeat-x;
+	border-bottom:1px solid #FFF;border-right:1px solid #CCC;
+	border-left:1px solid #CCC; position:relative; left:-1px;
+	background:-webkit-gradient(linear, left top, left bottom, from(#efefef), to(#fff));
+	
+ }
+ .tab_item{padding:5px; padding-top:10px; height:auto;  border:1px solid #CCC; border-top:none; display:none;position: relative; }
+ .tab_show{ display:block;}
+/* tab的按钮 */
+.btn_tabbar{display:inline-block; float: right; margin-top:3px; margin-right:10px;}
+
+
+
+
+/* 【内容区域】高用户体验样式 */
+
+
+

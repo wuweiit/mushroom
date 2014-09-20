@@ -1,0 +1,109 @@
+body {
+	background-image: url(../images/login_bg.jpg);
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	color:#333333;
+	font-size:14px;
+	font-family:'微软雅黑'
+}
+#install {
+	width: 640px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 30px;
+	background-color: #FFF;
+	border: 1px solid #cccccc;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+}
+h1 {
+	font-size:26px;
+  	font-weight:bold;
+  	height:70px;
+	line-height:60px;
+  	text-align:center;
+	border-bottom:1px dotted #ccc;
+	display:block;
+}
+.content {
+	padding:10px;
+	padding-bottom:20px;
+	line-height:25px;
+}
+.content .title {
+	line-height:30px;
+}
+.content .list {
+	padding-left:20px;
+	line-height:25px;
+	height:25px;
+	clear:both;
+}
+.data .content {
+	padding-left:70px;
+}
+.data .content .list {
+	line-height:40px;
+	height:40px;
+}
+.data .content .name {
+	padding-right:20px;
+	text-align:right !important
+}
+.data .content .value {
+	height:25px;
+	padding-top:5px;
+}
+.data .content .tip {
+	padding-left:10px;
+	float:left;
+	color:#999;
+	font-size:12px;
+}
+.content .list .name {
+	float:left;
+	width:150px;
+	padding-right:10px;
+}
+.content .list .value {
+	float:left;
+}
+.input {
+	padding-left:5px;
+	width:200px;
+	line-height:25px;
+	height:25px;
+	border:1px solid #ccc;
+}
+.load {
+	background-image: url(../images/loading_s.gif);
+	background-repeat: no-repeat;
+	background-position: left center;
+	line-height: 25px;
+	padding-right: 20px;
+}
+.menu {
+	border-top:1px dotted #ccc;
+	padding-top:20px;
+	text-align:center
+}
+.menu button {
+	background-image:url(../images/button_small.png);
+  background-position:50% 0;
+  background-repeat:repeat no-repeat;
+  border:1px solid #ccc;
+  color:#333;
+  cursor:pointer;
+  height:30px;
+  margin-left:10px;
+  padding-left:20px;
+  padding-right:20px;
+}
+.menu .submit {
+	background-image:url(../images/button.png);
+	border:1px solid #4288D0;
+	 color:#FFFFFF;
+}

@@ -1,0 +1,20 @@
+/* 焦点图 begin */ 
+img{ margin:0; padding:0; border:none;}
+.FocusPic {width:690px; margin:0px; height:300px;position:relative;zoom:1;overflow:hidden;}
+.FocusPic .FP_angle{width:7px;height:7px;overflow:hidden;font-size:0;line-height:0;position:absolute;z-index:10;}
+.FocusPic .FP_arr_left{width:13px;height:25px;position:absolute;z-index:8;top:145px;left:5px;background:url(images/p_w_06.gif) no-repeat 0 0;filter:Alpha(Opacity=80);opacity:.8;cursor:pointer;}
+.FocusPic .FP_arr_right{width:13px;height:25px;position:absolute;z-index:8;top:145px;right:5px;background:url(images/p_w_06.gif) no-repeat -200px 0;filter:Alpha(Opacity=80);opacity:.8;cursor:pointer;}
+.FocusPic .FP_NumList{position:absolute;right:20px;bottom:7px;zoom:1;overflow:hidden;z-index:9;}
+
+.FocusPic .FP_NumList span{float:left;padding:0px 5px;margin-left:10px;display:inline;background:#2e6eb6;color:#fff;font-family:Arial, Helvetica, sans-serif;cursor:pointer;}
+
+.FocusPic .FP_NumList span.selected{background:#fff;color:#000;}
+
+.FocusPic .FP_pic{width:690px;height:300px;overflow:hidden;float:left;}
+.FocusPic .FP_pic .FP_tit_bg{height:40px;width:100%;margin-top:-40px;background:#000;filter:Alpha(Opacity=30);opacity:.3;}
+.FocusPic .FP_pic .FP_tit_txt{line-height:36px;padding-left:18px;margin-top:-40px; font-size:22px; font-weight:bold; color:#fff;position:relative;*position:static;}
+.FocusPic .FP_pic .FP_tit_ico{width:11px;height:15px;margin:-22px 0 0 7px;overflow:hidden;font-size:0;line-height:0;position:relative;*position:static;}
+.FocusPic .FP_pic a:link,.FP_pic a:visited{color:#fff;text-decoration:none;}
+.FocusPic .FP_pic a:hover{text-decoration:underline;}
+/* 焦点图 end */
+ 
