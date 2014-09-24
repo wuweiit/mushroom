@@ -17,6 +17,8 @@ public class Menu implements Serializable {
 	private String icon;
 	private String name;
 	private String url;
+	/** UUID唯一码 */
+	private String type;
 	private int sort = 0;
 	private String description;
 	 
@@ -62,6 +64,12 @@ public class Menu implements Serializable {
 	}
 	public void setPid(Integer pid) {
 		this.pid = pid;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

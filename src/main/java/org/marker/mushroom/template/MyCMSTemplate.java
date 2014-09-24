@@ -1,6 +1,8 @@
 package org.marker.mushroom.template;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -19,6 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
+import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.alias.UNIT;
@@ -280,8 +287,45 @@ public class MyCMSTemplate {
 			}else{
 				writer = response.getWriter();
 			} 
-			template.process(root, writer); 
+			template.process(root, writer);
+			
+
+			if(syscfg.isStaticPage()){
+
+				
+				CacheManager cm =  SpringContextHolder.getBean("cacheManager");
+				 
+				Cache cache = cm.getCache(CacheO.STATIC_HTML);
+				
+				String path =  "data" + File.separator+"cache" + File.separator +
+						lang +File.separator + request.getAttribute("rewriterUrl");
+				 
+				
+				
+				File file = new File(WebRealPathHolder.REAL_PATH + path);
+				if(!file.getParentFile().exists()){
+					file.getParentFile().mkdirs();
+				}
+				OutputStream fw = new FileOutputStream(file);
+				
+				OutputStreamWriter osw = new OutputStreamWriter(fw, "utf-8");
+				
+				
+				template.process(root, osw);
+				osw.flush();
+				osw.close();fw.close();
+				
+				// lang+"_"+uri
+				
+				String key = lang + "_" + request.getAttribute("rewriterUrl");
+				
+				cache.put(new Element(key, path));
+
+			}
+						
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			new SystemException("发送对象失败");
 		}finally{
 			if(null != writer){

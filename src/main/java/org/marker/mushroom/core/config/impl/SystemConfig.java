@@ -36,6 +36,8 @@ public final class SystemConfig extends ConfigEngine{
 	// 默认语言
 	public static final String DEFAULTLANG = "defaultlang";
 	
+	// 页面静态化
+	public static final String STATIC_PAGE = "statichtml";
 	
 	/**
 	 * 默认构造方法
@@ -108,5 +110,15 @@ public final class SystemConfig extends ConfigEngine{
 	 */
 	public String getDefaultLanguage() {
 		return this.properties.getProperty(DEFAULTLANG, "zh-CN");
+	}
+
+	
+	/**
+	 * 是否启用页面静态化
+	 * @return
+	 */
+	public boolean isStaticPage() {
+		String value = this.properties.get(STATIC_PAGE).toString(); 
+		return Boolean.valueOf(value); 
 	}
 }

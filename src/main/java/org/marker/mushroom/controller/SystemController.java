@@ -107,6 +107,8 @@ public class SystemController extends SupportController {
 			config.set(SystemConfig.DEV_MODE, request.getParameter("config.dev_mode"));//是否开发模式
 			config.set(SystemConfig.GZIP, request.getParameter("config.gzip"));//GZIP
 			config.set(SystemConfig.COMPRESS, request.getParameter("config.compress"));//GZIP
+			config.set("statichtml", request.getParameter("config.statichtml"));// 页面静态化
+			
 			
 			config.store();//修改配置信息状态
 			return new ResultMessage(true, "更新成功!");

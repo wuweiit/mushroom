@@ -14,7 +14,7 @@
 					<tr class="rowBgColor">
 						<th width="140">站点名称：</th>
 						<td width="280"><input class="input_for_add" name="config.title" type="text" value="${config.title}" /></td>
-						<td> </td>
+						<td></td>
 					</tr>
 					<tr>
 						<th>站点地址：</th>
@@ -142,6 +142,20 @@
 							</#if>
 						 </td>
 						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>页面静态化：</th>
+						<td>
+							<#if config.statichtml == 'true'>
+							<input id="statichtml_1" name="config.statichtml" type="radio" value="true" checked="checked" /><label for="statichtml_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="statichtml_2" name="config.statichtml" type="radio" value="false" /><label for="statichtml_2">&nbsp;否&nbsp; &nbsp;</label>
+							<#else>
+							<input id="statichtml_1" name="config.statichtml" type="radio" value="true" /><label for="statichtml_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="statichtml_2" name="config.statichtml" type="radio" value="false" checked="checked" /><label for="statichtml_2">&nbsp;否&nbsp; &nbsp;</label>
+							</#if>
+							<span class="tip_text">启用页面静态化可提高网站性能哦</span>
+						 </td>
+						<td></td>
 					</tr>
 				</tbody>
 			</table>

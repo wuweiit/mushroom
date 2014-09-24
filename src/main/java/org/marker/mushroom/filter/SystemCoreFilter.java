@@ -1,6 +1,8 @@
 package org.marker.mushroom.filter;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -14,11 +16,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
+import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
+import org.marker.mushroom.holder.SpringContextHolder;
+import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.utils.DateUtils;
+import org.marker.mushroom.utils.FileTools;
 import org.marker.mushroom.utils.HttpUtils;
 import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
@@ -72,6 +82,9 @@ public class SystemCoreFilter implements Filter {
 		
 		String uri  = request.getRequestURI();
 		
+		
+		
+		
 		/* 
 		 * ============================================
 		 *              系统内置路径过滤
@@ -118,6 +131,38 @@ public class SystemCoreFilter implements Filter {
 			}
 		}
 
+		
+		// 页面静态读取
+		if(syscfg.isStaticPage()){
+			System.out.println(""+uri); 
+			CacheManager cm =  SpringContextHolder.getBean("cacheManager");
+			 
+			Cache cache = cm.getCache(CacheO.STATIC_HTML);
+			 
+			String lang = HttpUtils.getLanguage(request);
+			
+			 
+			request.setAttribute("rewriterUrl", uri);
+			
+			Element element = cache.get(lang+"_"+uri);
+			if(element != null){
+				System.out.println("get cache....");
+				String htmlFilePath = element.getObjectValue().toString();
+				
+				String filePath = WebRealPathHolder.REAL_PATH + htmlFilePath;
+				 
+				String content = FileTools.getFileContet(new File(filePath), FileTools.FILE_CHARACTER_UTF8);
+				PrintWriter pw = response.getWriter();
+				pw.write(content);
+				pw.flush();
+				pw.close();
+				return;
+			}
+		}
+		
+		
+		
+		
 		/* 
 		 * ============================================
 		 *               cookies追中

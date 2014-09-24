@@ -8,6 +8,10 @@ import java.io.Writer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+
+import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.alias.UNIT;
 import org.marker.mushroom.context.ActionContext;
@@ -139,8 +143,9 @@ public final class WebAPP {
 			handleErrorMessage(new SystemException("模板未找到")); 
 		} catch (IOException e) {
 			logger.error("", e); 
+		}finally{
+			this.destory();
 		}
-		this.destory();
 	}
 
 	

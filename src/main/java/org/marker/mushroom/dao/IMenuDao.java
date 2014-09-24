@@ -56,6 +56,15 @@ public interface IMenuDao  extends ISupportDao{
 	void deleteGroupMenu(Serializable menuId);
  
 
-	Menu findByName(String name); 
+	Menu findByName(String name);
+	
+	
+	
+	/**
+	 * 检查类型菜单是否存在
+	 * @param name
+	 * @return
+	 */
+	boolean checkType(String type);
 	
 }

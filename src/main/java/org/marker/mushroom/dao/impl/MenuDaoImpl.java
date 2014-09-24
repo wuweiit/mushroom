@@ -117,6 +117,17 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	}
 
 	
+	// 检查菜单是否存在
+	public boolean checkType(String type) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select count(id) from ").append(dbConfig.getPrefix()).append("user_menu where type=?");
+		try{
+			return this.jdbcTemplate.queryForObject(sql.toString(), Boolean.class, type);
+		}catch(Exception e){}
+		return false;
+	}
+
+	
 	
  
 	

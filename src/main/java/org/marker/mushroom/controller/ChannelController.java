@@ -1,5 +1,7 @@
 package org.marker.mushroom.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,9 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.ResultMessage;
+import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.IModelDao;
+import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.support.SupportController;
+import org.marker.mushroom.utils.FileTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,6 +78,20 @@ public class ChannelController extends SupportController {
 	@RequestMapping("/save")
 	public Object save(Channel channel){
 		if(commonDao.save(channel)){
+			SystemConfig syscfg = SystemConfig.getInstance();
+			try {
+				String path = WebRealPathHolder.REAL_PATH+"data"+File.separator+"template"+File.separator+"template.html";
+				String topath = WebRealPathHolder.REAL_PATH + "themes" + File.separator 
+						+ syscfg.get(SystemConfig.THEME_PATH) + File.separator + channel.getTemplate();
+				
+				FileTools.copy(path, topath);
+				
+			} catch (IOException e) {
+				return new ResultMessage(true, "复制模板失败!"); 
+			}
+			
+			
+			
 			return new ResultMessage(true, "提交成功!");
 		}else{
 			return new ResultMessage(false, "提交失败!");

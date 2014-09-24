@@ -1,5 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" isErrorPage="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" isErrorPage="true" %> 
 <%@ page import="org.slf4j.Logger,org.slf4j.LoggerFactory" %>
 
 <%
@@ -22,8 +21,9 @@
 
 <body>
 <div><h1>系统发生内部错误.</h1></div>
-<div><a href="<c:url value="/"/>">返回首页</a></div>
-
-<%@ include file="footer.jsp"%>
+<div><a href="/">返回首页</a></div>
+ <div style="">
+	Copyright &copy; 2011-2013 Power By <a href="http://www.yl-blog.com">雨林博客</a> & marker
+</div>
 </body>
 </html>
