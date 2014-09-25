@@ -202,15 +202,12 @@ public abstract class DaoEngine implements ISupportDao {
 		sql += " limit " + (currentPageNo - 1) * pageSize + "," + pageSize;
 
 		// 获取总条数
-		long count = jdbcTemplate.queryForObject(hql4Count, Long.class, args);
+		int totalRows = jdbcTemplate.queryForObject(hql4Count, Integer.class, args);
 		 
 		List<Map<String, Object>> data = queryForList(sql, args);
 	 
-		Page page = new Page();
-		page.setData(data);// 获取数据集合
-		page.setCurrentPageNo(currentPageNo);
-		page.setPageSize(pageSize);
-		page.setTotalRows(count);// 设置总行数
+		Page page = new Page(currentPageNo,totalRows, pageSize);
+		page.setData(data);// 获取数据集合 
 		return page;
 
 	}

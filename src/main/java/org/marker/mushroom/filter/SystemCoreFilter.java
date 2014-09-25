@@ -68,6 +68,11 @@ public class SystemCoreFilter implements Filter {
 	/** 系统配置信息 */
 	private static final SystemConfig syscfg = SystemConfig.getInstance();
 	
+	
+	// 缓存管理器
+	private CacheManager cacheManager;
+	
+	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
@@ -134,19 +139,17 @@ public class SystemCoreFilter implements Filter {
 		
 		// 页面静态读取
 		if(syscfg.isStaticPage()){
-			System.out.println(""+uri); 
-			CacheManager cm =  SpringContextHolder.getBean("cacheManager");
-			 
-			Cache cache = cm.getCache(CacheO.STATIC_HTML);
+			Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
 			 
 			String lang = HttpUtils.getLanguage(request);
 			
-			 
-			request.setAttribute("rewriterUrl", uri);
+			// 传递页面URI给缓存模块
+			String pageName = "/".equals(uri)? syscfg.getHomePage() : uri;
+			request.setAttribute("rewriterUrl", pageName);
 			
-			Element element = cache.get(lang+"_"+uri);
+			
+			Element element = cache.get(lang+"_" + pageName);
 			if(element != null){
-				System.out.println("get cache....");
 				String htmlFilePath = element.getObjectValue().toString();
 				
 				String filePath = WebRealPathHolder.REAL_PATH + htmlFilePath;
@@ -198,14 +201,19 @@ public class SystemCoreFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
+		logger.info("mrcms system filter initing...");
 		String excludeFormat = config.getInitParameter("exclude_format");
 		this.suffixPattern = Pattern.compile("("+excludeFormat+")");
-		logger.info("mrcms system filter initing...");
+		
+		logger.info("mrcms Cache initing...");
+		cacheManager = SpringContextHolder.getBean(CacheO.CacheManager); 
 	}
 
 	
 	@Override
 	public void destroy() {
-		logger.info("mrcms system filter destroying..."); 
+		logger.info("mrcms system filter destroying...");
+		logger.info("mrcms Cache stoping...");
+		cacheManager.shutdown();
 	}
 }

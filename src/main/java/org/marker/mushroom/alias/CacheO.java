@@ -7,6 +7,9 @@ package org.marker.mushroom.alias;
  * @version 1.0
  */
 public interface CacheO {
+	
+	/** 缓存管理器 */
+	String CacheManager = "cacheManager";
 
 	String STATIC_HTML = "staticHtmlCache";
 }

@@ -24,6 +24,8 @@ public class Page implements Serializable, Cloneable {
 	
 	/** 总行数 */
 	private long totalRows;
+	/** 总页数 */
+	private int totalPages = 1;
 	
 	/** 每页显示条数，默认值为10 */
 	private int pageSize = 15;
@@ -34,22 +36,21 @@ public class Page implements Serializable, Cloneable {
 	public void setLastPageNo(int lastPageNo) {
 		this.lastPageNo = lastPageNo;
 	}
-
-	/**
-	 * 默认构造方法
-	 */
-	public Page(){ }
+	
 	
 	/**
 	 * 构造方法，初始化分页对象
 	 * @param currentPageNo
 	 * @param pageSize
 	 */
-	public Page(int currentPageNo, int pageSize) {
+	public Page(int currentPageNo,int totalRows, int pageSize) {
 		if (currentPageNo <=0 ) {currentPageNo = 1;};
 		this.currentPageNo = currentPageNo;
 		this.pageSize = pageSize;
+		this.totalRows = totalRows;
+		this.totalPages = (int) (totalRows%pageSize == 0 ? totalRows/pageSize : totalRows/pageSize + 1);
 	}
+	
 	
 	/**
 	 * 构造方法，初始化分页对象
@@ -64,6 +65,7 @@ public class Page implements Serializable, Cloneable {
 		this.currentPageNo = currentPageNo;
 		this.totalRows = totalRows;
 		this.pageSize = pageSize;
+		this.totalPages = (int) (totalRows%pageSize == 0 ? totalRows/pageSize : totalRows/pageSize + 1);
 	}
 
 	/**
@@ -74,7 +76,7 @@ public class Page implements Serializable, Cloneable {
 		if (totalRows == 0) {
             return 1;
         }
-        return (int) (totalRows%pageSize == 0 ? totalRows/pageSize : totalRows/pageSize + 1);
+        return this.totalPages;
 	}
 
 	/**

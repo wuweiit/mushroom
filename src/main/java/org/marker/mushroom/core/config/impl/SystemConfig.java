@@ -39,6 +39,10 @@ public final class SystemConfig extends ConfigEngine{
 	// 页面静态化
 	public static final String STATIC_PAGE = "statichtml";
 	
+	// 主页地址
+	public static final String HOME_PAGE = "index_page";
+	
+	
 	/**
 	 * 默认构造方法
 	 * @throws IOException 
@@ -117,8 +121,28 @@ public final class SystemConfig extends ConfigEngine{
 	 * 是否启用页面静态化
 	 * @return
 	 */
-	public boolean isStaticPage() {
-		String value = this.properties.get(STATIC_PAGE).toString(); 
-		return Boolean.valueOf(value); 
+	public boolean isStaticPage() { 
+		String value = this.properties.getProperty(STATIC_PAGE); 
+		return Boolean.valueOf(value);  
+	}
+
+	
+	/**
+	 * 获取主页地址
+	 * @return
+	 */
+	public String getHomePage() {
+		return this.properties.getProperty(HOME_PAGE);
+	}
+
+	
+	/**
+	 * 是否启用Gzip
+	 * @return
+	 */
+	public boolean isGzip() {
+		String value = this.properties.getProperty(GZIP); 
+		return Boolean.valueOf(value);  
+		
 	}
 }

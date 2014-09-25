@@ -11,8 +11,12 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.UNIT;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
@@ -86,6 +90,16 @@ public class SystemController extends SupportController {
 				cmstemplate.clearCache(); 
 			}
 			
+			/* 清除EHCache 缓存数据，并没有清除静态文件哦 */
+			String new_statichtml = request.getParameter("config.statichtml");
+			if(Boolean.valueOf(new_statichtml)){
+				CacheManager cm =  SpringContextHolder.getBean(CacheO.CacheManager);
+				Cache cache = cm.getCache(CacheO.STATIC_HTML);
+				cache.removeAll();
+			}
+			
+			
+			
 			
 			/* 系统基本信息配置 */
 			config.set("title", request.getParameter("config.title"));//网站标题
@@ -107,7 +121,7 @@ public class SystemController extends SupportController {
 			config.set(SystemConfig.DEV_MODE, request.getParameter("config.dev_mode"));//是否开发模式
 			config.set(SystemConfig.GZIP, request.getParameter("config.gzip"));//GZIP
 			config.set(SystemConfig.COMPRESS, request.getParameter("config.compress"));//GZIP
-			config.set("statichtml", request.getParameter("config.statichtml"));// 页面静态化
+			config.set(SystemConfig.STATIC_PAGE, request.getParameter("config.statichtml"));// 页面静态化
 			
 			
 			config.store();//修改配置信息状态

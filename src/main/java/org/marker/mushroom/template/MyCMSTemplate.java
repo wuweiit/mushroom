@@ -2,7 +2,6 @@ package org.marker.mushroom.template;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -14,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -275,9 +273,8 @@ public class MyCMSTemplate {
 			throw new SystemException("获取模板失败：" + tpl);
 		}
 		Writer writer = null;
-		try { 
-			boolean isGzip = Boolean.parseBoolean(syscfg.get(SystemConfig.GZIP));//
-			if(isGzip){// 开启Gzip压缩
+		try {
+			if(syscfg.isGzip()){// 开启Gzip压缩
 				if(WebUtils.checkAccetptGzip(request)){
 					OutputStream os = WebUtils.buildGzipOutputStream(response); 
 						writer = new OutputStreamWriter(os,"utf-8"); 
@@ -290,10 +287,10 @@ public class MyCMSTemplate {
 			template.process(root, writer);
 			
 
+			
+			// 是否启用缓存
 			if(syscfg.isStaticPage()){
-
-				
-				CacheManager cm =  SpringContextHolder.getBean("cacheManager");
+				CacheManager cm =  SpringContextHolder.getBean(CacheO.CacheManager);
 				 
 				Cache cache = cm.getCache(CacheO.STATIC_HTML);
 				
