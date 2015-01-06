@@ -1,6 +1,0 @@
-@charset "utf-8";
-/* CSS Document */
-
-#blog_show{position:relative; width:980px; height:300px; overflow:hidden;}
-#blog_show_inner{position:absolute;width:980px; height:100000px;}
-.blog_card{ height:300px; }
