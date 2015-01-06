@@ -1,0 +1,60 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">编辑碎片</li>
+		</ul>
+		<button class="btn_tabbar" onclick="mySubmitForm(this);" return="chip/list.do?currentPageNo=1">保 存</button> 
+	</div> 
+	<form id="myForm" action="chip/update.do" method="post">
+	<input type="hidden" name="id" value="${chip.id?c}"/> 
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_add">
+				<tbody> 
+					<tr class="rowBgColor">
+						<th width="140">碎片名称： </th>
+						<td><input class="input_for_add" name="name" type="text" value="${chip.name!}" /></td>
+						<td><span id="scope_status"></span></td>
+					</tr>
+					<tr>
+						<th>碎片标签： </th>
+						<td><input readonly class="input_for_add" name="mark" type="text" value="${chip.mark!}" /></td>
+						<td><span id="scope_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>碎片内容：</th>
+						<td></td>
+						<td></td>
+					</tr>
+		 			<tr class="rowBgColor"> 
+						<td colspan="2">
+							<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;">${chip.content!}</script>
+							 
+						</td>
+						<td><span id="trade_status"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	if(window.editor !=null){
+		window.editor.destroy();
+	}
+	 //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    window.editor = UE.getEditor('mushroomeditor');
+ 	
+	window.editor.ready(function(){
+		$("#title").focus();//纠正显示
+	});
+});
+
+function mySubmitForm(obj){
+ 	window.editor.sync();//手动提交需要手动同步编辑器数据 
+	submitActionForm(obj);
+} 
+</script>

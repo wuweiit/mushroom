@@ -24,4 +24,13 @@ public interface IUserDao {
 	 * @return
 	 */
 	List<UserGroup> findGroup();
+	
+	
+	
+	/**
+	 * 统计用户组的用户数量
+	 * @param groupId
+	 * @return
+	 */
+	int countUserByGroupId(int groupId);
 }

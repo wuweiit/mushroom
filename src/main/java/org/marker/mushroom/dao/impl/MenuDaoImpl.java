@@ -24,9 +24,7 @@ import org.springframework.stereotype.Repository;
 @Repository(DAO.MENU)
 public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 
-	public MenuDaoImpl() {
-		super(Menu.class); 
-	}
+	
 
 	// 判断是否有子节点
 	public boolean hasChildMenu(int menuId) {

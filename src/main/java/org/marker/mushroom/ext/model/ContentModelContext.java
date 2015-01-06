@@ -16,7 +16,6 @@ import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.config.impl.SystemConfig;
-import org.marker.mushroom.core.exception.ModuleNotFoundException;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.IModelDao;
@@ -101,15 +100,36 @@ public class ContentModelContext implements IContentModelParse {
 	
 
 
-
-	// 解析内容模型的类型 
+	/**
+	 * 
+	 * WebParam{
+	 * 		pageName=about
+	 *		moduleType=channel
+	 *		contentId=null
+	 *		page=null
+	 * 
+	 * }
+	 * 
+	 * { // 子栏目
+	 * 		pageName = document/module
+	 *		moduleType = channel
+	 *		contentId = null
+	 *		page=null
+	 * }
+	 * {// 内容
+	 * 		pageName=index
+			moduleType=article
+			contentId=327
+			page=null
+		}
+	 */
 	public int parse(WebParam param) throws SystemException {
-
 		HttpServletRequest request = ActionContext.getReq();//获取请求对象
 		
 		// 如果内容id不等于0，内容查询
 		if(param.contentId != null && !"0".equals(param.contentId)){
-			ContentModel cm = contentModels.get(param.moduleType);// 获取内容模型对象 
+			// 获取内容模型对象
+			ContentModel cm = contentModels.get(param.modelType); 
 			 
 			Integer cid = Integer.valueOf(param.contentId);
 			try{ 
@@ -139,14 +159,14 @@ public class ContentModelContext implements IContentModelParse {
 				
 				request.setAttribute(AppStatic.WEB_CURRENT_CHANNEL, currentChannel);
 				param.template   = currentChannel.getTemplate();//模板
-				param.moduleType = "article";//内容模型
+				param.modelType = "article";//内容模型
 				param.redirect   = currentChannel.getRedirect();//重定向地址
 				if(param.redirect != null && !"".equals(param.redirect)){
 					return 1;//如果重定向地址不为null
 				}
 				
 				// 查到栏目对应的模型，然后进行相应操作
-				ContentModel cm = contentModels.get(param.moduleType);// 获取内容模型对象 
+				ContentModel cm = contentModels.get(param.modelType);// 获取内容模型对象 
 				
 				if(cm != null){ 
 //					if(param.page != null && !"".equals(param.page)){//内容
@@ -200,6 +220,13 @@ public class ContentModelContext implements IContentModelParse {
 	public void remove(String modelType) { 
 		contentModels.remove(modelType); 
 		modelDao.deleteByType(modelType); 
+	}
+
+
+	
+	
+	public ContentModel get(String modelType) {
+		return this.contentModels.get(modelType);
 	}
 	
 	

@@ -1,0 +1,10 @@
+{ 
+    "icon" : "images/demo.jpg",
+	"name"  : "文章模块",
+	"author": "marker",
+	"git": "",
+	"version" : "0.1", 
+	"description" : "提供文章管理功能", 
+	"activator":"src/activator.groovy",
+	"backup":"article"
+}

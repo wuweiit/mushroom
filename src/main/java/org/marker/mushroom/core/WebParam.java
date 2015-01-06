@@ -2,6 +2,7 @@ package org.marker.mushroom.core;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 
@@ -14,6 +15,7 @@ import org.marker.mushroom.core.config.impl.SystemConfig;
  * @author marker
  * */
 public final class WebParam {
+	public static final String ATTR_WEB_PARAM    = ".mrcms.Webparam";
 	
 	public static final String FIELD_P    = "p";
 	public static final String FIELD_T    = "type";
@@ -28,46 +30,68 @@ public final class WebParam {
 	/** 当前请求的模板对象名称 */
 	public String template = "";
 	/** 内容模型类型 */
-	public String moduleType = "";
+	public String modelType = "";
 	/** 内容ID */
 	public String contentId = "0";
 	/** 页码（默认为1） */
 	public String page = "1";//页码
+	public int currentPageNo = 1;// 页码
 	/** 重定向URL地址 */
 	public String redirect;
+	/** 页面大小 */
+	public int pageSize;
+	
+	/** 扩展条件查询 */
+	public String extendSql;
+	
+	
+	
 	
 	/** 系统配置信息    */ 
 	private static final SystemConfig config = SystemConfig.getInstance();
-	
 	
 	
 	/**
 	 * 只有通过传递请求对象，才能获取解析数据对象
 	 * */
 	public static WebParam get(){
-		return new WebParam();
+		HttpServletRequest req = ActionContext.getReq();
+		WebParam param = (WebParam) req.getAttribute(ATTR_WEB_PARAM);
+		if(param != null) return param; // 如果获取到数据，则返回
+		return new WebParam(req);
 	}
 	
 	
 	/**
 	 * 私有构造禁止开发者创建此对象
 	 * */
-	private WebParam(){
-		HttpServletRequest req = ActionContext.getReq();
-		
+	private WebParam(HttpServletRequest req){
 		this.pageName   = req.getParameter(FIELD_P);// 页面名称
-		this.moduleType = req.getParameter(FIELD_T);// 页面类型
-		if(this.moduleType == null){
-			this.moduleType = "channel";
+		this.modelType = req.getParameter(FIELD_T);// 页面类型
+		if(this.modelType == null){
+			this.modelType = "channel";
 		}
 		if(!(this.pageName != null && !"".equals(this.pageName))){
 			this.pageName = config.get("index_page");// 获取默认主页地址
 		}
 		this.contentId = req.getParameter(FIELD_ID);// 内容ID
+		
+		
+		
+		
 		this.page      = req.getParameter(FIELD_PAGE);// 页码
+		try{
+			this.currentPageNo = Integer.parseInt(this.page);
+		}catch(Exception e){}
+		
+		
 		// 初始化模版页面（指向错误页面）
 		this.template = config.get("error_page");
 		req.setAttribute("p", this.pageName);
+		
+		// 绑定请求数据到请求对象，避免二次解析
+		req.setAttribute(ATTR_WEB_PARAM, this);
+		
 	}
 
 	
@@ -75,7 +99,7 @@ public final class WebParam {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("R:\n");
 		sb.append("pageName="+pageName+"\n");
-		sb.append("moduleType="+moduleType+"\n");
+		sb.append("modelType="+modelType+"\n");
 		sb.append("contentId="+contentId+"\n");
 		sb.append("page="+page+"\n");
 		

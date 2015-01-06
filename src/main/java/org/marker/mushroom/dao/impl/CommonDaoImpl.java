@@ -19,9 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository(DAO.COMMON)
 public class CommonDaoImpl extends DaoEngine implements ICommonDao {
 
-	public CommonDaoImpl() {
-		super(null); 
-	}
+	
 
 
 	// 批量删除

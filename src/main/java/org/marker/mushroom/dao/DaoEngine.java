@@ -16,6 +16,7 @@ import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.dao.annotation.Entity;
+import org.marker.mushroom.utils.SQLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,31 +51,19 @@ public abstract class DaoEngine implements ISupportDao {
 	/** 自动注入jdbc模板操作 */
 	@Autowired protected JdbcTemplate jdbcTemplate;
 	
-	/** 表名称 */
-	protected String tableName;
 	
-	/** 主键 */
-	protected String primaryKey;
+	/** 基本信息缓存  */
+	private static final EntityInfoCache cache = new EntityInfoCache();
 	
-
+	
+	
 	
 	
 	/**
 	 * 泛型构造方法目的是为了简化实现
 	 * @param t
 	 */
-	public <T> DaoEngine(Class<T> t) {
-		if (t != null) {
-			Entity entity = t.getAnnotation(Entity.class);
-			if(entity != null){
-				this.tableName  = entity.value();
-				String key = entity.key();
-				if(key != null){
-					this.primaryKey = key;
-				}
-			}
-		}
-	}
+	public DaoEngine() {  }
 	
 	
 	/* 
@@ -140,11 +129,21 @@ public abstract class DaoEngine implements ISupportDao {
 	
 	// 批量删除
 	@Override
-	public boolean deleteByIds(String ids) {
-		String prefix = dbConfig.getPrefix();// 表前缀  
+	public boolean deleteByIds(Class<?> clzz, String ids) {
+		String prefix = dbConfig.getPrefix();// 表前缀
+		
+		MapConfig map = null;
+		try {
+			map = cache.getMapConfig(clzz);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		
 		StringBuilder sql = new StringBuilder();
-		sql.append("delete from ").append(prefix).append(tableName)
-				.append(" where ").append(primaryKey).append(" in(")
+		sql.append("delete from ").append(prefix).append(map.getTableName())
+				.append(" where ").append(map.getPrimaryKey()).append(" in(")
 				.append(ids).append(")");
 		logger(sql.toString());
 		return jdbcTemplate.update(sql.toString()) > 0 ? true : false;
@@ -209,20 +208,29 @@ public abstract class DaoEngine implements ISupportDao {
 		Page page = new Page(currentPageNo,totalRows, pageSize);
 		page.setData(data);// 获取数据集合 
 		return page;
-
 	}
 
 	// 保存对象  
 	public boolean save(Object entity) {
 		String prefix = dbConfig.getPrefix();
 		Class<?> clzz = entity.getClass();
-		Entity tableInfo = clzz.getAnnotation(Entity.class);
-		String tableName = tableInfo.value();
-		String primaryKey = tableInfo.key();
+	
 
+		
+		MapConfig map = null;
+		try {
+			map = cache.getMapConfig(clzz);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		
+		
+		
 		// 构造SQL字符串
 		StringBuilder sql = new StringBuilder("insert into ");
-		sql.append(prefix).append(tableName).append("(");
+		sql.append(prefix).append(map.getTableName()).append("(");
 		StringBuilder val = new StringBuilder(" values(");
 		Field[] fields = clzz.getDeclaredFields();
 		int length = fields.length;
@@ -230,7 +238,7 @@ public abstract class DaoEngine implements ISupportDao {
 		for (int i = 0; i < length; i++) {
 			Field field = fields[i];
 			String fieldName = field.getName();
-			if (fieldName.equals(primaryKey)) {// 如果是主键
+			if (fieldName.equals(map.getPrimaryKey())) {// 如果是主键
 				continue;
 			}
 			if ("serialVersionUID".equals(fieldName)) {
@@ -380,6 +388,7 @@ public abstract class DaoEngine implements ISupportDao {
 	 */
 	protected void logger(String info, Object... params){
 		if(dbConfig.isDebug()){// debug模式输入SQL语句
+			info = SQLUtil.format(info);
 			logger.info(info, params);
 		}
 	}

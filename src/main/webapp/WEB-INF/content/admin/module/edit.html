@@ -1,0 +1,41 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">编辑模块</li>
+		</ul>
+		<button class="btn_tabbar" onclick="saveModule(this);">部署</button> 
+	</div> 
+	<div class="tab_content">
+		<div class="tab_item tab_show">  
+			 编辑器
+			 ${uuid!}
+		</div>
+	</div>
+	</form> 
+</div>
+<script type="text/javascript">
+function saveModule(){
+ 	var uuid = $("#m_uuid").val();
+	var formData = {
+		name:$("#m_name").val(),
+		author:$("#m_author").val(),
+		description:$("#m_description").val() 
+	};
+	
+	var params = "uuid="+uuid +"&config="+JSON.stringify( formData);
+	
+	
+	
+	$.ajax({
+		url:"module/save.do",
+		type:"POST",
+		data: params,
+		success:function(json){
+			
+		}
+		
+	});
+	
+}
+
+</script>

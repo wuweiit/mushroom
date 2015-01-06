@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: tags.LoopTagImplTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 7.553 sec <<< FAILURE!
-testMain(tags.LoopTagImplTest)  Time elapsed: 0.014 sec  <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.156 sec <<< FAILURE!
+testMain(tags.LoopTagImplTest)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:91)
 	at org.springframework.test.context.DefaultTestContext.getApplicationContext(DefaultTestContext.java:74)

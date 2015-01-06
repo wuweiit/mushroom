@@ -6,6 +6,7 @@ import org.marker.mushroom.beans.Permission;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.UserGroup;
 import org.marker.mushroom.dao.IPermissionDao;
+import org.marker.mushroom.dao.IUserDao;
 import org.marker.mushroom.support.SupportController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+
+
+/**
+ * 用户组管理
+ * 
+ * @author marker
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/admin/group")
 public class UserGroupController extends SupportController {
@@ -21,12 +30,15 @@ public class UserGroupController extends SupportController {
 	// 权限
 	@Autowired private IPermissionDao permissionDao;
 	
+	@Autowired private IUserDao userDao;
 	
 	
 	public UserGroupController() {
 		this.viewPath = "/admin/group/";
 	}
 
+	
+	
 	/** 添加用户 */
 	@RequestMapping("/add")
 	public ModelAndView add() {
@@ -34,11 +46,12 @@ public class UserGroupController extends SupportController {
 		return view;
 	}
 	
+	
+	
 	/** 保存组 */
 	@ResponseBody
 	@RequestMapping("/save")
-	public Object save(UserGroup group){ 
-		group.setScope(0);// 前台
+	public Object save(UserGroup group){
 		if(commonDao.save(group)){
 			return new ResultMessage(true, "添加成功!");
 		}else{
@@ -49,16 +62,21 @@ public class UserGroupController extends SupportController {
 	/** 删除组 */
 	@ResponseBody
 	@RequestMapping("/delete")
-	public Object delete(@RequestParam("rid") String rid){
-		if(rid.equals("1")){// 如果找到管理员组
-			return new ResultMessage(false,"删除失败! 管理员组为内置，不能删除!"); 
+	public Object delete(@RequestParam("id") Integer id){
+		if(id == 1){// 如果找到管理员组
+			return new ResultMessage(false,"管理员组为内置，不能删除!"); 
 		}
 		
 		// 检查用户是否有使用此组，如果有，不能删除。
-		dao.update("delete from mr_user_group_menu where gid in("+rid+")");
+		int count = userDao.countUserByGroupId(id);
+		if(count > 0){
+			return new ResultMessage(false,"用户组有用户存在，不能删除!"); 
+		}
+		
+		dao.update("delete from mr_user_group_menu where gid =" + id);
 		
 		
-		boolean status = commonDao.deleteByIds(UserGroup.class, rid);
+		boolean status = commonDao.deleteByIds(UserGroup.class, id + "");
 		if(status){
 			return new ResultMessage(true,"删除成功!");
 		}else{

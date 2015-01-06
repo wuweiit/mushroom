@@ -1,14 +1,11 @@
+import org.junit.Test;
+
 
 public class TestURI {
 
-	public static void main(String[] args) {
+	@Test
+	public  void test( ) {
 		
-		
-		String url = "guestbook";
-		
-		
-		String[] uri = url.split(":");
-		System.out.println(uri.length);
-		
+		Integer.parseInt(null);
 	}
 }

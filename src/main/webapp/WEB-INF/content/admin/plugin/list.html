@@ -1,0 +1,36 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">插件列表</li>
+		</ul>
+	</div>
+	 <div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_list">
+				<thead>
+				  <tr>
+			        <th width="160">插件名称</th>
+			        <th width="120">标识</th>
+			        <th>插件描述</th> 
+			        <th width="120">开发者</th>
+			        <th width="90">操作</th> 
+			      </tr>
+				</thead>
+			    <tbody>
+			       <#list data as x>
+					<tr>
+				        <td>${x.name!} </td> 
+				        <td>${x.type!}</td>
+				        <td>${x.description!}</td> 
+				        <td>${x.author!} </td>
+				        <td style="text-align: center;">
+				        	<a href="#" action="module/edit.do?id= " onclick="refreshContentByElement(this);">备份</a>   
+						 
+				        </td> 
+				    </tr>
+				    </#list>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

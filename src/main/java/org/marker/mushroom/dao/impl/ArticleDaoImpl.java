@@ -11,10 +11,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository(DAO.ARTICLE)
 public class ArticleDaoImpl extends DaoEngine implements IArticleDao {
-
-	public ArticleDaoImpl( ) {
-		super(Article.class); 
-	}
 	
 	
 	
@@ -23,8 +19,12 @@ public class ArticleDaoImpl extends DaoEngine implements IArticleDao {
 	public boolean update(Article a) {
 		String prefix = dbConfig.getPrefix();//获取数据库表前缀
 		
+		
+		
+		
+		
 		StringBuilder sql = new StringBuilder();
-		sql.append("update ").append(prefix).append(tableName)
+		sql.append("update ").append(prefix).append("article")
 		.append(" set cid=?, title=?,keywords=?,description=?,author=?, content=?,status=?,source=?,icon=? where id=?");
 		
 		

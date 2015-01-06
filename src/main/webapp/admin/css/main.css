@@ -1,0 +1,7 @@
+@charset "utf-8";/*编码集*/
+@import url("core.css");     /*初始化样式*/
+@import url("layout.css");  /*布局样式*/
+@import url("extends.css");  /*布局样式*/ 
+@import url("themes/default.css"); /* 默认样式 */
+@import url("animation.css"); /* 动画样式 */
+@import url("jquery.validity.css"); /* 表单验证样式 */

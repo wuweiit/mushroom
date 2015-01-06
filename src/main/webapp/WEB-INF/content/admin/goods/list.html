@@ -1,0 +1,241 @@
+<div class="" style="position: absolute; left: 5px; top:5px; bottom:5px; right:5px; min-width:700px; ">
+    <div style="padding-bottom:10px; line-height:40px; vertical-align: top; float:right; overflow: auto; position: absolute;left:0; right:0; height: 80px;">
+	     <select id="articleCategory" class="select_for_add" style="width:150px;border-left-width:1px;">
+	     	<option value="0">------ 所有类别 ------</option>
+			<@categoryTree id = 0 node = -1/> 
+	     </select>
+	     &nbsp; 
+	     <select id="status" class="select_for_add" style="width:80px;border-left-width:1px; ">
+	        <option value="0,1">全部</option> 
+	     	<option value="1">上 架</option>
+	     	<option value="0">下 架</option> 
+	     </select>
+	     &nbsp;
+		 <input id="keyword" class="input_for_add" style="width:180px;border-left-width:1px; "/>
+		 <button onclick="queryList();"><i class="fa fa-search"></i></button>
+		<button class="btn_tabbar" action="goods/add.do" onclick="refreshContentByElement(this);">添加商品</button>
+    </div>
+	<div class="table_content" style="overflow: auto;  position: absolute; left:0; right:0; top:45px; bottom:35px; 
+	    border: 1px solid #e5e5e5;">
+		<div id="list-container">
+		     	
+		</div>
+	</div>		
+	<div style="position: absolute; left: 0px; right:0; height: 30px; bottom:0; overflow: hidden; ">
+		 
+	    <div style="float:left;margin-left:5px;">
+			<button title="全选" onclick="allCheck();">全选 </button>
+			<button title="反选" onclick="allRecheck();">反选 </button>
+			<button title="删除"  onclick="deleteArticleCheck();"><i class="fa fa-trash-o"></i></button>
+		</div>
+		<div style="float: right;">
+			每页: <select id="pageSize"  style="height: 27px; width: 50px;" >
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="40">40</option>
+				<option value="60">60</option>
+				<option value="80">80</option>
+				<option value="100">100</option>
+			</select> 条 
+			
+			<button onclick="prevPage()" title="上一页"><i class="fa fa-step-backward"></i></button>
+			<button onclick="nextPage()" title="下一页"><i class="fa fa-step-forward"></i></button>
+			&nbsp;
+			<input id="currentPageNo" style="height: 25px; width: 50px;text-align: center;" value="1"  /> / <span id="totalPages">12</span>
+			&nbsp;
+			<button onclick="goPage();"  title="GO"><i class="fa fa-arrow-circle-right"></i></button>
+			
+    	</div>
+    </div>
+    
+    
+</div>
+<script type="text/javascript">
+var template;
+$(function(){
+	queryList(); 
+	$("#pageSize").change(function(){ queryList();  });
+	$("#status").change(function(){ queryList();  });
+	$("#articleCategory").change(function(){ queryList();  });
+	
+	// 加载模板
+	var source   = $("#article-template").html();
+	template = Handlebars.compile(source);
+	
+	Date.prototype.format = function(format){ 
+	var o = { 
+	"M+" : this.getMonth()+1, //month 
+	"d+" : this.getDate(), //day 
+	"h+" : this.getHours(), //hour 
+	"m+" : this.getMinutes(), //minute 
+	"s+" : this.getSeconds(), //second 
+	"q+" : Math.floor((this.getMonth()+3)/3), //quarter 
+	"S" : this.getMilliseconds() //millisecond 
+	} 
+
+	if(/(y+)/.test(format)) { 
+	format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+	} 
+
+	for(var k in o) { 
+		if(new RegExp("("+ k +")").test(format)) { 
+			format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
+		} 
+	} 
+	return format; 
+	} 
+	// 注册插件
+	Handlebars.registerHelper('dateformat', function() {
+		
+		
+		
+	  return new Date(this.time).format("yyyy-MM-dd hh:mm:ss")  ;
+	});
+});
+
+
+
+// 查询文章列表
+function queryList(){
+	var cid = $("#articleCategory").val();
+	var status  = $("#status").val();
+	var keyword = $("#keyword").val();
+	var currentPageNo = $("#currentPageNo").val();
+	var pageSize = $("#pageSize").val();
+	var data = {
+		cid: cid,
+		status: status,
+		keyword: keyword,
+		currentPageNo: currentPageNo,
+		pageSize: pageSize
+		
+	};
+	$.ajax({
+		url: "article.do",
+		data: data,
+		type: "get",
+		dataType: "json",
+		success: function(json){
+			$("#totalPages").text(json.totalPages);
+			$("#currentPageNo").val(json.currentPageNo);
+			$("#totalPages").text(json.totalPages);
+			
+			
+		 	
+			var html = template({"data":json.data});
+			$('#list-container').html(html); 
+		} 
+		
+	});
+}
+
+// 上一页
+function prevPage(){
+	var inputPageNo = $("#currentPageNo");
+	var newPageNo = parseInt(inputPageNo.val())-1; 
+	if(newPageNo <=0){
+		zoom.showMessageDialog("已经到第一页了！", "消息提示",500);
+	}else{
+		inputPageNo.val(newPageNo);
+		queryList();
+	} 
+}
+
+// 下一页
+function nextPage(){ 
+	var inputPageNo = $("#currentPageNo");
+	var newPageNo = parseInt(inputPageNo.val())+1; 
+	var pageSize  = parseInt($("#totalPages").text());
+	if(newPageNo > pageSize){
+		zoom.showMessageDialog("已经到最后一页了！", "消息提示",500);
+	}else{
+		inputPageNo.val(newPageNo);
+		queryList();
+	}
+}
+
+// go页码
+function goPage(){
+	var newPageNo = parseInt($("#currentPageNo").val());
+	var pageSize  = parseInt($("#totalPages").text());
+
+	if(newPageNo <=0){
+		zoom.showMessageDialog("页码应该大于1哦！", "消息提示",500);
+	}else if(newPageNo > pageSize){
+		zoom.showMessageDialog("页码超过最大页数咯！", "消息提示",500);
+	}else if(isNaN(newPageNo)){
+		zoom.showMessageDialog("页码格式不正确哈！", "消息提示",500);
+	}else{
+		queryList();
+	} 
+}
+
+// 删除文章
+function deleteArticle(obj){
+	var id = $(obj).attr("data-id");
+	var action = "article/delete.do?rid="+id;
+	zoom.showConfirmDialog("确定删除吗？","消息提示", function(){
+		$.getJSON(action,null,function(data){
+			if(data.status){
+				queryList();  
+			}else{
+				zoom.showMessageDialog(data.message,"消息提示",1500); 
+			}
+			zoom.closeConfirmDialog();
+		});
+	});
+	
+	
+}
+
+function deleteArticleCheck(){
+	var action = "article/delete.do";
+	var list = "rid=";
+	var temp;//存放临时id
+	$(":checkbox").each(function(){
+		if($(this).attr("checked")){//被选择
+			temp = $(this).attr("value");
+			list += temp + ","; 
+		}
+	});
+	list = list.substr(0,list.length-1);//去掉最后的逗号 
+	if(list == "rid"){//判断有没有选择
+		zoom.showMessageDialog("您还没有选择要删除的信息哦!","消息提示", 1500);
+	}else{
+		zoom.showConfirmDialog("确定删除文章吗？","消息提示", function(){
+			$.getJSON(action, list, function(data){
+				if(data.status){
+					queryList();
+				}else{
+					zoom.showMessageDialog("批量删除失败!<br/>"+data.message,"消息提示", 1500); 
+				}
+				zoom.closeConfirmDialog();
+			});
+		});
+	}
+	
+}
+</script>
+
+
+<script id="article-template" type="text/x-handlebars-template">
+{{#each data}}
+<div style=" margin-top:10px;width:220px; height:250px;display:inline-block;border:1px solid #ccc;">
+	<img src="{{icon}}" alt="" />
+	<h3>{{title}}</h3>
+	
+
+
+</div>
+{{/each}}
+</script>
+
+<#macro categoryTree id node>
+	<#local temp = node + 1 />
+	<#list categorys as x>
+	  	<#if id = x.pid>
+	  	<option value="${x.id?c}"><#list 0..temp as i> &nbsp; &nbsp; </#list>├ ${x.name!}</option>
+	    <@categoryTree id = x.id node=temp/>
+      	</#if>
+	</#list> 
+</#macro>

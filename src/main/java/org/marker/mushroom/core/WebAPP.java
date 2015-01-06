@@ -8,12 +8,8 @@ import java.io.Writer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-
-import org.marker.mushroom.alias.CacheO;
+import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.alias.LOG;
-import org.marker.mushroom.alias.UNIT;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
@@ -22,6 +18,7 @@ import org.marker.mushroom.ext.model.IContentModelParse;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.template.MyCMSTemplate;
+import org.marker.mushroom.template.SendDataToView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,13 +48,17 @@ public final class WebAPP {
 	/** 内容模型工厂 */
 	private static ContentModelContext cmc; 
 	
-	
+	/** 发送数据到视图对象 */
+	private static SendDataToView dataToView;
 	
 	/**
 	 * 安装状态（注意：容器初始化赋值）
 	 * @see org.marker.mushroom.holder.MushRoomInitBuildHolder
 	 */
 	public static boolean install = false;
+	
+	// 成员变量是否初始化
+	public static boolean initialization = false;
 	
 	
 	
@@ -79,15 +80,26 @@ public final class WebAPP {
 		this.response    = ActionContext.getResp();
 //		this.application = ActionContext.getApplication();
 		 
-		
-		// 未做并发处理
-		
-		//初始化模板引擎
-		if(WebAPP.cmstemplate == null)
-			WebAPP.cmstemplate = SpringContextHolder.getBean(UNIT.ENGINE_TEMPLATE); 
-		//初始化模型工厂
-	    if(cmc == null){
-			cmc = ContentModelContext.getInstance(); 
+		/*
+		 * 项目刚初始化成功，能处理大批量的并发请求
+		 * 
+		 * */
+		if(!initialization){
+			synchronized (WebAPP.class) {
+				
+				//初始化模板引擎
+				if(WebAPP.cmstemplate == null)
+					WebAPP.cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE); 
+				
+				// 数据发送对象
+				dataToView = new SendDataToView(cmstemplate);
+				
+				//初始化模型工厂
+			    if(cmc == null){
+					cmc = ContentModelContext.getInstance(); 
+				}
+			    initialization = true;
+		    }
 		}
 	}
 	
@@ -137,6 +149,12 @@ public final class WebAPP {
 			default:
 				response.sendError(404); return;//页面肯定不存在
 			}
+			
+			
+			dataToView.process(param.template);
+			
+			
+			
 		}catch(SystemException syse){ logger.error("", syse);
 			handleErrorMessage(syse); 
 		}catch (FileNotFoundException e) { logger.error("", e);
@@ -175,7 +193,7 @@ public final class WebAPP {
 		} else {
 			try {
 				cmstemplate.proxyCompile(errorTemplate);
-				cmstemplate.sendModeltoView(errorTemplate);
+				dataToView.process(errorTemplate); 
 			} catch (Exception e3) { 
 				logger.error("",e3); 
 			}

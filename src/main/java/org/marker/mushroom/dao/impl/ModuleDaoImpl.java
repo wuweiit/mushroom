@@ -20,9 +20,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 
 	
 	
-	public ModuleDaoImpl() {
-		super(Module.class);
-	}
+	
 	
 	
 	//查询全部的内容模型
@@ -31,7 +29,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 		String prefix = dbConfig.getPrefix();//获取数据库表前缀
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from ").append(prefix).append(tableName);
+		sql.append("select * from ").append(prefix).append("module");
 		
 		try{
 			return jdbcTemplate.query(sql.toString(),  new RowMapperModule());
@@ -50,7 +48,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 		
 		StringBuilder sql = new StringBuilder();
 		//暂时不优化字段
-		sql.append("select * from ").append(prefix).append(tableName).append(" where type=?");
+		sql.append("select * from ").append(prefix).append("module").append(" where type=?");
 		
 		try{
 			return jdbcTemplate.queryForObject(sql.toString(),new Object[]{moduleType}, new RowMapperModule());
@@ -66,7 +64,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 		String prefix = dbConfig.getPrefix();//获取数据库表前缀
 	
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into ").append(prefix).append(tableName)
+		sql.append("insert into ").append(prefix).append("module")
 		.append("(name,type,uri,template,author,version) values(?,?,?,?,?,?)"); 
 		int status = this.jdbcTemplate.update(sql.toString(), new Object[]{module.getName()
 			,module.getType(),module.getUri(),module.getTemplate(),module.getAuthor(),module.getVersion()});
@@ -80,7 +78,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 	public boolean deleteByType(String moduleType) {
 		String prefix = dbConfig.getPrefix();//获取数据库表前缀 
 		StringBuilder sql = new StringBuilder();
-		sql.append("delete from ").append(prefix).append(tableName)
+		sql.append("delete from ").append(prefix).append("module")
 		.append(" where type=?"); 
 		int status = this.jdbcTemplate.update(sql.toString(), moduleType);
 		return status > 0 ?true : false;
@@ -96,7 +94,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 		
 		StringBuilder sql = new StringBuilder();
 		//暂时不优化字段
-		sql.append("select * from ").append(prefix).append(tableName).append(" where type=?");
+		sql.append("select * from ").append(prefix).append("module").append(" where type=?");
 		
 		try{
 			return jdbcTemplate.queryForObject(sql.toString(),new Object[]{moduleType},  new RowMapperModule());

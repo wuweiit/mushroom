@@ -1,0 +1,77 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">欢迎您使用</li>
+		</ul>
+		<button class="btn_tabbar" onclick="gotoWebSite();">访问官方网站</button>
+	</div>
+	<div class="tab_content">
+		<div class="tab_item tab_show">  
+			<div>
+			<br/><br/><br/> 
+			</div>
+			<div>
+				<table class="table_for_add">
+				 	<tr class="rowBgColor">
+						<th>开发作者：</th>
+						<td>${dauthor!}</td>
+						<th>Email：</th>
+						<td>${email!}</td>
+					</tr>
+				 	<tr>
+						<th>技术交流群：</th>
+						<td>${qqqun!}</td>
+						<th>前端交流：</th>
+						<td>${uxqqqun!}</td>
+					</tr>
+					<tr class="rowBgColor">
+						<th width="140">程序版本：</th>
+						<td>${version!}</td>
+						<th width="140">最新版本：</th>
+						<td>暂无更新</td>
+					</tr>
+					<tr>
+						<th>服务器操作系统：</th>
+						<td>${os!}</td>
+						<th>操作系统版本：</th>
+						<td>${osver!}</td>
+					</tr>
+		 			<tr class="rowBgColor">
+						<th>Java虚拟机版本：</th>
+						<td>${javaver!}</td>
+						<th>虚拟机供应商：</th>
+						<td>${javavendor!}</td>
+					</tr>	
+					<tr>
+						<th>服务器时间：</th>
+						<td>${currenttime?string("yyyy年MM月dd日 HH:mm:ss")}</td>
+						<th>WEB服务器：</th>
+						<td>${serverinfo!}</td>
+					</tr>			
+					<tr class="rowBgColor" >
+						<th>自由运行内存：</th>
+						<td>${freememory?c} (MB)</td>
+						<th>最大运行内存：</th>
+						<td>${maxmemory?c} (MB)</td>
+					</tr>	
+			 		<tr>
+						<th>虚拟机总内存：</th>
+						<td>${totalmemory?c} (MB)</td>
+						<th></th>
+						<td></td>
+					</tr>			
+			
+				</table>
+			
+			</div>
+		</div>
+	</div>
+</div>
+
+<form id="mrcmssite" action="http://cms.yl-blog.com" target="_blank"></form>
+<script type="text/javascript">
+
+function gotoWebSite(){
+	$("#mrcmssite").submit();
+}
+</script>

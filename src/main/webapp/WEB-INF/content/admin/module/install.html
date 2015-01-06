@@ -1,0 +1,21 @@
+ 
+<div class="content">
+	<h2>安装插件</h2>
+	<hr class="hrs"/>
+	<form id="myForm" action="plugin/save.do" method="post" enctype="multipart/form-data">
+
+	<table class="table_for_add">
+		<tbody>
+			<tr class="rowBgColor">
+				<th width="140">插件ZIP压缩包：</th>
+				<td><input class="input_for_add" name="file" type="file" /></td>
+				<td width="30"><span id="name_status"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+	<div class="center textcenter foot">
+		<button onclick="submitActionForm(this);" return="plugin/list.do?currentPageNo=1">安装</button>
+		<button onclick="resetActionForm();">重置 </button>
+	</div>
+</div>

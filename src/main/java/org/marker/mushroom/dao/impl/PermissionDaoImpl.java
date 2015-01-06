@@ -20,9 +20,6 @@ public class PermissionDaoImpl extends DaoEngine implements IPermissionDao {
 
 	
 	
-	public PermissionDaoImpl( ) {
-		super(Permission.class); 
-	}
 
 	// 如果分组ID查询组内权限
 	public List<Permission> findPermissionByGroupId(int groupId) {

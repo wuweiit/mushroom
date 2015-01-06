@@ -13,12 +13,12 @@ import org.marker.mushroom.beans.Channel;
 public class ChannelTree {
 
 	
-	public static ChannelItem foreach(long id, Channel currentChannel, List<Channel> list){
+	public static ChannelItem foreach(Channel currentChannel, List<Channel> list){
 		ChannelItem item = new ChannelItem();
 		item.setChannel(currentChannel);
 		for(Channel c : list){
-			if(c.getPid() == id){//如果是当前栏目的子栏目
-				ChannelItem item2 = foreach(c.getId(),c,list);
+			if(c.getPid() == currentChannel.getId()){//如果是当前栏目的子栏目
+				ChannelItem item2 = foreach(c,list);
 				item.child.add(item2);
 			}
 		}

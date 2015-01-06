@@ -16,9 +16,7 @@ import org.springframework.stereotype.Repository;
 public class UserDaoImpl extends DaoEngine implements IUserDao{
 
 	
-	public UserDaoImpl() {
-		super(User.class);
-	}
+	
 	
 	
 	/**
@@ -28,7 +26,7 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 	public User queryByNameAndPass(String name, String pass) {
 		String prefix = dbConfig.getPrefix();
 		StringBuilder sql = new StringBuilder("select * from ");
-		sql.append(prefix).append(tableName).append(" where name=? and pass=?");
+		sql.append(prefix).append("user").append(" where name=? and pass=?");
 		User user = null; 
 		try{
 			user = this.jdbcTemplate.queryForObject(sql.toString(), new Object[]{name, pass}, new RowMapperUser());
@@ -56,7 +54,7 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 	public User findUserByName(String userName) {
 		String prefix = dbConfig.getPrefix();
 		StringBuilder sql = new StringBuilder("select * from ");
-		sql.append(prefix).append(tableName).append(" where name=?");
+		sql.append(prefix).append("user").append(" where name=?");
 		User user = null; 
 		try{
 			user = this.jdbcTemplate.queryForObject(sql.toString(), new Object[]{userName}, new RowMapperUser());
@@ -73,6 +71,16 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 		StringBuilder sql = new StringBuilder("select * from ");
 		sql.append(getPreFix()).append("user_group"); 
 		return this.jdbcTemplate.query(sql.toString(), new RowMapperUserGroup());
+	}
+
+
+	// 统计用户组的用户数量
+	@Override
+	public int countUserByGroupId(int groupId) {
+		StringBuilder sql = new StringBuilder("select count(*) from ");
+		sql.append(getPreFix()).append("user u where u.gid=? "); 
+		
+		return this.queryForObject(sql.toString(), Integer.class, new Object[]{groupId});
 	}
 
 }

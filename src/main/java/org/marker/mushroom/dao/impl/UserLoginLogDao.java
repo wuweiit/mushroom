@@ -6,11 +6,8 @@ package org.marker.mushroom.dao.impl;
 
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Page;
-import org.marker.mushroom.beans.UserLoginLog;
 import org.marker.mushroom.dao.DaoEngine;
 import org.marker.mushroom.dao.IUserLoginLogDao;
-import org.marker.qqwryip.IPLocation;
-import org.marker.qqwryip.IPTool;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -24,33 +21,9 @@ import org.springframework.stereotype.Repository;
 @Repository(DAO.USER_LOGIN)
 public class UserLoginLogDao extends DaoEngine implements IUserLoginLogDao {
 
-	public UserLoginLogDao() {
-		super(UserLoginLog.class); 
-	}
-
-	// IP归属地获取工具
-	private IPTool ipTool = IPTool.getInstance();
 	
-	 
-	public void intsert(String ip, String name, int loginLogType, String info) {
-		String prefix = dbConfig.getPrefix(); 
-		StringBuilder sql = new StringBuilder();
-		sql.append("insert into ").append(prefix).append("user_login_log")
-		.append("(username,ip,area,info,time,type) values(?,?,?,?,sysdate(),?)");
-		// 通过IP地址查询出地区信息
-		String area = "未知地区";
-		if(ip != null){
-			try{
-				IPLocation location = ipTool.getLocation(ip); 
-				if(location != null){// 如果存在
-					area = location.getCountry();
-				}
-				this.update(sql.toString(), name, ip, area, info, loginLogType ); 
-			}catch(Exception e){
-				logger.error("ip={} ",ip, e);
-			}
-		}
-	}
+	
+	
 
 	/* (non-Javadoc)
 	 * @see org.marker.mushroom.dao.IUserLoginLogDao#queryByPage()

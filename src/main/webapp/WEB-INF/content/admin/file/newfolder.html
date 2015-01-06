@@ -1,0 +1,36 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">新建文件夹</li>
+		</ul>
+	    <button class="btn_tabbar" onclick="submitActionForm(this);" return="file/list.do?path=${path!}">保存 </button>
+		<button class="btn_tabbar" action="file/list.do?path=/" onclick="refreshContentByElement(this);">根目录</button>
+	 	<button class="btn_tabbar" action="file/list.do?path=${path!}" onclick="refreshContentByElement(this);">返回文件夹 </button>
+		
+	</div> 
+	 
+ 	<form id="myForm" action="file/savefolder.do" method="post">
+ 	<div class="tab_content">
+		<div class="tab_item tab_show">  
+			<table class="table_for_add">
+				<tbody> 
+					<tr class="rowBgColor">
+						<th width="140">文件路径： </th>
+						<td align="left">
+							<input class="input_for_add" name="path" type="text" value="${path!}" placeholder="请填写文件路径。" />
+							<span>(不能使用空格作为路径或者文件名部分)</span>
+						</td>
+					</tr>
+					<tr>
+						<th>文件夹名称： </th>
+						<td><input class="input_for_add" name="name" type="text" value="${name!}" placeholder="请填写文件夹名称。"/></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+ 
+</script>

@@ -4,6 +4,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.marker.mushroom.utils.SQLUtil;
+
 
 
 public class ZZTest {
@@ -14,29 +16,7 @@ public class ZZTest {
 
 	public static void main(String[] args) {
 		
-		Pattern p = Pattern.compile("(\\d+)");
-		String content = "131513158---151566---132113123";
-		
-		
-		StringBuffer sb = new StringBuffer(content);
-		Matcher m = p.matcher(sb);
-		
-		
-		List<data> list = new ArrayList<data>();
-		while(m.find()){
-			System.out.println(m.group());
-			int start = m.start();
-			int end   = m.end(); 
-			sb.replace(start, end, UUID.randomUUID().toString());
-	 
-		}
-		
-	 
-		
-		
-		System.out.println(sb);
-		 
-		
-		
+		String a = new SQLUtil().format("select * from user a join left group b on a=a");
+		System.out.println(a);
 	}
 }

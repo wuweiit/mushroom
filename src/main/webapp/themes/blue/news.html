@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>${config.title}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="keywords" content="${config.keywords}" >
+	<meta name="description" content="${config.description}"> 
+	<link href="css/main.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="js/focus.js"></script>	
+</head>
+<body>
+<!--#include file="header.html"-->
+<div class="main center">
+ 	<div id="" style="height:230px; background: green;">
+ 		
+ 	</div>
+</div>
+<div class="main center">
+ 
+	<div id="list_news" class="box1 fr">
+		<div class="box1_title">
+			<div class="box1_title_icon">&Omega;</div>
+			<div class="box1_title_text">新闻中心</div>
+			<div class="box1_title_more"></div>
+		</div>
+		<div class="box1_content">
+			<div class="box1_content_text">
+				<ul class="">
+				  <!--{content:loop}-->
+				    <li><a href="${content.url}">${content.title!}</a></li>    
+				  <!--{/loop}-->
+				</ul>
+			</div>
+		</div>
+		 总条数：${page.totalRows}  当前页码：${page.currentPageNo}
+		 
+		<a href="${prevpage}">上一页</a>
+		
+		<a href="${nextpage}">下一页</a> 
+		
+		
+	</div>
+</div>
+ 
+ 
+<!--#include file="footer.html"-->
+</body>
+</html>

@@ -1,0 +1,47 @@
+/*
+ *
+ *登录界面CSS3动画
+ */
+ 
+@-webkit-keyframes myfirst /* Safari 和 Chrome */
+{
+	0%   {  left:50px; top:50px;}
+	25%  {  left:200px; top:0px;}
+	50%  {  left:200px; top:200px;}
+	75%  { left:0px; top:200px;}
+	100% { left:0px; top:0px; background:white;}
+}
+
+
+.login_bg_dot{
+	z-index:50;
+	opacity:0.3;
+	box-shadow: 0 0px 20px #ccc;  
+	width:150px;
+	height:150px;
+	border-radius:150px;
+	background:#ccc;
+	animation: myfirst 100s;
+	-moz-animation: myfirst 5s;	/* Firefox */
+	-webkit-animation: myfirst 100s;	/* Safari 和 Chrome */
+	-o-animation: myfirst 5s;	/* Opera */
+	
+	-webkit-animation-iteration-count: infinite;
+}
+
+
+
+@-webkit-keyframes loadinga  /* Safari 和 Chrome */
+{
+	from { -webkit-transform: rotate(0deg); }
+	to  {  -webkit-transform: rotate(360deg);} 
+}
+
+.loading_animation{ 
+	animation: loadinga 1s;
+	-moz-animation: loadinga 1s;	/* Firefox */
+	-webkit-animation: loadinga 1s;	/* Safari 和 Chrome */
+	-o-animation: loadinga 1s;	/* Opera */
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+}

@@ -28,10 +28,6 @@ import com.googlecode.ehcache.annotations.When;
 public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	
 	
-	public ChannelDaoImpl() {
-		super(Channel.class);
-	}
-	
 	
 	
 	 //设定spring的ecache缓存策略,当编辑机构时候,把缓存全部清除掉,以达到缓存那数据同步;
@@ -66,7 +62,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	 * 查询所有栏目
 	 */
 	public List<Channel> findAll() {
-		StringBuilder sql = new StringBuilder("select * from ").append(getPreFix()).append(tableName);
+		StringBuilder sql = new StringBuilder("select * from ").append(getPreFix()).append("channel");
 		return jdbcTemplate.query(sql.toString(), new RowMapperChannel()); 
 	}
 
@@ -86,6 +82,14 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 			logger.error("channel.aid="+aid+" not found! ");
 		}
 		return channel;
+	}
+
+
+
+	@Override
+	public List<Channel> findValid() {
+		StringBuilder sql = new StringBuilder("select * from ").append(getPreFix()).append("channel").append(" where hide=?");
+		return jdbcTemplate.query(sql.toString(), new RowMapperChannel(),1);
 	}
 	
 	

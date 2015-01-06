@@ -68,21 +68,29 @@ public class UserController extends SupportController {
 	/** 保存用户 */
 	@ResponseBody
 	@RequestMapping("/update")
-	public Object update(User user){ 
-		Map<String,Object> olduser = commonDao.findById(User.class,user.getId());
-		String oldPass = (String) olduser.get("pass");
-		if(!oldPass.equals(user.getPass())){//修改了密码
-			try {
-				user.setPass(GeneratePass.encode(user.getPass()));
-			} catch (Exception e) { 
-				e.printStackTrace();
-			}//加密密码
-		}
-		if(commonDao.update(user)){
-			return new ResultMessage(true, "更新成功!");
+	public Object update(User user){
+		if(null != user.getPass() && !"".equals(user.getPass())){
+			Map<String,Object> olduser = commonDao.findById(User.class,user.getId());
+			String oldPass = (String) olduser.get("pass");
+			
+			
+			if(!oldPass.equals(user.getPass())){//修改了密码
+				try {
+					user.setPass(GeneratePass.encode(user.getPass()));
+				} catch (Exception e) { 
+					e.printStackTrace();
+				}//加密密码
+			}
+			if(commonDao.update(user)){
+				return new ResultMessage(true, "更新成功!");
+			}else{
+				return new ResultMessage(false,"更新失败!"); 
+			}
+			
 		}else{
-			return new ResultMessage(false,"更新失败!"); 
+			return new ResultMessage(false,"用户密码不能为空!");
 		}
+		
 	}
 	
 	

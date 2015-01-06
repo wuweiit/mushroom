@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.marker.mushroom.alias.CacheO;
-import org.marker.mushroom.alias.UNIT;
+import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
@@ -31,6 +29,8 @@ import org.marker.mushroom.utils.FileTools;
 import org.marker.mushroom.utils.HttpUtils;
 import org.marker.security.Base64;
 import org.marker.security.DES;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,8 +44,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin/system")
 public class SystemController extends SupportController {
-
-	private final static Log log = LogFactory.getLog(SystemController.class);
+	
+	/** 日志记录对象 */ 
+	protected Logger logger =  LoggerFactory.getLogger(SystemController.class); 
+	 
 	
 
 	// 系统配置对象
@@ -62,7 +64,7 @@ public class SystemController extends SupportController {
 	public String siteinfo(HttpServletRequest request){
 		request.setAttribute("config", config.getProperties());
 		MessageContext mc = MessageContext.getInstance();
-		request.setAttribute("langselect", mc.getSelectElement());
+		request.setAttribute("langselect", mc.getReadySelectElement());
 		return this.viewPath + "siteinfo";
 	}
 	
@@ -71,10 +73,9 @@ public class SystemController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/saveinfo")
 	public Object saveinfo(HttpServletRequest request){ 
-		try{
-			
+		try{ 
 			/* 判断统计是否修改 */
-			MyCMSTemplate cmstemplate = SpringContextHolder.getBean(UNIT.ENGINE_TEMPLATE); 
+			MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE); 
 			String new_statistics = request.getParameter("config.statistics");
 			if(!config.get(SystemConfig.STATISTICS).equals(new_statistics)){
 				cmstemplate.clearCache(); 
@@ -127,6 +128,7 @@ public class SystemController extends SupportController {
 			config.store();//修改配置信息状态
 			return new ResultMessage(true, "更新成功!");
 		}catch (Exception e) {
+			logger.error("", e);
 			return new ResultMessage(false, "更新失败!");
 		} 
 	}
@@ -153,10 +155,13 @@ public class SystemController extends SupportController {
 			String channelRule = request.getParameter("url.channel");
 			String contentRule = request.getParameter("url.content");
 			String pageRule    = request.getParameter("url.page");
+			String pageSuffix  = request.getParameter("page.suffix");
 			
-			urlRewriteConfig.set("channel", channelRule);
-			urlRewriteConfig.set("content", contentRule);
-			urlRewriteConfig.set("page", pageRule);
+			urlRewriteConfig.set(URLRewriteConfig.URL_CHANNEL, channelRule);
+			urlRewriteConfig.set(URLRewriteConfig.URL_CONTENT, contentRule);
+			urlRewriteConfig.set(URLRewriteConfig.URL_PAGE, pageRule);
+			urlRewriteConfig.set(URLRewriteConfig.PAGE_SUFFIX, pageSuffix);
+			
 			urlRewriteConfig.store();
 			return new ResultMessage(true, "更新成功!");
 		}catch (Exception e) {

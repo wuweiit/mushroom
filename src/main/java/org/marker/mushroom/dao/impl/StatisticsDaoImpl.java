@@ -22,9 +22,7 @@ public class StatisticsDaoImpl extends DaoEngine implements IStatisticsDao{
 	private final  SimpleDateFormat yyyyMMdd_format = new SimpleDateFormat("yyyyMMdd");
 	
 	
-	public StatisticsDaoImpl() {
-		super(null); 
-	}
+	
 
 	
 	

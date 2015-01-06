@@ -28,8 +28,7 @@ public class ChipContext implements IChip{
 	private HashMap<String, String> data;
 	
 	
-	
-	@Override
+	 
 	public synchronized void syn(){
 		if(!isSyn){
 			String prefix = DataBaseConfig.getInstance().getPrefix();
@@ -43,8 +42,7 @@ public class ChipContext implements IChip{
 			isSyn = true;
 		}
 	}
-
-	@Override
+ 
 	public Object getVector() {
 		syn();
 		return data;

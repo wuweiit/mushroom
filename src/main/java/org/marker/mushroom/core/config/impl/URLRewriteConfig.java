@@ -2,8 +2,6 @@ package org.marker.mushroom.core.config.impl;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.marker.mushroom.core.config.ConfigEngine;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.urlrewrite.URLRewriteEngine;
@@ -17,8 +15,16 @@ import org.marker.urlrewrite.URLRewriteEngine;
  * @weibo http://t.qq.com/wuweiit
  */
 public class URLRewriteConfig extends ConfigEngine {
+
+	/** 页面后缀key */
+	public static final String PAGE_SUFFIX = "page.suffix";
+	public static final String URL_CHANNEL = "url.channel";
+	public static final String URL_PAGE = "url.page";
+	public static final String URL_CONTENT = "url.content";
 	
-	private final Log log = LogFactory.getLog(URLRewriteConfig.class);
+	
+	/** 默认页面后缀 */
+	public static final String DEFAULT_PAGE_SUFFIX = ".html";
 	
 	// URL重写配置文件路径
 	public static final String CONFIG_FILE_PATH = "/config/urlrewrite/urlrewrite.properties";
@@ -28,7 +34,7 @@ public class URLRewriteConfig extends ConfigEngine {
 	
 	/** URL重写 */
 	private static final URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
-	
+
 	
 	
 	/**
@@ -37,15 +43,25 @@ public class URLRewriteConfig extends ConfigEngine {
 	 * */
 	private URLRewriteConfig() {
 		super(CONFIG_FILE_PATH);
-		
-		// 加载到URL重写引擎中
-		for(Object key : this.properties.keySet()){
-			String rule = this.properties.getProperty(key.toString());
-			urlRewrite.putRule(key.toString(), rule);
-			log.info("rewrite init rule： " + key + "=" + rule);
-		}
+		init();// 初始化URL重写规则到引擎
 	}
 	
+	
+	/**
+	 * 初始化
+	 */
+	public void init(){
+		String suffix = this.properties.getProperty(PAGE_SUFFIX, DEFAULT_PAGE_SUFFIX);// 页面后缀
+		// 加载到URL重写引擎中
+		for(Object key : this.properties.keySet()){
+			String keyStr = key.toString();
+			if(keyStr.startsWith("url.")){
+				String rule = this.properties.getProperty(keyStr, "") + suffix;
+				urlRewrite.putRule(key.toString(), rule);
+				logger.info("rewrite init rule： " + key + "=" + rule);
+			}
+		}
+	}
 	
 	
  
@@ -54,7 +70,7 @@ public class URLRewriteConfig extends ConfigEngine {
 	public void set(String key, String rule) {
 		super.set(key, rule);
 		urlRewrite.putRule(key, rule);
-		log.info("rewrite init rule： " + key + "=" + rule);
+		logger.info("rewrite init rule： " + key + "=" + rule);
 	}
 	
 	
@@ -74,8 +90,21 @@ public class URLRewriteConfig extends ConfigEngine {
 	}
 	
 	
+	@Override
+	public void store() {
+		super.store();
+		this.init();// 初始化URL重写规则到引擎
+	}
+	
+	
  
-
+	/**
+	 * 页面后缀(默认: .html)
+	 * @return String
+	 */
+	public String getPageSuffix(){ 
+		return this.properties.getProperty(PAGE_SUFFIX, DEFAULT_PAGE_SUFFIX);
+	}
  
 	 
 }

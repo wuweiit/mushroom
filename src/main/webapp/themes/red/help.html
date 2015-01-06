@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${current.name!} - ${config.title!}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="keywords" content="${current.keywords!}" >
+	<meta name="description" content="${current.description!}">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+</head>
+<body>
+	
+    
+	<!--#include file="header.html"-->
+     
+     
+    <div class="center content">
+    	<div class="box1_content">
+			<div class="box1_content_text">
+				<ul class="">
+				  <!--{content:loop}-->
+				    <li><a href="${content.url}">${content.title!}</a></li>    
+				  <!--{/loop}-->
+				</ul>
+			</div>
+		</div>
+		 总条数：${page.totalRows}  当前页码：${page.currentPageNo}
+		 
+		<a href="${prevpage}">上一页</a>
+		
+		<a href="${nextpage}">下一页</a> 
+    
+    
+    
+    </div>
+    
+    
+    <!--#include file="footer.html"-->
+
+</body>
+</html>

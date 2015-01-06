@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<meta name="description" content="${current.description!}">
+  	<meta name="keywords" content="${current.keywords!}">
+    <meta name="author" content="marker">
+	<title>${current.name!} - ${config.title}</title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+    /* 响应式布局 */
+	/* 设置顶部高度 */
+	.affix-top{top:200px;}
+	/* 设置移动固定高度 */
+	.affix{ position:static;}
+	
+	@media (min-width: 1200px){
+		.affix{ position:fixed;}
+		.affix{ top:70px; width:262px !important;}
+	} 
+	@media (min-width: 992px) {
+		.affix{ position:fixed;}
+		.affix{ top:70px; width:212px;}
+	}
+    
+    </style>
+    <!--#include file="../common/js.html"-->
+</head>
+
+<body>
+
+<!--#include file="../common/header.html"-->
+<div class="jumbotron">
+    <div class="container">
+    	<div class="page-header">
+            <h1>模板文档</h1>
+            <p>学习掌握模板文档里的标签，我们可以快速的查询数据和遍历数据。</p> 
+        </div> 
+    </div>
+</div>
+ 
+ 
+<div class="container" style="margin:30px auto;">
+  <div class="row">
+    <div class="col-md-3">
+ 		<div id="myAffix"  class="navbar-build">
+        	<div class="nav">
+		    	<ul class="list-group direction">
+		    		<li class="list-group-item">
+				  		<a href="#content_0">
+				  			<i class="glyphicon glyphicon-chevron-right"></i>
+				  			模板引擎实现原理介绍
+				  		</a>
+			  		</li>
+			    	<!-- {a:list table=(article) cid=(20) limit=(20) order=(id desc)} -->  
+			  		<li class="list-group-item">
+				  		<a href="#content_${a.id?c}">
+				  			<i class="glyphicon glyphicon-chevron-right"></i>${a.title length=(12)}
+				  		</a>
+			  		</li>
+				  	<!-- {/list} -->
+			 	</ul> 
+            </div>
+		</div> 
+    </div>
+    <div class="col-md-8">
+    	<div class="content">
+    	<div id="content_0" class="bs-docs-section">
+			<div class="page-header">
+     			<h2><a>模板引擎实现原理介绍</a></h2>
+   			</div>
+         	基于freemarker模板引擎构建的强大模板技术，采用HTML注释方式开发。<br />
+         	内部采用MVC模式开发，模板解析步骤：<br />
+         	<ol style="margin-left: 30px;">
+         		<li>解析模板引入</li>
+         		<li>模板标签替换与模板数据查询语句构建</li>
+         		<li>数据库查询数据</li>
+         		<li>发送数据填充模板内容</li>
+         		<li>响应客户端请求</li>
+         	</ol>
+       	</div>
+		<!-- {a:list table=(article) cid=(20) limit=(20) order=(id desc)} -->
+       	<div id="content_${a.id?c}" class="bs-docs-section">
+			<div class="page-header">
+     			<h2><a href="${a.url}">${a.title!}</a></h2>
+   			</div>
+         	${a.content!}
+       	</div>
+       	<!-- {/list} -->
+	   	</div>
+	</div>
+ </div> 
+
+
+</div>
+
+
+
+<!--#include file="../common/footer.html"-->
+
+
+</body>
+<script type="text/javascript" src="js/about.js"></script>
+</html>
+

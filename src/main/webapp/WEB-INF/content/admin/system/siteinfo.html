@@ -1,0 +1,226 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>基本信息</h3></li>
+			<li onclick="setTabContent(this);"><h3>主题设置</h3></li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="system/siteinfo.do">保 存</button>
+	</div>
+	<form id="myForm" action="system/saveinfo.do" method="post">
+    <div class="tab_content">
+		<div class="tab_item tab_show">
+			<table class="table_for_add">
+				<tbody>
+					<tr class="rowBgColor">
+						<th width="140">站点名称：</th>
+						<td width="280"><input class="input_for_add" name="config.title" type="text" value="${config.title}" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>站点地址：</th>
+						<td><input class="input_for_add" name="config.url" type="text" value="${config.url}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>网站关键字：</th>
+						<td><input class="input_for_add" name="config.keywords" type="text" value="${config.keywords}"  /></td>
+						<td> </td>
+					</tr>
+					<tr>
+						<th>网站描述：</th>
+						<td><textarea class="textarea_for_add" name="config.description" >${config.description}</textarea>
+						</td>
+						<td><span id="name_status"></span></td>
+					</tr>	
+					<tr class="rowBgColor">
+						<th>站长邮箱：</th>
+						<td><input class="input_for_add" name="config.mastermail" type="text" value="${config.mastermail}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>	
+					<tr>
+						<th>版权信息：</th>
+						<td><input class="input_for_add" name="config.copyright" type="text" value="${config.copyright}"/></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>ICP备案号：</th>
+						<td><input class="input_for_add" name="config.icp" type="text" value="${config.icp}"/></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>默认语言：</th>
+						<td>
+							${langselect!}
+						</td>
+						
+						<td> </td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>站内统计：</th>
+						<td>
+						    <#if config.statistics == 'true'>
+							<input id="statistics_1" name="config.statistics" type="radio" value="true" checked="checked" /><label for="statistics_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="statistics_2" name="config.statistics" type="radio" value="false" /><label for="statistics_2">&nbsp;否&nbsp; &nbsp;</label>
+							<#else>
+							<input id="statistics_1" name="config.statistics" type="radio" value="true" /><label for="statistics_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="statistics_2" name="config.statistics" type="radio" value="false" checked="checked" /><label for="statistics_2">&nbsp;否&nbsp; &nbsp;</label>
+							</#if>
+						</td>
+						<td> </td>
+					</tr>
+					<tr>
+						<th>产品秘钥：</th>
+						<td><input class="input_for_add" type="text" value="${config.secret_key!}" disabled="disabled" /></td>
+						<td> </td>
+					</tr>
+				</tbody>
+			</table>   
+		</div>
+		<div class="tab_item"> 
+			<table class="table_for_add"> 
+				<tbody>
+					<tr class="rowBgColor">
+						<th width="140">主页地址：</th>
+						<td><input class="input_for_add" name="config.index_page" type="text" value="${config.index_page!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>异常模板：</th>
+						<td><input class="input_for_add" name="config.error_page" type="text" value="${config.error_page}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>			
+					<tr class="rowBgColor">
+						<th>站点主题：</th>
+						<td>
+							<input id="themepath" class="input_for_add" name="config.themes_path" type="hidden" value="${config.themes_path}"  />
+							<div id="themes_select">	
+								
+						    </div> 
+					    </td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>主题缓存：</th>
+						<td><input class="input_for_add" name="config.themes_cache" type="text" value="${config.themes_cache}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>开发模式：</th>
+						<td>
+							<#if config.dev_mode == 'true'>
+							<input id="mode_1" name="config.dev_mode" type="radio" value="true" checked="checked" /><label for="mode_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="mode_2" name="config.dev_mode" type="radio" value="false" /><label for="mode_2">&nbsp;否&nbsp; &nbsp;</label>
+							<#else>
+							<input id="mode_1" name="config.dev_mode" type="radio" value="true" /><label for="mode_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="mode_2" name="config.dev_mode" type="radio" value="false" checked="checked" /><label for="mode_2">&nbsp;否&nbsp; &nbsp;</label>
+							</#if>
+						 </td>
+						<td><span id="name_status"></span></td>
+					</tr>
+				 	<tr>
+						<th>页面压缩(GZIP)：</th>
+						<td>
+							<#if config.gzip == 'true'>
+							<input id="gzip_1" name="config.gzip" type="radio" value="true" checked="checked" /><label for="gzip_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="gzip_2" name="config.gzip" type="radio" value="false" /><label for="gzip_2">&nbsp;否&nbsp; &nbsp;</label>
+							<#else>
+							<input id="gzip_1" name="config.gzip" type="radio" value="true" /><label for="gzip_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="gzip_2" name="config.gzip" type="radio" value="false" checked="checked" /><label for="gzip_2">&nbsp;否&nbsp; &nbsp;</label>
+							</#if>
+						 </td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>代码压缩：</th>
+						<td>
+							<#if config.compress == 'true'>
+							<input id="compress_1" name="config.compress" type="radio" value="true" checked="checked" /><label for="compress_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="compress_2" name="config.compress" type="radio" value="false" /><label for="compress_2">&nbsp;否&nbsp; &nbsp;</label>
+							<#else>
+							<input id="compress_1" name="config.compress" type="radio" value="true" /><label for="compress_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="compress_2" name="config.compress" type="radio" value="false" checked="checked" /><label for="compress_2">&nbsp;否&nbsp; &nbsp;</label>
+							</#if>
+						 </td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>页面静态化：</th>
+						<td>
+							<#if config.statichtml == 'true'>
+							<input id="statichtml_1" name="config.statichtml" type="radio" value="true" checked="checked" /><label for="statichtml_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="statichtml_2" name="config.statichtml" type="radio" value="false" /><label for="statichtml_2">&nbsp;否&nbsp; &nbsp;</label>
+							<#else>
+							<input id="statichtml_1" name="config.statichtml" type="radio" value="true" /><label for="statichtml_1">&nbsp;是&nbsp; &nbsp;</label>
+							<input id="statichtml_2" name="config.statichtml" type="radio" value="false" checked="checked" /><label for="statichtml_2">&nbsp;否&nbsp; &nbsp;</label>
+							</#if>
+							<span class="tip_text">启用页面静态化可提高网站性能哦</span>
+						 </td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+	</form>  
+</div>
+
+
+<script type="text/javascript">
+
+
+$(function(){
+	$("#selectLanguage").val('${config.defaultlang!}');
+	
+	
+	$.ajax({
+		url:"system/themes.do",
+		type:"get", 
+		dataType:"json",
+		success:function(data){ 
+			
+			var source   = $("#entry-template").html();
+			var template = Handlebars.compile(source);
+			
+			var html    = template({"themesdata": data});
+			$("#themes_select").html(html);
+			
+			
+			// 初始化当前主题
+			var path = $("#themepath").val();
+			$(".theme_item").each(function(){ 
+				var _path = $(this).attr("path");
+				if(path == _path){
+					$(this).addClass("theme_item_border");
+				}
+			});
+			
+			
+		} 
+	});
+	
+	$("#themes_select").on("click", ".theme_item",function(){
+		$(".theme_item").each(function(){
+			$(this).removeClass("theme_item_border");
+		});
+		
+		$(this).addClass("theme_item_border");
+		$("#themepath").val($(this).attr("path"));
+	}); 
+});
+
+
+
+
+
+</script>
+
+
+<script id="entry-template" type="text/x-handlebars-template">
+{{#each themesdata}}
+<div class="theme_item" title="作者:{{author}}" path="{{path}}">	
+   <img width="150" height="150" src="{{icon}}" />
+   <div class="infobg"></div>
+   <div class="info">{{name}}</div>
+</div>
+{{/each}} 
+</script>

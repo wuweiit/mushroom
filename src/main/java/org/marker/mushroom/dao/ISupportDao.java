@@ -37,7 +37,7 @@ public interface ISupportDao {
 	 * @param ids
 	 * @return
 	 */
-	public boolean deleteByIds(String ids);
+	public boolean deleteByIds(Class<?> clzz, String ids);
 	
 	
 	/**

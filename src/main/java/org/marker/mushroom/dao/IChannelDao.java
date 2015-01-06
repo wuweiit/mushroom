@@ -20,4 +20,11 @@ public interface IChannelDao extends ISupportDao {
 	List<Channel> findAll();
 
 	Channel queryByArticleId(Serializable cid);
+	
+	
+	/**
+	 * 查询可见栏目数据
+	 * @return
+	 */
+	List<Channel> findValid();
 }

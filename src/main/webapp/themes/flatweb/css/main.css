@@ -1,0 +1,82 @@
+
+body{margin:0;padding:0;}
+body{font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+ 
+pre{ background: #F0F0F0; font-size: 13px;}
+.white{ color:white !important;}
+.active{ background:#01a5af !important; }
+ .active i{ color:#fff !important;}
+ .active a{color:#fff !important;}
+ 
+ .btn_mrcms{
+ 	background:#01a5af;
+ 	color:white;
+ }
+ 
+ 
+/* 关于我们页面导航  */
+.direction a i{float:right; color: gray;} 
+.direction li{ cursor: pointer;}
+.direction li a{ display: inline-block; width:100%; }
+.direction li a:hover{ text-decoration: none;}
+.direction .list-group-item{ height: 28px !important; 
+	padding: 5px 20px;
+}
+.bs-docs-section + .bs-docs-section {
+  padding-top: 40px;
+}
+.jumbotron{background:#e1e1e1;}
+
+.logo{ height:40px; line-height:40px; width:200px; text-align:center; font-weight:bold; font-size:22px; font-family: Tahoma, Geneva, sans-serif;}
+.logo a{color: #000;}
+.logo a:hover{ color:#FFF; text-decoration:none;}
+
+.header{ min-height:40px; background:#1C1C1C; color:#FFF; font-size:16px;}
+
+.banner{  background:#e1e1e1; text-align:center; padding: 50px 0px;padding-bottom:20px;  margin: 0;}
+
+.banner a{color:#FFF;}
+.banner a:hover{ text-decoration:none;}
+.banner h1{ font-size:80px; line-height:80px; color:#FFF;}
+.banner p{font-size:40px; line-height:40px; color:#FFF; font-family:Tahoma, Geneva, sans-serif;}
+.banner .dependence{ color:#FFF;}
+.banner .dependence a{ color:#FFF; margin: 5px 10px;}
+.banner .dependence a:hover{ color:#999}
+
+
+.page-header{ }
+.page-header h1{ color:#FFF; font-size:40px; }
+.page-header p{font-size:25px; line-height:25px; color:#FFF; font-family:Tahoma, Geneva, sans-serif;}
+
+/* 现在开始学习按钮 */
+.btn_main{ height:40px; line-height:40px; width:250px; margin: 20px auto; background:#01a5af; color:#FFF; font-size:20px; cursor:pointer; border-radius:5px;}
+.btn_main:hover{background:#018f98;}
+
+
+.green_btn{ background:#01a5af; color:#FFF; font-size:18px;}
+.green_btn:hover{background:#018f98; color:#FFF; }
+
+
+
+.content1{text-align:center; padding: 20px 0;}
+.content1 h1{font-weight:bold;}
+.content1 p{font-size:18px;color:#999; margin:20px 0;}
+
+/* 产品介绍卡片 */
+.introduce_card{text-align:center;}
+.introduce_card p{ font-size:16px;}
+.introduce_card .icon{ height:190px;}
+.introduce_card .icon img{ margin: 0 auto;}
+/* 网站案例卡片 */
+.website_card{text-align:center;}
+
+
+
+.footer{ background:#1C1C1C; min-height:200px; padding-top:5px;}
+.footer_list{ margin: 0 auto;}
+.footer_list dt{ color:#FFF; font-size:16px; margin-bottom:10px; font-weight:bold;}
+.footer_list dd{ color:#FFF; font-size:14px; }
+.footer_list dd a{ color:#FFF; }
+.copyright{ min-height:40px; line-height:40px; font-size:12px; color:#FFF; text-align:center;  border-top:1px #999999 solid;}

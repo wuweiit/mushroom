@@ -1,0 +1,85 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">文件管理</li>
+		</ul>
+		<button class="btn_tabbar" action="file/list.do?path=/" onclick="refreshContentByElement(this);">根目录</button>
+		<button class="btn_tabbar" action="file/newfile.do?path=${path!}" onclick="refreshContentByElement(this);">新建文件</button>
+		<button class="btn_tabbar" action="file/newfolder.do?path=${path!}" onclick="refreshContentByElement(this);">新建文件夹</button>
+		<button class="btn_tabbar" action="file/upload.do?path=${path!}" onclick="refreshContentByElement(this);">上传文件</button>
+	</div> 
+	<div class="tab_content">
+		<div class="tab_item tab_show">  
+			<table class="table_for_list">
+				<thead>
+				  <tr> 
+			        <th width="30" class="quanxuan"></th>
+			        <th>文件名称</th>
+			        <th>文件大小(kb)</th>
+			        <th>修改时间</th>
+			        <th width="160">操作</th>
+			      </tr>
+				</thead>
+			    <tbody>
+			    
+				  <#list data as f>
+					<tr>
+				      	<td class="checkbox"><img src="${f.icon!}" /></td>
+				        <td style="cursor:pointer;" action="file/list.do?path=${f.path!}" folder="${f.directory}" onclick="gofloder(this);">${f.name!}</td>
+				        <td>${f.length/1024!}</td>
+				        <td align="center"><#if f.lastModified?exists>${f.lastModified?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
+				        <td>
+				        	<div class="fl" style="width:40px; height: 25px;">
+					        <#if f.suffix == "txt" || f.suffix == "html" || f.suffix == "css" || f.suffix == "js"|| f.suffix == "json">
+					        <a href="#" action="file/edit.do" param="path=${path!}&name=${f.name!}" onclick="refreshContentByElement(this);">[编辑]</a>
+					        </#if>
+					        <#if f.suffix == "model">
+					        <a href="#" action="model/install.do" param="path=${path!}&name=${f.name!}" name="${f.name!}" onclick="submitActionGet(this);">[安装]</a>
+					        </#if>
+					        <#if f.suffix == "zip">
+					        <a href="#" action="plugin/install.do" param="path=${path!}&name=${f.name!}" name="${f.name!}" onclick="submitActionGet(this);">[安装]</a>
+					        </#if>
+				      		</div>
+				      		<div class="fl" style="width:60px; height:25px;">
+				      	 	<a href="#" action="file/rename.do?path=${path!}&name=${f.name!}" onclick="refreshContentByElement(this);">[重命名]</a>
+				      	 	</div>
+				      		<div class="fl" style="width:40px; height:20px;">
+				      	 	<a href="#" action="file/delete.do?path=${path!}&name=${f.name!}" return="file/list.do?path=${path!}" onclick="deletefile(this);">[删除]</a>
+				      	 	</div>
+				      	</td>
+				    </tr>
+				  </#list>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+//获取文件夹
+function gofloder(obj){
+	var url = $(obj).attr("action");
+	var isfolder = $(obj).attr("folder");
+	if(isfolder == 1){//如果是文件就打开
+		refreshContentByURL(url);
+	} 
+}
+
+//获取文件夹
+function deletefile(obj){
+	var action = $(obj).attr("action");
+	var reurl  = $(obj).attr("return");
+	zoom.showConfirmDialog("确定删除吗？","消息提示", function(){
+		$.getJSON(action, function(json){
+			if(json.status){
+				refreshContentByURL(reurl);
+				zoom.closeConfirmDialog();
+			}else{
+				zoom.showMessageDialog("删除文件失败!","消息提示", 1500);
+				zoom.closeConfirmDialog();
+			}
+		});
+	}); 
+}
+
+
+</script>

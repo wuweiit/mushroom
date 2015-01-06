@@ -1,0 +1,25 @@
+<div id="header">
+	<div id="ylcms" class="center">
+		<div><img src="images/logo.png"/></div>
+	</div>
+	<div id="nav" class="center">
+		<ul>
+		<!-- {channel:list table=(channel) pid=(0) hide=(1) page=(1) limit=(7) order=(id asc)} -->
+			<!--{if:${channel.id == current.id}}-->
+			<li><a href="${current.url}"><div class="active">${channel.name}</div></a></li>
+			<li class="line"></li>
+			<!--{else}--> 
+			<li><a href="${channel.url}"><div>${channel.name}</div></a></li>
+			<li class="line"></li>
+			<!--{/if}--> 
+		<!--{/list}-->
+		</ul>
+		<div id="search" class="fr">
+			<form action="index.do?p=search.html">
+				<input name="p" type="hidden" value="search">
+				<input name="keyword" onblur="forms[0].submit();"  /> 
+			</form>
+		</div>
+	</div>
+</div>
+<hr class="cb blue_line"/>

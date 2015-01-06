@@ -1,0 +1,145 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">月份统计</li>
+		</ul>  
+		<button class="btn_tabbar" onclick="reflushData();">刷新</button>
+	 
+	</div>
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+		
+		<input class="inputDate" id="inputDate" style="width:300px" value="06/14/2008"> 
+		<div class="count">
+			<div class="countnav">
+				<div class="nav_item">
+					<div class="ititle">浏览量(PV)</div>
+					<div class="inumber" id="cpv">--</div>
+				</div><!-- 
+		     --><div class="nav_item">
+					<div class="ititle">访客数(UV)</div>
+					<div class="inumber" id="cuv">--</div>
+				</div><!-- 
+			 --><div class="nav_item">
+					<div class="ititle">IP数(IP)</div>
+					<div class="inumber" id="cip">--</div>
+				</div> 
+			</div>
+		</div>
+			
+    		<div id="main" style="height:400px;">
+    		
+    		</div>
+			 
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="${url!}/public/datepicker/js/datepicker.js"></script>
+<script type="text/javascript" src="${url!}/public/datepicker/js/eye.js"></script>
+<script type="text/javascript" src="${url!}/public/datepicker/js/utils.js"></script>
+<script type="text/javascript" src="${url!}/public/datepicker/js/layout.js?ver=1.0.2"></script>
+
+
+<script type="text/javascript">
+
+
+ 
+$('#inputDate').DatePicker({
+	format:'m/d/Y',
+	date: $('#inputDate').val(),
+	current: $('#inputDate').val(),
+	calendars: 2,
+	mode: 'range',
+	starts: 1,
+	position: 'r',
+	onBeforeShow: function(){
+		$('#inputDate').DatePickerSetDate($('#inputDate').val(), true);
+	},
+	onChange: function(formated, dates){
+		$('#inputDate').val(formated);
+		if ($('#closeOnSelect input').attr('checked')) {
+			$('#inputDate').DatePickerHide();
+		}
+	}
+});
+
+
+
+// 基于准备好的dom，初始化echarts图表
+var myChart = echarts.init(document.getElementById('main'));
+
+
+
+reflushData();
+function reflushData(){ 
+	var option = {
+	    tooltip : {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	        data:['PV','UV','IP']
+	    },
+	    toolbox: {
+	        show : true,
+	        feature : { 
+	            magicType : {show: true, type: ['line', 'bar']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+	    calculable : true,
+	    xAxis : [
+	        {
+	            type : 'category',
+	            boundaryGap : false,
+	            data : ['0','','2','','4','','6','','8','','10','','12','','14','','16','','18','','20','','22','']
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : [ ]
+	};
+	
+	$.ajax({
+		url:"statistics/todayRest.do?"+Math.random(),
+		dataType:"json",
+		success:function(json){
+
+			// 今天的访客概况
+			$("#cpv").text(json.pvcount);
+			$("#cuv").text(json.uvcount);
+			$("#cip").text(json.ipcount);
+			
+			
+			option.series.push({ 
+	            name: 'PV',
+	            type:'line', 
+	            data: json.pv.split(",")
+			});
+			option.series.push({ 
+	            name: 'UV',
+	            type:'line', 
+	            data: json.uv.split(",")
+			});
+			option.series.push({ 
+	            name: 'IP',
+	            type:'line', 
+	            data: json.ip.split(",")
+			});
+			
+			// 为echarts对象加载数据 
+			myChart.setOption(option);
+		}
+	});
+}
+
+// 视图切换回调
+window.view_callback = function(){
+	if(myChart){ myChart.dispose(); myChart = null; }
+};
+
+
+</script>

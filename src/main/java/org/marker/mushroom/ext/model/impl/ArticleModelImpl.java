@@ -7,15 +7,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.marker.mushroom.alias.SQL;
-import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
-import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebParam;
-import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.ext.model.ContentModel;
 import org.marker.mushroom.template.tags.res.SqlDataSource;
-import org.marker.urlrewrite.URLRewriteEngine;
 
 
 
@@ -61,39 +57,30 @@ public class ArticleModelImpl extends ContentModel{
 	
 	
 	
-	//处理栏目下内容分页
-	public void doPage(Channel current, WebParam param) {
-		String prefix = getPrefix();//表前缀，如："yl_"
-		HttpServletRequest request = ActionContext.getReq();
-		
-		long pid  = current.getId();//当前栏目ID
-		int limit = current.getRows();//每页内容条数
-		
-		int pageNo = 1;
-		if(param.page != null && !"".equals(param.page)){
-			try{
-				pageNo = Integer.parseInt(param.page);
-			}catch (Exception e) {  }
-		}
+	/**
+	 * 处理分页
+	 */
+	public Page doPage(WebParam param) {
+		String prefix = getPrefix();//表前缀，如："yl_" 
+		 
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("select A.id,A.views,A.title,C.name as cname ,A.time ,concat('p=',C.url,'&type=article&id=',CAST(A.id as char),'&time=',DATE_FORMAT(A.time,'%Y%m%d')) as url from ");
-		sql.append(prefix).append("article").append(SQL.QUERY_FOR_ALIAS)
-		 .append(" join ").append(prefix).append("channel").append(" C on A.pid=C.id");
-		sql.append(" where A.pid=").append(pid);
+		sql.append("select A.*,C.name as cname,concat('type=article&id=',CAST(A.id as char),'&time=',DATE_FORMAT(A.time,'%Y%m%d')) as url from ")
+		 .append(prefix).append("article").append(SQL.QUERY_FOR_ALIAS)
+		 .append(" join ").append(prefix).append("category").append(" C on A.cid=C.id ")
+		.append("where 1=1 and ").append(param.extendSql);
 		
 	 
-		Page currentPage = commonDao.findByPage(pageNo, limit, sql.toString());
-		
-		request.setAttribute(AppStatic.WEB_APP_PAGE, currentPage);
-		
-		URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
+		return commonDao.findByPage(param.currentPageNo, param.pageSize, sql.toString());
+//		request.setAttribute(AppStatic.WEB_APP_PAGE, );
+//		
+//		URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
 		
 		//传递分页信息
-		String nextPage = "p="+param.pageName+"&page="+currentPage.getNextPageNo();
-		String prevPage = "p="+param.pageName+"&page="+currentPage.getPrevPageNo();
-		request.setAttribute("nextpage", urlRewrite.encoder(nextPage));
-		request.setAttribute("prevpage", urlRewrite.encoder(prevPage));
+//		String nextPage = "p="+param.pageName+"&page="+currentPage.getNextPageNo();
+//		String prevPage = "p="+param.pageName+"&page="+currentPage.getPrevPageNo();
+//		request.setAttribute("nextpage", urlRewrite.encoder(nextPage));
+//		request.setAttribute("prevpage", urlRewrite.encoder(prevPage));
 		
 	}
 	

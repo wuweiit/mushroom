@@ -1,0 +1,48 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑用户组</h3></li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="group/list.do">保 存</button>
+	</div>
+	<form id="myForm" action="group/update.do" method="post">
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<input type="hidden" name="id" value="${group.id?c}" />
+			<table class="table_for_add">
+				<tbody>
+					<tr class="rowBgColor">
+						<th width="140">组 名 称：</th>
+						<td><input class="input_for_add" name="name" type="text" value="${group.name!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th width="140">组作用域：</th>
+						<td>
+							<select class="select_for_add" name="scope" id="scope">
+								<option value="0">前台 (主要网站的普通用户，用于前台登录)</option>
+								<option value="1">后台 (系统后台用户，拥有管理权限)</option>
+							</select>
+						</td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>描述信息：</th>
+						<td>
+							<textarea class="textarea_for_add" name="description">${group.description!}</textarea>
+						</td>
+						<td>
+							<span id="address_status"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+//设置栏目ID
+var scope = '${group.scope}';
+$("#scope").attr('value',scope);
+</script>

@@ -31,9 +31,7 @@ public class ModuleLogDaoImpl extends DaoEngine implements IModuleLogDao{
 
 	
 	
-	public ModuleLogDaoImpl( ) {
-		super(ModuleLog.class); 
-	}
+	
 
 
 	//查询时候要对相同文件路径做一个统计，如果个数为1，证明只有一个插件引用，可以放心删除，如果有多个引用，就不删除包

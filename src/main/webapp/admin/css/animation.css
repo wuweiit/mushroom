@@ -1,0 +1,9 @@
+
+
+.transition_background{
+	transition: background 0.3s;
+	-moz-transition: background 0.3s;	/* Firefox 4 */
+	-webkit-transition: background 0.3s;	/* Safari 和 Chrome */
+	-o-transition: background 0.3s;	/* Opera */ 
+	
+}

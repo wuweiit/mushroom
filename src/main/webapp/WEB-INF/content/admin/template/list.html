@@ -1,0 +1,40 @@
+<div class="content">
+	<h2>模板列表</h2>
+	<hr class="hrs"/>
+</div>
+<div class="content">
+	<button action="template/publish.do" onclick="refreshContentByElement(this);">发布模板</button>
+</div>
+<div class="content">
+	<table class="table_for_list">
+	    <tbody>
+	      <tr> 
+	        <th width="30" class="quanxuan" onclick="allCheck();">全选</th>
+	        <th>模板名称</th>
+	        <th width="80">栏目名称</th>
+	        <th>作者</th>
+	        <th>下载量</th>
+	        <th>发布时间</th>
+	        <th>状态</th>
+	        <th width="80">操作</th>
+	      </tr>
+		  <#list page.getData() as x>
+			<tr>
+		      	<td class="checkbox"><input type="checkbox" value="${x.id?c}" /></td>
+		        <td>${x.name!}</td>
+		        <td>${x.cname!}</td>
+		        <td>${x.author!}</td>
+		        <td>${x.dloaded?c}</td>
+		        <td><#if x.time?exists>${x.time?string("yyyy-MM-dd HH:mm:ss")}<#else>时间异常</#if></td>
+		        <td></td>
+		        <td>
+ 				    <a href="#" action="template/edit.do?id=${x.id?c}" onclick="refreshContentByElement(this);">修改</a>
+			        | <a href="#" action="template/delete.do?rid=${x.id?c}" return="template/list.do" onclick="deleteById(this);">删除</a>
+			    
+		    </tr>
+		  </#list>
+		</tbody>
+	</table>
+  <#include "/common/_page.html" />
+  <@paginate currentPage=page.currentPageNo totalPage=page.totalPages actionUrl="template/list.do" delUrl="template/delete.do" />
+</div>

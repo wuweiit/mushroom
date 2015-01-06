@@ -13,9 +13,9 @@ public class Channel implements Serializable{
 	private static final long serialVersionUID = -7383542815506431998L;
 	
 	/** 自动生成ID */
-	private int id;
+	private int id = 0;
 	/** 上级栏目ID */
-	private long pid;
+	private long pid = 0;
 	/** 图标 */
 	private String icon;
 	/** 栏目名称 */

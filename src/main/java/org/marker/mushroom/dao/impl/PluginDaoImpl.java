@@ -18,9 +18,7 @@ import org.springframework.stereotype.Repository;
 public class PluginDaoImpl extends DaoEngine implements IPluginDao{
 
 	
-	public PluginDaoImpl() { 
-		super(Plugin.class);
-	}
+	
 
 	
 	
@@ -30,7 +28,7 @@ public class PluginDaoImpl extends DaoEngine implements IPluginDao{
 	@Override
 	public List<Plugin> queryAll() {
 		StringBuilder sql = new StringBuilder("select * from ");
-		sql.append(getPreFix()).append(tableName).append(" where status=1"); 
+		sql.append(getPreFix()).append("plugin").append(" where status=1"); 
 		return jdbcTemplate.query(sql.toString(), new RowMapperPlugin()); 
 	}
 
@@ -40,7 +38,7 @@ public class PluginDaoImpl extends DaoEngine implements IPluginDao{
 	public Plugin findByMark(String mark) {
 		String prefix = dbConfig.getPrefix();
 		StringBuilder sql = new StringBuilder("select id,name,uri,mark,status from ");
-		sql.append(prefix).append(tableName).append(" where mark=?");
+		sql.append(prefix).append("plugin").append(" where mark=?");
 		return jdbcTemplate.queryForObject(sql.toString(), new Object[]{mark}, new RowMapperPlugin()); 
 	}
 
@@ -50,7 +48,7 @@ public class PluginDaoImpl extends DaoEngine implements IPluginDao{
 	public boolean check(String uuid) {
 		String prefix = dbConfig.getPrefix();
 		StringBuilder sql = new StringBuilder("select count(id) from ");
-		sql.append(prefix).append(tableName).append(" where uuid=?");
+		sql.append(prefix).append("plugin").append(" where uuid=?");
 		return jdbcTemplate.queryForObject(sql.toString(), Boolean.class, uuid);  
 	}
 	

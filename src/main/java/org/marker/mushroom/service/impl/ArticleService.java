@@ -20,32 +20,31 @@ public class ArticleService extends BaseService{
 	
 	
 	
-	
-	
 	public Page find(int currentPageNo, int pageSize, Map<String,Object> condition) { 
 		String keyword = (String) condition.get("keyword");
 		String status = (String) condition.get("status");
 		int cid = (Integer)condition.get("cid");
 		try {
-			keyword = new String(keyword.getBytes("iSO-8859-1"),"utf-8");
+			keyword = new String(keyword.getBytes("ISO-8859-1"),"utf-8");
 		} catch (UnsupportedEncodingException e) { 
 			e.printStackTrace();
 		}
 		
-		
+		Page page;
 		if(cid == 0){
-			String sql = "select a.*, concat('/cms?type=',c.model,'&id=',''+a.id)  url, c.name as cname ,c.model from "+config.getPrefix()+"article as a "
+			String sql = "select a.*, concat('/cms?type=',c.model,'&id=',CAST(a.id as char),'&time=',DATE_FORMAT(a.time,'%Y%m%d'))  url, c.name as cname ,c.model from "+config.getPrefix()+"article as a "
 					+ "left join "+config.getPrefix()+"category c on c.id = a.cid " 
 					+ "where a.status in ("+status+") and a.title like ? order by a.id desc";
-			return commonDao.findByPage(currentPageNo, pageSize,  sql,'%'+keyword+'%'); 
-		}
-		
-		String sql = "select a.*, concat('/cms?type=',c.model,'&id=',''+a.id)  url, c.name  as cname ,c.model from "+config.getPrefix()+"article as a "
+			page = commonDao.findByPage(currentPageNo, pageSize,  sql,'%'+keyword+'%'); 
+		}else{
+			String sql = "select a.*, concat('/cms?type=',c.model,'&id=',CAST(a.id as char),'&time=',DATE_FORMAT(a.time,'%Y%m%d'))  url, c.name  as cname ,c.model from "+config.getPrefix()+"article as a "
 				+ "left join "+config.getPrefix()+"category c on c.id = a.cid " 
 				+ "where a.status in ("+status+") and a.cid=? and a.title like ? order by a.id desc";
 		
 		
-		return commonDao.findByPage(currentPageNo, pageSize,  sql, cid,'%'+keyword+'%'); 
+			page = commonDao.findByPage(currentPageNo, pageSize,  sql, cid,'%'+keyword+'%'); 
+		}
+		return page;
 	}
 	
 }

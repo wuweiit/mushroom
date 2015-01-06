@@ -1,0 +1,49 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>用户组管理</h3></li> 
+		</ul>
+		<button class="btn_tabbar" action="group/add.do" onclick="refreshContentByElement(this);">添加用户组</button>
+	</div>
+	
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_list">
+				<thead>
+				<tr>
+			        <th>名称</th>
+			        <th>组描述</th>
+			        <th>作用域</th>
+			        <th width="120">操作</th>
+			      </tr>
+				</thead>
+			    <tbody>
+			      
+				  <#list data as x>
+					<tr>
+				        <td>${x.name!}</td>
+				        <td>${x.description!}</td>
+				        <td class="tac">
+				        <#if x.id == 1>
+				        	内置
+			        	<#else>
+				        	<#if x.scope == 1>
+				        		后台
+				        	<#else>
+				        	    前台
+				        	</#if>
+			        	</#if>
+				        </td>
+				        <td style="text-align: right;">
+				        <#if x.scope == 1>
+				        	<a href="#" action="group/grant.do?id=${x.id?c}" onclick="refreshContentByElement(this,event);">赋权</a> | 
+				        </#if>
+				        <a href="#" action="group/edit.do?id=${x.id?c}" onclick="refreshContentByElement(this,event);">修改</a> 
+				    	 | <a href="#" action="group/delete.do?id=${x.id?c}" return="group/list.do" onclick="deleteById(this);">删除</a>
+				    </tr>
+				  </#list>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</div>

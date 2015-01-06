@@ -1,0 +1,136 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">昨日统计</li>
+		</ul>  
+		<button class="btn_tabbar" onclick="reflushData()">刷新</button>
+	 
+	</div>
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<style type="text/css">
+			.count{background: #FDF2EF;}
+			.countnav{ margin:0px 90px; height: 60px;}
+			.nav_item{
+				display: inline-block;
+				width:33.333333333%;
+				margin: 12px 0px;
+			}
+			.nav_item .ititle{
+				font-size: 12px;
+				color: #999;
+				line-height: 24px;
+			}
+			.nav_item .inumber{
+				color:#333;
+			}
+			</style> 
+			<div class="count">
+				<div class="countnav">
+					<div class="nav_item">
+						<div class="ititle">浏览量(PV)</div>
+						<div class="inumber" id="cpv">--</div>
+					</div><!-- 
+			     --><div class="nav_item">
+						<div class="ititle">访客数(UV)</div>
+						<div class="inumber" id="cuv">--</div>
+					</div><!-- 
+				 --><div class="nav_item">
+						<div class="ititle">IP数(IP)</div>
+						<div class="inumber" id="cip">--</div>
+					</div> 
+				</div>
+			</div>
+			
+    		<div id="main" style="height:400px;">
+    		
+    		</div>
+			 
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+
+
+
+
+
+// 基于准备好的dom，初始化echarts图表
+var myChart = echarts.init(document.getElementById('main'));
+
+
+
+reflushData();
+
+function reflushData(){ 
+	var option = {
+	    tooltip : {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	        data:['PV','UV','IP']
+	    },
+	    toolbox: {
+	        show : true,
+	        feature : { 
+	            magicType : {show: true, type: ['line', 'bar']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+	    calculable : true,
+	    xAxis : [
+	        {
+	            type : 'category',
+	            boundaryGap : false,
+	            data : ['0','','2','','4','','6','','8','','10','','12','','14','','16','','18','','20','','22','']
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : [ ]
+	};
+	
+	$.ajax({
+		url:"statistics/yesterdayRest.do?"+Math.random(),
+		dataType:"json",
+		success:function(json){
+
+			// 今天的访客概况
+			$("#cpv").text(json.pvcount);
+			$("#cuv").text(json.uvcount);
+			$("#cip").text(json.ipcount);
+			
+			
+			option.series.push({ 
+	            name: 'PV',
+	            type:'line', 
+	            data: json.pv.split(",")
+			});
+			option.series.push({ 
+	            name: 'UV',
+	            type:'line', 
+	            data: json.uv.split(",")
+			});
+			option.series.push({ 
+	            name: 'IP',
+	            type:'line', 
+	            data: json.ip.split(",")
+			});
+			
+			// 为echarts对象加载数据 
+			myChart.setOption(option);
+		}
+	});
+}
+
+// 视图切换回调
+window.view_callback = function(){
+	if(myChart){ myChart.dispose(); myChart = null; }
+};
+
+</script>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>${template.name} - ${current.name} - ${config.title}</title>
+	<meta name="keywords" content="${current.keywords}">
+	<meta name="description" content="${current.description}">
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body bgcolor="#FFFFFF">
+	<div style="margin: 10px; ">
+		<div style=" padding: 5px; background: #ccc; float: left;">
+			<img src="${template.icon}" />
+		</div>
+		<div style="position: relative; float: left;">
+			<div style="position: absolute; left: 10px; top:10px; width: 100px;">模板名称: </div>
+			<div style="position: absolute; left: 100px; top:10px; width: 200px;">${template.name}</div>
+			<div style="position: absolute; left: 10px; top:30px; width: 100px;">下载地址: </div>
+			<div style="position: absolute; left: 100px; top:30px; width: 200px;">${template.durl}</div>
+			
+		
+		
+		</div>
+		<div class="cb"></div>
+		描述信息：${template.description}<br/>
+		浏览量：${template.views}//
+		
+	</div>
+	<!--{executetime}-->  milliscond
+</body> 
+</html>
+

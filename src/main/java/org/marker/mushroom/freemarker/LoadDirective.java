@@ -12,7 +12,7 @@ import java.util.Map;
 import org.marker.mushroom.beans.Channel;
 
 import freemarker.core.Environment;
-import freemarker.template.SimpleCollection;
+import freemarker.template.ObjectWrapper; 
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
@@ -35,16 +35,16 @@ public class LoadDirective implements TemplateDirectiveModel {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		 
-		
-		
-		 
 		String sql = params.get("sql").toString(); 
 		System.out.println(loopVars.length); 
+		System.out.println(sql);
 		Channel r = new Channel() ;
 		 r.setName("dsadsadasd");
 		List a =  new ArrayList();
-		a.add(r);a.add(r);a.add(r);a.add(r);a.add(r);
-		loopVars[0] = new SimpleCollection(a); 
-		body.render(env.getOut()); 
+		a.add(r);a.add(r);a.add(r);a.add(r);a.add(r); 
+		env.setVariable("userlist", ObjectWrapper.DEFAULT_WRAPPER.wrap(a));
+		
+		env.getOut().write("3424234234");
+		body.render(env.getOut());  
 	}
 }

@@ -11,8 +11,8 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -27,9 +27,9 @@ import org.apache.commons.logging.LogFactory;
  * @author marker
  * */
 public abstract class ConfigEngine implements IConfig {
-	
-	// 日志记录器
-	protected static final Log log = LogFactory.getLog(ConfigEngine.class);
+
+	/** 日志记录器 */ 
+	protected Logger logger =  LoggerFactory.getLogger(ConfigEngine.class);
 	
 	
 	/** 
@@ -101,11 +101,11 @@ public abstract class ConfigEngine implements IConfig {
 			isr = new InputStreamReader(in, FILE_ENCODEING);
 			this.properties.load(isr);//读取配置文件 
 		}catch (FileNotFoundException e) {
-			log.error("config file not found " + cfgFile.getAbsolutePath(), e);
+			logger.error("config file not found " + cfgFile.getAbsolutePath(), e);
 		} catch (UnsupportedEncodingException e) {
-			log.error(cfgFile.getAbsolutePath()+" not supported encoding " + FILE_ENCODEING,e);
+			logger.error(cfgFile.getAbsolutePath()+" not supported encoding " + FILE_ENCODEING,e);
 		} catch (IOException e) {
-			log.error("IOException " + cfgFile.getAbsolutePath(), e);
+			logger.error("IOException " + cfgFile.getAbsolutePath(), e);
 		}finally{
 			try {
 				if (isr != null) {
@@ -115,7 +115,7 @@ public abstract class ConfigEngine implements IConfig {
 					in.close();
 				}
 			} catch (IOException e) {
-				log.error(
+				logger.error(
 						"close stream IOException "
 								+ cfgFile.getAbsolutePath(), e);
 			}
@@ -137,11 +137,11 @@ public abstract class ConfigEngine implements IConfig {
 			this.properties.store(osw, COPY_RIGHT);
 			
 		}catch (FileNotFoundException e) {
-			log.error("config file not found " + cfgFile.getAbsolutePath(), e);
+			logger.error("config file not found " + cfgFile.getAbsolutePath(), e);
 		} catch (UnsupportedEncodingException e) {
-			log.error("not supported encoding " + FILE_ENCODEING,e);
+			logger.error("not supported encoding " + FILE_ENCODEING,e);
 		} catch (IOException e) {
-			log.error("IOException " + cfgFile.getAbsolutePath(), e);
+			logger.error("IOException " + cfgFile.getAbsolutePath(), e);
 		}finally{
 			try {
 				if(osw != null){
@@ -151,7 +151,7 @@ public abstract class ConfigEngine implements IConfig {
 					out.close();
 				}
 			} catch (IOException e) {
-				log.error(
+				logger.error(
 						"close stream IOException "
 								+ cfgFile.getAbsolutePath(), e);
 			}

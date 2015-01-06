@@ -16,10 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository(DAO.MODEL)
 public class ModelDaoImpl extends DaoEngine implements IModelDao {
 
-	public ModelDaoImpl() {
-		super(Model.class);
-	}
-
+	
 	
 	
 	@Override
@@ -34,7 +31,7 @@ public class ModelDaoImpl extends DaoEngine implements IModelDao {
 	@Override
 	public boolean deleteByType(String modelType) { 
 		StringBuilder sql = new StringBuilder();
-		sql.append("delete from ").append(getPreFix()).append(tableName)
+		sql.append("delete from ").append(getPreFix()).append("model")
 				.append(" where ").append("type=?");
 		logger(sql.toString());
 		return jdbcTemplate.update(sql.toString(),modelType) > 0 ? true : false; 
@@ -51,7 +48,7 @@ public class ModelDaoImpl extends DaoEngine implements IModelDao {
 	@Override
 	public boolean save(Map<String, Object> config) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into ").append(getPreFix()).append(tableName)
+		sql.append("insert into ").append(getPreFix()).append("model")
 			.append(" values(null,?,?,?,?,?,?,sysdate(),?)");
 		logger(sql.toString());
 		int status = jdbcTemplate.update(sql.toString(),

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.marker.mushroom.alias.DAO;
-import org.marker.mushroom.beans.Channel;
+import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
@@ -113,7 +113,9 @@ public abstract class ContentModel{
 	/**
 	 * 处理分页查询信息
 	 * */
-	public void doPage(Channel currentChannel, WebParam param){};
+	public Page doPage(WebParam param){
+		return null;
+	}
 	
 	
 	

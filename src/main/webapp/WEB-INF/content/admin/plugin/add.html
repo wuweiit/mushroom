@@ -1,0 +1,55 @@
+<form id="myForm" action="user/save.do" method="post">
+	<table class="table_add">
+		<tbody>
+			<tr>
+				<th width="30%">用户昵称：</th>
+				<td><input name="user.nickname" type="text" /></td>
+				<td width="30"><span id="name_status"></span></td>
+			</tr>
+			<tr>
+				<th>登录名称： </th>
+				<td><input name="user.name" type="text" /></td>
+				<td><span id="scope_status"></span></td>
+			</tr>
+			<tr>
+				<th>属用户组： </th>
+				<td>
+				<select name="group.id">
+			 
+				</select>
+				</td>
+				<td><span id="scope_status"></span></td>
+			</tr>
+			<tr>
+				<th>电子邮箱：</th>
+				<td><input name="user.email" type="text" /></td>
+				<td><span id="trade_status"></span></td>
+			</tr>
+			<tr>
+				<th>用户密码：</th>
+				<td><input name="user.pass" type="text" /></td>
+				<td><span id="type_status"></span></td>
+			</tr>
+			<tr>
+				<th>确认密码：</th>
+				<td><input name="" type="text" /></td>
+				<td><span id="name_status"></span></td>
+			</tr>
+			<tr>
+				<th>
+					描述信息：
+				</th>
+				<td>
+					<textarea name="user.description" class="textarea"></textarea>
+				</td>
+				<td>
+					<span id="address_status"></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<div class="center textcenter">
+	<button onclick="submitActionForm(this);" return="user/list.do">提交 </button>
+	<button onclick=" resetActionForm();">重置 </button>
+</div>

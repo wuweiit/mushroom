@@ -134,11 +134,8 @@ public class MenuUtils {
 	 * @param id
 	 */
 	public void remove(Serializable menuId){
-		menuDao.deleteByIds(menuId+"");
-		
-		menuDao.deleteGroupMenu(menuId);
-		
-		
+		menuDao.deleteByIds(Menu.class, menuId + ""); 
+		menuDao.deleteGroupMenu(menuId); 
 	}
 	
 	

@@ -44,11 +44,31 @@ public class Article implements Serializable {
 	/** 引用地址 */
 	private String source;
 	
+	/** 内容类型 */
+	private int type;
 	
+	/** 原始内容 */
+	private String orginal;
  
  
  
  
+	public String getOrginal() {
+		return orginal;
+	}
+
+	public void setOrginal(String orginal) {
+		this.orginal = orginal;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	public Integer getId() {
 		return id;
 	}

@@ -14,8 +14,8 @@ import org.marker.mushroom.beans.Page;
  * @weibo http://t.qq.com/wuweiit
  */
 public interface IUserLoginLogDao extends ISupportDao {
-
-	void intsert(String ip, String name,int loginLogType, String info);
+	
+	
 	
 	Page queryByPage(int currentPageNo,int pageSize);
 	

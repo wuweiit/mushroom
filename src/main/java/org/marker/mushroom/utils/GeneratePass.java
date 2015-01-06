@@ -12,8 +12,10 @@ import org.marker.security.MD5;
  * */
 public class GeneratePass {
 
+	private static final SystemConfig syscfg = SystemConfig.getInstance();
+	
 	public static String encode(String password) throws Exception {
-		String key = SystemConfig.getInstance().get("secret_key");
+		String key = syscfg.get("secret_key");
 		 return MD5.getMD5Code(Base64.encode(DES.encrypt(
 					password.getBytes(), key))); 
 	}

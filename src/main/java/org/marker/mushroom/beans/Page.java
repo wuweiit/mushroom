@@ -33,6 +33,14 @@ public class Page implements Serializable, Cloneable {
 	/** 最后一页的页码 */
 	private int lastPageNo;
 	
+	
+	
+	
+	public Page() { }
+	
+	
+	
+	
 	public void setLastPageNo(int lastPageNo) {
 		this.lastPageNo = lastPageNo;
 	}

@@ -3,6 +3,7 @@ package org.marker.mushroom.dao.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.marker.mushroom.beans.Category;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Menu;
 import org.marker.mushroom.beans.Model;
@@ -27,15 +28,17 @@ public final class ObjectRowMapper {
 		public Channel mapRow(ResultSet rs, int arg1) throws SQLException {
 			Channel channel = new Channel();
 			channel.setId(rs.getInt("id"));
+			channel.setPid(rs.getLong("pid"));
 			channel.setName(rs.getString("name"));
 			channel.setTemplate(rs.getString("template")); 
 			channel.setUrl( rs.getString("url"));// URL地址
-			channel.setPid(rs.getLong("pid"));
 			channel.setRows(rs.getInt("rows"));// 分页条数目
 			channel.setIcon(rs.getString("icon"));// 图标
 			channel.setKeywords(rs.getString("keywords"));
 			channel.setDescription(rs.getString("description"));
 			channel.setRedirect(rs.getString("redirect"));// 重定向地址
+			channel.setHide(rs.getShort("hide"));
+			channel.setLangkey(rs.getString("langkey"));// 国际化
 			return channel;
 		}
 	}
@@ -129,7 +132,6 @@ public final class ObjectRowMapper {
 	// 内容模型rowmapper
 	public static final class RowMapperModel implements RowMapper<Model>{
 
-		@Override
 		public Model mapRow(ResultSet rs, int arg1) throws SQLException {
 			Model model = new Model();
 			
@@ -144,6 +146,28 @@ public final class ObjectRowMapper {
 			model.setModule(rs.getString("module"));
 			
 			return model;
+		}
+		
+	}
+	
+	
+	
+	
+	// 分类(Category)
+	public static final class RowMapperCategory implements RowMapper<Category>{
+
+		public Category mapRow(ResultSet rs, int arg1) throws SQLException {
+			Category categroy = new Category();
+			categroy.setId(rs.getInt("id"));
+			categroy.setName(rs.getString("name"));
+			categroy.setPid(rs.getInt("pid"));
+			categroy.setRoot(rs.getInt("root"));
+			categroy.setAlias(rs.getString("alias"));
+			categroy.setSort(rs.getInt("sort"));
+			categroy.setDescription(rs.getString("description"));
+			categroy.setType(rs.getString("type"));
+			categroy.setModel(rs.getString("model"));
+			return categroy;
 		}
 		
 	}

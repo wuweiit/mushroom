@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+/* 登录背景 */
+.loginPanelBackground{background:RGB(0,39,158);}
+/* 登录Label的字体颜色 */
+.table_for_login tr th{ color:#FFF;}
+/* 登录输入框边线颜色 */
+.input_for_login{border:1px #CCCCCC solid;}
+/* 登录消息颜色 */
+.login_for_message{background:RGB(0,39,158);}
+.login_for_messageContent h2{color:white;}
+
+
+
+/* 头部背景颜色 */
+.headBackground{background:RGB(0,39,158);}
+
+
+/* 输入框样式 */
+.input_for_add{border-color:#ABADB3;}
+.select_for_add{border-color:#ABADB3;}
+.textarea_for_add{border-color:#ABADB3;}
+
+
+
+/* 按钮颜色 */
+button {background:#309;border:1px solid #DCDCDC;color:#FFFFFF;}
+button:hover{color:#FFCC66; border:1px #999999 solid; }
+
+
+/* 隔行渲染颜色 */
+.rowBgColor{background:#F6F6F6;}
+
+
+/* diglog窗口颜色 */
+.dialogBackgroundColor{background:RGB(0,39,158);}
+.dialogFontColor{color:white;}

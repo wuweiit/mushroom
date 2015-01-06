@@ -300,8 +300,10 @@ public class FileTools {
 	 * @throws IOException
 	 */
 	public static void copy(String defaultfile, String langfile) throws IOException {
+		File file = new File(langfile);
+		file.getParentFile().mkdirs();// 如果文件夹不存在则创建
 		String content = getFileContet(new File(defaultfile), FileTools.FILE_CHARACTER_UTF8);
-		setFileContet(new File(langfile), content, FileTools.FILE_CHARACTER_UTF8);
+		setFileContet(file, content, FileTools.FILE_CHARACTER_UTF8);
 	}
 
 

@@ -1,0 +1,56 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>URL优化</h3></li> 
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="system/seoinfo.do">保 存</button>
+	</div>
+	<form id="myForm" action="system/saveseoinfo.do" method="post">
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_add">
+				<tbody>
+				    <tr class="rowBgColor">
+						<th width="140">URL规则：</th>
+						<td colspan="2"> 
+							<div>
+							<b>{channel}</b>：栏目代号<br /> 
+							<b>{page}</b>：栏目页码<br /> 
+							<b>{type}</b>：内容类型<br />
+							<b>{id}</b>：内容ID<br />
+							<b>{time}</b>：时间<br />
+							</div>
+							<div style=" vertical-align: top;">
+							 URL规则主要为解决地址多样性，与网站SEO息息相关。我们提供的规则算法完全
+							 是marker独立设计的规则引擎。<br />
+							 <b>注意:</b> 必须加符号 “/”、“-”或者其他符号分隔每个路径参数变量。
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>页面后缀： </th>
+						<td><input class="input_for_add input_for_seo" name="page.suffix" value="${urlConfig['page.suffix']!}" /></td>
+						<td><span id="scope_status"></span></td>
+					</tr>
+					<tr>
+						<th width="140">栏目地址：</th>
+						<td><input class="input_for_add input_for_seo" name="url.channel" type="text" value="${urlConfig['url.channel']!}" /></td>
+						<td width="30"><span id="name_status"></span></td>
+					</tr>
+		 			<tr class="rowBgColor">
+						<th>分页地址： </th>
+						<td><input class="input_for_add input_for_seo" name="url.page" value="${urlConfig['url.page']!}" /></td>
+						<td><span id="scope_status"></span></td>
+					</tr>
+					<tr>
+						<th>内容地址： </th>
+						<td><input class="input_for_add input_for_seo" name="url.content" value="${urlConfig['url.content']!}" /></td>
+						<td><span id="scope_status"></span></td>
+					</tr>
+		 
+				</tbody>
+			</table>
+		</div>
+	</div>	
+	</form>
+</div>

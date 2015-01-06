@@ -1,0 +1,66 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>语言管理</h3></li> 
+		</ul>
+		<button class="btn_tabbar"  onclick="createLanguage();">添加语言</button>
+		<button class="btn_tabbar" action="international/edit.do"  onclick="refreshContentByElement(this);">编辑语言</button>
+	</div>
+	
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_list">
+				<thead>
+				<tr>
+			        <th>语言-地区</th>
+			        <th>描述</th>
+			        <th width="80">操作</th>
+			      </tr>
+				</thead>
+			    <tbody>
+			      
+				  <#list langs as x>
+					<tr>
+				        <td><b>${x.language!}<#if x.country != ''>-${x.country!}</#if></b></td>
+				        <td>${x.displayName!}</td>
+				        <td class="tac">
+				        <a href="#" action="international/delete.do?lang=${x.language!}<#if x.country != ''>-${x.country!}</#if>" return="international/list.do" onclick="deleteById(this);">删除</a>
+				        </td>
+				    </tr>
+				  </#list>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</div>
+
+<script type="text/javascript">
+function createLanguage(){
+	
+	zoom.showConfirmDialog("${select!}","请选择语言",function(){
+
+		// var url = "module/uninstall.do?id="+uuid; 
+		// refreshContentByURL(url);
+		
+		var params = "sl=" + $("#selectLanguage").val();
+		$.ajax({
+			url: "international/create.do",
+			type: "post",
+			data: params,
+			dataType: "json",
+			success: function(json){
+				zoom.showMessageDialog(json.message, "消息提示", 1500);
+				var url = "international/list.do"; 
+				refreshContentByURL(url);
+			}
+		}); 
+		zoom.closeConfirmDialog(); 
+	});
+	
+	
+	
+	
+}
+
+</script>
+

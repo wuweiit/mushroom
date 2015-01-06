@@ -1,0 +1,47 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>登录系统日志</h3></li> 
+		</ul>
+	</div>
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_list">
+				<thead>
+				 	<tr>  
+				        <th width="130">登录时间</th>
+				        <th>IP地址</th>
+				        <th>操作地区</th>
+				        <th width="40">状态</th>
+				        <th>用户</th>
+				        <th>信息</th>
+			      	</tr>
+				</thead>
+			    <tbody>
+		
+				  <#list page.data as x>
+					<tr>
+				        <td>
+				        	<#if x.time?exists>${x.time?string("yyyy-MM-dd HH:mm:ss")}<#else>时间异常</#if>
+				        </td>
+				        <td>${x.ip!}</td> 
+				        <td>${x.area!}</td>
+				        <td>
+				        <#if x.errorCode == 0 >
+				        	正常
+				        <#else>
+				       	 	<b style="color:red;">错误</b>
+				        </#if>
+				        </td>
+				        <td>${x.username!}</td>
+				        <td>${x.info!}</td> 
+				    </tr>
+				  </#list>
+				</tbody>
+			</table>
+			<#include "/common/_page.html" />
+		  	<@paginate currentPage=page.currentPageNo totalPage=page.totalPages actionUrl="user/loginlog/list.do" />
+		</div>
+	</div>  	
+</div>
+ 

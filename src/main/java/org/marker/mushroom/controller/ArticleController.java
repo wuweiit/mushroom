@@ -1,15 +1,24 @@
 package org.marker.mushroom.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.markdown4j.Markdown4jProcessor;
 import org.marker.mushroom.beans.Article;
+import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.beans.ResultMessage;
+import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.IArticleDao;
 import org.marker.mushroom.service.impl.ArticleService;
 import org.marker.mushroom.service.impl.CategoryService;
 import org.marker.mushroom.support.SupportController;
+import org.marker.mushroom.utils.HttpUtils;
+import org.marker.urlrewrite.URLRewriteEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -75,7 +84,19 @@ public class ArticleController extends SupportController {
 			msg = "发布";
 		}else{
 			msg = "保存草稿";
-		} 
+		}
+		if(article.getType() == 1){// marker
+			try {
+				String orginalText = article.getContent();
+				article.setOrginal(orginalText);
+				
+				String html = new Markdown4jProcessor().process(orginalText);
+				article.setContent(html);
+				
+			} catch (IOException e) { 
+				e.printStackTrace();
+			} 
+		}
 		
 		if(commonDao.save(article)){ 
 			return new ResultMessage(true,  msg + "成功!"); 
@@ -90,6 +111,23 @@ public class ArticleController extends SupportController {
 	@RequestMapping("/update")
 	public Object update(@ModelAttribute("article") Article article){
 		article.setTime(new Date());
+		
+		
+		if(article.getType() == 1){// marker
+			try {
+				String orginalText = article.getContent();
+				article.setOrginal(orginalText);
+				
+				String html = new Markdown4jProcessor().process(orginalText);
+				article.setContent(html);
+				
+			} catch (IOException e) { 
+				e.printStackTrace();
+			} 
+		}
+		
+		
+		
 		if(articleDao.update(article)){
 			return new ResultMessage(true, "更新成功!");
 		}else{
@@ -128,7 +166,7 @@ public class ArticleController extends SupportController {
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseBody 
-	public Object list(ModelMap model,
+	public Object list(HttpServletRequest request, ModelMap model,
 			@RequestParam("currentPageNo") int currentPageNo,
 			@RequestParam("cid") int cid,
 			@RequestParam("status") String status,
@@ -140,7 +178,18 @@ public class ArticleController extends SupportController {
 		params.put("cid", cid);
 		params.put("status", status);
 		params.put("keyword", keyword);
-		return articleService.find(currentPageNo, pageSize, params); 
+		Page page = articleService.find(currentPageNo, pageSize, params); 
+		
+		URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
+		
+		String url = HttpUtils.getRequestURL(request);
+		// 遍历URL重写
+		Iterator<Map<String, Object>> it = page.getData().iterator();
+		while(it.hasNext()){
+			Map<String,Object> data = it.next();
+			data.put("url", url + urlRewrite.encoder(data.get("url").toString())); 
+		}
+		return page;
 	}
 	
 }

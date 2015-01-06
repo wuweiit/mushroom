@@ -1,0 +1,102 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>数据库配置</h3></li>
+			<li onclick="setTabContent(this);"><h3>连接池配置</h3></li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="system/dbinfo.do">保 存</button>
+	</div>
+	<form id="myForm" action="system/savedbinfo.do" method="post">
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+			<table class="table_for_add">
+				<tbody>
+					<tr class="rowBgColor">
+						<th width="140">数据库驱动：</th>
+						<td><input class="input_for_add" name="sql.driver" type="text" value="${sql['mushroom.db.driver']!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>主机地址：</th>
+						<td><input class="input_for_add" name="sql.host" type="text" value="${sql['mushroom.db.host']!}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>主机端口：</th>
+						<td><input class="input_for_add" name="sql.port" type="text" value="${sql['mushroom.db.port']!}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+				 	<tr>
+						<th>数据库名：</th>
+						<td><input class="input_for_add" name="sql.demo" type="text" value="${sql['mushroom.db.demo']!}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>字符集：</th>
+						<td><input class="input_for_add" name="sql.char" type="text" value="${sql['mushroom.db.char']!}"/></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>用户名：</th>
+						<td><input class="input_for_add" name="sql.user" type="text" value="${sql['mushroom.db.user']!}"  /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>密码：</th>
+						<td><input class="input_for_add" name="sql.pass" type="text" value="${sql['mushroom.db.pass']!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th>调试模式：</th>
+						<td>
+							<#if sql['mushroom.db.debug'] == 'true'>
+							<input name="sql.debug" type="radio" value="true" checked="checked" />&nbsp;是&nbsp; &nbsp;
+							<input name="sql.debug" type="radio" value="false" />&nbsp;否
+							<#else>
+							<input name="sql.debug" type="radio" value="true" />&nbsp;是&nbsp; &nbsp;
+							<input name="sql.debug" type="radio" value="false" checked="checked" />&nbsp;否
+							</#if>
+						 </td>
+						<td><span id="name_status"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div> 
+		<div class="tab_item">
+			<input name="sql.maxStatements" type="hidden" value="0" />			
+		 	<table class="table_for_add">
+				<tbody>
+					<tr class="rowBgColor">
+						<th width="140">初始化连接数：</th>
+						<td><input class="input_for_add" name="sql.initialPoolSize" type="text" value="${sql['c3p0.initialPoolSize']!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>
+					<tr>
+						<th width="140">最小池连接：</th>
+						<td><input class="input_for_add" name="sql.minPoolSize" type="text" value="${sql['c3p0.minPoolSize']!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>			
+				 	<tr class="rowBgColor">
+						<th width="140">最大池连接：</th>
+						<td><input class="input_for_add" name="sql.maxPoolSize" type="text" value="${sql['c3p0.maxPoolSize']!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>	
+				 	<tr>
+						<th width="140">连接池增量：</th>
+						<td><input class="input_for_add" name="sql.acquireIncrement" type="text" value="${sql['c3p0.acquireIncrement']!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>	
+				 	<tr class="rowBgColor">
+						<th width="140">最大连续时间：</th>
+						<td><input class="input_for_add" name="sql.maxIdleTime" type="text" value="${sql['c3p0.maxIdleTime']!}" /></td>
+						<td><span id="name_status"></span></td>
+					</tr>					
+						
+		  
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form>
+    
+</div>

@@ -1,0 +1,63 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">关于系统</li>
+		</ul>
+		<button class="btn_tabbar" onclick="gotoWebSite();">访问官方网站</button>
+	</div>
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<div style="font-size:13px; line-height:25px; padding: 0 5px;">
+	  			<div><br />
+	    			<h2>MRCMS V2.1 简介</h2> <br />
+	    			<b>软件作者：</b> marker 
+	    			<div style="margin-top:10px; border-top:1px solid #ccc;"></div>
+	  			</div> 
+	       		  <br />
+	      		  <h3 style="margin:5px 0;">软件介绍：</h3>
+	        	 <p style="text-indent: 2em;">MRCMS是一款模块化、高效率、高并发、CPU占用低等诸多优点的严格采用MVC设计模式设计
+	        	 ，灵感来来源于对网站建设的热爱。注重开发体验，为用户或者开发者提供插件、模型完美解决方案。
+	        	 </p>
+		 
+			 	<br /> 
+				<h3 style="margin:5px 0;">功能介绍：</h3> 
+				<ul style="list-style-type: none; margin-left:30px;">
+					<li><i class="fa fa-asterisk"></i> <strong>统一数据库接口</strong>
+						<p  style="text-indent: 2em;"> DLCMS为特有的模块式组装网站，任何功能相互不依赖可以随时取出或者删除不会影响到其他的功能，使网站真正的达到可DIY定制化。 </p>
+					</li>
+					<li><i class="fa fa-asterisk"></i> <strong>数据库连接池支持</strong> 
+					<p  style="text-indent: 2em;">系统默认自带了文章、单页和图片3种类型的内容模块，默认模块中自带了5个扩展字段以备您的特殊需求，当然您可以依照默认模块来增加更多的模块会员、商城等等。另外官方会不定期的提供一些扩展模块来供给大家使用。 
+						</p>
+					</li>
+					<li><i class="fa fa-asterisk"></i> <strong>各层缓存支持</strong> 
+					<p  style="text-indent: 2em;">程序提供了强大的缓存类，包括数据库缓存、模板缓存和静态缓存使您的网站支持更大的数据负载量。 
+					</p>
+					</li>
+					<li><i class="fa fa-asterisk"></i> <strong>全注解开发</strong> 
+					<p  style="text-indent: 2em;">程序采用了模板分离技术，使您的网站程序与前台模板互相分离互补干扰可随时更换，并且程序采用了DLCMS独有的简化式调用标签加快网站的开发速度。每个栏目可指定要显示的模板大大的使网站的自由化程度变更高。 </p></li>
+					<li><i class="fa fa-asterisk"></i> <strong>模块分离支持</strong>
+					<p  style="text-indent: 2em;"> 栏目采用了无限分类功能，可使您的网站增加N级的栏目，不受程序限制。</p></li>
+					<li><i class="fa fa-asterisk"></i> <strong>SEO支持</strong><p  style="text-indent: 2em;">系统会自动把您的关键词提取为tag标签来使您的网站达到内链的目的对搜索引擎更加的友好。</p> </li>
+					<li><i class="fa fa-asterisk"></i> <strong>拦截器支持</strong> <p  style="text-indent: 2em;">用户可以将文章内的任何文字替换成想要的文字或者把这些文字加上超链接使文字产生内部连接来优化您的网站。 </p></li>
+					<li><i class="fa fa-asterisk"></i> <strong>文件上传支持</strong> <p  style="text-indent: 2em;">程序集成了强大的无限制批量上传功能，您可以同时上传大量的图片而不需要一个一个点击，批量上传支持文件、视频、音乐、图片等文件格式。 </p></li>
+					<li><i class="fa fa-asterisk"></i> <strong>网站碎片</strong> <p  style="text-indent: 2em;">用户常常会有一些要经常更换的文字、视频、音乐等等内容，如果要改动模板对于用户来说很麻烦，网站碎片功能解决了这一问题，将这些内容分别存在网站的碎片里在模板内调用这些碎片，这样用户就可以在后台随时的修改这些内容。 </p></li>
+					<li><i class="fa fa-asterisk"></i> <strong>插件扩展</strong> <p  style="text-indent: 2em;">程序预留了强大的插件接口，通过插件接口可以使网站任意扩展，功能任意组合，例如：文章评论、友情链接、幻灯片、订单系统等均可开发，并且插件支持碎片式的调用与页面式的访问使插件的自由度更高。 </p></li>
+					<li><i class="fa fa-asterisk"></i> <strong>程序永久免费</strong> <p  style="text-indent: 2em;">您可以在完全遵循许可协议的情况下完全将本程序用于个人和商业用途，而不需交付本程序的使用费用。 </p></li>
+				</ul> 
+				<br />
+			    <div>
+				<div class="readme"><span class="title">作者博客：<a href="http://www.yl-blog.com" target="_blank">www.yl-blog.com</a></span></div>
+				<div class="readme"><span class="title">腾讯微博：<a href="http://t.qq.com/wuweiit" target="_blank">wuweiit</a></span></div>
+				</div> 
+	    		<br /><br />
+	    	</div>
+  		</div>
+  	</div>
+</div>
+<form id="mrcmssite" action="http://cms.yl-blog.com" target="_blank"></form>
+<script type="text/javascript">
+
+function gotoWebSite(){
+	$("#mrcmssite").submit();
+}
+</script>

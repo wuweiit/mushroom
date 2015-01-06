@@ -220,6 +220,25 @@ public class MessageContext {
 	
 	
 	
+	
+	/**
+	 * 获取已经添加的下拉列表节点
+	 * @return
+	 */
+	public String getReadySelectElement(){
+		StringBuilder sb = new StringBuilder("<select id='selectLanguage' class='select_for_add' name='config.defaultlang'>");  
+		for(Locale l : list){
+			sb.append("<option value='").append(getLang(l)).append("'>")
+				.append("[").append(getLang(l)).append("] &nbsp; ").append(l.getDisplayName())
+			.append("</option>");
+		}
+		sb.append("</select>");
+		return sb.toString();
+	}
+	
+	
+	
+	
 	private String getLang(Locale l) {
 		return l.getLanguage() + (l.getCountry().equals("")? "":"-"+l.getCountry());
 		
@@ -261,7 +280,6 @@ public class MessageContext {
 	}
 
 
-
 	
 	/**
 	 * 获取某个key的所有语言值
@@ -296,5 +314,8 @@ public class MessageContext {
 			pro.remove(key);
 		}
 	}
+
+
+
 	
 }
