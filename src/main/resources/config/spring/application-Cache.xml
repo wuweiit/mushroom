@@ -1,22 +1,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-		http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring   
-    	http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
-	<!-- 开启注解 -->
-	<ehcache:annotation-driven />
-	
-	
-	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:config/cache/ehcache.xml" />
-	</bean>
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p" 
+ 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    	http://www.springframework.org/schema/beans/spring-beans.xsd
 
-	<!-- 自动更新配置 -->
-	<ehcache:config cache-manager="cacheManager">
-		<ehcache:evict-expired-elements interval="60" />
-	</ehcache:config>
+		http://www.springframework.org/schema/cache 
+		http://www.springframework.org/schema/cache/spring-cache.xsd	">
+	<!-- 启用注解支持 -->
+ 	<cache:annotation-driven />
+ 	
+	
+
+ 	<!-- EhCache library setup -->
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" 
+		p:config-location="classpath:config/cache/ehcache.xml" p:shared="true"/>
+  	
+ 	
+ 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" 
+ 		p:cache-manager-ref="ehcache"/>
 
 
 

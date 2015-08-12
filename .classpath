@@ -24,7 +24,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/com.sun.java.jdk7.win32.x86_1.7.0.u45"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JRE [1.7.0_45]"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/weixinapi-0.2.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
