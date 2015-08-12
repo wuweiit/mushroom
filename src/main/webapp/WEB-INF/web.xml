@@ -28,10 +28,10 @@
 	</listener>
  	
 	
-	<!-- 在线人数统计监听器  -->
+	<!-- 在线人数统计监听器  
  	<listener> 
       	<listener-class>org.marker.mushroom.listener.SessionCounter</listener-class> 
-	</listener>
+	</listener>-->
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-
 import org.marker.develop.freemarker.MessageWrapperModel;
 import org.marker.develop.freemarker.ServletContextWrapperModel;
 import org.marker.develop.freemarker.SessionWrapperModel;
@@ -35,6 +31,7 @@ import org.marker.mushroom.utils.HttpUtils;
 import org.marker.mushroom.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 
 import freemarker.ext.servlet.AllHttpScopesHashModel;
 import freemarker.template.Configuration;
@@ -158,9 +155,9 @@ public class SendDataToView {
 			
 			// 是否启用缓存
 			if(syscfg.isStaticPage()){
-				CacheManager cm =  SpringContextHolder.getBean(CacheO.CacheManager);
+				EhCacheCacheManager cm =  SpringContextHolder.getBean(CacheO.CacheManager);
 				 
-				Cache cache = cm.getCache(CacheO.STATIC_HTML);
+				org.springframework.cache.Cache cache = cm.getCache(CacheO.STATIC_HTML);
 				
 				String path =  "data" + File.separator+"cache" + File.separator +
 						lang +File.separator + request.getAttribute("rewriterUrl");
@@ -183,7 +180,8 @@ public class SendDataToView {
 				
 				String key = lang + "_" + request.getAttribute("rewriterUrl");
 				
-				cache.put(new Element(key, path));
+				 
+				cache.put(key, path);
 
 			}
 						
