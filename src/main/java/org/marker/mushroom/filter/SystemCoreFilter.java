@@ -16,10 +16,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.core.AppStatic;
@@ -33,6 +29,7 @@ import org.marker.mushroom.utils.HttpUtils;
 import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 
 
 
@@ -70,7 +67,7 @@ public class SystemCoreFilter implements Filter {
 	
 	
 	// 缓存管理器
-	private CacheManager cacheManager;
+	private EhCacheCacheManager cacheManager;
 	
 	
 	@Override
@@ -139,7 +136,7 @@ public class SystemCoreFilter implements Filter {
 		
 		// 页面静态读取
 		if(syscfg.isStaticPage()){
-			Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
+			org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
 			 
 			String lang = HttpUtils.getLanguage(request);
 			
@@ -148,10 +145,8 @@ public class SystemCoreFilter implements Filter {
 			request.setAttribute("rewriterUrl", pageName);
 			
 			
-			Element element = cache.get(lang+"_" + pageName);
-			if(element != null){
-				String htmlFilePath = element.getObjectValue().toString();
-				
+			String htmlFilePath = cache.get(lang+"_" + pageName, String.class);
+			if(htmlFilePath != null){ 
 				String filePath = WebRealPathHolder.REAL_PATH + htmlFilePath;
 				 
 				String content = FileTools.getFileContet(new File(filePath), FileTools.FILE_CHARACTER_UTF8);
@@ -159,7 +154,7 @@ public class SystemCoreFilter implements Filter {
 				pw.write(content);
 				pw.flush();
 				pw.close();
-				return;
+				return; 
 			}
 		}
 		
@@ -214,6 +209,6 @@ public class SystemCoreFilter implements Filter {
 	public void destroy() {
 		logger.info("mrcms system filter destroying...");
 		logger.info("mrcms Cache stoping...");
-		cacheManager.shutdown();
+		cacheManager.getCacheManager().shutdown();
 	}
 }
