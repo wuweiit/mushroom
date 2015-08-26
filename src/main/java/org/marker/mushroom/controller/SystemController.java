@@ -31,6 +31,7 @@ import org.marker.security.Base64;
 import org.marker.security.DES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -94,9 +95,9 @@ public class SystemController extends SupportController {
 			/* 清除EHCache 缓存数据，并没有清除静态文件哦 */
 			String new_statichtml = request.getParameter("config.statichtml");
 			if(Boolean.valueOf(new_statichtml)){
-				CacheManager cm =  SpringContextHolder.getBean(CacheO.CacheManager);
-				Cache cache = cm.getCache(CacheO.STATIC_HTML);
-				cache.removeAll();
+				EhCacheCacheManager cm =  SpringContextHolder.getBean(CacheO.CacheManager); 
+				org.springframework.cache.Cache cache = cm.getCache(CacheO.STATIC_HTML); 
+				cache.clear();
 			}
 			
 			
