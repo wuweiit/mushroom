@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -53,7 +54,13 @@ public abstract class ConfigEngine implements IConfig {
 	 * @param string
 	 */
 	public ConfigEngine(String cfgFilePath) { 
-		this.read(new File(ConfigEngine.class.getResource(cfgFilePath).getFile()));
+		String file = null;
+		try {
+			file = ConfigEngine.class.getResource(cfgFilePath).toURI().getPath();
+		} catch (URISyntaxException e) { 
+			e.printStackTrace();
+		} 
+		this.read(new File(file));
 	}
 
 

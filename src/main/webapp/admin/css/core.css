@@ -1,6 +1,7 @@
 @charset "utf-8";
 /* 通用样式 */
-body{margin:0; padding:0; font-family: "微软雅黑", Courier, monospace; font-size:12px;}
+body{margin:0; padding:0; 
+font-family: arial,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif ; font-size:12px;}
 
 
 a{text-decoration:none;}
