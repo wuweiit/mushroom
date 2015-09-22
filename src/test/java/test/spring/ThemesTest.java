@@ -31,18 +31,18 @@ public class ThemesTest extends AbstractJUnit4SpringContextTests {
 	
 	@Test
 	public void sendMail(){ 
-		System.out.println("test....");
-		String themesPath = WebRealPathHolder.REAL_PATH + File.separator+"themes/";
-		
-		File file = new File(themesPath);
-		
-		System.out.println(themesPath);
-		String[] filelist = file.list();
-		for(String f : filelist ){
-			
-			System.out.println(f);
-		}
-		
+//		System.out.println("test....");
+//		String themesPath = WebRealPathHolder.REAL_PATH + File.separator+"themes/";
+//		
+//		File file = new File(themesPath);
+//		
+//		System.out.println(themesPath);
+//		String[] filelist = file.list();
+//		for(String f : filelist ){
+//			
+//			System.out.println(f);
+//		}
+//		
 	}
 	 
  

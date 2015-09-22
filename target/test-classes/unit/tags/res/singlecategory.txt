@@ -1,3 +1,0 @@
-<!--{category id=(2) alias=(ab) limit=(10)}-->
-<a href="${ab.url}">${ab.name}</a> | 
-<!--{/category}-->

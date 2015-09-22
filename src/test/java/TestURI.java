@@ -6,6 +6,6 @@ public class TestURI {
 	@Test
 	public  void test( ) {
 		
-		Integer.parseInt(null);
+//		Integer.parseInt(null);
 	}
 }

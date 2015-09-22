@@ -8,8 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import unit.tags.SuperTest;
-
 /**
  * 标签单元测试
  * @author marker 
@@ -19,7 +17,7 @@ import unit.tags.SuperTest;
  */
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration(locations = "classpath:/config/spring/*.xml")
-public class UUIDTest extends SuperTest {
+public class UUIDTest {
 	
 	
 	@Test

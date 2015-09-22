@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration(locations = "classpath:/config/spring/*.xml")
-public class SingleCategoryTest extends SuperTest {
+public class SingleCategoryTest  {
 	
 	
 	@Test
@@ -38,6 +38,8 @@ public class SingleCategoryTest extends SuperTest {
 		System.out.println(tag.getContent()); 
 	}
 	 
- 
+	public String getFile(String fileName){
+		return SingleCategoryTest.class.getResource(fileName).getFile();
+	}
 }
  
