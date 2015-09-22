@@ -1,0 +1,48 @@
+
+
+.header{
+    height: 50px;
+}
+.header ul{
+    float: right;
+}
+.header ul li{
+    display: inline-block;
+}
+.header ul li a{
+    display: inline-block;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-size: 1em;
+    color: #656566;
+}
+.header ul li a:hover{
+    border-bottom: 3px solid #E84D1E;
+    color: #E84D1E;
+
+}
+
+.logo-large{
+    text-align: center;
+    margin-top: 100px;
+}
+.description h2{
+    font-family: inherit;
+    text-align: center;
+    color: #999;
+    letter-spacing: 2px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.button{
+    text-align: center;
+    margin-top: 40px;
+}
+
+
+
+
+
+
+

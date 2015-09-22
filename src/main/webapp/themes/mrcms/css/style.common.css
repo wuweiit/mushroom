@@ -1,0 +1,29 @@
+body{
+    font-size: 12px;
+    font-family: arial,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
+}
+a{
+    text-decoration: none;
+}
+
+
+.layout_center{
+    width: 1100px;
+    margin: 0 auto;
+}
+
+
+
+
+
+.btn{
+    padding: 10px 40px;
+    border: 1px #E84D1E solid;
+    border-radius: 3px;
+    color: #e6501e;
+    font-size: 14px;
+
+}
+.btn:hover{
+    background-color: #FFCFBF;
+}
