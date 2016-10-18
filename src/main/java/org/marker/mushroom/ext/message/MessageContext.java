@@ -68,7 +68,7 @@ public class MessageContext {
 	@SuppressWarnings("unchecked")
 	public void reday() throws IOException, ClassNotFoundException, URISyntaxException{
 		// 基础路径
-		String basePath = WebRealPathHolder.REAL_PATH + "data" + File.separator + "international" + File.separator;
+		String basePath = WebRealPathHolder.REAL_PATH +File.separator+ "data" + File.separator + "international" + File.separator;
 		
 		
 		// 1. 读取持久化国际语言对象文件

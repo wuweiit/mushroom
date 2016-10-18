@@ -28,16 +28,17 @@ public class ErrorConfig extends ConfigEngine {
 	/**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
 	 * */
-	private static class SingletonHolder {
-		public final static ErrorConfig instance = new ErrorConfig();     
-	}
+	private static ErrorConfig instance ;
+
 	
 	
 	/**
 	 * 获取数据库配置实例
 	 * */
 	public static ErrorConfig getInstance(){
-		return SingletonHolder.instance;
+		if(null == instance)
+			instance = new ErrorConfig();
+		return  instance;
 	}
 	
 	

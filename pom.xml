@@ -5,12 +5,17 @@
   <artifactId>mrcms</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>mrcms Maven Webapp</name>
+  <name>mushroom</name>
   <url>http://maven.apache.org</url>
 
   <build> 
-    <defaultGoal>compile</defaultGoal>
-		<sourceDirectory>src</sourceDirectory>
+    	<defaultGoal>compile</defaultGoal>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		  <resources>
+			  <resource>
+				  <directory>src/main/resources</directory>
+			  </resource>
+		  </resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -44,6 +49,17 @@
 				<version>2.4</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<packagingIncludes>*/**</packagingIncludes>
+					<webappDirectory>src/main/webapp</webappDirectory>
+					<webResources>
+						<resource>
+							<directory>src/main/resources</directory>
+							<includes>
+								<include>*/**</include>
+							</includes>
+							<targetPath>WEB-INF/classes</targetPath>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
     </plugins>

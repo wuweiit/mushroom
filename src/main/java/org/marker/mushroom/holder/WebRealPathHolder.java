@@ -19,7 +19,7 @@ public class WebRealPathHolder implements ServletContextAware {
 
 	@Override
 	public void setServletContext(ServletContext sc) {
-		REAL_PATH = sc.getRealPath(File.separator);
+		REAL_PATH = sc.getRealPath(File.separator)+File.separator;
 	}
 
 }

@@ -1,4 +1,13 @@
-import org.marker.mushroom.alias.DAOimport java.lang.StringBuilderimport java.lang.Exceptionimport org.marker.mushroom.context.ActionContextimport org.marker.mushroom.core.AppStaticimport org.marker.mushroom.holder.SpringContextHolderimport org.marker.mushroom.beans.Pageimport org.marker.mushroom.dao.ISupportDaoimport javax.servlet.http.HttpServletRequest 
+import org.marker.mushroom.alias.DAO
+import java.lang.StringBuilder
+import java.lang.Exception
+import org.marker.mushroom.context.ActionContext
+import org.marker.mushroom.core.AppStatic
+import org.marker.mushroom.holder.SpringContextHolder
+import org.marker.mushroom.beans.Page
+import org.marker.mushroom.dao.ISupportDao
+import javax.servlet.http.HttpServletRequest
+ 
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.ext.model.ContentModel;  
@@ -44,7 +53,7 @@ public class ContentModelImpl extends ContentModel {
 	
 	
 
-	public void doPage(WebParam param) { 
+	public Page doPage(WebParam param) {
 		
 	}
 	

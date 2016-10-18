@@ -22,8 +22,7 @@ public class DataBaseConfig extends ConfigEngine {
 	public static final String DB_TABLE_PREFIX = "mushroom.db.prefix";
 	
 	// 配置文件地址
-	public static final String CONFIG_FILE_PATH = File.separator+"config"+
-			File.separator+"jdbc"+File.separator+"connection.properties";
+	public static final String CONFIG_FILE_PATH = "/config/jdbc/connection.properties";
 	
 	
 	/**
@@ -38,16 +37,16 @@ public class DataBaseConfig extends ConfigEngine {
 	/**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
 	 * */
-	private static class SingletonHolder {
-		public final static DataBaseConfig instance = new DataBaseConfig();     
-	}
+	private static  DataBaseConfig instance;
 	
 	
 	/**
 	 * 获取数据库配置实例
 	 * */
-	public static DataBaseConfig getInstance(){
-		return SingletonHolder.instance;
+	public static synchronized DataBaseConfig getInstance(){
+		if(null == instance)
+		  instance = new DataBaseConfig();
+		return instance;
 	}
 	
 	
@@ -55,7 +54,7 @@ public class DataBaseConfig extends ConfigEngine {
 	 * 获取表前缀
 	 * */
 	public String getPrefix(){
-		return SingletonHolder.instance.get(DB_TABLE_PREFIX);
+		return  instance.get(DB_TABLE_PREFIX);
 		
 	}
 	

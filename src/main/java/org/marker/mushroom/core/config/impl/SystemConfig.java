@@ -55,16 +55,16 @@ public final class SystemConfig extends ConfigEngine{
 	/**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
 	 * */
-	private static class SingletonHolder {
-		public final static SystemConfig instance = new SystemConfig();     
-	}
-	
+	private static  SystemConfig instance;
+
 	
 	/**
 	 * 获取系统配置实例
 	 * */
 	public static SystemConfig getInstance(){
-		return SingletonHolder.instance;
+		if(null == instance)
+			instance = new SystemConfig();
+		return  instance;
 	}
 	
 	

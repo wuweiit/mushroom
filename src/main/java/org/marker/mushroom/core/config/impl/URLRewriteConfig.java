@@ -77,16 +77,15 @@ public class URLRewriteConfig extends ConfigEngine {
 	/**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
 	 * */
-	private static class SingletonHolder {
-		public final static URLRewriteConfig instance = new URLRewriteConfig();     
-	}
-	
+	private static URLRewriteConfig instance ;
 	
 	/**
 	 * 获取系统配置实例
 	 * */
 	public static URLRewriteConfig getInstance(){
-		return SingletonHolder.instance;
+		if(null == instance)
+			instance = new URLRewriteConfig();
+		return instance;
 	}
 	
 	
