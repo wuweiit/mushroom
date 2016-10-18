@@ -50,16 +50,14 @@ public class IPTool {
 	/**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
 	 * */
-	private static class SingletonHolder {
-		public final static IPTool instance = new IPTool();     
-	}
-	
+	private static IPTool instance = new IPTool();
+
 	
 	/**
 	 * 获取数据库配置实例
 	 * */
 	public static IPTool getInstance(){
-		return SingletonHolder.instance;
+		return  instance;
 	}
 	
 	
