@@ -1,5 +1,8 @@
 package org.marker.mushroom.utils;
 
+import org.marker.mushroom.context.ActionContext;
+import org.springframework.util.StringUtils;
+
 import java.util.Locale;
 
 import javax.servlet.http.Cookie;
@@ -101,7 +104,13 @@ public class HttpUtils {
 	public static String getLanguage(HttpServletRequest request){
 		String lang = request.getParameter("lang");
 		if(lang != null && !lang.equals("")){
-			return lang;
+            return lang;
+		}else{
+            // 2016-10-22 marker 获取cookies中的语言
+			lang = getCookie(request,"lang");
+			if(!StringUtils.isEmpty(lang)){
+				return lang;
+			}
 		}
 		Locale locale = request.getLocale();
 		return locale.getLanguage()+"-"+locale.getCountry();

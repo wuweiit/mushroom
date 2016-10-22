@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.LOG;
+import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
@@ -30,7 +31,7 @@ import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -133,13 +134,19 @@ public class SystemCoreFilter implements Filter {
 			}
 		}
 
-		
+
+
+        String lang = request.getParameter("lang");
+        if(lang != null && !lang.equals("")){
+            String cookieLang = HttpUtils.getCookie(request,"lang");
+            if(!lang.equals(cookieLang)){
+                response.addCookie(new Cookie("lang",lang));
+            }
+        }
 		// 页面静态读取
 		if(syscfg.isStaticPage()){
 			org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
-			 
-			String lang = HttpUtils.getLanguage(request);
-			
+
 			// 传递页面URI给缓存模块
 			String pageName = "/".equals(uri)? syscfg.getHomePage() : uri;
 			request.setAttribute("rewriterUrl", pageName);
