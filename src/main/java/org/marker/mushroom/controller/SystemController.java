@@ -1,5 +1,6 @@
 package org.marker.mushroom.controller;
 
+import com.mchange.lang.StringUtils;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 
@@ -10,9 +11,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
 
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.Core;
@@ -39,8 +37,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 /**
- * RushRoom系统控制器
+ *
+ * 系统配置管理控制器
+ *
  * @author marker
+ *
+ * @date 2016-10-22 14:39:20
+ * @version 1.0
+ * @blog www.yl-blog.com
+ * @weibo http://t.qq.com/wuweiit
+ *
  * */
 @Controller
 @RequestMapping("/admin/system")
@@ -48,13 +54,15 @@ public class SystemController extends SupportController {
 	
 	/** 日志记录对象 */ 
 	protected Logger logger =  LoggerFactory.getLogger(SystemController.class); 
-	 
-	
 
-	// 系统配置对象
+	/** 系统配置对象 */
 	private SystemConfig config = SystemConfig.getInstance();
-	
-	
+
+
+
+    /**
+     * 默认构造
+     */
 	public SystemController() {
 		this.viewPath = "/admin/system/";
 	}
@@ -99,8 +107,16 @@ public class SystemController extends SupportController {
 				org.springframework.cache.Cache cache = cm.getCache(CacheO.STATIC_HTML); 
 				cache.clear();
 			}
-			
-			
+			/* 切换默认语言*/
+            String newDefaultLang = request.getParameter("config.defaultlang");
+            String oldDefaultLang = config.get(SystemConfig.DEFAULTLANG);
+
+            if(!oldDefaultLang.equals(newDefaultLang)){
+
+
+
+
+            }
 			
 			
 			/* 系统基本信息配置 */

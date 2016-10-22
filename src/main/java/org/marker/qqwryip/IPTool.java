@@ -4,7 +4,11 @@
  */
 package org.marker.qqwryip;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Hashtable;
 import java.util.Map;
@@ -12,6 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * IP 地址转换物理地址工具
+ *
  * @author marker
  * @date 2013-11-16 下午4:39:20
  * @version 1.0
@@ -20,12 +26,18 @@ import java.util.regex.Pattern;
  */
 public class IPTool {
 
+    private Logger logger = LoggerFactory.getLogger(IPTool.class);
 
-	public static final String DAT_FILE_PATH = IPTool.class.getResource("qqwry.dat").getFile();
+
+    // 纯真数据库地址
+	public static final String DAT_FILE_PATH = "qqwry.dat";
 	
 	// 缓存
 	private static final Map<String, IPLocation> cache = new Hashtable<String, IPLocation>();
-	
+    /**
+     * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
+     * */
+    private static IPTool instance;
 	
 	
 	// IP地址正则模式
@@ -38,25 +50,28 @@ public class IPTool {
 	// 单例模式
 	private IPTool(){
 		try {
-			String file = URLDecoder.decode(DAT_FILE_PATH, "utf-8");// 转码避免中文无法识别
+            URL url = this.getClass().getClassLoader().getResource(DAT_FILE_PATH);
+ 			String datfile = url.getFile();
+			String file = URLDecoder.decode(datfile, "utf-8");// 转码避免中文无法识别
 			System.out.println(file);
 			seeker = new IPSeeker(file);
-		} catch (IOException e) { 
-			e.printStackTrace();
-			System.out.println("初始化纯真IP数据库失败，请检查qqwry.dat");
+		} catch (IOException e) {
+            logger.error("初始化纯真IP数据库失败，请检查qqwry.dat", e);
 		}
 	}
-	
-	/**
-	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
-	 * */
-	private static IPTool instance = new IPTool();
+
+
+
+
 
 	
 	/**
 	 * 获取数据库配置实例
 	 * */
 	public static IPTool getInstance(){
+        if(instance == null){
+            instance = new IPTool();
+        }
 		return  instance;
 	}
 	

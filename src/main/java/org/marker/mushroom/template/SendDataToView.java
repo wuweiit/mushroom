@@ -249,7 +249,8 @@ public class SendDataToView {
 		
 		
         // 国际化数据包装模型
-		String lang = HttpUtils.getLanguage(request);
+		// 2016-10-22 marker 获取cookies中的语言
+		String lang = HttpUtils.getCookie(request,"lang");
         MessageWrapperModel messageModel = new MessageWrapperModel(mc.get(lang), config.getObjectWrapper());
         request.setAttribute(KEY_MESSAGE_CONTEXT, messageModel);
    	    

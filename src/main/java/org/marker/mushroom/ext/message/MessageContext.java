@@ -204,6 +204,8 @@ public class MessageContext {
 	
 	/**
 	 * 获取下拉列表节点
+	 * 查看系统配置会渲染到编辑界面.
+	 *
 	 * @return
 	 */
 	public String getSelectElement(){

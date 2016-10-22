@@ -173,7 +173,7 @@ public class AdminController extends SupportController {
 					}
 				}else{
 					errorCode = 1;
-					msg = new ResultMessage(false,"用户名或者密码错误!p:"+password);
+					msg = new ResultMessage(false,"用户名或者密码错误!");
 				}
 			} catch (Exception e) {
 				errorCode = 1;
@@ -186,7 +186,7 @@ public class AdminController extends SupportController {
 		String ip = HttpUtils.getRemoteHost(request);
 		
 		// IP归属地获取工具
-//		IPTool ipTool = IPTool.getInstance();
+		IPTool ipTool = IPTool.getInstance();
 		
 		
 		
@@ -200,14 +200,14 @@ public class AdminController extends SupportController {
 		log.setIp(ip);
 		log.setErrorcode(errorCode);
 		if(ip != null){
-//			try{
-//				IPLocation location = ipTool.getLocation(ip);
-//				if(location != null){// 如果存在
-//					log.setArea(location.getCountry());
-//				}
-//			}catch(Exception e){
-//				logger.error("ip={} ",ip, e);
-//			}
+			try{
+				IPLocation location = ipTool.getLocation(ip);
+				if(location != null){// 如果存在
+					log.setArea(location.getCountry());
+				}
+			}catch(Exception e){
+				logger.error("ip={} ",ip, e);
+			}
 		}
 		 
 		userLoginLogDao.save(log); 
