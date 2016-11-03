@@ -256,6 +256,11 @@
   		<artifactId>mysql-connector-java</artifactId>
   		<version>5.1.5</version>
   	</dependency>
+	  <!--<dependency>-->
+		  <!--<groupId>com.wuweibi</groupId>-->
+		  <!--<artifactId>module4j</artifactId>-->
+		  <!--<version>1.0-SNAPSHOT</version>-->
+	  <!--</dependency>-->
   </dependencies>
   
   
