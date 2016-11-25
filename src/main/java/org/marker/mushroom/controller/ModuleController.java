@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
-import org.marker.ext.Msei;
-import org.marker.ext.module.Module;
-import org.marker.ext.module.ModuleContext;
+import com.wuweibi.module4j.ModuleFramework;
+import com.wuweibi.module4j.module.Module;
+import com.wuweibi.module4j.module.ModuleContext;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.support.SupportController;
@@ -76,7 +76,7 @@ public class ModuleController extends SupportController {
 				FileTools.setFileContet(packageJsonFile, config, FileTools.FILE_CHARACTER_UTF8);
 				
 				
-				ModuleContext mc = (ModuleContext) application.getAttribute(Msei.MODULE_CONTEXT);
+				ModuleContext mc = (ModuleContext) application.getAttribute(ModuleFramework.MODULE_CONTEXT);
 				
 				
 				 mc.install(new File(moduleDir));
@@ -103,7 +103,7 @@ public class ModuleController extends SupportController {
 	
 	@RequestMapping("/list")
 	public ModelAndView list(){
-		ModuleContext context = (ModuleContext) application.getAttribute(Msei.MODULE_CONTEXT);
+		ModuleContext context = (ModuleContext) application.getAttribute(ModuleFramework.MODULE_CONTEXT);
 		
 		ModelAndView view = new ModelAndView(this.viewPath+"list");
 		
@@ -168,7 +168,7 @@ public class ModuleController extends SupportController {
 	 */
 	@RequestMapping("/stop") 
 	public Object stop(@RequestParam("id") String uuid){
-		ModuleContext context = (ModuleContext) application.getAttribute(Msei.MODULE_CONTEXT);
+		ModuleContext context = (ModuleContext) application.getAttribute(ModuleFramework.MODULE_CONTEXT);
 		
 		Module module = context.getModule(uuid);
 		try {
@@ -187,7 +187,7 @@ public class ModuleController extends SupportController {
 	 */
 	@RequestMapping("/start") 
 	public Object start(@RequestParam("id") String uuid){
-		ModuleContext context = (ModuleContext) application.getAttribute(Msei.MODULE_CONTEXT);
+		ModuleContext context = (ModuleContext) application.getAttribute(ModuleFramework.MODULE_CONTEXT);
 		
 		Module module = context.getModule(uuid);
 		
@@ -208,7 +208,7 @@ public class ModuleController extends SupportController {
 	@RequestMapping("/uninstall")
 	@ResponseBody
 	public Object uninstall(@RequestParam("id") String uuid){
-		ModuleContext context = (ModuleContext) application.getAttribute(Msei.MODULE_CONTEXT);
+		ModuleContext context = (ModuleContext) application.getAttribute(ModuleFramework.MODULE_CONTEXT);
 		context.uninstall(uuid); 
 		return list(); 
 	}

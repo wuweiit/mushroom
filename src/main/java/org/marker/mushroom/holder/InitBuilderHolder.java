@@ -6,8 +6,9 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import org.marker.ext.Msei;
-import org.marker.ext.module.ModuleContext;
+import com.wuweibi.module4j.ModuleFramework;
+import com.wuweibi.module4j.config.Configuration;
+import com.wuweibi.module4j.module.ModuleContext;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
@@ -113,16 +114,16 @@ public class InitBuilderHolder implements ServletContextAware{
 		
 		Map<String,String> configMap = new HashMap<String,String>();
 	   	// 自动部署目录配置
-        configMap.put(Msei.DIR_MODULES, moduleDir);
+        configMap.put(Configuration.DIR_MODULES, moduleDir);
         // 缓存目录
-        configMap.put(Msei.DIR_CACHE, cacheDir); 
+        configMap.put(Configuration.DIR_CACHE, cacheDir);
         // 日志级别
-        configMap.put(Msei.LOG_LEVEL, "1"); 
+        configMap.put(Configuration.LOG_LEVEL, "1");
         
 		try {
-			Msei msei = new Msei(configMap); 
-	        ModuleContext context = msei.getModuleContext(); 
-	        application.setAttribute(Msei.MODULE_CONTEXT, context); 
+			ModuleFramework msei = new ModuleFramework(configMap);
+	        ModuleContext context = msei.getModuleContext();
+	        application.setAttribute(ModuleFramework.MODULE_CONTEXT, context);
 		} catch (Exception e) {
 			logger.error("", e);
 		} 

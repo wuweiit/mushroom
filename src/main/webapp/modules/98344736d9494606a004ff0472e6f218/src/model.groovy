@@ -21,7 +21,7 @@ import org.marker.mushroom.template.tags.res.SqlDataSource;
  * 
  * @author marker
  * */ 
-public class ContentModelImpl extends ContentModel {
+public class ProductContentModelImpl extends ContentModel {
 	
 	
 	public ContentModelImpl(){
