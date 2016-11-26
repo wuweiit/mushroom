@@ -40,6 +40,8 @@ public interface DAO {
 	
 	/** 文章 DaoBean */
 	String ARTICLE = "articleDao";
+	/** 文章 DaoBean */
+	String ARTICLE_Taolu = "articleTaoluDao";
 	/** 模型 DaoBean */
 	String MODEL = "modelDao";
 	

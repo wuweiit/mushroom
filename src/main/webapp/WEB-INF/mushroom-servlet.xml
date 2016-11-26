@@ -29,7 +29,7 @@
  
     
     <!-- ②：对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
-    <context:component-scan base-package="org.marker.mushroom" annotation-config="true" />
+	<context:component-scan base-package="org.marker.mushroom,org.marker.app" annotation-config="true" />
 
 
     <bean

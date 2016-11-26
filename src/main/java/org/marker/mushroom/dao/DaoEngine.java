@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
@@ -84,6 +85,7 @@ public abstract class DaoEngine implements ISupportDao {
 	@Override
 	public List<Map<String, Object>> queryForList(String sql, Object... args) {
 		logger(sql);
+		logger(JSON.toJSONString(args));
 		return jdbcTemplate.queryForList(sql, args);
 	}
 	
