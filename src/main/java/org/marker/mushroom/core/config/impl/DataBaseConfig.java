@@ -22,7 +22,7 @@ public class DataBaseConfig extends ConfigEngine {
 	public static final String DB_TABLE_PREFIX = "mushroom.db.prefix";
 	
 	// 配置文件地址
-	public static final String CONFIG_FILE_PATH = "/config/jdbc/connection.properties";
+	public static final String CONFIG_FILE_PATH = "/etc/faceinner/config.properties";
 	
 	
 	/**

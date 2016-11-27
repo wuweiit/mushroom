@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,15 +52,23 @@ public abstract class ConfigEngine implements IConfig {
 	
 	/**
 	 * 初始化就读取配置文件哦
-	 * @param string
+	 * @param cfgFilePath
 	 */
 	public ConfigEngine(String cfgFilePath) { 
 		String file = null;
-		try {
-			file = ConfigEngine.class.getResource(cfgFilePath).toURI().getPath();
-		} catch (URISyntaxException e) { 
-			e.printStackTrace();
-		} 
+		String osName = System.getProperty("os.name");
+        if(cfgFilePath.lastIndexOf(".config") != -1){//软件配置
+            file = ConfigEngine.class.getResource(cfgFilePath).getFile();
+        }else{
+            if(osName.toLowerCase().indexOf("win") != -1){ // win
+
+                String path = ConfigEngine.class.getResource("/").getPath();
+                String prefix = path.substring(1,3);
+                file = prefix+""+cfgFilePath;
+            }else{
+                file = cfgFilePath;
+            }
+        }
 		this.read(new File(file));
 	}
 

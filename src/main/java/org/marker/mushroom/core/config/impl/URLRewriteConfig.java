@@ -27,7 +27,7 @@ public class URLRewriteConfig extends ConfigEngine {
 	public static final String DEFAULT_PAGE_SUFFIX = ".html";
 	
 	// URL重写配置文件路径
-	public static final String CONFIG_FILE_PATH = "/config/urlrewrite/urlrewrite.properties";
+	public static final String CONFIG_FILE_PATH = "/config/urlrewrite/urlrewrite.config";
 	
 	
 	
