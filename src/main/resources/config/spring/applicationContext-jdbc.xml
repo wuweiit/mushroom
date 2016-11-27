@@ -11,21 +11,24 @@
 		http://www.springframework.org/schema/jee/spring-jee.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/schema/util
-		http://www.springframework.org/schema/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd
 		
 		">
 
 
 	<context:component-scan base-package="org.marker.mushroom.dao.impl" />
 
+	<!-- 导入配置文件 -->
+	<import resource="classpath:/config/spring/application-config.xml"/>
 
 
-	<!-- 提供该propertyConfigurer bean支持把properties文件中的信息读取到XML配置文件的表达式中 --> 
-    <context:property-placeholder location="classpath:/config/jdbc/connection.properties"/>
-    
-    
-    
+
+	<!-- 提供该propertyConfigurer bean支持把properties文件中的信息读取到XML配置文件的表达式中
+    <context:property-placeholder location="classpath:/config/jdbc/connection.properties"/>-->
+
+
+
 	<!-- 使用C3P0的dataSource -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="${mushroom.db.driver}" />
