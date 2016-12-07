@@ -199,7 +199,14 @@ public class MessageResult {
 	 * @param user
 	 * @return
 	 */
-	public static MessageResult success(User user) {
+	public static MessageResult success(Object user) {
 		return new MessageResult(true, null, user);
+	}
+	/**
+	 * 操作成功
+	 * @return
+	 */
+	public static Object success() {
+		return new MessageResult(true, null);
 	}
 }
