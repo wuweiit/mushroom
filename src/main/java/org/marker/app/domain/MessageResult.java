@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.marker.app.common.ErrorCode;
+import org.marker.mushroom.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -181,7 +183,23 @@ public class MessageResult {
 	public String toString() {
 		return this.getMsg();
 	}
-	
-	
-	
+
+
+	/**
+	 * 包装错误码
+	 * @param errorCode 错误代码
+	 * @return
+	 */
+	public static MessageResult wrapErrorCode(ErrorCode errorCode) {
+		return new MessageResult(errorCode.getCode(),errorCode.getMsg());
+	}
+
+	/**
+	 * 操作成功
+	 * @param user
+	 * @return
+	 */
+	public static MessageResult success(User user) {
+		return new MessageResult(true, null, user);
+	}
 }

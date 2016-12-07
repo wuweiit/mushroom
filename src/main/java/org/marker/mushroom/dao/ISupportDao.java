@@ -81,7 +81,15 @@ public interface ISupportDao {
 	public List<Map<String, Object>> queryForList(String sql, Object... args);
 	
 	public <T> T queryForObject(String sql, Class<T> clzz, Object... args);
-	
+
+    /**
+     * 查询是否存在
+     * @param sql
+     * @param args
+     * @return
+     */
+	public boolean exists(String sql, Object... args);
+
 	/**
 	 * 批量更新
 	 * @param sql

@@ -33,4 +33,20 @@ public interface IUserDao {
 	 * @return
 	 */
 	int countUserByGroupId(int groupId);
+
+
+	/**
+	 * 更新Token
+	 * @param userId
+	 * @param token
+	 */
+	void updateToken(int userId, String token);
+
+	/**
+	 * 用户是否存在
+	 * @param username
+	 * @return
+	 */
+	boolean existsUserName(String username);
+
 }

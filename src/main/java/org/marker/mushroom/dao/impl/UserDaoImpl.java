@@ -83,4 +83,19 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 		return this.queryForObject(sql.toString(), Integer.class, new Object[]{groupId});
 	}
 
+	@Override
+	public void updateToken(int userId, String token) {
+		String prefix = dbConfig.getPrefix();
+		StringBuilder sql = new StringBuilder("update ");
+		sql.append(prefix).append("user ").append("set token=?, logintime=sysdate() where id=?");
+		this.update(sql.toString(),token, userId);
+	}
+
+    @Override
+    public boolean existsUserName(String username) {
+        StringBuilder sql = new StringBuilder("select count(1) from ");
+        sql.append(getPreFix()).append("user u where u.name = ? ");
+        return this.exists(sql.toString(), username);
+    }
+
 }

@@ -27,6 +27,8 @@ public class User implements Serializable{
 	private Date logintime;
 	private int status;
 	private String description;
+
+	private String token;
 	
 	private List<Role> roles;
 	
@@ -96,14 +98,13 @@ public class User implements Serializable{
 	public void setGid(int gid) {
 		this.gid = gid;
 	}
-	
-	
-	
-	
-	
-	
-	
-	 
-	
-	
+
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 }

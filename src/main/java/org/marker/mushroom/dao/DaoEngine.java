@@ -62,7 +62,6 @@ public abstract class DaoEngine implements ISupportDao {
 	
 	/**
 	 * 泛型构造方法目的是为了简化实现
-	 * @param t
 	 */
 	public DaoEngine() {  }
 	
@@ -96,7 +95,12 @@ public abstract class DaoEngine implements ISupportDao {
 		return jdbcTemplate.queryForObject(sql, clzz, args);
 	}
 
- 
+	// 查询是否存在
+	public boolean exists(String sql, Object... args){
+		logger(sql);
+		int num = jdbcTemplate.queryForObject(sql, Integer.class, args);
+		return num > 0? true : false;
+	}
  
 	
 	
