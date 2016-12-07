@@ -28,4 +28,11 @@ public interface UserService {
      * @param userId
      */
     String updateUserToken(int userId);
+
+
+    /**
+     * 保存用户
+     * @param user
+     */
+    void save(User user);
 }

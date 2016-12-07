@@ -18,4 +18,13 @@ public interface UserBusiness {
      * @return
      */
     MessageResult login(String username, String password);
+
+
+    /**
+     * 注册账号
+     * @param username
+     * @param password
+     * @return
+     */
+    MessageResult register(String username, String password);
 }

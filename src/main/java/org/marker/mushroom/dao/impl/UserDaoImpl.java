@@ -98,4 +98,9 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
         return this.exists(sql.toString(), username);
     }
 
+    @Override
+    public void save(User user) {
+        this.save(user);
+    }
+
 }

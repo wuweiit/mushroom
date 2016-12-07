@@ -49,4 +49,5 @@ public interface IUserDao {
 	 */
 	boolean existsUserName(String username);
 
+    void save(User user);
 }

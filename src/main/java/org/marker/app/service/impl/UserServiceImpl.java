@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
         userDao.updateToken(userId, token);
         return token;
     }
+
+    @Override
+    public void save(User user) {
+        userDao.save(user);
+    }
 }

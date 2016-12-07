@@ -9,6 +9,7 @@ import org.marker.security.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -45,6 +46,29 @@ public class UserBusinessImpl implements UserBusiness {
         String token = userService.updateUserToken(user.getId());
         user.setToken(token);
         user.setPass(null);
+
+        return MessageResult.success(user);
+    }
+
+    @Override
+    public MessageResult register(String username, String password) {
+
+        // 验证用户是否存在
+        if(userService.existUserName(username)){
+            return MessageResult.wrapErrorCode(ErrorCode.USER_IS_EXISTS);
+        }
+
+
+        User user = new User();
+        user.setName(username);
+        user.setNickname("无名");
+        user.setPass(MD5.getMD5Code(password));
+        user.setCreatetime(new Date());
+        user.setGid(3);// 普通用户
+        user.setStatus(0);
+        user.setDescription("app 注册");
+
+        userService.save(user);
 
         return MessageResult.success(user);
     }

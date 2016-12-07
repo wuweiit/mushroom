@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
  * @author marker
  * */
 @Controller
-@RequestMapping("/api/login")
+@RequestMapping("/api/user")
 public class LoginController extends SupportController {
 
 
@@ -32,14 +32,14 @@ public class LoginController extends SupportController {
 
 
 	public LoginController() {
-			this.viewPath = "/app/login/";
+			this.viewPath = "/app/user/";
 	}
 
 
 	/**
 	 * Login
 	 */
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody 
 	public Object login(HttpServletRequest request,
 			@RequestParam("user") String username,
@@ -49,6 +49,26 @@ public class LoginController extends SupportController {
         return userBusiness.login(username, password);
 	}
 
+    /**
+     * register
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @ResponseBody
+    public Object register(HttpServletRequest request,
+                        @RequestParam("user") String username,
+                        @RequestParam("pass") String password,
+                        @RequestParam("code") String code  ){
+
+        // 验证验证码
+
+
+
+
+        return userBusiness.register(username,password);
+
+
+
+    }
 
 	
 }
