@@ -7,6 +7,13 @@
   <version>2.0.1</version>
   <name>mushroom</name>
   <url>https://github.com/wuweiit/mushroom</url>
+	<!-- 编码及内存设置 -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<jdkLevel>1.6</jdkLevel>
+		<jvmargs>-XX:MaxPermSize=384m -Xms512m -Xmx1024m</jvmargs>
+	</properties>
 
   <build> 
     	<defaultGoal>compile</defaultGoal>
@@ -62,6 +69,10 @@
 						</resource>
 					</webResources>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
 			</plugin>
     </plugins>
   </build>
@@ -266,6 +277,12 @@
 		  <version>3.1.0</version>
 		  <scope>runtime</scope>
 	  </dependency>
+	  <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+	  <dependency>
+		  <groupId>com.alibaba</groupId>
+		  <artifactId>druid</artifactId>
+		  <version>1.0.27</version>
+	  </dependency>
 
 
 
@@ -277,5 +294,13 @@
 		  <version>1.0-SNAPSHOT</version>
 	  </dependency>
   </dependencies>
-  
+	<!-- 项目成员团体信息 -->
+	<developers>
+		<developer>
+			<id>marker</id>
+			<name>marker</name>
+			<email>admin@wuweibi.com</email>
+		</developer>
+
+	</developers>
 </project>
