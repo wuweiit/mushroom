@@ -119,6 +119,10 @@ public class SystemCoreFilter implements Filter {
 			chain.doFilter(req, response);
 			return;
 		}
+		if(uri.startsWith("/druid")){
+			chain.doFilter(req, response);
+			return; // 监控
+		}
 		
 		
 		/* ============================================

@@ -28,20 +28,20 @@
     <!-- 提供该propertyConfigurer bean支持把properties文件中的信息读取到XML配置文件的表达式中
     <context:property-placeholder location="classpath:/config/jdbc/connection.properties"/>-->
 
-
-    <!-- 使用C3P0的dataSource -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="${mushroom.db.driver}"/>
-        <property name="jdbcUrl"
-                  value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}"/>
-        <property name="user" value="${mushroom.db.user}"/>
-        <property name="password" value="${mushroom.db.pass}"/>
-        <property name="initialPoolSize" value="${c3p0.initialPoolSize}"/>
-        <property name="minPoolSize" value="${c3p0.minPoolSize}"/>
-        <property name="maxPoolSize" value="${c3p0.maxPoolSize}"/>
-        <property name="acquireIncrement" value="${c3p0.acquireIncrement}"/>
-        <property name="maxIdleTime" value="${c3p0.maxIdleTime}"/>
-        <property name="maxStatements" value="${c3p0.maxStatements}"/>
+    <!--  druid数据源   -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${mushroom.db.driver}" />
+        <property name="url" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}" />
+        <property name="username" value="${mushroom.db.user}" />
+        <property name="password" value="${mushroom.db.pass}" />
+        <!-- druid 连接池的 -->
+        <property name="filters" value="stat" />
+        <!--maxActive: 最大连接数量 -->
+        <property name="maxActive" value="20" />
+        <!--initialSize: 初始化连接 -->
+        <property name="initialSize" value="5" />
+        <!-- 这里配置提交方式，默认就是TRUE，可以不用配置 -->
+        <property name="defaultAutoCommit" value="true" />
     </bean>
 
     <!-- JDBC模板操作对向 -->
