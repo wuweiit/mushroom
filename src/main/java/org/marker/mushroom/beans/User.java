@@ -20,6 +20,7 @@ public class User implements Serializable{
 	private int id;
 	/** 分组ID */
 	private int gid;
+	private String email;// 电子邮箱
 	private String nickname;
 	private String name;
 	private String pass;
@@ -106,5 +107,13 @@ public class User implements Serializable{
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

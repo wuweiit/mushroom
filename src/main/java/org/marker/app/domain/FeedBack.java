@@ -1,12 +1,15 @@
 package org.marker.app.domain;
 
 
+import org.marker.mushroom.dao.annotation.Entity;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by ROOT on 2016/12/7.
  */
+@Entity("feedback")
 public class FeedBack implements Serializable {
 
     private Integer id;
