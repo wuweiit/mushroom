@@ -84,8 +84,7 @@ public class SystemCoreFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		
 		String uri  = request.getRequestURI();
-		
-		
+
 		
 		
 		/* 
