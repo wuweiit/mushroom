@@ -43,7 +43,7 @@ public class LoginController extends SupportController {
 	@ResponseBody 
 	public Object login(HttpServletRequest request,
 			@RequestParam("user") String username,
-			@RequestParam("pass") String password  ){
+			@RequestParam("pass") String password  ) throws Exception {
 
 
         return userBusiness.login(username, password);

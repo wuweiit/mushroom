@@ -5,6 +5,7 @@ import org.marker.app.common.ErrorCode;
 import org.marker.app.domain.MessageResult;
 import org.marker.app.service.UserService;
 import org.marker.mushroom.beans.User;
+import org.marker.mushroom.utils.GeneratePass;
 import org.marker.security.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class UserBusinessImpl implements UserBusiness {
     private UserService userService;
 
     @Override
-    public MessageResult login(String username, String password) {
+    public MessageResult login(String username, String password) throws Exception {
 
         // 验证用户是否存在
         if(!userService.existUserName(username)){
@@ -34,10 +35,12 @@ public class UserBusinessImpl implements UserBusiness {
 
 
         // 登录验证(根据用户名和密码查询)
-        String loginPasswordMd5 = MD5.getMD5Code(password);
-
         User user = userService.findUser(username);
-        if(user == null || !user.getPass().equals(loginPasswordMd5)){
+        if(user == null ){
+            return MessageResult.wrapErrorCode(ErrorCode.USER_PASSWORD_ERROR);
+        }
+        String loginPasswordMd5 = GeneratePass.encode(password);
+        if(!loginPasswordMd5.equals(user.getPass())){
             return MessageResult.wrapErrorCode(ErrorCode.USER_PASSWORD_ERROR);
         }
 

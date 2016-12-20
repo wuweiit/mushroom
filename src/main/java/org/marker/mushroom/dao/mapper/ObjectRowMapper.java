@@ -65,6 +65,7 @@ public final class ObjectRowMapper {
 			User user = new User();
 			user.setId(rs.getInt("id"));
 			user.setName(rs.getString("name"));
+			user.setPass(rs.getString("pass"));
 			user.setNickname(rs.getString("nickname"));
 			user.setLogintime(rs.getDate("logintime"));
 			user.setGid(rs.getInt("gid"));// 分组ID

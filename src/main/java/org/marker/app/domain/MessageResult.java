@@ -200,7 +200,7 @@ public class MessageResult {
 	 * @return
 	 */
 	public static MessageResult success(Object user) {
-		return new MessageResult(true, null, user);
+		return new MessageResult(true, "操作成功", user);
 	}
 	/**
 	 * 操作成功

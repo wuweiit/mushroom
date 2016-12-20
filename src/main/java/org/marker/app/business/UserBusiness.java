@@ -17,7 +17,7 @@ public interface UserBusiness {
      * @param password
      * @return
      */
-    MessageResult login(String username, String password);
+    MessageResult login(String username, String password) throws Exception;
 
 
     /**
