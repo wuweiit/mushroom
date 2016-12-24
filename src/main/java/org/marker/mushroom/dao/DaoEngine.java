@@ -75,7 +75,6 @@ public abstract class DaoEngine implements ISupportDao {
 	// 查询单个对象实现
 	@Override
 	public Map<String,Object> queryForMap(String sql, Object... args){
-		logger(sql);
 		return jdbcTemplate.queryForMap(sql, args);
 	}
 	
@@ -83,21 +82,17 @@ public abstract class DaoEngine implements ISupportDao {
 	// 查询对象集合实现
 	@Override
 	public List<Map<String, Object>> queryForList(String sql, Object... args) {
-		logger(sql);
-		logger(JSON.toJSONString(args));
 		return jdbcTemplate.queryForList(sql, args);
 	}
 	
 	// 查询对象 
 	@Override
 	public <T> T queryForObject(String sql, Class<T> clzz, Object... args) {
-		logger(sql);
 		return jdbcTemplate.queryForObject(sql, clzz, args);
 	}
 
 	// 查询是否存在
 	public boolean exists(String sql, Object... args){
-		logger(sql);
 		int num = jdbcTemplate.queryForObject(sql, Integer.class, args);
 		return num > 0? true : false;
 	}
@@ -112,14 +107,12 @@ public abstract class DaoEngine implements ISupportDao {
 	
 	// 批量更新
 	@Override
-	public int[] batchUpdate(String sql, List<Object[]> batchArgs) { 
-		logger(sql);
+	public int[] batchUpdate(String sql, List<Object[]> batchArgs) {
 		return jdbcTemplate.batchUpdate(sql, batchArgs);
 	}
 	// 更新数据
 	@Override
 	public boolean update(String sql, Object... args) {
-		logger(sql);
 		return jdbcTemplate.update(sql, args) > 0? true:false; 
 	}
 	
@@ -151,7 +144,6 @@ public abstract class DaoEngine implements ISupportDao {
 		sql.append("delete from ").append(prefix).append(map.getTableName())
 				.append(" where ").append(map.getPrimaryKey()).append(" in(")
 				.append(ids).append(")");
-		logger(sql.toString());
 		return jdbcTemplate.update(sql.toString()) > 0 ? true : false;
 	}
 	
@@ -164,7 +156,6 @@ public abstract class DaoEngine implements ISupportDao {
 		StringBuilder sql = new StringBuilder();
 		sql.append("delete from ").append(tableName).append(" where ")
 				.append(key).append(" in(").append(ids).append(")");
-		logger(sql.toString());
 		return jdbcTemplate.update(sql.toString()) > 0 ? true : false;
 	}
 	
@@ -190,7 +181,6 @@ public abstract class DaoEngine implements ISupportDao {
 	private Map<String, Object> queryForMapNoException(String sql,
 			Object... args) {
 		try {
-			logger(sql);
 			return jdbcTemplate.queryForMap(sql, args);
 		} catch (Exception e) { }
 		return new HashMap<String, Object>();
@@ -373,7 +363,6 @@ public abstract class DaoEngine implements ISupportDao {
 	public List<Map<String, Object>> queryFotList(int currentPageNo,
 			int pageSize, String sql, Object... args) {
 		sql += " limit " + (currentPageNo - 1) * pageSize + "," + pageSize;
-		logger(sql);
 		return jdbcTemplate.queryForList(sql, args);
 	}
 	
@@ -385,21 +374,5 @@ public abstract class DaoEngine implements ISupportDao {
 	protected String getPreFix(){
 		return dbConfig.getPrefix();
 	}
-	
-	
-	/**
-	 * 日志打印方法
-	 * 如果是数据库开发模式，方可打印日志
-	 * @param info
-	 */
-	protected void logger(String info, Object... params){
-		if(dbConfig.isDebug()){// debug模式输入SQL语句
-			info = SQLUtil.format(info);
-			logger.info(info, params);
-		}
-	}
-
-
-
 
 }

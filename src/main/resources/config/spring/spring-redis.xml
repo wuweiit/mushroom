@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+<!--
+    Redis 相关的配置
+
+
+-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"></bean>
+
+
+    <!-- （线上）服务器搭建的 Redis (SpringSession与阿里云不兼容)-->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${mrcms.redis.host}" />
+        <property name="port" value="${mrcms.redis.port}" />
+        <property name="password" value="${mrcms.redis.password}" />
+        <property name="timeout" value="${mrcms.redis.timeout}" />
+        <property name="poolConfig" ref="jedisPoolConfig" />
+        <property name="database" value="0" />
+        <property name="usePool" value="true" />
+    </bean>
+
+
+    <!-- 姚列工之前的接口使用 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+    </bean>
+
+
+
+</beans>

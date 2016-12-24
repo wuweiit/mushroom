@@ -50,4 +50,10 @@ public interface IUserDao {
 	boolean existsUserName(String username);
 
     void save(User user);
+
+
+
+    boolean existEmail(String email);
+
+    void updateField(int userId, String field, String value);
 }

@@ -33,7 +33,6 @@ public class CommonDaoImpl extends DaoEngine implements ICommonDao {
 		sql.append("delete from ").append(prefix).append(tableName)
 				.append(" where ").append(primaryKey).append(" in(")
 				.append(ids).append(")");
-		logger(sql.toString());
 		return jdbcTemplate.update(sql.toString()) > 0 ? true : false;
 	}
 	

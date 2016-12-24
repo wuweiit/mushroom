@@ -22,6 +22,10 @@ public class User implements Serializable{
 	private int gid;
 	private String email;// 电子邮箱
 	private String nickname;
+
+	private String underwrite;
+	private int sex;// 性别
+    private long points = 0;// 积分
 	private String name;
 	private String pass;
 	private Date createtime;
@@ -36,7 +40,7 @@ public class User implements Serializable{
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getNickname() {
@@ -116,4 +120,28 @@ public class User implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+    public String getUnderwrite() {
+        return underwrite;
+    }
+
+    public void setUnderwrite(String underwrite) {
+        this.underwrite = underwrite;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public long getPoints() {
+        return points;
+    }
+
+    public void setPoints(long points) {
+        this.points = points;
+    }
 }

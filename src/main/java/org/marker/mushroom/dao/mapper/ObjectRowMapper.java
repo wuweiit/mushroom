@@ -70,6 +70,9 @@ public final class ObjectRowMapper {
 			user.setLogintime(rs.getDate("logintime"));
 			user.setGid(rs.getInt("gid"));// 分组ID
 			user.setStatus(rs.getShort("status"));
+			user.setSex(rs.getInt("sex"));
+			user.setUnderwrite(rs.getString("underwrite"));
+			user.setPoints(rs.getLong("points"));
 			return user;
 		}
 	}

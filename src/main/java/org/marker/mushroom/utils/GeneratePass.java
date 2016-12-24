@@ -14,10 +14,15 @@ public class GeneratePass {
 
 	private static final SystemConfig syscfg = SystemConfig.getInstance();
 	
-	public static String encode(String password) throws Exception {
+	public static String encode(String password) {
 		String key = syscfg.get("secret_key");
-		 return MD5.getMD5Code(Base64.encode(DES.encrypt(
-					password.getBytes(), key))); 
+		try {
+			return MD5.getMD5Code(Base64.encode(DES.encrypt(
+                       password.getBytes(), key)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 }

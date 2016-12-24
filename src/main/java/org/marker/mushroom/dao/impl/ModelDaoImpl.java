@@ -23,7 +23,6 @@ public class ModelDaoImpl extends DaoEngine implements IModelDao {
 	public List<?> queryAll() { 
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from ").append(getPreFix()).append("model ");
-		logger(sql.toString());
 		List<Model> list = this.jdbcTemplate.query(sql.toString(),new Object[]{ },new RowMapperModel()); 
 		return list;  
 	}
@@ -33,7 +32,6 @@ public class ModelDaoImpl extends DaoEngine implements IModelDao {
 		StringBuilder sql = new StringBuilder();
 		sql.append("delete from ").append(getPreFix()).append("model")
 				.append(" where ").append("type=?");
-		logger(sql.toString());
 		return jdbcTemplate.update(sql.toString(),modelType) > 0 ? true : false; 
 	}
 
@@ -50,7 +48,6 @@ public class ModelDaoImpl extends DaoEngine implements IModelDao {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into ").append(getPreFix()).append("model")
 			.append(" values(null,?,?,?,?,?,?,sysdate(),?)");
-		logger(sql.toString());
 		int status = jdbcTemplate.update(sql.toString(),
 				config.get("name"),
 				config.get("icon"),

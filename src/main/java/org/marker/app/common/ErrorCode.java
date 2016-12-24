@@ -8,10 +8,11 @@ package org.marker.app.common;
 public enum  ErrorCode {
 
 
-    USER_NOT_EXISTS(1001, "user not exists"),
-    USER_IS_EXISTS(1002, "user not exists"),
+    USER_NOT_EXISTS(1001, "用户不存在！"),
+    USER_IS_EXISTS(1002, "用户已经注册！"),
 
-    USER_PASSWORD_ERROR(1003, "user password error"),
+    USER_PASSWORD_ERROR(1003, "账号或者密码错误！"),
+    EMAIL_IS_ERROR(1004, "邮箱格式错误！"),
 
 
 

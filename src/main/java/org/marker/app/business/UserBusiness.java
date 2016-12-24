@@ -1,6 +1,7 @@
 package org.marker.app.business;
 
 import org.marker.app.domain.MessageResult;
+import org.marker.mushroom.beans.User;
 
 /**
  *
@@ -12,19 +13,19 @@ public interface UserBusiness {
 
 
     /**
-     * 登录操作
-     * @param username
-     * @param password
-     * @return
-     */
-    MessageResult login(String username, String password) throws Exception;
-
-
-    /**
      * 注册账号
      * @param username
      * @param password
      * @return
      */
     MessageResult register(String username, String password);
+
+
+    MessageResult updateField(int userId, String field, String value);
+
+    boolean existUserName(String username);
+
+    User findUser(String username);
+
+    void updateToken(int id, String sessionId);
 }

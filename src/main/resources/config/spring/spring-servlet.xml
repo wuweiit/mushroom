@@ -13,27 +13,75 @@
     http://www.springframework.org/schema/context 
     http://www.springframework.org/schema/context/spring-context.xsd
 
-    "> 
-    
- 	<!-- ①：启动Spring MVC3.2的注解功能(使用最新的处理类)  -->
+    ">
+
+
+
+
+    <!-- file uplaod -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="2097152" />
+    </bean>
+
+
+    <!-- message support -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <array>
+                <value>config/international/messages</value>
+                <value>config/validation/validation</value>
+            </array>
+        </property>
+    </bean>
+
+    <!-- Saves a locale change using a session-->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+
+
+
+
+
+
+
+
+
+
+    <!-- ①：启动Spring MVC3.2的注解功能(使用最新的处理类)  -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
  
     </bean>
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">
 			<list>
-				 <bean class="org.springframework.http.converter.json.GsonHttpMessageConverter"/>
+				<ref bean="fastJsonHttpMessageConverter" />
 			</list>
 		</property>
-	</bean> 
+	</bean>
 
 
-    <mvc:default-servlet-handler/>
+	<mvc:default-servlet-handler/>
 
 	<mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+        <bean class="org.marker.app.interceptor.RequestParamsInterceptor"></bean>
+		<mvc:interceptor>
+			<mvc:mapping path="/api/**" />
+			<bean class="org.marker.app.interceptor.SignInterceptor"></bean>
+		</mvc:interceptor>
+
         <mvc:interceptor>
-            <mvc:mapping path="/api/**"/>
-            <bean class="org.marker.app.interceptor.SignInterceptor"></bean>
+			<mvc:mapping path="/api/user/update.do" />
+			<bean class="org.marker.app.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+
+
+
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <mvc:exclude-mapping path="/admin/login.*"/>
+            <mvc:exclude-mapping path="/admin/loginSystem.*"/>
+            <bean class="org.marker.mushroom.interceptor.LoginInterceptor" />
         </mvc:interceptor>
 	</mvc:interceptors>
 
@@ -102,5 +150,13 @@
        </property>
     </bean>
  	 -->
- 	 
+	<!-- Json解析器 -->
+	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+	<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
 </beans>

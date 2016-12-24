@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import org.marker.app.common.ErrorCode;
 import org.marker.mushroom.beans.User;
 import org.slf4j.Logger;
@@ -127,7 +128,17 @@ public class MessageResult {
 		this.data = data;
 	}
 
-
+	/**
+	 * 构造
+	 * @param status 状态码
+	 * @param msg 消息内容
+	 * @param data 数据
+	 */
+	public MessageResult(int status, String msg, Object data) {
+		this.status = status;
+		this.msg = msg;
+		this.data = data;
+	}
 
 	/**
 	 * 构造消息
@@ -166,22 +177,17 @@ public class MessageResult {
 
 
 
-	public Object getdata() {
+	public Object getData() {
 		return data;
 	}
 
-
-
-	public void setdata(Object data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 
-
-
-	
 	@Override
 	public String toString() {
-		return this.getMsg();
+		return JSON.toJSONString(this);
 	}
 
 
@@ -191,7 +197,7 @@ public class MessageResult {
 	 * @return
 	 */
 	public static MessageResult wrapErrorCode(ErrorCode errorCode) {
-		return new MessageResult(errorCode.getCode(),errorCode.getMsg());
+		return new MessageResult(errorCode.getCode(),errorCode.getMsg(), null);
 	}
 
 	/**
@@ -206,7 +212,7 @@ public class MessageResult {
 	 * 操作成功
 	 * @return
 	 */
-	public static Object success() {
+	public static MessageResult success() {
 		return new MessageResult(true, null);
 	}
 }

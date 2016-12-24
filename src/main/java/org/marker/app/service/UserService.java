@@ -26,8 +26,9 @@ public interface UserService {
     /**
      * 更新用户Token
      * @param userId
+     * @param sessionId
      */
-    String updateUserToken(int userId);
+    String updateUserToken(int userId, String sessionId);
 
 
     /**
@@ -35,4 +36,14 @@ public interface UserService {
      * @param user
      */
     void save(User user);
+
+
+    /**
+     * 验证邮箱是否存在
+     * @param email
+     * @return
+     */
+    boolean existEmail(String email);
+
+    void updateField(int userId, String field, String value);
 }

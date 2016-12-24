@@ -54,10 +54,10 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 	public User findUserByName(String userName) {
 		String prefix = dbConfig.getPrefix();
 		StringBuilder sql = new StringBuilder("select * from ");
-		sql.append(prefix).append("user").append(" where name=?");
+		sql.append(prefix).append("user").append(" where name=? or email = ?");
 		User user = null; 
 		try{
-			user = this.jdbcTemplate.queryForObject(sql.toString(), new Object[]{userName}, new RowMapperUser());
+			user = this.jdbcTemplate.queryForObject(sql.toString(), new Object[]{userName,userName}, new RowMapperUser());
 		}catch (Exception e) {
 			logger.error("通过name查询用户失败!", e);
 		}
@@ -94,13 +94,30 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
     @Override
     public boolean existsUserName(String username) {
         StringBuilder sql = new StringBuilder("select count(1) from ");
-        sql.append(getPreFix()).append("user u where u.name = ? ");
-        return this.exists(sql.toString(), username);
+        sql.append(getPreFix()).append("user u where u.name = ? or u.email=?");
+        return this.exists(sql.toString(), username,username);
     }
 
     @Override
     public void save(User user) {
-        this.save(user);
+        super.save(user);
     }
+
+	@Override
+	public boolean existEmail(String email) {
+		StringBuilder sql = new StringBuilder("select count(1) from ");
+		sql.append(getPreFix()).append("user u where u.email = ? ");
+		return this.exists(sql.toString(), email);
+	}
+
+	@Override
+	public void updateField(int userId, String field, String value) {
+
+		String prefix = dbConfig.getPrefix();
+		StringBuilder sql = new StringBuilder("update ");
+		sql.append(prefix).append("user ").append("set "+field+"=? where id=?");
+		this.update(sql.toString(),value, userId);
+
+	}
 
 }

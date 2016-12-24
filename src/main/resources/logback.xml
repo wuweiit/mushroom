@@ -1,0 +1,113 @@
+<configuration scan="true" scanPeriod="30 seconds">
+	<property name="PROJECT_HOME" value="/data/logs/mrcms" />
+	<property name="MAX_FILE_SIZE" value="300mb" />
+	<property name="MAX_HISTORY" value="5" />
+	<property name="MYBATIS_MAX_HISTORY" value="${MAX_HISTORY}" />
+
+	<property name="DEBUG_MAX_HISTORY" value="${MAX_HISTORY}" />
+	<property name="INFO_MAX_HISTORY" value="${MAX_HISTORY}" />
+	<property name="ERROR_MAX_HISTORY" value="${MAX_HISTORY}" />
+
+	<property name="PATTERN" value="[%d]-%c-%-5p [%thread] | %msg%n"/>
+	<property name="logNamePrefix" value="mrcms"/>
+   
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      		<level>DEBUG</level>
+    	</filter>
+		<encoder>
+			<pattern>${PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="DEBUG-ROLLING"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      		<level>DEBUG</level>
+    	</filter>
+		<file>${PROJECT_HOME}/debug.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${PROJECT_HOME}/%d{yyyy-MM-dd}/${logNamePrefix}-debug.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>${DEBUG_MAX_HISTORY}</maxHistory>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="INFO-ROLLING"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      		<level>INFO</level>
+    	</filter>
+		<file>${PROJECT_HOME}/info.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${PROJECT_HOME}/%d{yyyy-MM-dd}/${logNamePrefix}-info.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>${INFO_MAX_HISTORY}</maxHistory>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="ERROR-ROLLING"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      		<level>ERROR</level>
+    	</filter>
+		<file>${PROJECT_HOME}/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${PROJECT_HOME}/%d{yyyy-MM-dd}/${logNamePrefix}-error.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>${ERROR_MAX_HISTORY}</maxHistory>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+
+
+
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="ERROR-ROLLING"/>
+		<appender-ref ref="INFO-ROLLING"/>
+		<appender-ref ref="DEBUG-ROLLING"/>
+	</root>
+
+	<logger name="com.llcloud" level="DEBUG" /> 
+	<!-- 打印sql -->
+ 	<logger name="com.llcloud.dao.mapper" level="DEBUG">
+ 		<appender-ref ref="MYBATIS-ROLLING"/>
+ 	</logger>
+	<!-- 打印消息 -->
+	  
+	<!-- c3p0 -->
+	<logger name="org.springframework" level="DEBUG"/>
+	<logger name="com.ibatis" level="DEBUG" />
+	<logger name="org.apache.ibatis" level="DEBUG"/>
+	<logger name="org.mybatis" level="DEBUG"/>
+	<logger name="java.sql.Statement" level="DEBUG"/>
+	<logger name="java.sql.PreparedStatement" level="DEBUG"/>
+
+	<logger name="org.springframework.web" level="DEBUG"></logger>
+	<logger name="org.springframework.data.redis" level="INFO"></logger>
+
+
+
+</configuration>

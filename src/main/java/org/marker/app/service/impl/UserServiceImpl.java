@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateUserToken(int userId) {
-        String token = UUID.randomUUID().toString().replaceAll("-","");
+    public String updateUserToken(int userId, String token) {
+//        String token = UUID.randomUUID().toString().replaceAll("-","");
         userDao.updateToken(userId, token);
         return token;
     }
@@ -37,5 +37,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         userDao.save(user);
+    }
+
+    @Override
+    public boolean existEmail(String email) {
+        return userDao.existEmail(email);
+    }
+
+    @Override
+    public void updateField(int userId, String field, String value) {
+        userDao.updateField(  userId, field,value);
     }
 }

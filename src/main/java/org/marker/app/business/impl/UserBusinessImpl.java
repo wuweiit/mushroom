@@ -5,13 +5,14 @@ import org.marker.app.common.ErrorCode;
 import org.marker.app.domain.MessageResult;
 import org.marker.app.service.UserService;
 import org.marker.mushroom.beans.User;
+import org.marker.mushroom.utils.DataUtils;
 import org.marker.mushroom.utils.GeneratePass;
-import org.marker.security.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -24,48 +25,28 @@ public class UserBusinessImpl implements UserBusiness {
     @Autowired
     private UserService userService;
 
-    @Override
-    public MessageResult login(String username, String password) throws Exception {
 
-        // 验证用户是否存在
-        if(!userService.existUserName(username)){
-            return MessageResult.wrapErrorCode(ErrorCode.USER_NOT_EXISTS);
-        }
-
-
-
-        // 登录验证(根据用户名和密码查询)
-        User user = userService.findUser(username);
-        if(user == null ){
-            return MessageResult.wrapErrorCode(ErrorCode.USER_PASSWORD_ERROR);
-        }
-        String loginPasswordMd5 = GeneratePass.encode(password);
-        if(!loginPasswordMd5.equals(user.getPass())){
-            return MessageResult.wrapErrorCode(ErrorCode.USER_PASSWORD_ERROR);
-        }
-
-
-        // 登录成功生成Token
-        String token = userService.updateUserToken(user.getId());
-        user.setToken(token);
-        user.setPass(null);
-
-        return MessageResult.success(user);
-    }
 
     @Override
-    public MessageResult register(String username, String password) {
+    public MessageResult register(String email, String password) {
+
+        // 验证邮箱格式
+        if(!DataUtils.checkEmail(email)){
+            return MessageResult.wrapErrorCode(ErrorCode.EMAIL_IS_ERROR);
+        }
 
         // 验证用户是否存在
-        if(userService.existUserName(username)){
+        if(userService.existEmail(email)){
             return MessageResult.wrapErrorCode(ErrorCode.USER_IS_EXISTS);
         }
 
+        String loginPasswordMd5 = GeneratePass.encode(password);
 
         User user = new User();
-        user.setName(username);
-        user.setNickname("无名");
-        user.setPass(MD5.getMD5Code(password));
+        user.setEmail(email);
+        user.setName("");
+        user.setNickname("匿名");
+        user.setPass(loginPasswordMd5);
         user.setCreatetime(new Date());
         user.setGid(3);// 普通用户
         user.setStatus(0);
@@ -73,6 +54,36 @@ public class UserBusinessImpl implements UserBusiness {
 
         userService.save(user);
 
+
+
         return MessageResult.success(user);
+    }
+
+    @Override
+    public MessageResult updateField(int userId, String field, String value) {
+
+        String allowfields=",";
+
+
+
+
+        userService.updateField(userId, field,value);
+
+        return MessageResult.success();
+    }
+
+    @Override
+    public boolean existUserName(String username) {
+        return userService.existUserName(username);
+    }
+
+    @Override
+    public User findUser(String username) {
+        return userService.findUser(username);
+    }
+
+    @Override
+    public void updateToken(int userId, String sessionId) {
+        userService.updateUserToken(userId, sessionId);
     }
 }
