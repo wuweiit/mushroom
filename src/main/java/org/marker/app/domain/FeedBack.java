@@ -14,6 +14,7 @@ public class FeedBack implements Serializable {
 
     private Integer id;
     private String nickname;
+    private int userId;
     private String content;
     private String ip;
     private Date time;
@@ -56,5 +57,13 @@ public class FeedBack implements Serializable {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

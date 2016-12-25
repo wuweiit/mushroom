@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.session:spring-session:1.0.2.RELEASE">
+    <CLASSES>
+      <root url="jar://D:/.m2/repository/org/springframework/session/spring-session/1.0.2.RELEASE/spring-session-1.0.2.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/.m2/repository/org/springframework/session/spring-session/1.0.2.RELEASE/spring-session-1.0.2.RELEASE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/.m2/repository/org/springframework/session/spring-session/1.0.2.RELEASE/spring-session-1.0.2.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

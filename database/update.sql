@@ -20,3 +20,6 @@ ALTER TABLE `mr_user`
 ALTER TABLE `mr_user`
   MODIFY COLUMN `token`  varchar(40) CHARACTER SET gbk COLLATE gbk_chinese_ci NULL DEFAULT NULL AFTER `ip`;
 
+ALTER TABLE `mr_feedback`
+  ADD COLUMN `userId`  int NULL AFTER `time`;
+

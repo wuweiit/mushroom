@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -49,8 +50,8 @@ public class SignInterceptor implements HandlerInterceptor  {
             str.append(bean.getKey()).append('=').append(bean.getValue()[0]).append("&");
         }
         String time = request.getHeader("time");
-        String str2 = str.substring(0,str.length() -1)+"|time=" + time ;
-        logger.info("param: {}",str2);
+        String str2 = URLEncoder.encode(str.substring(0,str.length() -1),"UTF-8")+"|time=" + time ;
+        logger.info("sign param: {}",str2);
 
         if(StringUtils.isEmpty(signClient)){
             logger.error("request sign invalid...");
@@ -58,7 +59,6 @@ public class SignInterceptor implements HandlerInterceptor  {
         }
 
         String md5Str = MD5.getMD5Code(str2);
-        logger.info("param md5: {}",md5Str);
         String signServer = Base64.encode(md5Str.getBytes());
         if(!signClient.equals(signServer)){
             logger.error("signServer:{} ", signServer);

@@ -5,6 +5,8 @@ import org.marker.app.dao.FeedBackDao;
 import org.marker.app.domain.FeedBack;
 import org.marker.app.domain.MessageResult;
 import org.marker.mushroom.support.SupportController;
+import org.marker.mushroom.utils.HttpUtils;
+import org.marker.mushroom.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,13 +42,19 @@ public class FeedBackController extends SupportController {
 	@RequestMapping(value = "/commit", method = RequestMethod.POST)
 	@ResponseBody 
 	public Object login(HttpServletRequest request,
-			@RequestParam("content") String content  ){
+			@RequestParam("content") String content,
+			@RequestParam("userId") Integer userId,
+			@RequestParam("nickname") String nickname ){
 		FeedBack feedBack = new FeedBack();
 		feedBack.setContent(content);
 		feedBack.setTime(new Date());
-		feedBack.setNickname("app");
-
+		feedBack.setUserId(userId);
+		feedBack.setNickname(nickname);
+        String ip = HttpUtils.getRemoteHost(request);
+        feedBack.setIp(ip);
 		feedBackDao.save(feedBack);
+
+
 
         return MessageResult.success();
 	}
