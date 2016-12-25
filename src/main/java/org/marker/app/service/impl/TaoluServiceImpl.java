@@ -34,7 +34,7 @@ public class TaoluServiceImpl implements TaoluService {
 
 
 
-        String sql = "select * from mr_taolu a where 1=1 and ";
+        String sql = "select a.id,a.icon,a.keywords,a.description,a.author,a.title,a.time from mr_taolu a where 1=1 and ";
         List list = new ArrayList<>(4);
         if(endId == 0){
             sql +=" 1=1 order by a.time asc limit ?";

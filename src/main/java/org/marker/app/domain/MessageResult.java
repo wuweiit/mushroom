@@ -1,5 +1,6 @@
 package org.marker.app.domain;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @update 2015-02-11 添加了code属性，描述错误码，绑定国际化资源
  */
-public class MessageResult {
+public class MessageResult implements Serializable {
 	
 	/** 表单验证错误 */
 	public static final int TYPE_FORM      = -4;
