@@ -18,17 +18,19 @@ public class ActionEnter {
 	
 	private String rootPath = null;
 	private String contextPath = null;
+	private String saveRootPath = null;
 	
 	private String actionType = null;
 	
 	private ConfigManager configManager = null;
 
-	public ActionEnter ( HttpServletRequest request, String rootPath ) {
+	public ActionEnter(HttpServletRequest request, String rootPath, String saveRootPath) {
 		
 		this.request = request;
 		this.rootPath = rootPath;
 		this.actionType = request.getParameter( "action" );
 		this.contextPath = request.getContextPath();
+		this.saveRootPath = saveRootPath;
 		this.configManager = ConfigManager.getInstance( this.rootPath, this.contextPath, request.getRequestURI() );
 		
 	}
@@ -77,6 +79,7 @@ public class ActionEnter {
 			case ActionMap.UPLOAD_VIDEO:
 			case ActionMap.UPLOAD_FILE:
 				conf = this.configManager.getConfig( actionCode );
+				conf.put("saveRootPath",this.saveRootPath);
 				state = new Uploader( request, conf ).doExec();
 				break;
 				

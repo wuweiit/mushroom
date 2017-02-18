@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	import="com.baidu.ueditor.ActionEnter"
     pageEncoding="UTF-8"%>
+<%@ page import="org.marker.app.utils.EnvUtils" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%
 
@@ -8,8 +9,12 @@
 	response.setHeader("Content-Type" , "text/html");
 	
 	String rootPath = application.getRealPath( "/" );
-	rootPath = "/usr/local/nginx/html/";
-	
-	out.write( new ActionEnter( request, rootPath ).exec() );
+
+    String saveRootPath = "/usr/local/nginx/html/";
+    if( EnvUtils.isDev()){
+
+    }
+
+	out.write( new ActionEnter( request, rootPath,saveRootPath ).exec() );
 	
 %>
