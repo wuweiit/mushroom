@@ -12,7 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,7 +105,7 @@ public abstract class ConfigEngine implements IConfig {
 
 	/**
 	 * 读取配置文件
-	 * @param 配置文件File对象
+	 * @param _cfgFile 配置文件File对象
 	 */
 	public void read(File _cfgFile){
 		this.cfgFile = _cfgFile;
