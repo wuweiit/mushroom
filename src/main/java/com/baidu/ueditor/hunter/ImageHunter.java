@@ -28,6 +28,7 @@ public class ImageHunter {
 	private String rootPath = null;
 	private List<String> allowTypes = null;
 	private long maxSize = -1;
+	private String saveRootPath;
 	
 	private List<String> filters = null;
 	
@@ -36,6 +37,7 @@ public class ImageHunter {
 		this.filename = (String)conf.get( "filename" );
 		this.savePath = (String)conf.get( "savePath" );
 		this.rootPath = (String)conf.get( "rootPath" );
+		this.saveRootPath = (String) conf.get("saveRootPath");
 		this.maxSize = (Long)conf.get( "maxSize" );
 		this.allowTypes = Arrays.asList( (String[])conf.get( "allowFiles" ) );
 		this.filters = Arrays.asList( (String[])conf.get( "filter" ) );
@@ -87,7 +89,7 @@ public class ImageHunter {
 			}
 			
 			String savePath = this.getPath( this.savePath, this.filename, suffix );
-			String physicalPath = this.rootPath + savePath;
+			String physicalPath = this.saveRootPath + savePath;
 
 			State state = StorageManager.saveFileByInputStream( connection.getInputStream(), physicalPath );
 			

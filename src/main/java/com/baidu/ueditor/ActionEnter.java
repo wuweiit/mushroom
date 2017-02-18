@@ -86,6 +86,7 @@ public class ActionEnter {
 			case ActionMap.CATCH_IMAGE:
 				conf = configManager.getConfig( actionCode );
 				String[] list = this.request.getParameterValues( (String)conf.get( "fieldName" ) );
+				conf.put("saveRootPath",this.saveRootPath);
 				state = new ImageHunter( conf ).capture( list );
 				break;
 				
