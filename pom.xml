@@ -310,6 +310,21 @@
 		  <artifactId>module4j</artifactId>
 		  <version>1.0-SNAPSHOT</version>
 	  </dependency>
+
+
+	  <!-- https://mvnrepository.com/artifact/org.json/json -->
+	  <dependency>
+		  <groupId>org.json</groupId>
+		  <artifactId>json</artifactId>
+		  <version>20160810</version>
+	  </dependency>
+
+
+
+
+
+
+
   </dependencies>
 	<!-- 项目成员团体信息 -->
 	<developers>
