@@ -18,6 +18,8 @@ public class ArticleTaolu implements Serializable {
 	private Integer id;
 	/** 所属栏目ID */
 	private Integer cid;
+	/** 分类名称 */
+	private String category;
 	/** 图标 */
 	private String icon;
 	/** 标题 */
@@ -148,7 +150,12 @@ public class ArticleTaolu implements Serializable {
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
-	
-	
- 
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }

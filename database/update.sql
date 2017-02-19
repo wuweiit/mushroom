@@ -23,3 +23,11 @@ ALTER TABLE `mr_user`
 ALTER TABLE `mr_feedback`
   ADD COLUMN `userId`  int NULL AFTER `time`;
 
+
+
+-- 20170219 添加分类
+ALTER TABLE `mr_taolu`
+  ADD COLUMN `category`  varchar(50) NULL AFTER `cid`;
+
+
+
