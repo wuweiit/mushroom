@@ -254,8 +254,8 @@ public class AdminController extends SupportController {
 		
 		view.addObject("serverinfo", application.getServerInfo());
 		view.addObject("dauthor", "marker");
-		view.addObject("email", "wuweiit@gmail.com");
-		view.addObject("version", "20140803");
+		view.addObject("email", "admin@wuweibi.com");
+		view.addObject("version", "3.0");
 		view.addObject("qqqun","331925386");
 		view.addObject("uxqqqun","181150189");
 		

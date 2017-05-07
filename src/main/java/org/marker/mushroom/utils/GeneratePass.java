@@ -16,6 +16,7 @@ public class GeneratePass {
 	
 	public static String encode(String password) {
 		String key = syscfg.get("secret_key");
+		System.out.println(key);
 		try {
 			return MD5.getMD5Code(Base64.encode(DES.encrypt(
                        password.getBytes(), key)));

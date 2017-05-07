@@ -30,7 +30,9 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 		User user = null; 
 		try{
 			user = this.jdbcTemplate.queryForObject(sql.toString(), new Object[]{name, pass}, new RowMapperUser());
-		}catch (Exception e) {}
+		}catch (Exception e) {
+			logger.error("{}", e);
+		}
 		
 		return user;
 	}
