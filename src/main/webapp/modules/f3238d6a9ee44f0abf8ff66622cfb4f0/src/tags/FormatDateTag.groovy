@@ -1,6 +1,6 @@
 package org.marker.mushroom.ext.tag.impl;
 
-import org.marker.mushroom.ext.tag.AbstractTag
+
 
 /**
  * 时间格式标签 调用格式: ${dsad format=(yy-DD-MM)}
@@ -8,7 +8,7 @@ import org.marker.mushroom.ext.tag.AbstractTag
  * 
  * @author marker
  * */
-public class TagImpl extends AbstractTag{
+public class TagwImpl extends AbstractTag{
 	
 	 /** 默认构造 */
 	public TagImpl() {

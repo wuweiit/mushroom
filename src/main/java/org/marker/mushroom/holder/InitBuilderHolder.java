@@ -123,7 +123,9 @@ public class InitBuilderHolder implements ServletContextAware{
 		try {
 			ModuleFramework msei = new ModuleFramework(configMap);
 	        ModuleContext context = msei.getModuleContext();
+
 	        application.setAttribute(ModuleFramework.MODULE_CONTEXT, context);
+//			msei.start();
 		} catch (Exception e) {
 			logger.error("", e);
 		} 

@@ -53,7 +53,7 @@ public final class WebAPP {
 	
 	/**
 	 * 安装状态（注意：容器初始化赋值）
-	 * @see org.marker.mushroom.holder.MushRoomInitBuildHolder
+	 * @see org.marker.mushroom.holder.InitBuildHolder
 	 */
 	public static boolean install = false;
 	
@@ -169,7 +169,6 @@ public final class WebAPP {
 	
 	/**
 	 * 发送错误消息
-	 * @param errorCode
 	 * @throws org.marker.mushroom.core.exception.SystemException  
 	 */
 	public void handleErrorMessage(SystemException e) {

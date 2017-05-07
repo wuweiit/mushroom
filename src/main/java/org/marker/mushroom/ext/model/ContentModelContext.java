@@ -50,7 +50,7 @@ public class ContentModelContext implements IContentModelParse {
 	private ContentModelContext(){ 
 		channelDao = SpringContextHolder.getBean(DAO.CHANNEL); 
 		modelDao = SpringContextHolder.getBean(DAO.MODEL);
-		
+
 	}
 	
 	
