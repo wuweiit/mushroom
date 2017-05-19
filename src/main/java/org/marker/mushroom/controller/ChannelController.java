@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.marker.mushroom.beans.Channel;
+import org.marker.mushroom.beans.Menu;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.dao.IChannelDao;
@@ -65,6 +66,12 @@ public class ChannelController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/update")
 	public Object update(Channel channel){
+
+		Channel max = channelDao.findChildMaxSortMenuByPId(channel.getPid());
+		if(max != null && (max.getSort() <= channel.getSort())){
+			channel.setEnd(1);
+		}
+
 		if(channelDao.update(channel)){
 			return new ResultMessage(true, "更新成功!");
 		}else{

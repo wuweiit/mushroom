@@ -213,7 +213,7 @@ public class FileController extends SupportController {
 			}
 		} 
 		view.addObject("data", list);
-		view.addObject("path", encoding(path));
+		view.addObject("pathURL", encoding(path));
 		return view;
 	}
 	

@@ -14,6 +14,11 @@ import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.config.impl.URLRewriteConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyKeyWordComputer;
 import org.marker.mushroom.ext.message.MessageContext;
+import org.marker.mushroom.ext.model.ContentModelContext;
+import org.marker.mushroom.ext.model.impl.ArticleModelImpl;
+import org.marker.mushroom.ext.plugin.PluginContext;
+import org.marker.mushroom.ext.plugin.Pluginlet;
+import org.marker.mushroom.ext.plugin.impl.GuestBookPluginletImpl;
 import org.marker.mushroom.ext.tag.TaglibContext;
 import org.marker.mushroom.ext.tag.impl.AbsoluteURLTagImpl;
 import org.marker.mushroom.ext.tag.impl.ExecuteTimeTagImpl;
@@ -95,8 +100,29 @@ public class InitBuilderHolder implements ServletContextAware{
     	logger.info("build keyword instance = {}", "");	
     	SingletonProxyKeyWordComputer.init(webRootPath);// 初始化dic
     	SingletonProxyKeyWordComputer.getInstance();
-    	
-    	
+
+
+
+    	/*
+		 * ============================================================
+		 *               内容模型支持
+		 * ============================================================
+		 */
+		ContentModelContext contentModelContext = ContentModelContext.getInstance();
+
+		contentModelContext.put(new ArticleModelImpl());
+
+
+
+
+
+        PluginContext pluginContext = PluginContext.getInstance();
+
+        try {
+            pluginContext.put(new GuestBookPluginletImpl());
+        } catch (Exception e) {
+            logger.error("", e);
+        }
     	
 
     	

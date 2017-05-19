@@ -27,4 +27,12 @@ public interface IChannelDao extends ISupportDao {
 	 * @return
 	 */
 	List<Channel> findValid();
+
+
+	/**
+	 * 查询排序最大的
+	 * @param pid
+	 * @return
+	 */
+	Channel findChildMaxSortMenuByPId(long pid);
 }

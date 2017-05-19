@@ -32,6 +32,9 @@ public class Channel implements Serializable{
 	private String template;
 	/** 排序 */
 	private int sort;
+	/** 是否结束 */
+	private int end = 0;
+
 	/** 条数 */
 	private int rows;
 	/** 是否隐藏 */
@@ -121,5 +124,12 @@ public class Channel implements Serializable{
 	public void setLangkey(String langkey) {
 		this.langkey = langkey;
 	}
-	
+
+	public int getEnd() {
+		return end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
 }

@@ -39,6 +39,8 @@ public final class ObjectRowMapper {
 			channel.setRedirect(rs.getString("redirect"));// 重定向地址
 			channel.setHide(rs.getShort("hide"));
 			channel.setLangkey(rs.getString("langkey"));// 国际化
+            channel.setEnd(rs.getInt("end"));// 是否结束
+            channel.setSort(rs.getInt("sort"));// 排序
 			return channel;
 		}
 	}

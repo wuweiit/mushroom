@@ -192,7 +192,6 @@ public class SendDataToView {
 		}finally{
 			if(null != writer){
 				try {
-					writer.flush();
 					writer.close();
 				} catch (IOException e) {
 					logger.error("response error writer content!", e);

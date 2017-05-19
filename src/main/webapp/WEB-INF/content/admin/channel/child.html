@@ -4,7 +4,10 @@
 	  	<#if id == comment.pid>
 		<tr> 
 	      	<td align="center">${comment.id?c}</td>
-	        <td><#list 0..temp as x> &nbsp; &nbsp; </#list>${comment.name!}</td> 
+	        <td><#list 0..temp as x> &nbsp; &nbsp; </#list>
+				<#if comment.end == 1> └ <#else>  ├</#if>
+
+				${comment.name!}</td>
 	        <td align="left"><a href="${url!}${encoder('/cms?p=${comment.url!}')!}" target="_blank">${comment.url!}</a></td>
 	       
 	        <td align="center">${comment.sort?c}</td>

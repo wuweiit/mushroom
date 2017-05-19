@@ -79,10 +79,10 @@ public class FileObject {
 		}
 		return 0;
 	}
-	
-	
+
 	public String getPath(){
-		return file.getPath().replace(WebRealPathHolder.REAL_PATH,"");//文件相对地址
+		String path = file.getPath().replace(WebRealPathHolder.REAL_PATH,"/");;
+		return path; //文件相对地址
 	}
 	
 	

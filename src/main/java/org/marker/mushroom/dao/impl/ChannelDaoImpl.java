@@ -7,6 +7,7 @@ import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.dao.DaoEngine;
 import org.marker.mushroom.dao.IChannelDao;
+import org.marker.mushroom.dao.mapper.ObjectRowMapper;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper.RowMapperChannel;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -91,6 +92,18 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 		StringBuilder sql = new StringBuilder("select * from ").append(getPreFix()).append("channel").append(" where hide=?");
 		return jdbcTemplate.query(sql.toString(), new RowMapperChannel(),1);
 	}
-	
-	
+
+	@Override
+	public Channel findChildMaxSortMenuByPId(long pid) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from ").append(dbConfig.getPrefix()).append("channel where pid=? order by sort desc limit 1");
+		try{
+			return this.jdbcTemplate.queryForObject(sql.toString(), new ObjectRowMapper.RowMapperChannel(), pid);
+		}catch(Exception e){
+			logger.error("", e);
+		}
+		return null;
+	}
+
+
 }

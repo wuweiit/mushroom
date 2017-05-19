@@ -27,7 +27,8 @@
 
     <!-- message support -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames">
+        <property name="defaultEncoding" value="utf-8"/>
+		<property name="basenames">
             <array>
                 <value>config/international/messages</value>
                 <value>config/validation/validation</value>
