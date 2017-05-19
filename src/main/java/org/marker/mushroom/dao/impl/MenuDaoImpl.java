@@ -125,8 +125,17 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 		return false;
 	}
 
-	
-	
- 
-	
+	@Override
+	public Menu findChildMaxSortMenuByPId(int parentId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from ").append(dbConfig.getPrefix()).append("user_menu where pid=? order by sort desc limit 1");
+		try{
+			return this.jdbcTemplate.queryForObject(sql.toString(), new RowMapperMenu(), parentId);
+		}catch(Exception e){
+			logger.error("", e);
+		}
+		return null;
+	}
+
+
 }

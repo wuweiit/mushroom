@@ -31,3 +31,6 @@ ALTER TABLE `mr_taolu`
 
 
 
+-- 20170519
+ALTER TABLE `db_mrcms`.`mr_user_menu` ADD COLUMN `end` int AFTER `type`;
+

@@ -31,7 +31,11 @@
 		  	<#if id = menu.pid>
 				<tr>
 			        <td>
-			        	<#if temp gt 0 ><#list 1..temp as x>&nbsp; &nbsp;</#list>├</#if> <i class="fa ${menu.icon!}"></i> ${menu.name!} 
+			        	<#if temp gt 0 ><#list 1..temp as x>&nbsp; &nbsp;</#list>
+<#if menu.end == 1> └ <#else>  ├</#if>
+
+
+					  </#if> <i class="fa ${menu.icon!}"></i> ${menu.name!}
 			        </td>
 			        <td>${menu.url!} </td>
 			        <td class="tac">${menu.sort?c} </td>

@@ -54,6 +54,9 @@ public final class ObjectRowMapper {
 			menu.setIcon(rs.getString("icon"));
 			menu.setSort(rs.getInt("sort"));
 			menu.setUrl(rs.getString("url"));
+			menu.setEnd(rs.getInt("end"));
+			menu.setDescription(rs.getString("description"));
+			menu.setType(rs.getString("type"));
 			return menu;
 		}
 	}

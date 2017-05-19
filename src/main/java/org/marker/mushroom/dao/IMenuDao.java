@@ -66,5 +66,11 @@ public interface IMenuDao  extends ISupportDao{
 	 * @return
 	 */
 	boolean checkType(String type);
-	
+
+	/**
+	 * 查询最大排序的
+	 * @param parentId
+	 * @return
+	 */
+	Menu findChildMaxSortMenuByPId(int parentId);
 }

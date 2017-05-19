@@ -20,6 +20,8 @@ public class Menu implements Serializable {
 	/** UUID唯一码 */
 	private String type;
 	private int sort = 0;
+	/** 是否是同级节点的结尾 */
+	private int end = 0;
 	private String description;
 	 
 	public String getName() {
@@ -71,7 +73,13 @@ public class Menu implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
-	
+
+
+	public int getEnd() {
+		return end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
 }

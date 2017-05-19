@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * 菜单管理
@@ -19,6 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin/menu")
 public class MenuController extends SupportController {
+
+	@Autowired private IMenuDao menuDao;
+
+
 
 	public MenuController() {
 		this.viewPath = "/admin/menu/";
@@ -45,7 +52,15 @@ public class MenuController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/update")
 	public Object update(Menu menu,@RequestParam("id") int id){
-		menu.setId(id);// 不能注入  
+		menu.setId(id);// 不能注入
+
+		int parentId = menu.getPid();
+
+		Menu maxMenu = menuDao.findChildMaxSortMenuByPId(parentId);
+		if(maxMenu != null && (maxMenu.getSort() <= menu.getSort())){
+			menu.setEnd(1);
+		}
+
 		if(commonDao.update(menu)){
 			return new ResultMessage(true, "更新成功!");
 		}else{
@@ -63,9 +78,6 @@ public class MenuController extends SupportController {
 			return new ResultMessage(false,"保存失败!"); 
 		}
 	}
-	@Autowired private IMenuDao menuDao;
-	
-	
 	//删除文章
 	@ResponseBody
 	@RequestMapping("/delete")
@@ -93,8 +105,7 @@ public class MenuController extends SupportController {
 	
 	/**
 	 * 用户组列表
-	 * 
-	 * @param request
+	 *
 	 * @return
 	 */
 	@RequestMapping("/list")
@@ -102,7 +113,14 @@ public class MenuController extends SupportController {
 		ModelAndView view = new ModelAndView(this.viewPath + "list");
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from ").append(getPrefix()).append("user_menu order by sort");
-		view.addObject("menus", commonDao.queryForList(sql.toString()));
+		List<Map<String,Object>> list = commonDao.queryForList(sql.toString());
+
+
+
+
+
+
+		view.addObject("menus", list );
 		return view;
 	}
 	
