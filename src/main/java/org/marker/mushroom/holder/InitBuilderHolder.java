@@ -6,9 +6,6 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import com.wuweibi.module4j.ModuleFramework;
-import com.wuweibi.module4j.config.Configuration;
-import com.wuweibi.module4j.module.ModuleContext;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
@@ -101,34 +98,7 @@ public class InitBuilderHolder implements ServletContextAware{
     	
     	
     	
-		/* 
-		 * ============================================================
-		 *                       模块的初始化
-		 * ============================================================
-		 */ 
-    	logger.info("mrcms loading module ...");
-		String moduleDir = webRootPath+"modules";// 模块目录
-		
-		// 缓存目录
-		String cacheDir = moduleDir + File.separator + "cache";// 模块目录
-		
-		Map<String,String> configMap = new HashMap<String,String>();
-	   	// 自动部署目录配置
-        configMap.put(Configuration.DIR_MODULES, moduleDir);
-        // 缓存目录
-        configMap.put(Configuration.DIR_CACHE, cacheDir);
-        // 日志级别
-        configMap.put(Configuration.LOG_LEVEL, "1");
-        
-		try {
-			ModuleFramework msei = new ModuleFramework(configMap);
-	        ModuleContext context = msei.getModuleContext();
 
-	        application.setAttribute(ModuleFramework.MODULE_CONTEXT, context);
-//			msei.start();
-		} catch (Exception e) {
-			logger.error("", e);
-		} 
     	
     	
     	
