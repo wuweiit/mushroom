@@ -25,6 +25,8 @@ import org.marker.mushroom.template.tags.res.SqlDataSource;
 
 /**
  * 内容模型作用域
+ *
+ *
  * 
  * @author marker
  * @version 1.0

@@ -17,11 +17,14 @@
 
     // 获取文件存储地址
     String saveRootPath = systemConfig.getFilePath();
+    if(!(saveRootPath != null && !"".equals(saveRootPath))){
+        saveRootPath = rootPath;
+    }
 
     if( EnvUtils.isDev()){
 
     }
 
-	out.write( new ActionEnter( request, rootPath,saveRootPath ).exec() );
+	out.write( new ActionEnter( request, rootPath, saveRootPath ).exec() );
 	
 %>

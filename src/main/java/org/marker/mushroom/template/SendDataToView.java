@@ -102,15 +102,6 @@ public class SendDataToView {
 		
 		
 		AllHttpScopesHashModel root = createModel(application, request, config);
-		
-		
-		
-		
-		
-		
-		
-	
-		
 
 		//需要使用的组件准备就绪
 		ISupportDao dao = SpringContextHolder.getBean(DAO.COMMON);
@@ -188,7 +179,7 @@ public class SendDataToView {
 						
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("", e);
 			new SystemException("发送对象失败");
 		}finally{
 			if(null != writer){
