@@ -89,7 +89,7 @@ public class ListTagImpl extends Taglib {
 					data.setVar(field_kv[1]);
 					continue;
 				}else if("limit".equals(field_kv[0])) {//数据量限制
-					data.setLimit(Integer.parseInt(field_kv[1]));
+					data.setLimit(field_kv[1]);
 					continue;
 				}else if("page".equals(field_kv[0])){//查询页码 
 					data.setPage(Integer.parseInt(field_kv[1]));

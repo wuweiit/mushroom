@@ -6,6 +6,7 @@ import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.service.impl.CategoryService;
+import org.springframework.util.StringUtils;
 
 public class CategoryDataSourceImpl extends SqlDataSource {
 
@@ -14,7 +15,7 @@ public class CategoryDataSourceImpl extends SqlDataSource {
 	// 条件
 	private String where = ""; 
 	// 限制条数
-	private int limit = 10;
+	private String limit = "10";
 	// 排序
 	private String order; //例如: "id desc"
 	
@@ -34,11 +35,7 @@ public class CategoryDataSourceImpl extends SqlDataSource {
 		
 		// 通过分类ID查询出内容模型，为表名称
 		String model = service.findModelById(this.id);
-		
-		
-		
-		
-		
+
 		StringBuilder queryString = new StringBuilder();
 		queryString.append("select ")
 			.append(SQL.ALIAS_MODEL).append(".*,C.name cname, concat('/cms?','type="+model+"','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) 'url'")
@@ -73,7 +70,15 @@ public class CategoryDataSourceImpl extends SqlDataSource {
 		if (this.order != null && !"".equals(this.order)) {
 			queryString.append(SQL.QUERY_FOR_ORDERBY)
 					.append(SQL.QUERY_FOR_ALIAS_DOT).append(this.order);
-		} 
+		}
+
+		// limit 限制输出
+		if(!StringUtils.isEmpty(this.limit)){
+			queryString.append(" limit ").append(this.limit);
+		}
+
+
+
 		this.queryString = queryString.toString();
 	}
 
@@ -123,7 +128,7 @@ public class CategoryDataSourceImpl extends SqlDataSource {
 
 
 
-	public int getLimit() {
+	public String getLimit() {
 		return limit;
 	}
 
@@ -133,7 +138,7 @@ public class CategoryDataSourceImpl extends SqlDataSource {
 
 
 
-	public void setLimit(int limit) {
+	public void setLimit(String limit) {
 		this.limit = limit;
 	}
 

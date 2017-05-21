@@ -212,9 +212,7 @@ public class MyCMSTemplate {
 
 	/**
 	 * 推送数据引擎到模版引擎
-	 * 
-	 * @param items 传递名称
-	 * @param data2 数据引擎
+	 *
 	 * @throws SystemException 
 	 * */
 	public void put(SqlDataSource sqlDs) throws SystemException {

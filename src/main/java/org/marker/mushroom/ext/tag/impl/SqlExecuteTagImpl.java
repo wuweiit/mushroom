@@ -8,13 +8,21 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 
+import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.ext.tag.MatchRule;
+import org.marker.mushroom.ext.tag.TagUtils;
 import org.marker.mushroom.ext.tag.Taglib;
+import org.marker.mushroom.holder.SpringContextHolder;
+import org.marker.mushroom.template.MyCMSTemplate;
+import org.marker.mushroom.template.tags.res.SqlDataSource;
 import org.marker.mushroom.template.tags.res.SqlDataSourceImpl;
 
 /**
  * SQL处理
+ *
+ *
+ *
  * @author marker
  * @date 2013-9-14 下午1:13:28
  * @version 1.0
@@ -33,40 +41,43 @@ public class SqlExecuteTagImpl extends Taglib {
 		this.configure(config); 
 		
 		
-		this.put("\\s*<!--\\s*\\{(\\w+):list[\\x20]+sql\\=\\(([\\w+[\\x20]*\\.*\\=*]+)\\)\\s*\\}\\s*-->[\\x20]*\\n?",
+		this.put("\\s*<!--\\s*\\{(\\w+):list[\\x20]+sql\\=\\((.+)\\)\\s*\\}\\s*-->[\\x20]*\\n?",
 			"<#list $2 as $1>\n",1);
 		this.put("\\s*<!--\\s*?\\{/list\\}\\s*?-->[\\x20]*\\n?", 
 			"</#list>\n", 0);
 	}
 	
 	 
-	public void doDataReplace(MatchRule mr) {
+	public void doDataReplace(MatchRule mr) throws SystemException {
+        MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE);
 		Matcher m = mr.getRegex().matcher(content);
 		while(m.find()){
 			//处理提取数据.进行持久化操作
 			String text = m.group();
-			
-			System.out.println(text);
+
 			
     		//解析数据库相关字段表名等。
 			int sql_start = text.indexOf("sql=(")+5;
 			int sql_end   = text.lastIndexOf(")");
-			String sql = text.substring(sql_start, sql_end); 
-			
-			SqlDataSourceImpl datasource = new SqlDataSourceImpl(); 
+			String sql = text.substring(sql_start, sql_end);
+
+            SqlDataSourceImpl datasource = new SqlDataSourceImpl();
 			
 			//创建数据引擎 
 			int left_start = text.indexOf("{")+1;
 			int var_dot = text.indexOf(":");
 			String var = text.substring(left_start, var_dot);
-			String items = "mrcms_"+UUID.randomUUID().toString().replaceAll("-","");
+
+			String items = "mrcms_"+ TagUtils.getUUID();
 			datasource.setVarAndItems(var, items);
+            datasource.setSql(sql);
 		 
 			String re = "<#list ".concat(items).concat(" as ").concat(var).concat(">");
 			
 			content = content.replace(text, re);//替换采用UUID生成必须的
-			
-			
+
+
+            cmstemplate.put(datasource);
 		}
 	}
 	

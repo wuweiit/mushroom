@@ -19,7 +19,10 @@ import org.marker.mushroom.template.tags.res.CategoryDataSourceImpl;
 
 /**
  * 
- * 
+ * <!--{category } -->
+ *
+ *
+ *     分类数据查询，单级别
  * 
  * @author marker
  * @version 1.0
@@ -33,9 +36,7 @@ public class SingleCategoryTagImpl extends Taglib  {
 		config.put("doc", "doc/50.md");
 		config.put("description", "系统内置"); 
 		this.configure(config); 
-		
-		
-		
+
 		this.put("\\s*<!--\\s*\\{category\\s*[\\w+\\=\\('?\\w+\\x20?\\d*\\w+'?\\)\\s*]*\\}\\s*-->[\\x20]*\\n?",
 				"<#list $2 as $1>\n",Taglib.MODE_DATA);
 		this.put("\\s*<!--\\s*\\{/category\\}\\s*-->[\\x20]*\\n?", 
@@ -73,7 +74,7 @@ public class SingleCategoryTagImpl extends Taglib  {
 					data.setVar(field_kv[1]);
 					continue;
 				}else if("limit".equals(field_kv[0])) {//数据量限制
-					data.setLimit(Integer.parseInt(field_kv[1]));
+					data.setLimit(field_kv[1]);
 					continue;
 				}else if("order".equals(field_kv[0])){//排序支持
 					data.setOrder(field_kv[1]);
@@ -94,7 +95,6 @@ public class SingleCategoryTagImpl extends Taglib  {
 			
 			
 			cmstemplate.put(data);
-			System.out.println(data.getQueryString()); 
 		}
 	}
 	

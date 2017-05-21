@@ -3,7 +3,7 @@ package org.marker.mushroom.template.tags.res;
 import org.marker.mushroom.alias.SQL;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.exception.SystemException;
-
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -19,7 +19,7 @@ public final class ObjectDataSourceImpl extends SqlDataSource{
 	//查询第几页数据
 	private int page = 1;
 	//限制条数
-	private int limit = 10;
+	private String limit = "10";
 	//排序
 	private String order; //例如: "id desc"
  
@@ -65,7 +65,13 @@ public final class ObjectDataSourceImpl extends SqlDataSource{
 		if (this.order != null && !"".equals(this.order)) {
 			queryString.append(SQL.QUERY_FOR_ORDERBY)
 					.append(SQL.QUERY_FOR_ALIAS_DOT).append(this.order);
-		} 
+		}
+
+		// limit 限制输出
+		if(!StringUtils.isEmpty(this.limit)){
+			queryString.append(" limit ").append(this.limit);
+		}
+
 		this.queryString = queryString.toString();
 	}
 	
@@ -83,11 +89,11 @@ public final class ObjectDataSourceImpl extends SqlDataSource{
 		this.tableName = tableName;
 	}
   
-	public int getLimit() {
+	public String getLimit() {
 		return limit;
 	}
 
-	public void setLimit(int limit) {
+	public void setLimit(String limit) {
 		this.limit = limit;
 	}
  

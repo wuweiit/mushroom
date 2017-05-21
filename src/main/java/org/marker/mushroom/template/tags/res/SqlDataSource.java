@@ -35,7 +35,7 @@ public abstract class SqlDataSource {
 	/**
 	 * 设置var和items
 	 * @param var
-	 * @param string
+	 * @param items
 	 */
 	public void setVarAndItems(String var, String items) {
 		this.var = var;
