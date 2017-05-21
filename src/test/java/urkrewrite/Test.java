@@ -14,7 +14,8 @@ public class Test {
 		urlRewrite.putRule("page", "/{channel}-{page}.html");
 				
 		String url1 = "/cms?type=article&id=1&time=20142211"; 
-		  
+		  url1 = "/cms?p=document/d";
+
 		System.out.println("E:" + urlRewrite.encoder(url1));
 		System.out.println("D:" + urlRewrite.decoder(url1)); 
 	}

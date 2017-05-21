@@ -134,7 +134,8 @@ public class SendDataToView {
 		Template template;
 		try {
 			template = config.getTemplate(tpl);
-		} catch (IOException e) {  
+		} catch (IOException e) {
+			e.printStackTrace();
 			throw new SystemException("获取模板失败：" + tpl);
 		}
 		Writer writer = null;

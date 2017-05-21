@@ -2,9 +2,9 @@ package org.marker.mushroom.ext.plugin.freemarker;
 
 import java.util.List;
 
+import freemarker.template.TemplateMethodModelEx;
 import org.marker.mushroom.ext.plugin.PluginContext;
 
-import freemarker.template.TemplateMethodModel;
 import freemarker.template.TemplateModelException;
 
 
@@ -13,7 +13,7 @@ import freemarker.template.TemplateModelException;
  * 
  * @author marker
  * */
-public class EmbedDirectiveInvokeTag implements TemplateMethodModel {
+public class EmbedDirectiveInvokeTag implements TemplateMethodModelEx {
  
  
 	@Override

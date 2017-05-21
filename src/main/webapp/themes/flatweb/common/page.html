@@ -58,7 +58,7 @@
 				<a class="btn btn_mrcms" style="disabled:true;">下一页</a>
 			<#else>
 				<#local nextPageUrl = "/cms?p=" + p + "&page=" + (currentPage + 1) >
-				<a class="btn btn_mrcms" href="${url}${encoder(nextPageUrl)}">下一页</a>
+				<a class="btn btn_mrcms" href="${encoder(nextPageUrl)}">下一页</a>
 			</#if>
 	</div>
 	<div style="clear:both;"></div>

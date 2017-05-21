@@ -1,0 +1,6 @@
+
+<p><a href="${c.url}" class="btn btn_mrcms" role="button">没有感叹号</a></p>
+
+
+
+<p><a href="${c.url!}" class="btn btn_mrcms" role="button">有感叹号</a></p>

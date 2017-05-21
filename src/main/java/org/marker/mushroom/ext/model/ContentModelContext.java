@@ -141,7 +141,7 @@ public class ContentModelContext implements IContentModelParse {
 		  
 			return 2;
 			
-		}else{ //查询当前访问的栏目信息，栏目信息里面包含模型调用对应的模型库
+		}else{ // 查询当前访问的栏目信息，栏目信息里面包含模型调用对应的模型库
 			Channel currentChannel = channelDao.queryByUrl(param.pageName);
 			if(currentChannel != null){ 
 				String keywords    = currentChannel.getKeywords();
@@ -156,7 +156,6 @@ public class ContentModelContext implements IContentModelParse {
 				}
 				
 				
-				
 				request.setAttribute(AppStatic.WEB_CURRENT_CHANNEL, currentChannel);
 				param.template   = currentChannel.getTemplate();//模板
 				param.modelType = "article";//内容模型
@@ -168,10 +167,8 @@ public class ContentModelContext implements IContentModelParse {
 				// 查到栏目对应的模型，然后进行相应操作
 				ContentModel cm = contentModels.get(param.modelType);// 获取内容模型对象 
 				
-				if(cm != null){ 
-//					if(param.page != null && !"".equals(param.page)){//内容
-//						cm.doPage(currentChannel,param); 
-//					}
+				if(cm != null){
+					cm.doPage( param);
 					return 2;
 				} 
 				return 2;

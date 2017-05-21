@@ -27,26 +27,31 @@ public final class WebParam {
 	
 	/** 当前请求的静态URL名称  */
 	public String pageName = "";
+
 	/** 当前请求的模板对象名称 */
 	public String template = "";
+
 	/** 内容模型类型 */
 	public String modelType = "";
+
 	/** 内容ID */
 	public String contentId = "0";
+
 	/** 页码（默认为1） */
 	public String page = "1";//页码
+
 	public int currentPageNo = 1;// 页码
+
 	/** 重定向URL地址 */
 	public String redirect;
+
 	/** 页面大小 */
-	public int pageSize;
+	public int pageSize = 10;
 	
 	/** 扩展条件查询 */
 	public String extendSql;
-	
-	
-	
-	
+
+
 	/** 系统配置信息    */ 
 	private static final SystemConfig config = SystemConfig.getInstance();
 	
@@ -75,10 +80,7 @@ public final class WebParam {
 			this.pageName = config.get("index_page");// 获取默认主页地址
 		}
 		this.contentId = req.getParameter(FIELD_ID);// 内容ID
-		
-		
-		
-		
+
 		this.page      = req.getParameter(FIELD_PAGE);// 页码
 		try{
 			this.currentPageNo = Integer.parseInt(this.page);

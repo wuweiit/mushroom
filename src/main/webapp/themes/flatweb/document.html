@@ -40,7 +40,21 @@
 		    </div>
 		  </div>
 	<!--{/list}--> 
-	</div> 
+	</div>
+
+
+	<!-- {c:list table=(link)  order=(id asc)} -->
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<img src="${themeurl}${c.icon!}" alt="暂时没有图片信息" style="height:100px; width:100%;">
+			<div class="caption">
+				<h3>${c.name!}</h3>
+				<p>${c.description!}</p>
+				<p><a href="${c.url!}" class="btn btn_mrcms" role="button">看文档去咯</a></p>
+			</div>
+		</div>
+	</div>
+	<!--{/list}-->
 
 </div>
 

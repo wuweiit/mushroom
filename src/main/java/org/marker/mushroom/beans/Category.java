@@ -15,6 +15,10 @@ public class Category {
 	private Integer sort;
 	private String type;
 	private String model;
+
+	/** 模型名称 */
+	private String modelName;
+
 	public Integer getId() {
 		return id;
 	}
@@ -69,8 +73,12 @@ public class Category {
 	public void setRoot(Integer root) {
 		this.root = root;
 	}
- 
-	
-	
-	
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
 }

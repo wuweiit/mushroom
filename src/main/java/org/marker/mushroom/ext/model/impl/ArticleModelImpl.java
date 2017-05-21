@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.marker.mushroom.alias.SQL;
+import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.WebParam;
@@ -54,9 +55,15 @@ public class ArticleModelImpl extends ContentModel{
 		// 必须发送数据
 		request.setAttribute("article", article);
 	}
-	
-	
-	
+
+
+
+	public void doPage(Channel current, WebParam param) {
+
+
+
+
+	}
 	/**
 	 * 处理分页
 	 */

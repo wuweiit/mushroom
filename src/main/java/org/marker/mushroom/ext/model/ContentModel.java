@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.marker.mushroom.alias.DAO;
+import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
@@ -116,9 +117,10 @@ public abstract class ContentModel{
 	public Page doPage(WebParam param){
 		return null;
 	}
-	
-	
-	
+
+
+	public void doPage(Channel current, WebParam param){}
+
 	/**
 	 * Web前端生成SQL语句(模板引擎会调用来生成sql语句)
 	 * @see SQLDataEngine

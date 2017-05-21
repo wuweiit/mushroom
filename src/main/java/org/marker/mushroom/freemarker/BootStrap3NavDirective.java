@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import freemarker.template.utility.StringUtil;
 import org.marker.develop.freemarker.MessageWrapperModel;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Channel;
@@ -21,10 +22,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
-
-
-
-
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -51,7 +49,7 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 	public void execute(Environment env, @SuppressWarnings("rawtypes") Map  params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		MessageWrapperModel model = (MessageWrapperModel) ActionContext.getReq().getAttribute(SendDataToView.KEY_MESSAGE_CONTEXT);
+		MessageWrapperModel languageModel = (MessageWrapperModel) ActionContext.getReq().getAttribute(SendDataToView.KEY_MESSAGE_CONTEXT);
 		
 		List<Channel> list = channelDao.findValid();
 		
@@ -79,7 +77,12 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 				}
 				
 				
-				str.append("href=\"").append(web+"/"+c.getUrl()+".html").append("\">").append(model.get(c.getLangkey()));
+				str.append("href=\"").append(web+"/"+c.getUrl()+".html").append("\">");
+                if(!StringUtils.isEmpty(c.getLangkey())){
+                    str.append(languageModel.get(c.getLangkey()));
+                }else{
+                    str.append(c.getName());
+                }
 				if(hasChild){
 					str.append(" <span class=\"caret\"></span>\n"); 
 					str.append("    <ul class=\"dropdown-menu\" role=\"menu\">\n"); 
@@ -88,7 +91,14 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 					while(cit.hasNext()){
 						ChannelItem citem = cit.next();
 						Channel cc = citem.getChannel(); 
-						str.append("      <li><a href=\"").append(web+"/"+cc.getUrl()+".html").append("\">").append(model.get(cc.getLangkey())).append("</a></li>\n");
+						str.append("      <li><a href=\"").append(web+"/"+cc.getUrl()+".html").append("\">");
+
+						if(!StringUtils.isEmpty(cc.getLangkey())){
+							str.append(languageModel.get(cc.getLangkey()));
+						}else{
+							str.append(cc.getName());
+						}
+						str.append("</a></li>\n");
 					}
 					str.append("    </ul>\n");
 				}

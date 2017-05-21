@@ -106,8 +106,9 @@ public class ListTagImpl extends Taglib {
 			content = content.replace(text, re);//替换采用UUID生成必须的
 			data.setWhere(whereTemp);//设置条件
 			
-			cmstemplate.put(data);  
-			System.out.println(data.getQueryString());
+			cmstemplate.put(data);
+
+//			System.out.println(data.getQueryString());
 		}
 	}
 	

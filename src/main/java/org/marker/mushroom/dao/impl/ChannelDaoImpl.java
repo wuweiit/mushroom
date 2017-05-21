@@ -9,12 +9,10 @@ import org.marker.mushroom.dao.DaoEngine;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper.RowMapperChannel;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
-
-import com.googlecode.ehcache.annotations.Cacheable;
-import com.googlecode.ehcache.annotations.TriggersRemove;
-import com.googlecode.ehcache.annotations.When;
 
 
 /**
@@ -33,7 +31,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	
 	 //设定spring的ecache缓存策略,当编辑机构时候,把缓存全部清除掉,以达到缓存那数据同步;
 	@Override
-	@TriggersRemove(cacheName="channelCache",when=When.BEFORE_METHOD_INVOCATION, removeAll=true)
+	@CachePut( "channelCache")
 	public boolean update(Object entity) {
 		return super.update(entity);
 	}
@@ -43,7 +41,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	/**
 	 * 通过url查询出对应的栏目信息，并缓存数据
 	 * */
-	@Cacheable(cacheName = "channelCache")
+	@Cacheable("channelCache")
 	public Channel queryByUrl(String url) { 
 		Channel channel = null;
 		
@@ -103,6 +101,17 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 			logger.error("", e);
 		}
 		return null;
+	}
+
+	@Override
+	public void updateEnd0(long pid) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("update ").append(dbConfig.getPrefix()).append("channel set end=0 where pid=?");
+		try{
+		 	this.jdbcTemplate.update(sql.toString(), pid);
+		}catch(Exception e){
+			logger.error("", e);
+		}
 	}
 
 

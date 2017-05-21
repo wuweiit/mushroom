@@ -16,6 +16,7 @@ import org.marker.mushroom.core.proxy.SingletonProxyKeyWordComputer;
 import org.marker.mushroom.ext.message.MessageContext;
 import org.marker.mushroom.ext.model.ContentModelContext;
 import org.marker.mushroom.ext.model.impl.ArticleModelImpl;
+import org.marker.mushroom.ext.model.impl.ContentModelImpl;
 import org.marker.mushroom.ext.plugin.PluginContext;
 import org.marker.mushroom.ext.plugin.Pluginlet;
 import org.marker.mushroom.ext.plugin.impl.GuestBookPluginletImpl;
@@ -52,7 +53,7 @@ public class InitBuilderHolder implements ServletContextAware{
 	
 	@Override
 	public void setServletContext(ServletContext application) {
-    	String webRootPath = application.getRealPath(File.separator)+File.separator;//网站根目录路径
+    	String webRootPath = application.getRealPath(File.separator);//网站根目录路径
     	logger.info("mrcms runtime on path = {}", webRootPath);	
     	
     	logger.info("check mrcms whether install?");
@@ -110,7 +111,11 @@ public class InitBuilderHolder implements ServletContextAware{
 		 */
 		ContentModelContext contentModelContext = ContentModelContext.getInstance();
 
+        contentModelContext.put(new ContentModelImpl());
 		contentModelContext.put(new ArticleModelImpl());
+
+
+
 
 
 

@@ -176,6 +176,7 @@ public final class ObjectRowMapper {
 			categroy.setDescription(rs.getString("description"));
 			categroy.setType(rs.getString("type"));
 			categroy.setModel(rs.getString("model"));
+			categroy.setModelName(rs.getString("modelName"));
 			return categroy;
 		}
 		

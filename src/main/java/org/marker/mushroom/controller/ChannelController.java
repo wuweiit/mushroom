@@ -71,6 +71,10 @@ public class ChannelController extends SupportController {
 		if(max != null && (max.getSort() <= channel.getSort())){
 			channel.setEnd(1);
 		}
+		// 更新同级end为0
+		channelDao.updateEnd0(channel.getPid());
+
+
 
 		if(channelDao.update(channel)){
 			return new ResultMessage(true, "更新成功!");

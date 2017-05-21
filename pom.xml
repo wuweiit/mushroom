@@ -11,11 +11,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<jdkLevel>1.6</jdkLevel>
-		<jvmargs>-XX:MaxPermSize=384m -Xms512m -Xmx1024m</jvmargs>
 	</properties>
 
-  <build> 
+  <build>
     	<defaultGoal>compile</defaultGoal>
 
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -25,20 +23,6 @@
 			  </resource>
 		  </resources>
 		<plugins>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.6.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.10</version>
-				<configuration>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-				</configuration>
-			</plugin>
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -52,24 +36,7 @@
 					</compilerArguments>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<packagingIncludes>*/**</packagingIncludes>
-					<webappDirectory>src/main/webapp</webappDirectory>
-					<webResources>
-						<resource>
-							<directory>src/main/resources</directory>
-							<includes>
-								<include>*/**</include>
-							</includes>
-							<targetPath>WEB-INF/classes</targetPath>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
+
     </plugins>
   </build>
   
@@ -140,17 +107,17 @@
 	  <dependency>
 		  <groupId>ch.qos.logback</groupId>
 		  <artifactId>logback-core</artifactId>
-		  <version>1.1.8</version>
+		  <version>1.2.1</version>
 	  </dependency>
 	  <dependency>
 		  <groupId>ch.qos.logback</groupId>
 		  <artifactId>logback-classic</artifactId>
-		  <version>1.1.8</version>
+		  <version>1.2.1</version>
 	  </dependency>
 	  <dependency>
 		  <groupId>ch.qos.logback</groupId>
 		  <artifactId>logback-access</artifactId>
-		  <version>1.1.8</version>
+		  <version>1.2.1</version>
 	  </dependency>
 
 
@@ -235,19 +202,10 @@
     	<artifactId>ehcache-core</artifactId>
     	<version>2.6.9</version>
     </dependency>
-    <dependency>
-    	<groupId>com.googlecode.ehcache-spring-annotations</groupId>
-    	<artifactId>ehcache-spring-annotations-parent</artifactId>
-    	<version>3</version>
-    	<type>pom</type>
-    </dependency>
-    <dependency>
-    	<groupId>com.googlecode.ehcache-spring-annotations</groupId>
-    	<artifactId>ehcache-spring-annotations</artifactId>
-    	<version>1.2.0</version>
-    </dependency>
 
-    <dependency>
+
+
+      <dependency>
     	<groupId>com.mchange</groupId>
     	<artifactId>c3p0</artifactId>
     	<version>0.9.5-pre8</version>
@@ -273,6 +231,7 @@
   		<groupId>javax.servlet</groupId>
   		<artifactId>servlet-api</artifactId>
   		<version>3.0-alpha-1</version>
+
   	</dependency>
   	
   	<!-- 数据库驱动 -->

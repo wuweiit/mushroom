@@ -35,4 +35,11 @@ public interface IChannelDao extends ISupportDao {
 	 * @return
 	 */
 	Channel findChildMaxSortMenuByPId(long pid);
+
+
+	/**
+	 * 更新同级end 为0
+	 * @param pid
+	 */
+    void updateEnd0(long pid);
 }

@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
  * 
  * @author marker
  * */
-
 public final class WebAPP {
 
 	/** 日志记录器 */ 

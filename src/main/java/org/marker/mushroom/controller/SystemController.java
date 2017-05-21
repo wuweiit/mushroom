@@ -1,6 +1,5 @@
 package org.marker.mushroom.controller;
 
-import com.mchange.lang.StringUtils;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 
