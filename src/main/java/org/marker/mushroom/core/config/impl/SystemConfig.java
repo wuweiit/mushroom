@@ -41,6 +41,9 @@ public final class SystemConfig extends ConfigEngine{
 	
 	// 主页地址
 	public static final String HOME_PAGE = "index_page";
+
+	// 文件存储路径
+	public static final String FILE_PATH = "file_path";
 	
 	
 	/**
@@ -142,7 +145,16 @@ public final class SystemConfig extends ConfigEngine{
 	 */
 	public boolean isGzip() {
 		String value = this.properties.getProperty(GZIP); 
-		return Boolean.valueOf(value);  
-		
+		return Boolean.valueOf(value);
 	}
+
+    /**
+     * 获取文件存储地址
+     * @return
+     */
+    public String getFilePath() {
+        return this.properties.getProperty(FILE_PATH);
+    }
+
+
 }

@@ -2,6 +2,7 @@
 	import="com.baidu.ueditor.ActionEnter"
     pageEncoding="UTF-8"%>
 <%@ page import="org.marker.app.utils.EnvUtils" %>
+<%@ page import="org.marker.mushroom.core.config.impl.SystemConfig" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%
 
@@ -10,7 +11,13 @@
 	
 	String rootPath = application.getRealPath( "/" );
 
-    String saveRootPath = "/usr/local/nginx/html/";
+
+    /** 系统配置对象 */
+    SystemConfig systemConfig = SystemConfig.getInstance();
+
+    // 获取文件存储地址
+    String saveRootPath = systemConfig.getFilePath();
+
     if( EnvUtils.isDev()){
 
     }
