@@ -13,7 +13,7 @@ import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.ext.model.ContentModel;
 import org.marker.mushroom.template.tags.res.SqlDataSource;
-
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -70,25 +70,18 @@ public class ArticleModelImpl extends ContentModel{
 	public Page doPage(WebParam param) {
 		String prefix = getPrefix();//表前缀，如："yl_" 
 		 
-		
+		String categoryIds = param.channel.getCategoryIds();
+		if(StringUtils.isEmpty(categoryIds)){
+			categoryIds = "0";
+		}
+
 		StringBuilder sql = new StringBuilder();
 		sql.append("select A.*,C.name as cname,concat('type=article&id=',CAST(A.id as char),'&time=',DATE_FORMAT(A.time,'%Y%m%d')) as url from ")
 		 .append(prefix).append("article").append(SQL.QUERY_FOR_ALIAS)
 		 .append(" join ").append(prefix).append("category").append(" C on A.cid=C.id ")
-		.append("where 1=1 and ").append(param.extendSql);
-		
-	 
+		.append("where 1=1 and ").append("A.cid in ("+categoryIds+") ").append(param.extendSql!= null?param.extendSql:"");
+
 		return commonDao.findByPage(param.currentPageNo, param.pageSize, sql.toString());
-//		request.setAttribute(AppStatic.WEB_APP_PAGE, );
-//		
-//		URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
-		
-		//传递分页信息
-//		String nextPage = "p="+param.pageName+"&page="+currentPage.getNextPageNo();
-//		String prevPage = "p="+param.pageName+"&page="+currentPage.getPrevPageNo();
-//		request.setAttribute("nextpage", urlRewrite.encoder(nextPage));
-//		request.setAttribute("prevpage", urlRewrite.encoder(prevPage));
-		
 	}
 	
 	

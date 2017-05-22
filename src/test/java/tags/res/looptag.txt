@@ -11,3 +11,9 @@ ${dsadsad222.name}
 <!--{loop obj}-->
 	${obj.name}
 <!--{/loop}-->
+
+<ul>
+    <!--{c:loop}-->
+    <li><a href="${c.url}">${c.name!}</a></li>
+    <!--{/loop}-->
+</ul>

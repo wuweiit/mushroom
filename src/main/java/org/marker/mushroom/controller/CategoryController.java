@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 
 
 /**
@@ -114,5 +115,14 @@ public class CategoryController extends SupportController {
 		view.addObject("data", categoryService.list());
 		return view;
 	}
-	
+
+	@RequestMapping("/all")
+    @ResponseBody
+	public Object all(HttpServletRequest req){
+        List<Category> list = categoryService.list();
+//	    for(Category category : list){
+//
+//        }
+		return list;
+	}
 }

@@ -31,7 +31,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	
 	 //设定spring的ecache缓存策略,当编辑机构时候,把缓存全部清除掉,以达到缓存那数据同步;
 	@Override
-	@CachePut( "channelCache")
+//	@CachePut( "channelCache")
 	public boolean update(Object entity) {
 		return super.update(entity);
 	}
@@ -41,7 +41,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	/**
 	 * 通过url查询出对应的栏目信息，并缓存数据
 	 * */
-	@Cacheable("channelCache")
+//	@Cacheable("channelCache")
 	public Channel queryByUrl(String url) { 
 		Channel channel = null;
 		

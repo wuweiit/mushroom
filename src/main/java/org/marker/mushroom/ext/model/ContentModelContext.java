@@ -12,15 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Model;
+import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
+import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.IModelDao;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.urlrewrite.URLRewriteEngine;
 
 
 /**
@@ -145,6 +148,7 @@ public class ContentModelContext implements IContentModelParse {
 			
 		}else{ // 查询当前访问的栏目信息，栏目信息里面包含模型调用对应的模型库
 			Channel currentChannel = channelDao.queryByUrl(param.pageName);
+            param.channel = currentChannel;// 设置栏目参数
 			if(currentChannel != null){ 
 				String keywords    = currentChannel.getKeywords();
 				String description = currentChannel.getDescription(); 
@@ -162,6 +166,10 @@ public class ContentModelContext implements IContentModelParse {
 				param.template   = currentChannel.getTemplate();//模板
 				param.modelType = "article";//内容模型
 				param.redirect   = currentChannel.getRedirect();//重定向地址
+                if(currentChannel.getRows() != 0){
+                    param.pageSize = currentChannel.getRows();
+                }
+
 				if(param.redirect != null && !"".equals(param.redirect)){
 					return 1;//如果重定向地址不为null
 				}
@@ -170,7 +178,19 @@ public class ContentModelContext implements IContentModelParse {
 				ContentModel cm = contentModels.get(param.modelType);// 获取内容模型对象 
 				
 				if(cm != null){
-					cm.doPage( param);
+				    Page page = cm.doPage( param);
+
+                    request.setAttribute(AppStatic.WEB_APP_PAGE, page);
+
+                    URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
+
+            //                    传递分页信息
+                    String nextPage = "p="+param.pageName+"&page=" + page.getNextPageNo();
+                    String prevPage = "p="+param.pageName+"&page=" + page.getPrevPageNo();
+                    request.setAttribute("nextpage", urlRewrite.encoder(nextPage));
+                    request.setAttribute("prevpage", urlRewrite.encoder(prevPage));
+
+
 					return 2;
 				} 
 				return 2;

@@ -25,7 +25,7 @@ public class URLRewriteTagImpl extends Taglib {
 		
 		
 		// \\\\{?\\w+\\}?\\.?\\w*\\??[\\w+\\-?\\=?\\$?\\{?\\w+\\.\\}?&?]*
-		this.put("href\\=[\"\']\\$\\{(.+[^!])\\}[\'\"]",
+		this.put("href\\=[\"\']\\$\\{(.+\\..+[^!])\\}[\'\"]",
 				"href=\"\\${url}\\${encoder($1)}\"", 0);
 
 	}

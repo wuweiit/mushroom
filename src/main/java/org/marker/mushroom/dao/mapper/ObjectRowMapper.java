@@ -41,6 +41,7 @@ public final class ObjectRowMapper {
 			channel.setLangkey(rs.getString("langkey"));// 国际化
             channel.setEnd(rs.getInt("end"));// 是否结束
             channel.setSort(rs.getInt("sort"));// 排序
+			channel.setCategoryIds(rs.getString("categoryIds"));// 分类id
 			return channel;
 		}
 	}

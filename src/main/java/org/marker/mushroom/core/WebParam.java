@@ -47,6 +47,9 @@ public final class WebParam {
 
 	/** 页面大小 */
 	public int pageSize = 10;
+
+	/**  栏目信息 */
+	public Channel channel;
 	
 	/** 扩展条件查询 */
 	public String extendSql;

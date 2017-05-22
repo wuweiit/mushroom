@@ -4,3 +4,5 @@
 
 
 <p><a href="${c.url!}" class="btn btn_mrcms" role="button">有感叹号</a></p>
+<a class="btn btn_mrcms" href="${url!}${encoder(currentPageUrl)}">#{i}</a>
+

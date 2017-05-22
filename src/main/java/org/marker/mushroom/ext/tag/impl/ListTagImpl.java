@@ -91,7 +91,7 @@ public class ListTagImpl extends Taglib {
 				}else if("limit".equals(field_kv[0])) {//数据量限制
 					data.setLimit(field_kv[1]);
 					continue;
-				}else if("page".equals(field_kv[0])){//查询页码 
+				}else if("page".equals(field_kv[0])){//查询页码
 					data.setPage(Integer.parseInt(field_kv[1]));
 					continue;
 				}else if("order".equals(field_kv[0])){//排序支持
@@ -105,7 +105,7 @@ public class ListTagImpl extends Taglib {
 			
 			content = content.replace(text, re);//替换采用UUID生成必须的
 			data.setWhere(whereTemp);//设置条件
-			
+
 			cmstemplate.put(data);
 
 //			System.out.println(data.getQueryString());

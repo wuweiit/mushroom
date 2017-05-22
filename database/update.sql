@@ -35,3 +35,5 @@ ALTER TABLE `mr_taolu`
 ALTER TABLE `db_mrcms`.`mr_user_menu` ADD COLUMN `end` int AFTER `type`;
 ALTER TABLE `db_mrcms`.`mr_channel` ADD COLUMN `end` int AFTER `langkey`;
 
+ALTER TABLE `db_mrcms`.`mr_channel` ADD COLUMN `categoryIds` varchar(255) AFTER `end`;
+

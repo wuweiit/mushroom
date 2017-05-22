@@ -41,6 +41,9 @@ public class Channel implements Serializable{
 	private short hide; 
 	/** 重定向URL*/
 	private String redirect;
+
+	/** 分类Id 列表 */
+	private String categoryIds;
 	
 	
  
@@ -131,5 +134,13 @@ public class Channel implements Serializable{
 
 	public void setEnd(int end) {
 		this.end = end;
+	}
+
+	public String getCategoryIds() {
+		return categoryIds;
+	}
+
+	public void setCategoryIds(String categoryIds) {
+		this.categoryIds = categoryIds;
 	}
 }

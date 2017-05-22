@@ -21,18 +21,7 @@ import org.marker.mushroom.ext.plugin.PluginContext;
 import org.marker.mushroom.ext.plugin.Pluginlet;
 import org.marker.mushroom.ext.plugin.impl.GuestBookPluginletImpl;
 import org.marker.mushroom.ext.tag.TaglibContext;
-import org.marker.mushroom.ext.tag.impl.AbsoluteURLTagImpl;
-import org.marker.mushroom.ext.tag.impl.ExecuteTimeTagImpl;
-import org.marker.mushroom.ext.tag.impl.FormatDateTagImpl;
-import org.marker.mushroom.ext.tag.impl.IfTagImpl;
-import org.marker.mushroom.ext.tag.impl.ListTagImpl;
-import org.marker.mushroom.ext.tag.impl.LoopTagImpl;
-import org.marker.mushroom.ext.tag.impl.OnlineUsersTagImpl;
-import org.marker.mushroom.ext.tag.impl.PluginTagImpl;
-import org.marker.mushroom.ext.tag.impl.SingleCategoryTagImpl;
-import org.marker.mushroom.ext.tag.impl.SqlExecuteTagImpl;
-import org.marker.mushroom.ext.tag.impl.StringSubTagImpl;
-import org.marker.mushroom.ext.tag.impl.URLRewriteTagImpl;
+import org.marker.mushroom.ext.tag.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ServletContextAware;
@@ -154,6 +143,7 @@ public class InitBuilderHolder implements ServletContextAware{
     	taglibs.put(new StringSubTagImpl());
     	taglibs.put(new URLRewriteTagImpl());
     	taglibs.put(new SingleCategoryTagImpl());
+		taglibs.put(new ChildChannelTagImpl());
     	logger.info("mrcms taglibs init complete");
     	
     	

@@ -13,6 +13,7 @@
   	
 </head>
 
+<!--#include file="./common/page.html"-->
 <body>
 	<h1>${current.name!}</h1>
 	<p>this is a sample html tempate!</p>
@@ -41,5 +42,59 @@
     <!--{c:list sql=(select a.*,b.name groupName from mr_user a join mr_user_group b on a.group=b.id)}-->
     ${c.name!} ${c.groupName}
     <!--{/list}-->
+
+
+
+
+
+
+<hr>
+二级栏目
+<ul>
+    <!--{c:channel}-->
+    <li><a href="${c.url}">${c.name!}</a></li>
+    <!--{/channel}-->
+</ul>
+
+
+<hr>
+二级栏目下的文章
+<ul>
+    <!--{c:loop}-->
+    <li><a href="${c.url}">${c.title!}</a></li>
+    <!--{/loop}-->
+</ul>
+${page.pageSize}
+
+    <@paginate currentPage=page.currentPageNo totalPage=page.totalPages actionUrl="article/list.do"  />
+
+
+
+==============
+<ul>
+    <!-- {c:list table=(model) limit=(5) } -->
+    <li>${c.name!}</li>
+    <!--{/list}-->
+</ul>
+
+<table border="1">
+    <tr>
+        <th>名称</th>
+        <th>时间</th>
+    </tr>
+    <!-- {c:list table=(model) limit=(5) } -->
+    <tr>
+        <td>${c.name!}</td>
+        <td>${c.time format=(yyyy-MM-dd)}</td>
+    </tr>
+    <!--{/list}-->
+</table>
+
+
+
+
+
+
+
 </body>
 </html>
