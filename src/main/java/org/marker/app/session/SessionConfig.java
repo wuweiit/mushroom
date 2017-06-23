@@ -20,7 +20,7 @@ import org.springframework.session.web.http.HttpSessionStrategy;
  * Session 配置
  *
  */
-@EnableRedisHttpSession
+//@EnableRedisHttpSession
 public class SessionConfig {
 
 

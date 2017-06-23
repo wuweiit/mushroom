@@ -26,6 +26,8 @@ public interface AppStatic {
 	public static final String WEB_CURRENT_CHANNEL = "current";
 	/** WEB URL变量名 */
 	public static final String WEB_APP_URL = "url";
+	/** 语言 */
+	public static final String WEB_APP_LANG = "lang";
 	/** WEB主题变量名 */
 	public static final String WEB_APP_THEME_URL = "themeurl";
 	

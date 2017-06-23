@@ -13,14 +13,20 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.LOG;
+import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.dao.annotation.Entity;
+import org.marker.mushroom.dao.annotation.EntityFieldIgnore;
+import org.marker.mushroom.dao.mapper.ObjectRowMapper;
 import org.marker.mushroom.utils.SQLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -45,7 +51,7 @@ public abstract class DaoEngine implements ISupportDao {
 	protected Logger logger =  LoggerFactory.getLogger(LOG.DAOENGINE);
 	
 	/** 数据库配置 */
-	protected static final DataBaseConfig dbConfig = DataBaseConfig.getInstance(); 
+//	protected static final DataBaseConfig dbConfig = DataBaseConfig.getInstance(); 
 	
 	
 	
@@ -129,7 +135,7 @@ public abstract class DaoEngine implements ISupportDao {
 	// 批量删除
 	@Override
 	public boolean deleteByIds(Class<?> clzz, String ids) {
-		String prefix = dbConfig.getPrefix();// 表前缀
+		String prefix = getPreFix();// 表前缀
 		
 		MapConfig map = null;
 		try {
@@ -168,7 +174,7 @@ public abstract class DaoEngine implements ISupportDao {
 	 * ========================================= */
 	@Override
 	public Map<String, Object> findById(Class<?> clzz, Serializable id ) {
-		String prefix = dbConfig.getPrefix();// 表前缀 
+		String prefix = getPreFix();// 表前缀 
 		String tableName  = clzz.getAnnotation(Entity.class).value();
 		String primaryKey = clzz.getAnnotation(Entity.class).key();
 		StringBuilder sql = new StringBuilder();
@@ -208,7 +214,7 @@ public abstract class DaoEngine implements ISupportDao {
 
 	// 保存对象  
 	public boolean save(Object entity) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		Class<?> clzz = entity.getClass();
 	
 
@@ -240,6 +246,11 @@ public abstract class DaoEngine implements ISupportDao {
 			if ("serialVersionUID".equals(fieldName)) {
 				continue;
 			}
+
+            if(field.getAnnotation(EntityFieldIgnore.class) != null){
+			    continue;
+            }
+
 			String methodName = "get"
 					+ fieldName.replaceFirst(fieldName.charAt(0) + "",
 							(char) (fieldName.charAt(0) - 32) + "");
@@ -309,7 +320,7 @@ public abstract class DaoEngine implements ISupportDao {
 
 	// 更新数据
 	public boolean update(Object entity) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		Class<?> clzz = entity.getClass();
 		Entity tableInfo = clzz.getAnnotation(Entity.class);
 		String tableName = tableInfo.value();
@@ -334,6 +345,9 @@ public abstract class DaoEngine implements ISupportDao {
 				if ("serialVersionUID".equals(fieldName)) {
 					continue;
 				}
+                if(field.getAnnotation(EntityFieldIgnore.class) != null){
+                    continue;
+                }
 				String methodName = "get"
 						+ fieldName.replaceFirst(fieldName.charAt(0) + "",
 								(char) (fieldName.charAt(0) - 32) + "");
@@ -365,14 +379,47 @@ public abstract class DaoEngine implements ISupportDao {
 		sql += " limit " + (currentPageNo - 1) * pageSize + "," + pageSize;
 		return jdbcTemplate.queryForList(sql, args);
 	}
-	
-	
+
+
+    /**
+     * 删除所有数据
+     * @param clzz
+     */
+	public void deleteAll(Class<?> clzz){
+		String prefix = getPreFix();
+		Entity tableInfo = clzz.getAnnotation(Entity.class);
+		String tableName = tableInfo.value();
+		String sql = "delete from "+prefix+tableName;
+		jdbcTemplate.execute(sql);
+	}
+
+
+	@Autowired
+	PropertyPlaceholderConfigurer propertyPlaceholderConfigurer;
+
+
+
+	// 前缀
+	@Value("#{configProperties['mushroom.db.prefix']}")
+	private String dbPrefix;
+
+
+
 	/**
 	 * 获取数据库前缀
 	 * @return
 	 */
-	protected String getPreFix(){
-		return dbConfig.getPrefix();
+	public String getPreFix(){
+        return dbPrefix;
 	}
+
+
+	public List<Map<String,Object>> findAll(Class<?> clzz){
+        String prefix = getPreFix();
+        Entity tableInfo = clzz.getAnnotation(Entity.class);
+        String tableName = tableInfo.value();
+        String sql = "select * from " + prefix + tableName;
+       return jdbcTemplate.queryForList(sql);
+    }
 
 }

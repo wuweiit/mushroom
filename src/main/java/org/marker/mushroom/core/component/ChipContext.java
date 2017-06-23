@@ -25,7 +25,7 @@ public class ChipContext implements IChip{
 	 
 	private boolean isSyn = false;
 	
-	private HashMap<String, String> data;
+	private HashMap<String, Object> data;
 	
 	
 	 
@@ -33,13 +33,13 @@ public class ChipContext implements IChip{
 		if(!isSyn){
 			String prefix = DataBaseConfig.getInstance().getPrefix();
 			List<Map<String, Object>> list = commonDao.queryForList("select * from "+prefix+"chip");
-			data = new HashMap<String, String>();
+			data = new HashMap<String, Object>();
 			for(Map<String, Object> o: list){
 				String mark = o.get("mark").toString();
-				data.put(mark, o.get("content").toString());
+				data.put(mark, o.get("content"));
 			}
 			log.info("syn chip data ");
-			isSyn = true;
+			isSyn = false;
 		}
 	}
  

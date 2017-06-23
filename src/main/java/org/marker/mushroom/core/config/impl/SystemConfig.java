@@ -1,9 +1,15 @@
 package org.marker.mushroom.core.config.impl;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.lang.StringUtils;
+import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.core.config.ConfigEngine;
- 
+import org.marker.mushroom.holder.SpringContextHolder;
+import org.marker.mushroom.holder.WebRealPathHolder;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 
 /**
  * 系统配置类（对Properties进行了简单封装）
@@ -11,18 +17,19 @@ import org.marker.mushroom.core.config.ConfigEngine;
  * 在系统StartListener监听器中进行配置文件地址的初始化
  * @author marker
  * */
-public final class SystemConfig extends ConfigEngine{
+public final class SystemConfig extends ConfigDBEngine {
 
- 
-	// 配置文件路径
-	public static final String CONFIG_FILE_PATH = "/config/site/system.config";
+
 	
 	
 	// 开发模式
 	public static final String DEV_MODE =  "dev_mode";
 	
-	// 主题路径
-	public static final String THEME_PATH = "themes_path";
+	// 主题文件夹
+	public static final String THEMES_PATH = "themes_path";
+
+	// 当前使用的主题
+	public  static  final  String THEMES_ACTIVE = "themes_active";
 	
 	// 是否开启动态HTML的GZIP
 	public static final String GZIP = "gzip";
@@ -46,31 +53,22 @@ public final class SystemConfig extends ConfigEngine{
 	public static final String FILE_PATH = "file_path";
 	
 	
-	/**
-	 * 默认构造方法
-	 * @throws IOException 
-	 * */
-	private SystemConfig() {
-		super(CONFIG_FILE_PATH); 
-	}
-	
-	
-	/**
-	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
-	 * */
-	private static  SystemConfig instance;
 
-	
+
+
 	/**
-	 * 获取系统配置实例
-	 * */
-	public static SystemConfig getInstance(){
-		if(null == instance)
-			instance = new SystemConfig();
-		return  instance;
+	 * 初始化就读取配置文件哦
+	 *
+	 * @param jdbcTemplate
+	 */
+	public SystemConfig(JdbcTemplate jdbcTemplate) {
+		super(jdbcTemplate);
 	}
-	
-	
+
+	public static SystemConfig getInstance() {
+		return SpringContextHolder.getBean("systemConfig");
+	}
+
 	/**
 	 * 配置文件中属性名称配置
 	 * */
@@ -78,7 +76,7 @@ public final class SystemConfig extends ConfigEngine{
 		/** 关键字 */
 		String KEYWORDS = "keywords";
 		/** 描述信息 */
-		String DESCRIPTION = "description"; 
+		String DESCRIPTION = "description";
 	}
 
 
@@ -156,5 +154,27 @@ public final class SystemConfig extends ConfigEngine{
         return this.properties.getProperty(FILE_PATH);
     }
 
+
+	/**
+	 * 获取模板配置路径
+     * (如果数据库中没有配置则使用当前项目中的themes文件夹)
+	 * @return
+	 */
+	public String getThemesPath(){
+        String themesPath = this.properties.getProperty(THEMES_PATH);
+        if(StringUtils.isEmpty(themesPath)){
+            return WebRealPathHolder.REAL_PATH + "themes";
+        }
+    	return themesPath;
+	}
+
+
+	/**
+	 * 获取当前使用的主题
+	 * @return
+	 */
+	public String getThemeActive(){
+		return this.properties.getProperty(THEMES_ACTIVE,"default");
+	}
 
 }

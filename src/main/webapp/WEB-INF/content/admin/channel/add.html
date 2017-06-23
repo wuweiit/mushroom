@@ -4,9 +4,9 @@
 		<ul>
 			<li class="tab_index" onclick="setTabContent(this);">添加栏目</li>
 		</ul>
-		<button class="btn_tabbar" onclick="submitActionForm(this);" return="channel/list.do">保 存</button>
+		<button class="btn_tabbar" onclick="submit(this);" return="channel/list.do">保 存</button>
 	</div>
-	<form id="myForm" action="channel/save.do" method="post">
+	<form id="myForm" action="channel/update.do" method="post" onsubmit="return false;">
  	<div class="tab_content">
 		<div class="tab_item tab_show"> 
 
@@ -50,7 +50,10 @@
 					</tr>
 					<tr class="rowBgColor">
 						<th>栏目图标：</th>
-						<td><input class="input_for_add" name="icon" type="text" /></td>
+						<td><input id="channelIcon" class="input_for_add" name="icon" type="text" />
+
+							<button onclick="uploadImage()">上传图片</button>
+						</td>
 						<td><span id="name_status"></span></td>
 					</tr>
 					<tr>
@@ -82,11 +85,86 @@
 						 条数：<input class="input_for_add" name="rows" style="width:50px;" value="10" type="text" />
 						</td>
 						<td><span  ></span></td>
-					</tr>		
-		
+					</tr>
+					<tr>
+						<th>栏目内容：</th>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="2" >
+							<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 	</form>
 </div>
+<script type="text/javascript">
+
+    //初始化UE编辑器
+    $(function(){
+        $("input[name='type']").click(function(){
+            editor.execCommand( 'source');
+            if($(this).val() == 1){
+                editor.setDisabled();
+            }else{
+                editor.setEnabled();
+            }
+            editor.setContent('');
+        });
+
+
+
+        if(window.editor != null){
+            window.editor.destroy();
+        }
+
+        //实例化编辑器
+        //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+        window.editor = UE.getEditor('mushroomeditor');
+
+        window.editor.ready(function(){
+            $("#title").focus();
+
+            var status = editor.queryCommandState( 'source' );
+            if(status != 1){
+
+            }
+
+
+        });
+
+    });
+
+    function submit(obj){
+        window.editor.sync();//手动提交需要手动同步编辑器数据
+
+        submitActionForm(obj);
+
+    }
+
+    var _editor = UE.getEditor('upload_ue');
+    _editor.ready(function () {
+        console.log("ueditor success!")
+        //设置编辑器不可用
+        _editor.setDisabled();
+        //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+        _editor.hide();
+        //侦听图片上传
+        _editor.addListener('beforeInsertImage', function (t, arg) {
+            console.log(arg);
+        })
+        //侦听文件上传
+        _editor.addListener('afterUpfile', function (t, arg) {
+            console.log(arg);
+            $("#channelIcon").attr("value", arg[0].src);
+        })
+    });
+
+    function uploadImage(){
+        var myImage = _editor.getDialog("insertimage");
+        myImage.open();
+    }
+</script>

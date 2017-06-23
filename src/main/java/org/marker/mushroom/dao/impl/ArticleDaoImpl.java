@@ -17,7 +17,7 @@ public class ArticleDaoImpl extends DaoEngine implements IArticleDao {
 	
 	@Override
 	public boolean update(Article a) {
-		String prefix = dbConfig.getPrefix();//获取数据库表前缀
+		String prefix = getPreFix();//获取数据库表前缀
 		
 		
 		
@@ -25,14 +25,24 @@ public class ArticleDaoImpl extends DaoEngine implements IArticleDao {
 		
 		StringBuilder sql = new StringBuilder();
 		sql.append("update ").append(prefix).append("article")
-		.append(" set cid=?, title=?,keywords=?,description=?,author=?, content=?,status=?,source=?,icon=? where id=?");
+		.append(" set cid=?,did=?, title=?,keywords=?,description=?,author=?, content=?,status=?,source=?,icon=? where id=?");
 		
 		
 		
-		int status = jdbcTemplate.update(sql.toString(),a.getCid(),a.getTitle(),a.getKeywords(),a.getDescription()
+		int status = jdbcTemplate.update(sql.toString(),a.getCid(),a.getDid(), a.getTitle(),a.getKeywords(),a.getDescription()
 				,a.getAuthor(),a.getContent(),a.getStatus(),a.getSource(),a.getIcon(),a.getId()); 
 		return status>0? true : false; 
 	}
-	
+
+	@Override
+	public boolean updateStatus(Integer id, Integer status) {
+		String prefix = getPreFix();//获取数据库表前缀
+		StringBuilder sql = new StringBuilder();
+		sql.append("update ").append(prefix).append("article")
+				.append(" set status=?,updateTime=sysdate() where id=?");
+		int a = jdbcTemplate.update(sql.toString(), status , id );
+		return a>0? true : false;
+	}
+
 
 }

@@ -3,6 +3,7 @@ package org.marker.mushroom.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.marker.mushroom.beans.Category;
 import org.marker.mushroom.beans.Channel;
 
 /**
@@ -42,4 +43,18 @@ public interface IChannelDao extends ISupportDao {
 	 * @param pid
 	 */
     void updateEnd0(long pid);
+
+
+	/**
+	 * 根据PId查询子菜单
+	 * @param deptPid
+	 * @return
+	 */
+	List<Channel> findByPid(int deptPid);
+
+	public List<Channel> list();
+
+    List<Channel> findByGroupId(int userGroupId);
+
+    Channel findByUrl(String pageName);
 }

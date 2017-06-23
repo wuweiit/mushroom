@@ -7,8 +7,8 @@
 	</div>
 	<form id="myForm" action="user/update.do" method="post">
 	<div class="tab_content">
-		<div class="tab_item tab_show"> 
-			<input type="hidden" name="id" value="${user.id?c}" /> 
+		<div class="tab_item tab_show">
+			<input type="hidden" name="id" value="${user.id?c}" />
 			<table class="table_for_add">
 				<tbody>
 					<th width="140">用户分组：</th>
@@ -18,8 +18,8 @@
 					 	 	<option value="${g.id?c}">${g.name!} (${g.description!})</option>
 					 	 	</#list>
 						</select>
-						
-						
+
+
 						</td>
 						<td><span id="name_status"></span></td>
 					</tr>
@@ -37,7 +37,7 @@
 						<th>用户密码：</th>
 						<td><input class="input_for_add" name="pass" type="password" value="${user.pass!}" onfocus="$(this).val('');" /></td>
 						<td><span id="type_status"></span></td>
-					</tr> 
+					</tr>
 					<tr>
 						<th>描述信息：</th>
 						<td>
@@ -49,7 +49,7 @@
 						<th>用户状态：</th>
 						<td>
 							<#if user.id = 1>
-								内置 <input type="hidden" name="status" value="${user.status?c}" /> 
+								内置 <input type="hidden" name="status" value="${user.status?c}" />
 							<#else>
 								<select class="select_for_add" name="status">
 								<#if user.status == 1>

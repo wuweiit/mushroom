@@ -17,6 +17,7 @@ public interface Core {
 	String ENGINE_TEMPLATE   = "mrcms_template_engine";
 	
 	
-	
+	/** 管理员用户组ID */
+	int ADMINI_GROUP_ID = 1;
 	
 }

@@ -17,9 +17,8 @@ import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.config.impl.URLRewriteConfig;
-import org.marker.mushroom.ext.message.MessageContext;
+import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.support.SupportController;
 import org.marker.mushroom.template.MyCMSTemplate;
 import org.marker.mushroom.utils.FileTools;
@@ -28,6 +27,7 @@ import org.marker.security.Base64;
 import org.marker.security.DES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,8 +55,8 @@ public class SystemController extends SupportController {
 	protected Logger logger =  LoggerFactory.getLogger(SystemController.class); 
 
 	/** 系统配置对象 */
-	private SystemConfig config = SystemConfig.getInstance();
-
+	@Autowired
+	private SystemConfig config;
 
 
     /**
@@ -71,7 +71,7 @@ public class SystemController extends SupportController {
 	@RequestMapping("/siteinfo")
 	public String siteinfo(HttpServletRequest request){
 		request.setAttribute("config", config.getProperties());
-		MessageContext mc = MessageContext.getInstance();
+        MessageDBContext mc = MessageDBContext.getInstance();
 		request.setAttribute("langselect", mc.getReadySelectElement());
 		return this.viewPath + "siteinfo";
 	}
@@ -89,8 +89,8 @@ public class SystemController extends SupportController {
 				cmstemplate.clearCache(); 
 			}
 			/* 判断主题是否切换 */
-			String new_themes_path = request.getParameter("config.themes_path");
-			if(!config.get(SystemConfig.THEME_PATH).equals(new_themes_path)){
+			String new_themes_active = request.getParameter("config.themes_active");
+			if(!config.get(SystemConfig.THEMES_ACTIVE).equals(new_themes_active)){
 				cmstemplate.clearCache(); 
 			}
 			/* 判断启用代码压缩是否切换 */
@@ -133,7 +133,8 @@ public class SystemController extends SupportController {
 			/* 主题配置 */
 			config.set("index_page", request.getParameter("config.index_page"));//网站首页
 			config.set("error_page", request.getParameter("config.error_page"));//错误模版
-			config.set(SystemConfig.THEME_PATH, request.getParameter("config.themes_path"));//主题路径
+			config.set(SystemConfig.THEMES_ACTIVE, request.getParameter("config.themes_active"));//主题路径
+            config.set(SystemConfig.THEMES_PATH, request.getParameter("config.themesPath"));// 页面静态化
 			config.set("themes_cache", request.getParameter("config.themes_cache"));//主题缓存目录
 			config.set(SystemConfig.DEV_MODE, request.getParameter("config.dev_mode"));//是否开发模式
 			config.set(SystemConfig.GZIP, request.getParameter("config.gzip"));//GZIP
@@ -221,7 +222,7 @@ public class SystemController extends SupportController {
 		String pass = config.getProperty("mushroom.db.pass");
 		
 		String desPass = getDesCode(pass);
-		config.setProperty("mushroom.db.pass", desPass);
+//		config.setProperty("mushroom.db.pass", desPass);
 		
 		view.addObject("sql", config);
 		return view;
@@ -230,7 +231,7 @@ public class SystemController extends SupportController {
 	 * 获取Des加密结果
 	 * */
 	private String getDesCode(String pass){
-		String key = SystemConfig.getInstance().get("secret_key");//网站秘钥，这是在安装的时候获取的
+		String key = config.get("secret_key");//网站秘钥，这是在安装的时候获取的
 		try {
 			return Base64.encode(DES.encrypt(pass.getBytes(), key));
 		} catch (Exception e) { e.printStackTrace();}
@@ -278,24 +279,26 @@ public class SystemController extends SupportController {
 		}
 		return new ResultMessage(false, "更新失败!");
 	}
-	
+
+
 	
 	
 	/**
-	 * 
-	 * REST
-	 * 
-	 * @return 
-	 * 
+	 * 获取网站主题列表
+	 *
 	 */
 	@RequestMapping("/themes")
 	public @ResponseBody Object themes(HttpServletRequest request){ 
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		String themesPath = WebRealPathHolder.REAL_PATH + File.separator+"themes"; 
-		File file = new File(themesPath); 
-		String[] filelist = file.list();
+
+
+		String themesPath = config.getThemesPath();
+        File file = new File(themesPath);
+        String[] filelist = file.list();
+
 		for(String themeName : filelist ){
-			String config = themesPath + File.separator +themeName+File.separator+"config.groovy";
+
+			String config = themesPath + File.separator +themeName+File.separator  + "config.groovy";
 			
 			try {
 				

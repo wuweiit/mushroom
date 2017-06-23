@@ -9,6 +9,8 @@ import org.marker.mushroom.beans.Module;
 import org.marker.mushroom.dao.DaoEngine;
 import org.marker.mushroom.dao.IModelDao;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper.RowMapperModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.stereotype.Repository;
 
 
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public class ModelDaoImpl extends DaoEngine implements IModelDao {
 
 	
-	
+
 	
 	@Override
 	public List<?> queryAll() { 

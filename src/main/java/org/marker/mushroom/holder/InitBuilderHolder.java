@@ -10,13 +10,17 @@ import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebAPP;
+import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.config.impl.URLRewriteConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyKeyWordComputer;
 import org.marker.mushroom.ext.message.MessageContext;
+import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.ext.model.ContentModelContext;
 import org.marker.mushroom.ext.model.impl.ArticleModelImpl;
+import org.marker.mushroom.ext.model.impl.CategoryModelImpl;
 import org.marker.mushroom.ext.model.impl.ContentModelImpl;
+import org.marker.mushroom.ext.model.impl.DoctorModelImpl;
 import org.marker.mushroom.ext.plugin.PluginContext;
 import org.marker.mushroom.ext.plugin.Pluginlet;
 import org.marker.mushroom.ext.plugin.impl.GuestBookPluginletImpl;
@@ -58,7 +62,14 @@ public class InitBuilderHolder implements ServletContextAware{
 		 */ 	
     	logger.info("bind application context = {}", application);	
     	ActionContext.currentThreadBindServletContext(application);
-    	
+
+
+		/*
+		 * ============================================================
+		 *          Database config bind
+		 * ============================================================
+		 */
+		DataBaseConfig.getInstance().init();
     	
     	
 		/* 
@@ -66,9 +77,10 @@ public class InitBuilderHolder implements ServletContextAware{
 		 *                初始化系统配置信息路径
 		 * ============================================================
 		 */
-    	SystemConfig systemConfig = SystemConfig.getInstance();
-    	logger.info("build systemConfig instance = {}", systemConfig);	
-    	application.setAttribute(AppStatic.WEB_APP_CONFIG, systemConfig.getProperties());
+
+		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+    	logger.info("build systemConfig instance = {}", syscfg);
+    	application.setAttribute(AppStatic.WEB_APP_CONFIG, syscfg.getProperties());
     	
     	
     	
@@ -100,9 +112,10 @@ public class InitBuilderHolder implements ServletContextAware{
 		 */
 		ContentModelContext contentModelContext = ContentModelContext.getInstance();
 
-        contentModelContext.put(new ContentModelImpl());
-		contentModelContext.put(new ArticleModelImpl());
-
+        contentModelContext.put(new ContentModelImpl());// 栏目数据模型
+		contentModelContext.put(new ArticleModelImpl());// 文章数据模型
+		contentModelContext.put(new DoctorModelImpl());// 医生数据模型
+        contentModelContext.put(new CategoryModelImpl());// 科室数据模型
 
 
 
@@ -144,6 +157,8 @@ public class InitBuilderHolder implements ServletContextAware{
     	taglibs.put(new URLRewriteTagImpl());
     	taglibs.put(new SingleCategoryTagImpl());
 		taglibs.put(new ChildChannelTagImpl());
+		taglibs.put(new ListCategoryTagImpl());
+
     	logger.info("mrcms taglibs init complete");
     	
     	
@@ -155,9 +170,10 @@ public class InitBuilderHolder implements ServletContextAware{
 		 * ============================================================
 		 */
     	logger.info("mrcms MessageContext init ...");
-    	MessageContext mc = MessageContext.getInstance();
+        MessageDBContext messageDBContext = MessageDBContext.getInstance();
+
     	try {
-			mc.reday();
+            messageDBContext.init();
 		} catch (Exception e) {
 			logger.error("", e);
 		} 

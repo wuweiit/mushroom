@@ -16,7 +16,6 @@ public class PageValidator implements Validator {
 
 	@Override
 	public void validate(Object obj, Errors e) {
-		System.out.println("page");
 		ValidationUtils.rejectIfEmpty(e, "currentPageNo", "email.empty");
 	}
 

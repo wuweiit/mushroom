@@ -75,6 +75,7 @@ public class LoginController extends SupportController {
 
 
 		session.setAttribute(SessionAttr.USER_ID, user.getId());
+		session.setAttribute(SessionAttr.USER_GROUP_ID, user.getGid());// 用户组
 
 
 

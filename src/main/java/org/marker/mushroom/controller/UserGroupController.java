@@ -1,12 +1,14 @@
 package org.marker.mushroom.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.marker.mushroom.beans.Permission;
-import org.marker.mushroom.beans.ResultMessage;
-import org.marker.mushroom.beans.UserGroup;
-import org.marker.mushroom.dao.IPermissionDao;
-import org.marker.mushroom.dao.IUserDao;
+import org.apache.commons.lang.StringUtils;
+import org.marker.mushroom.beans.*;
+import org.marker.mushroom.core.config.impl.DataBaseConfig;
+import org.marker.mushroom.core.config.impl.SystemConfig;
+import org.marker.mushroom.dao.*;
 import org.marker.mushroom.support.SupportController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,45 +74,91 @@ public class UserGroupController extends SupportController {
 		if(count > 0){
 			return new ResultMessage(false,"用户组有用户存在，不能删除!"); 
 		}
-		
-		dao.update("delete from mr_user_group_menu where gid =" + id);
-		
-		
+		// 删除菜单关系
+		dao.update("delete from "+getPrefix()+"user_group_menu where gid =" + id);
 		boolean status = commonDao.deleteByIds(UserGroup.class, id + "");
+
+		// 删除栏目关系
+        userGroupChannelDao.deleteAllByGid(id);
+
+        // 删除分类关系（科室）
+        userGroupCategoryDao.deleteAllByGid(id);
+
+
 		if(status){
 			return new ResultMessage(true,"删除成功!");
 		}else{
 			return new ResultMessage(false,"删除失败!"); 
 		}
 	}
-	
+
+
+	@Autowired
+	UserGroupChannelDao userGroupChannelDao;
+
+
+	@Autowired
+	UserGroupCategoryDao userGroupCategoryDao;
 	
 
 	/** 保存用户 */
 	@ResponseBody
 	@RequestMapping("/update")
-	public Object update(UserGroup group,@RequestParam("id") int id){
-		group.setId(id);// 不能注入 
+	public Object update(UserGroup group,@RequestParam("id") int id,
+                         @RequestParam String channelIds,
+						@RequestParam String categoryIds){
+		group.setId(id);// 不能注入
+
+        String[] ids = StringUtils.split(channelIds,",");
+        String[] cIds = StringUtils.split(categoryIds, ",");
+
+        userGroupChannelDao.deleteAllByGid(id);
+		userGroupCategoryDao.deleteAllByGid(id);
+
+
+        userGroupChannelDao.batchSave(id, ids);
+		userGroupCategoryDao.batchSave(id, cIds);
+
+
 		if(commonDao.update(group)){
 			return new ResultMessage(true, "更新成功!");
 		}else{
 			return new ResultMessage(false,"更新失败!"); 
 		}
 	}
-	
+
+
 	
 	/** 编辑组 */
 	@RequestMapping("/edit")
 	public ModelAndView edit(@RequestParam("id") long id){
 		ModelAndView view = new ModelAndView(this.viewPath+"edit");
 		view.addObject("group", commonDao.findById(UserGroup.class, id));
+
+
+		String sql = "select * from "+ getPrefix()+"user_group_channel where gid = ?";
+		List<Map<String,Object>> list = commonDao.queryForList(sql,id);
+        List<Integer> channels = new ArrayList<>();
+		for(Map<String,Object> map : list){
+            channels.add((Integer) map.get("cid"));
+		}
+
+        String sql2 = "select * from "+ getPrefix()+"user_group_category where gid = ?";
+        List<Map<String,Object>> list2= commonDao.queryForList(sql2,id);
+        List<Integer> categorys = new ArrayList<>();
+        for(Map<String,Object> map : list2){
+            categorys.add((Integer) map.get("cid"));
+        }
+
+
+        view.addObject("channelsStr", StringUtils.join(channels,","));
+        view.addObject("categorysStr", StringUtils.join(categorys,","));
 		return view;
 	}
 
 	/**
 	 * 用户组列表
-	 * 
-	 * @param request
+	 *
 	 * @return
 	 */
 	@RequestMapping("/list")
@@ -146,10 +194,10 @@ public class UserGroupController extends SupportController {
 	@ResponseBody
 	public Object granting(@RequestParam("mid") String mid, @RequestParam("gid") int gid){
 		// 在更新前，先清空以前权限，再更新最新权限。
-		dao.update("delete from mr_user_group_menu where gid="+gid);
+		dao.update("delete from "+getPrefix()+"user_group_menu where gid="+gid);
 		
 		
-		String a = "insert into "+dbConfig.getPrefix()+"user_group_menu(gid,mid) values(?,?)";
+		String a = "insert into "+ getPrefix()+"user_group_menu(gid,mid) values(?,?)";
 		String[] s = mid.split(",");
 		for(String id : s){
 			int mi = Integer.parseInt(id);

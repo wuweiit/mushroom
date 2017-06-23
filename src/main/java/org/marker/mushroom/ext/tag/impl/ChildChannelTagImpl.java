@@ -75,12 +75,15 @@ public class ChildChannelTagImpl extends Taglib {
 			 
 			data.setVar(var);
             WebParam param = WebParam.get();
-            String pageName = param.pageName;
+			String pageName = param.pageName;
+			int cid = param.channel.getId();
             DataBaseConfig config = DataBaseConfig.getInstance();
 
+			long pid = param.channel.getPid();
 
-
-			String sql = "select *, concat('p=', url) url from "+config.getPrefix()+"channel where pid = (select id from "+config.getPrefix()+"channel where url = '"+pageName+"' limit 1)";
+			String sql = "select *,id = "+cid + " as active, concat('p=', url) url from "+config.getPrefix()
+					+"channel where (hide=1 and pid = (select distinct id from "+config.getPrefix()+"channel where id = "+pid+" limit 1)) "
+					+" order by sort desc";
 			data.setSql(sql);
 
 			data.setItems("mrcms_"+UUID.randomUUID().toString().replaceAll("-",""));

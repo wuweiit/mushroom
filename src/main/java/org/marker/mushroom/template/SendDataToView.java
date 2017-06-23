@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.dao.ISupportDao;
 import org.marker.mushroom.ext.message.MessageContext;
+import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.template.tags.res.SqlDataSource;
@@ -47,12 +49,8 @@ public class SendDataToView {
 	
 	/** 日志记录对象 */ 
 	protected Logger logger =  LoggerFactory.getLogger(LOG.TEMPLATE_ENGINE); 
-	
-	/** 系统配置信息 */
-	private static final SystemConfig syscfg = SystemConfig.getInstance();
 
-	/** 国际化 */
-	private static final MessageContext mc = MessageContext.getInstance();
+
 	
 	
 	private final MyCMSTemplate engine;
@@ -81,7 +79,8 @@ public class SendDataToView {
 	 */
 	public void process(String tpl) throws SystemException {
 		Configuration config = engine.config;
-		
+
+		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
 		
 
 		if(syscfg.isdevMode()){// 模板异常将以HTML格式输出
@@ -115,8 +114,9 @@ public class SendDataToView {
 			
 			//获取当前栏目
 //			Channel current =  (Channel)request.getAttribute(AppStatic.WEB_CURRENT_CHANNEL);
-//			queryString = queryString.replaceAll("upid", current.getId()+""); 
-			request.setAttribute(dataTmp.getItems(), dao.queryForList(queryString));
+//			queryString = queryString.replaceAll("upid", current.getId()+"");
+			List<Map<String, Object>> listData = dao.queryForList(queryString);
+			request.setAttribute(dataTmp.getItems(), listData);
 					 
 			
 			
@@ -241,6 +241,9 @@ public class SendDataToView {
 		
         // 国际化数据包装模型
 		String lang = HttpUtils.getLanguage(request);
+
+		MessageDBContext mc = MessageDBContext.getInstance();
+
         MessageWrapperModel messageModel = new MessageWrapperModel(mc.get(lang), config.getObjectWrapper());
         request.setAttribute(KEY_MESSAGE_CONTEXT, messageModel);
    	    

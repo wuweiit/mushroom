@@ -30,17 +30,18 @@ public abstract class ContentModel{
 	
 	public static final String CONFIG_TYPE = "type";
 	public static final String CONFIG_MODULE = "module";
-	
-	
-	
-	/** 数据库配置信息 */
-	public static final DataBaseConfig dbconfig = DataBaseConfig.getInstance();
+
+
+
+
 	// URL 重写引擎
 	public URLRewriteEngine urlrewrite = SingletonProxyFrontURLRewrite.getInstance();
 	
 	/** 数据库模型引擎 */
 	public ISupportDao commonDao;
-	 
+
+
+    protected DataBaseConfig dbconfig = DataBaseConfig.getInstance();
 	
 	/** 内容模型配置信息 */
 	protected Map<String,Object> config;
@@ -76,7 +77,6 @@ public abstract class ContentModel{
 	
 	/**
 	 * 设置模型的模块UUID
-	 * @param val
 	 * @return
 	 */
 	public Object setModule(Object uuid){
@@ -91,6 +91,7 @@ public abstract class ContentModel{
 	 * @return
 	 */
 	public String getPrefix(){
+		DataBaseConfig dbconfig = DataBaseConfig.getInstance();
 		return dbconfig.getPrefix();
 	}
  
@@ -123,7 +124,6 @@ public abstract class ContentModel{
 
 	/**
 	 * Web前端生成SQL语句(模板引擎会调用来生成sql语句)
-	 * @see SQLDataEngine
 	 * */
 	public StringBuilder doWebFront(String tableName, SqlDataSource sqlDataSource){
 		return null;

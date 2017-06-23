@@ -24,7 +24,7 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 	 * */
 	@Override
 	public User queryByNameAndPass(String name, String pass) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder("select * from ");
 		sql.append(prefix).append("user").append(" where name=? and pass=?");
 		User user = null; 
@@ -40,7 +40,7 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 
 	@Override
 	public boolean updateLoginTime(Serializable id) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder("update ");
 		sql.append(prefix).append("user ").append("set logintime=sysdate() where id=?");
 		
@@ -54,7 +54,7 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 	 */
 	@Override
 	public User findUserByName(String userName) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder("select * from ");
 		sql.append(prefix).append("user").append(" where name=? or email = ?");
 		User user = null; 
@@ -87,7 +87,7 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 
 	@Override
 	public void updateToken(int userId, String token) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder("update ");
 		sql.append(prefix).append("user ").append("set token=?, logintime=sysdate() where id=?");
 		this.update(sql.toString(),token, userId);
@@ -115,7 +115,7 @@ public class UserDaoImpl extends DaoEngine implements IUserDao{
 	@Override
 	public void updateField(int userId, String field, String value) {
 
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder("update ");
 		sql.append(prefix).append("user ").append("set "+field+"=? where id=?");
 		this.update(sql.toString(),value, userId);

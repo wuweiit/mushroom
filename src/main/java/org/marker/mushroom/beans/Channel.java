@@ -2,13 +2,16 @@ package org.marker.mushroom.beans;
 
 import java.io.Serializable;
 
+import lombok.Data;
 import org.marker.mushroom.dao.annotation.Entity;
+import org.marker.mushroom.dao.annotation.EntityFieldIgnore;
 
 /**
  * 栏目实体
  * @author marker
  * */
 @Entity("channel")
+@Data
 public class Channel implements Serializable{
 	private static final long serialVersionUID = -7383542815506431998L;
 	
@@ -44,103 +47,15 @@ public class Channel implements Serializable{
 
 	/** 分类Id 列表 */
 	private String categoryIds;
+
+	/** 文章内容 */
+	@EntityFieldIgnore
+	private String content;
+
+	/**
+	 * 文章内容Id
+	 * */
+	private int contentId;
 	
-	
- 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public long getPid() {
-		return pid;
-	}
-	public void setPid(long pid) {
-		this.pid = pid;
-	}
-	public String getIcon() {
-		return icon;
-	}
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getKeywords() {
-		return keywords;
-	}
-	public void setKeywords(String keywords) {
-		this.keywords = keywords;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public String getTemplate() {
-		return template;
-	}
-	public void setTemplate(String template) {
-		this.template = template;
-	}
-	public int getSort() {
-		return sort;
-	}
-	public void setSort(int sort) {
-		this.sort = sort;
-	}
-	public int getRows() {
-		return rows;
-	}
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
 
-	public short getHide() {
-		return hide;
-	}
-	public void setHide(short hide) {
-		this.hide = hide;
-	}
-	 
-	public String getRedirect() {
-		return redirect;
-	}
-	public void setRedirect(String redirect) {
-		this.redirect = redirect;
-	}
-	public String getLangkey() {
-		return langkey;
-	}
-	public void setLangkey(String langkey) {
-		this.langkey = langkey;
-	}
-
-	public int getEnd() {
-		return end;
-	}
-
-	public void setEnd(int end) {
-		this.end = end;
-	}
-
-	public String getCategoryIds() {
-		return categoryIds;
-	}
-
-	public void setCategoryIds(String categoryIds) {
-		this.categoryIds = categoryIds;
-	}
 }

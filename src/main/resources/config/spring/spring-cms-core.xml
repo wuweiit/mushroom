@@ -13,7 +13,7 @@
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context.xsd">
     
-    
+	<import resource="spring-jdbc.xml" />
     <!-- 组件 --> 
  	<context:component-scan base-package="org.marker.mushroom.core.component"/>
  	
@@ -31,8 +31,23 @@
  	<context:component-scan base-package="org.marker.mushroom.statistic"/>
  
  
- 
- 	
- 	
- 	
+ 	<!-- 网站配置组件 -->
+	<bean id="systemConfig" class="org.marker.mushroom.core.config.impl.SystemConfig">
+		<constructor-arg ref="jdbcTemplate"></constructor-arg>
+	</bean>
+
+
+    <!-- URL重写规则引擎配置配置组件 -->
+    <bean id="URLRewriteConfig" class="org.marker.mushroom.core.config.impl.URLRewriteConfig">
+        <constructor-arg ref="jdbcTemplate"></constructor-arg>
+    </bean>
+
+    <bean id="messageDBContext" class="org.marker.mushroom.ext.message.MessageDBContext">
+        <constructor-arg ref="jdbcTemplate"></constructor-arg>
+    </bean>
+
+
+
+
+
 </beans>

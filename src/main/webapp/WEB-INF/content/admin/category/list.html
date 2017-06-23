@@ -1,28 +1,86 @@
 <div class="content">
 	<div class="tab_bar">
 		<ul>
-			<li class="tab_index" onclick="setTabContent(this);">分类管理</li>
+			<li class="tab_index" onclick="setTabContent(this);">科室管理</li>
 		</ul>
-		<button class="btn_tabbar" action="category/add.do" onclick="refreshContentByElement(this);">添加分类</button>
 	</div>
 	<div class="tab_content">
 		<div class="tab_item tab_show">
-			<table class="table_for_list">
-				<thead>
-				  <tr>
-			        <th width="60">编号</th>
-			        <th>类别名称</th>
-                    <th>内容模型</th>
-			        <th width="160">别名</th> 
-			        <th width="80">排序</th>
-                    <th width="160">描述</th>
-			        <th width="90">操作</th> 
-			      </tr>
-				</thead>
-			    <tbody>
-				  	<@categoryTree id = 0 node = -1 />
-				</tbody>
-			</table>
+            <div style="margin-bottom: 10px;">
+                <button class="" action="category/add.do" onclick="refreshContentByElement(this);">添加科室</button>
+                <button class="" action="category/addBatch.do" onclick="refreshContentByElement(this);">批量添加科室</button>
+            </div>
+            <div style="width: 30%; display: inline-block; vertical-align: top;">
+
+
+                <ul id="treeDemo" class="ztree"></ul>
+
+            </div>
+            <div style="width: 60%; display: inline-block; vertical-align: top;">
+            <form id="myForm" action="category/update.do" method="post" onsubmit="return false">
+                <input type="hidden" id="categoryId" name="id" value="0" />
+                <table class="table_for_add">
+                    <tbody>
+                    <tr class="rowBgColor">
+                        <th width="140">科室ID：</th>
+                        <td>
+                            <span id="categoryId2"></span>
+                        </td>
+                        <td><span></span></td>
+                    </tr>
+                    <tr class="rowBgColor">
+                        <th width="140">上级科室：</th>
+                        <td>
+                            <select id="categoryPid" class="select_for_add" name="pid">
+                                <option value="0"> -------- 根级科室 -------- </option>
+                                <@categoryTree id = 0 node = -1/>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <th width="140">科室名称：</th>
+                        <td><input class="input_for_add" id="categoryName" name="name" type="text" value="" /></td>
+                        <td><span  ></span></td>
+                    </tr>
+                    <tr>
+                        <th width="140">科室类型：</th>
+                        <td>
+                            <select id="categoryType" class="input_for_add" name="type">
+                                <option value="1">行政科室</option>
+                                <option value="2">临床科室</option>
+                            </select>
+                        <td><span></span></td>
+                    </tr>
+                    <tr class="rowBgColor">
+                        <th width="140">排序：</th>
+                        <td><input class="input_for_add" id="categorySort" name="sort" type="number" value="0"  /></td>
+                        <td><span  ></span></td>
+                    </tr>
+                    <tr  >
+                        <th>描述信息：</th>
+                        <td>
+                            <textarea class="textarea_for_add" id="categoryDesc" name="description"></textarea>
+                        </td>
+                        <td>
+                            <span></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <button class="" onclick="mySubmitForm(this);" return="category/list.do">保 存</button>
+
+                <!--<button class="" action="category/add.do" onclick="refreshContentByElement(this);">保存</button>-->
+                <button class="" id="deleteBtn" action="category/delete.do?rid=-1" return="category/list.do" onclick="deleteById(this);">删除</button>
+
+
+
+
+            </form>
+            </div>
+
 		</div>
 	</div>
 </div>
@@ -30,34 +88,89 @@
 
 
 <script type="text/javascript">
- 
+    var setting = {
+        check: {
+            enable: false,
+            chkboxType :  { "Y" : "s", "N" : "ps" }
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        callback: {
+            onClick:function(event, treeId, treeNode) {
+                console.log(treeNode.tId + ", " + treeNode.name);
+                console.log(treeNode.id)
+                $.ajax({
+                    url:'category/get.do',
+                    type:'get',
+                    data:{id: treeNode.id},
+                    dataType:'json',
+                    success:function(res){
+                        console.log(res);
+                        $("#categoryName").val(res.name);
+                        $("#categorySort").val(res.sort);
+                        $("#categoryDesc").val(res.description);
+                        $("#categoryId").val(res.id);
+                        $("#categoryId2").text(res.id);
+                        $("#categoryPid").val(res.pid);
+                        $("#categoryType").val(res.type);
+                        $("#deleteBtn").attr("action","category/delete.do?id="+res.id);
 
+                    }
+                });
+
+
+
+            },
+            onCheck: function(event,treeId, treeNode){
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo"); //获取树
+                var nodes = zTree.getNodes(); //获取每一个节点
+                var nodeObjects = zTree.transformToArray(nodes);
+                var selectData = [];
+                for(var i=0; i <nodeObjects.length; i++){ //转换成数组
+                    var node = nodeObjects[i];
+                    if(node.checked){
+                        selectData.push(node.id);
+                    }
+                }
+                $("#channelIds").val(selectData.join(','));
+            }
+        }
+    };
+    var categoryList = "${channelsStr!}".split(",");
+    var zNodes =[];
+    $.ajax({
+        url:'category/all.do',
+        type:'get',
+        dataType:'json',
+        success:function(res){
+            $.each(res,function(index,o){
+                var node = {id:o.id,pId:o.pid,name:o.name};
+                for(var i=0; i <categoryList.length; i++) { //转换成数组
+                    var nodeId = categoryList[i];
+                    if (node.id == nodeId) {
+                        node.checked = true;
+                    }
+                }
+                zNodes.push(node);
+            });
+            var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            tree.expandAll(true);
+        }
+    });
+    function mySubmitForm(obj){
+        submitActionForm(obj);
+    }
 </script>
 
-
-
 <#macro categoryTree id node>
-	<#local temp = node + 1 />
-	<#list data as x>
-	  	<#if id == x.pid>
-	  	<#if x.root==1><tr style="background:#fbfbfb"><#else><tr></#if>
-	        <td>${x.id?c} </td>
-	        <td>
-	        	<#if temp gt 0 ><#list 1..temp as i>&nbsp; &nbsp;</#list>
-					<#if false> └ <#else>  ├ </#if>
-				</#if>
-	            ${x.name!}
-	        </td>
-            <td style="text-align: center;"><#if x.root==1><b>[${x.modelName!}]</b></#if></td>
-            <td>${x.alias!}</td>
-	        <td>${x.sort?c} </td>
-            <td>${x.description!} </td>
-	        <td style="text-align: center;">
-	        	<a href="#" action="category/edit.do?id=${x.id?c}" onclick="refreshContentByElement(this);">编辑</a>  |  
-			 	<a href="#" action="category/delete.do?id=${x.id?c}"  return="category/list.do" onclick="deleteById(this)">删除</a>   
-	        </td> 
-	    </tr>
-	    <@categoryTree id = x.id node=temp/>
-      </#if>
-	</#list> 
+    <#local temp = node + 1 />
+    <#list data as comment>
+        <#if id = comment.pid>
+            <option value="${comment.id?c}"><#list 0..temp as x> &nbsp; &nbsp; </#list>├ ${comment.name!}</option>
+            <@categoryTree id = comment.id node=temp/>
+        </#if>
+    </#list>
 </#macro>

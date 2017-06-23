@@ -87,8 +87,10 @@
 	</mvc:interceptors>
 
     <mvc:resources mapping="/public/" location="/public/"/>
-    
-    <!-- ②：对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
+
+
+
+	<!-- ②：对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
 	<context:component-scan base-package="org.marker.mushroom,org.marker.app" annotation-config="true" />
 
 
@@ -108,6 +110,10 @@
 		<property name="prefix" value=""/>
 		<property name="suffix" value=".html"/>
 		<property name="contentType" value="text/html; charset=utf-8"></property>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
+        <property name="requestContextAttribute" value="req"/>
 	</bean>
 	
 	
@@ -119,7 +125,7 @@
        			<prop key="defaultEncoding">UTF-8</prop>
        			<prop key="template_update_delay">0</prop>
        			 <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
-                <prop key="number_format">0.##</prop> 
+                <prop key="number_format">0.##</prop>
        			<prop key="locale">zh_CN</prop>  
        			<!-- 自动获取spring.ftl宏，此处路径是上面templateLoaderPath的相对路径 -->  
             	<prop key="auto_import">common/spring.ftl as spring</prop>

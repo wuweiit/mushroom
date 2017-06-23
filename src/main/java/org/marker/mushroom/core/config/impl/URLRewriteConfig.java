@@ -2,9 +2,12 @@ package org.marker.mushroom.core.config.impl;
 
 import java.io.IOException;
 
+import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.core.config.ConfigEngine;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
+import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.urlrewrite.URLRewriteEngine;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * URL重写配置
@@ -14,7 +17,7 @@ import org.marker.urlrewrite.URLRewriteEngine;
  * @blog www.yl-blog.com
  * @weibo http://t.qq.com/wuweiit
  */
-public class URLRewriteConfig extends ConfigEngine {
+public class URLRewriteConfig extends ConfigDBEngine {
 
 	/** 页面后缀key */
 	public static final String PAGE_SUFFIX = "page.suffix";
@@ -25,29 +28,34 @@ public class URLRewriteConfig extends ConfigEngine {
 	
 	/** 默认页面后缀 */
 	public static final String DEFAULT_PAGE_SUFFIX = ".html";
-	
-	// URL重写配置文件路径
-	public static final String CONFIG_FILE_PATH = "/config/urlrewrite/urlrewrite.config";
-	
+
 	
 	
 	
 	/** URL重写 */
 	private static final URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
 
-	
-	
 	/**
-	 * 默认构造方法
-	 * @throws IOException
-	 * */
-	private URLRewriteConfig() {
-		super(CONFIG_FILE_PATH);
-		init();// 初始化URL重写规则到引擎
+	 * 初始化就读取配置文件哦
+	 *
+	 * @param jdbcTemplate
+	 */
+	public URLRewriteConfig(JdbcTemplate jdbcTemplate) {
+		super(jdbcTemplate);
+		init();
 	}
-	
-	
-	/**
+
+
+    /**
+     * 获取实例
+     * @return
+     */
+    public static URLRewriteConfig getInstance() {
+        return SpringContextHolder.getBean("URLRewriteConfig");
+    }
+
+
+    /**
 	 * 初始化
 	 */
 	public void init(){
@@ -74,19 +82,7 @@ public class URLRewriteConfig extends ConfigEngine {
 	}
 	
 	
-	/**
-	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
-	 * */
-	private static URLRewriteConfig instance ;
-	
-	/**
-	 * 获取系统配置实例
-	 * */
-	public static URLRewriteConfig getInstance(){
-		if(null == instance)
-			instance = new URLRewriteConfig();
-		return instance;
-	}
+
 	
 	
 	@Override

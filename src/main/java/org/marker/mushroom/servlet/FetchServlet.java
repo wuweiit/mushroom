@@ -20,6 +20,8 @@ import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.dao.ISupportDao;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.utils.HttpUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -32,6 +34,7 @@ import org.marker.mushroom.utils.HttpUtils;
  * @weibo http://t.qq.com/wuweiit
  */
 public class FetchServlet  extends HttpServlet{
+	private  Logger logger = LoggerFactory.getLogger(FetchServlet.class);
 
 	private static final long serialVersionUID = 2990324920926049103L;
 	
@@ -98,8 +101,7 @@ public class FetchServlet  extends HttpServlet{
 				list.clear();
 			}
 		}else{// 离开
-			
-			System.out.println("用户已经离开");
+			logger.debug("用户已经离开!");
 			
 		}
 		

@@ -1,0 +1,81 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑幻灯片</h3></li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="user/list.do?currentPageNo=1">保 存</button>
+	</div>
+	<form id="myForm" action="user/update.do" method="post">
+		<div class="tab_content">
+			<div class="tab_item tab_show">
+				<input type="hidden" name="id" value="${entity.id?c}" />
+                <table class="table_for_add">
+                    <tbody>
+                    <tr class="rowBgColor">
+                        <th width="140">名称：</th>
+                        <td><input class="input_for_add" name="name" type="text" value="${entity.name!}" /></td>
+                        <td><span ></span></td>
+                    </tr>
+                    <tr>
+                        <th width="140">宽度：</th>
+                        <td><input class="input_for_add" name="width" type="text" value="${entity.width?c}"/></td>
+                        <td><span ></span></td>
+                    </tr>
+                    <tr class="rowBgColor">
+                        <th width="140">高度：</th>
+                        <td><input class="input_for_add" name="height" type="text" value="${entity.height?c}" /></td>
+                        <td><span  ></span></td>
+                    </tr>
+                    <tr>
+                        <th>描述信息：</th>
+                        <td>
+                            <textarea class="textarea_for_add" name="description">${entity.description!}</textarea>
+                        </td>
+                        <td>
+                            <span></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+
+ <table>
+     <thead>
+        <th>图片</th>
+        <th>描述</th>
+        <th width="120">操作</th>
+     </thead>
+     <tbody>
+        <td>
+
+            <img
+           width="300" height="160"
+           src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496921459271&di=9a1b668a652751b5b4328222d687429b&imgtype=0&src=http%3A%2F%2Fcfanz.cn%2Fuploads%2Fjpg%2F2013%2F03%2F11%2F14%2FbE6U6X5266.jpg"></td>
+        <td>
+            <input placeholder="标题"  class="input_for_add" style="margin-bottom: 6px">
+            <textarea placeholder="描述信息" />
+        </td>
+        <td><button href="" class="btn">删除</button></td>
+     </tbody>
+
+ </table>
+
+                </div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+    var dataList = JSON.parse('${entity.data}');
+
+    function render(){
+
+
+
+
+    }
+
+
+
+
+</script>

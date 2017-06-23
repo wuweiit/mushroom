@@ -32,7 +32,7 @@
 </body>
 <script type="text/javascript">
 function no(){
-	alert('感谢您对MRCMS的支持！\n我的邮箱: wuweiit@gmail.com');
+	alert('感谢您对MRCMS的支持！\n我的邮箱: admin@wuweibi.com');
 	window.close();
 }
 </script>

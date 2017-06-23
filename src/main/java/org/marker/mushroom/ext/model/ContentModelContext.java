@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.druid.util.StringUtils;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Model;
@@ -17,6 +18,7 @@ import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.config.impl.SystemConfig;
+import org.marker.mushroom.core.config.impl.URLRewriteConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.IChannelDao;
@@ -37,9 +39,7 @@ import org.marker.urlrewrite.URLRewriteEngine;
 public class ContentModelContext implements IContentModelParse {
 
 	
-	 
-	/** 系统配置信息 */
-	public static final SystemConfig sysConfig = SystemConfig.getInstance();
+
 	 
 	
 	/** 存放模型的集合(key:类型 value:模型对象) */
@@ -137,8 +137,21 @@ public class ContentModelContext implements IContentModelParse {
 			ContentModel cm = contentModels.get(param.modelType); 
 			 
 			Integer cid = Integer.valueOf(param.contentId);
+
+
+			// 计算面包屑导航
+
+
+
+
+
+			// 计算当前栏目数据
+
+
+
+
 			try{ 
-				cm.fetchContent(cid);// 通过内容id抓取内容数据 
+				cm.fetchContent(cid);// 通过内容id抓取内容数据
 			}catch(Exception e){ return 0; }
 			
 			
@@ -147,55 +160,77 @@ public class ContentModelContext implements IContentModelParse {
 			return 2;
 			
 		}else{ // 查询当前访问的栏目信息，栏目信息里面包含模型调用对应的模型库
-			Channel currentChannel = channelDao.queryByUrl(param.pageName);
-            param.channel = currentChannel;// 设置栏目参数
-			if(currentChannel != null){ 
-				String keywords    = currentChannel.getKeywords();
-				String description = currentChannel.getDescription(); 
-				if("".equals(description)){
-					description = sysConfig.get(SystemConfig.Names.DESCRIPTION);
-					currentChannel.setDescription(description);
-				}
-				if("".equals(keywords)){
-					keywords = sysConfig.get(SystemConfig.Names.KEYWORDS); 
-					currentChannel.setKeywords(keywords);
-				}
-				
-				
-				request.setAttribute(AppStatic.WEB_CURRENT_CHANNEL, currentChannel);
-				param.template   = currentChannel.getTemplate();//模板
-				param.modelType = "article";//内容模型
-				param.redirect   = currentChannel.getRedirect();//重定向地址
-                if(currentChannel.getRows() != 0){
-                    param.pageSize = currentChannel.getRows();
-                }
+			if("page".equals(param.action) ){
+				Channel currentChannel = channelDao.queryByUrl(param.pageName);
+				param.channel = currentChannel;// 设置栏目参数
+				if(currentChannel != null){
 
-				if(param.redirect != null && !"".equals(param.redirect)){
-					return 1;//如果重定向地址不为null
-				}
-				
-				// 查到栏目对应的模型，然后进行相应操作
-				ContentModel cm = contentModels.get(param.modelType);// 获取内容模型对象 
-				
-				if(cm != null){
-				    Page page = cm.doPage( param);
-
-                    request.setAttribute(AppStatic.WEB_APP_PAGE, page);
-
-                    URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
-
-            //                    传递分页信息
-                    String nextPage = "p="+param.pageName+"&page=" + page.getNextPageNo();
-                    String prevPage = "p="+param.pageName+"&page=" + page.getPrevPageNo();
-                    request.setAttribute("nextpage", urlRewrite.encoder(nextPage));
-                    request.setAttribute("prevpage", urlRewrite.encoder(prevPage));
+					SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+					String keywords    = currentChannel.getKeywords();
+					String description = currentChannel.getDescription();
+					if("".equals(description)){
+						description = syscfg.get(SystemConfig.Names.DESCRIPTION);
+						currentChannel.setDescription(description);
+					}
+					if("".equals(keywords)){
+						keywords = syscfg.get(SystemConfig.Names.KEYWORDS);
+						currentChannel.setKeywords(keywords);
+					}
 
 
+					request.setAttribute(AppStatic.WEB_CURRENT_CHANNEL, currentChannel);
+					param.template   = currentChannel.getTemplate();//模板
+					param.modelType = "article";//内容模型
+
+
+					/*
+					 * 重定向重新定义
+					 */
+					String redirect = currentChannel.getRedirect();
+					if(!StringUtils.isEmpty(redirect)){
+						if(redirect.indexOf("http") != -1){
+							param.redirect = redirect;
+						}else{
+
+							URLRewriteConfig urlConfig = URLRewriteConfig.getInstance();
+							param.redirect = redirect.indexOf(".") != -1?redirect:(redirect + urlConfig.getPageSuffix());
+						}
+					}
+
+
+					if(currentChannel.getRows() != 0){
+						param.pageSize = currentChannel.getRows();
+					}
+
+					if(param.redirect != null && !"".equals(param.redirect)){
+						return 1;//如果重定向地址不为null
+					}
+
+					// 查到栏目对应的模型，然后进行相应操作
+					ContentModel cm = contentModels.get(param.modelType);// 获取内容模型对象
+
+					if(cm != null){
+						Page page = cm.doPage( param);
+
+						request.setAttribute(AppStatic.WEB_APP_PAGE, page);
+
+						URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
+
+				//                    传递分页信息
+						String nextPage = "p="+param.pageName+"&page=" + page.getNextPageNo();
+						String prevPage = "p="+param.pageName+"&page=" + page.getPrevPageNo();
+						request.setAttribute("nextpage", urlRewrite.encoder(nextPage));
+						request.setAttribute("prevpage", urlRewrite.encoder(prevPage));
+
+
+						return 2;
+					}
 					return 2;
-				} 
-				return 2;
-				
-			} 
+
+				}
+			}else{
+                return IContentModelParse.STATUS_MODULE;
+            }
 		} 
 		return 0;
 	}

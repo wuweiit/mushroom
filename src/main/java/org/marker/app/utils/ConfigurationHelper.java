@@ -23,7 +23,7 @@ public final class ConfigurationHelper {
     private ConfigurationHelper() {
     }
 
-    private static final String filePath = "/etc/faceinner/config.properties";
+    private static final String filePath = "/etc/hsxycms/config.properties";
 
     private static volatile Properties property = getPropertyInstance();
 

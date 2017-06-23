@@ -47,11 +47,10 @@ public class StatisticsDaoImpl extends DaoEngine implements IStatisticsDao{
 	
 	// 查询某天的访问情况，没有缓存
 	public Map<String, Object> query(String time){
-		System.out.println(time);
 		final Map<String, Object> data = new HashMap<String, Object>(24);
 		
 		// 查询今天访问每小时详细情
-		String sql = "select A.* from (select DATE_FORMAT(time,'%Y%m%d-%H') gdate, DATE_FORMAT(time,'%H') hours, DATE_FORMAT(time,'%Y%m%d') date,count(DISTINCT ip) ip,COUNT(DISTINCT visitor) uv, COUNT(id)  pv  from "+dbConfig.getPrefix()+"visited_his GROUP BY gdate) A where date = ?";
+		String sql = "select A.* from (select DATE_FORMAT(time,'%Y%m%d-%H') gdate, DATE_FORMAT(time,'%H') hours, DATE_FORMAT(time,'%Y%m%d') date,count(DISTINCT ip) ip,COUNT(DISTINCT visitor) uv, COUNT(id)  pv  from "+getPreFix()+"visited_his GROUP BY gdate) A where date = ?";
 		final Map<Integer,Data> list = new HashMap<Integer,Data>(12); 
 		this.jdbcTemplate.query(sql,new RowCallbackHandler() { 
 			public void processRow(ResultSet rs) throws SQLException {
@@ -65,7 +64,7 @@ public class StatisticsDaoImpl extends DaoEngine implements IStatisticsDao{
 		},time);
 		
 		// 查询今天访问概况,并写入data
-		sql = "select A.* from (select DATE_FORMAT(time,'%Y%m%d') date,count(DISTINCT ip) ip,COUNT(DISTINCT visitor) uv, COUNT(id)  pv  from "+dbConfig.getPrefix()+"visited_his GROUP BY date) A where A.date = ?";
+		sql = "select A.* from (select DATE_FORMAT(time,'%Y%m%d') date,count(DISTINCT ip) ip,COUNT(DISTINCT visitor) uv, COUNT(id)  pv  from "+getPreFix()+"visited_his GROUP BY date) A where A.date = ?";
 		this.jdbcTemplate.query(sql,new RowCallbackHandler() { 
 			public void processRow(ResultSet rs) throws SQLException {
 				data.put("date", rs.getInt("date"));

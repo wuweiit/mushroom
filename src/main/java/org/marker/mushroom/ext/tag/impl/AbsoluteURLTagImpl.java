@@ -29,8 +29,8 @@ public class AbsoluteURLTagImpl extends Taglib {
 		
 		
 		this.put(
-				"(src=|href=|background=)[\"\']((?!http://)(?!/)(?!\\$)(?!\\#).+)[\"\']",
-				"$1\"\\${url}/themes/\\${config.themes_path}/$2\"", 0);
+				"(src=|href=|background=)[\"\']((?!http://)(?!https://)(?!javascript:)(?!/)(?!\\$)(?!\\#).+)[\"\']",
+				"$1\"\\${themeurl}/$2\"", 0);
 	}
  
 

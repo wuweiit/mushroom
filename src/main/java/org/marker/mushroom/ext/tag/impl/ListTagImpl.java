@@ -108,7 +108,6 @@ public class ListTagImpl extends Taglib {
 
 			cmstemplate.put(data);
 
-//			System.out.println(data.getQueryString());
 		}
 	}
 	

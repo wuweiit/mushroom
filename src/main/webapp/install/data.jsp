@@ -1,4 +1,3 @@
-<%@page import="java.io.File"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.DriverManager"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
@@ -20,9 +19,12 @@ try{
 	
 	conn = DriverManager.getConnection(url, user, password);
 	out.print("1");
-	conn.close();
 }catch(Exception e){
 	out.print("数据库连接失败，请检查连接信息是否正确！");
+}finally {
+    if(conn != null)
+		conn.close();
+
 }
 %>
 

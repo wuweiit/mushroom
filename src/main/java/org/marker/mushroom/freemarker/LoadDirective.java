@@ -36,8 +36,8 @@ public class LoadDirective implements TemplateDirectiveModel {
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		 
 		String sql = params.get("sql").toString(); 
-		System.out.println(loopVars.length); 
-		System.out.println(sql);
+//		System.out.println(loopVars.length);
+//		System.out.println(sql);
 		Channel r = new Channel() ;
 		 r.setName("dsadsadasd");
 		List a =  new ArrayList();

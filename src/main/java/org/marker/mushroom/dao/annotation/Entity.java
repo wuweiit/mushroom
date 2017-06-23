@@ -16,6 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)//运行时注解
 @Target({ElementType.TYPE})//方法注解
 public @interface Entity {
-	String value();//名称 
-	String key() default "id";//名称 
+	String value();//名称
+	String key() default "id";//名称
 }

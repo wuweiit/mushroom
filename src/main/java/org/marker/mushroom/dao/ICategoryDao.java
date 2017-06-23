@@ -5,8 +5,12 @@ import java.util.List;
 import org.marker.mushroom.beans.Category;
  
 
-public interface ICategoryDao {
+public interface ICategoryDao extends ISupportDao{
 
 	List<Category> list();
+
+    List<Category> findAll();
+
+    Object findByGroupId(int userGroupId);
 
 }

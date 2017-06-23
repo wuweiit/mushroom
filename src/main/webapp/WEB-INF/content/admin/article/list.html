@@ -1,14 +1,19 @@
 <div class="" style="position: absolute; left: 5px; top:5px; bottom:5px; right:5px; min-width:700px; ">
     <div style="padding-bottom:10px; line-height:40px; vertical-align: top; float:right; overflow: auto; position: absolute;left:0; right:0; height: 80px;">
-	     <select id="articleCategory" class="select_for_add" style="width:150px;border-left-width:1px;">
-	     	<option value="0">------ 所有类别 ------</option>
-			<@categoryTree id = 0 node = -1/> 
+	     <select id="articleChannel" class="select_for_add" style="width:150px;border-left-width:1px;">
+	     	<option value="0">------ 所有栏目 ------</option>
+			<@channelTree id = 0 node = -1/>
 	     </select>
-	     &nbsp; 
+	     &nbsp;
+		<select id="articleCategory" class="select_for_add" style="width:150px;border-left-width:1px;">
+			<option value="0">------ 所有科室 ------</option>
+			<@categoryTree id = 0 node = -1/>
+		</select>
+		&nbsp;
 	     <select id="status" class="select_for_add" style="width:80px;border-left-width:1px; ">
 	        <option value="0,1">全部状态</option> 
-	     	<option value="1">已 发 布</option>
-	     	<option value="0">草 稿 箱</option> 
+	     	<option value="1">已发布</option>
+	     	<option value="0">待审核</option>
 	     </select>
 	     &nbsp;
 		 <input id="keyword" class="input_for_add" style="width:180px;border-left-width:1px; "/>
@@ -22,12 +27,11 @@
 			   <tr> 
 		        <th width="30" class="quanxuan" onclick="allCheck();">全选</th>
 		        <th>文章名称</th>
-		        <th width="80">类别</th>
 		        <th>作者</th>
 		        <th>流量</th>
-		        <th width="140">发布时间</th>
-		        <th width="38">状态</th>
-		        <th width="60">操作</th>
+		        <th width="140">创建时间</th>
+		        <th width="46">状态</th>
+		        <th width="80">操作</th>
 		      </tr>
 			</thead>
 		    <tbody id="list-container">
@@ -41,7 +45,7 @@
 	    <div style="float:left;margin-left:5px;">
 			<button title="全选" onclick="allCheck();">全选 </button>
 			<button title="反选" onclick="allRecheck();">反选 </button>
-			<button title="删除"  onclick="deleteArticleCheck();"><i class="fa fa-trash-o"></i></button>
+			<button title="删除"  onclick="deleteArticleCheck();">删除</button>
 		</div>
 		<div style="float: right;">
 			每页: <select id="pageSize"  style="height: 27px; width: 50px;" >
@@ -72,6 +76,7 @@ $(function(){
 	$("#pageSize").change(function(){ queryList();  });
 	$("#status").change(function(){ queryList();  });
 	$("#articleCategory").change(function(){ queryList();  });
+    $("#articleChannel").change(function(){ queryList();  });
 	
 	// 加载模板
 	var source   = $("#article-template").html();
@@ -112,13 +117,15 @@ $(function(){
 
 // 查询文章列表
 function queryList(){
-	var cid = $("#articleCategory").val();
+	var cid = $("#articleChannel").val();
+    var did = $("#articleCategory").val();
 	var status  = $("#status").val();
 	var keyword = $("#keyword").val();
 	var currentPageNo = $("#currentPageNo").val();
 	var pageSize = $("#pageSize").val();
 	var data = {
 		cid: cid,
+        did: did,
 		status: status,
 		keyword: keyword,
 		currentPageNo: currentPageNo,
@@ -203,6 +210,26 @@ function deleteArticle(obj){
 	
 }
 
+
+// 审核文章
+function auditContent(obj){
+    var action = $(obj).attr("action");
+    var title  = $(obj).attr("title");
+
+    zoom.showConfirmDialog("《"+title+"》<br>审核通过后将网站列表中展示！<br>确定审核通过吗？","消息提示", function(){
+        $.getJSON(action,null,function(data){
+            if(data.status){
+                queryList();
+            }else{
+                zoom.showMessageDialog(data.message,"消息提示",1500);
+            }
+            zoom.closeConfirmDialog();
+        });
+    });
+
+
+}
+
 function deleteArticleCheck(){
 	var action = "article/delete.do";
 	var list = "rid=";
@@ -237,22 +264,30 @@ function deleteArticleCheck(){
 {{#each data}}
 <tr>
    <td class="checkbox"><input type="checkbox" value="{{id}}" /></td>
-    <td><a href="{{url}}" target="_blank">{{title}}</a></td>
-    <td>{{cname}}</td>
+    <td>[{{cname}}] <a href="{{url}}" target="_blank">{{title}}</a></td>
+
     <td>{{author}}</td>
     <td>{{views}}</td>
     <td>{{dateformat time}}</td>
     <td class="tac">
         {{#if status}}
-	    	<b style="color:green;"><i class="fa fa-check-circle"></i></b>
+	    	<b style="color:green;">已发布</b>
     	{{else}}
-    		<b style="color:#999;"><i class="fa fa-check-circle"></i></b>
+        <#if Session.userGroupId == 1>
+            <a action="article/audit.do?id={{id}}"
+               title="{{title}}"
+               onclick="auditContent(this);" style="cursor: pointer;">[审核]</a>
+        <#else>
+            <b style="color:#999;">待审核</b>
+            </#if>
     	{{/if}}
     </td>
-    <td class="tac" style="font-size:20px;color:blue;">
-   <a href="#" action="article/edit.do?id={{id}}" param="" onclick="refreshContentByElement(this);"><i class="fa fa-pencil-square-o"></i></a>
-     &nbsp;<a href="#" data-id="{{id}}" onclick="deleteArticle(this);"><i class="fa fa-trash-o"></i></a>
- 
+    <td class="tac">
+
+   	    <a href="#" action="article/edit.do?id={{id}}" param="" onclick="refreshContentByElement(this);">编辑</a>
+        &nbsp;|&nbsp;
+        <a href="#" data-id="{{id}}" onclick="deleteArticle(this);">删除</a>
+	</td>
 </tr>
 {{/each}}
 </script>
@@ -265,4 +300,16 @@ function deleteArticleCheck(){
 	    <@categoryTree id = x.id node=temp/>
       	</#if>
 	</#list> 
+</#macro>
+
+
+
+<#macro channelTree id node>
+	<#local temp = node + 1 />
+	<#list channels as comment>
+		<#if id = comment.pid>
+			<option value="${comment.id?c}"><#list 0..temp as x> &nbsp; &nbsp; </#list>├ ${comment.name!}</option>
+			<@channelTree id = comment.id node=temp/>
+		</#if>
+	</#list>
 </#macro>

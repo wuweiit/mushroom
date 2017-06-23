@@ -3,10 +3,11 @@
 		<ul>
 			<li class="tab_index" onclick="setTabContent(this);">编辑栏目</li>
 		</ul>
-		<button class="btn_tabbar" onclick="submitActionForm(this);" return="channel/list.do">保 存</button>
+		<button class="btn_tabbar" onclick="mySubmitForm(this);" return="channel/list.do">保 存</button>
 	</div>
-	<form id="myForm" action="channel/update.do" method="post">
+	<form id="myForm" action="channel/update.do" method="post" onsubmit="return false;">
 	<input type="hidden" name="id" value="${channel.id?c}"/>
+        <input type="hidden" name="contentId" value="${channel.contentId?c}"/>
    <input type="hidden" id="categoryIds" name="categoryIds" value="${channel.categoryIds!}"/>
 	<div class="tab_content">
 		<div class="tab_item tab_show"> 
@@ -51,7 +52,9 @@
 					</tr>
 					<tr class="rowBgColor">
 						<th>栏目图标：</th>
-						<td><input class="input_for_add" name="icon" type="text" value="${channel.icon!}"  /></td>
+						<td><input id="channelIcon" class="input_for_add" name="icon" type="text" value="${channel.icon!}"  />
+							<button onclick="uploadImage()">上传图片</button>
+						</td>
 						<td><span id="name_status"></span></td>
 					</tr>
 					<tr>
@@ -86,11 +89,21 @@
 						</td>
 						<td><span  ></span></td>
 					</tr>
-                    <tr>
-                        <th>绑定分类：</th>
-                        <td><div id="tree" class="ztree"></div></td>
-                        <td><span  > </span></td>
-                    </tr>
+                    <!--<tr>-->
+                        <!--<th>绑定分类：</th>-->
+                        <!--<td><div id="tree" class="ztree"></div></td>-->
+                        <!--<td><span  > </span></td>-->
+                    <!--</tr>-->
+					<tr>
+						<th>栏目内容：</th>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="2" >
+							<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
+							<textarea id="mrcmsContent" style="display:none">${channel.content!}</textarea>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -135,28 +148,81 @@ var setting = {
 
 var zNodes =[
 ];
-var categoryList = "${channel.categoryIds!}".split(",");
-$.ajax({
-    url:'category/all.do',
-    type:'get',
-    dataType:'json',
-    success:function(res){
-        $.each(res,function(index,o){
-            var node = {id:o.id,pId:o.pid,name:o.name};
-            for(var i=0; i <categoryList.length; i++) { //转换成数组
-                var nodeId = categoryList[i];
-                if (node.id == nodeId) {
-                    node.checked = true;
-                }
-            }
-            zNodes.push(node);
-        });
-        var tree = $.fn.zTree.init($("#tree"), setting, zNodes);
-        tree.expandAll(true);
+//var categoryList = "${channel.categoryIds!}".split(",");
+//$.ajax({
+//    url:'category/all.do',
+//    type:'get',
+//    dataType:'json',
+//    success:function(res){
+//        $.each(res,function(index,o){
+//            var node = {id:o.id,pId:o.pid,name:o.name};
+//            for(var i=0; i <categoryList.length; i++) { //转换成数组
+//                var nodeId = categoryList[i];
+//                if (node.id == nodeId) {
+//                    node.checked = true;
+//                }
+//            }
+//            zNodes.push(node);
+//        });
+//        var tree = $.fn.zTree.init($("#tree"), setting, zNodes);
+//        tree.expandAll(true);
+//    }
+//});
+
+$(function(){
+    $("input[name='type']").click(function(){
+        editor.execCommand( 'source');
+        if($(this).val() == 1){
+            editor.setDisabled();
+        }else{
+            editor.setEnabled();
+        }
+        editor.setContent('');
+    });
+
+
+
+    if(window.editor !=null){
+        window.editor.destroy();
     }
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    window.editor = UE.getEditor('mushroomeditor');
+
+    window.editor.ready(function(){
+        $("#title").focus();//纠正显示
+        editor.setContent($("#mrcmsContent").val());
+    });
 });
 
+function mySubmitForm(obj){
+    window.editor.sync();//手动提交需要手动同步编辑器数据
+    submitActionForm(obj);
+}
 
 
 
+
+var _editor = UE.getEditor('upload_ue');
+_editor.ready(function () {
+    console.log("ueditor success!")
+    //设置编辑器不可用
+    _editor.setDisabled();
+    //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+    _editor.hide();
+    //侦听图片上传
+    _editor.addListener('beforeInsertImage', function (t, arg) {
+        console.log(arg);
+    })
+    //侦听文件上传
+    _editor.addListener('afterUpfile', function (t, arg) {
+        console.log(arg);
+        $("#channelIcon").attr("value", arg[0].src);
+    })
+});
+
+function uploadImage(){
+    var myImage = _editor.getDialog("insertimage");
+    myImage.open();
+}
 </script>

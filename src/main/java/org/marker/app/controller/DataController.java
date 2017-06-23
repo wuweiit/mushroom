@@ -1,11 +1,6 @@
 package org.marker.app.controller;
 
-import org.markdown4j.Markdown4jProcessor;
 import org.marker.app.business.TaoluBusiness;
-import org.marker.mushroom.beans.Article;
-import org.marker.mushroom.beans.Page;
-import org.marker.mushroom.beans.ResultMessage;
-import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.IArticleDao;
 import org.marker.mushroom.service.impl.ArticleService;
 import org.marker.mushroom.service.impl.CategoryService;
@@ -16,16 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 /**
  *  Faceinner 接口
  * @author marker

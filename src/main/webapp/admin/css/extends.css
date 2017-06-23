@@ -172,7 +172,7 @@
 .table_for_list i{ font-size: 16px;}
 /* 表格数据焦点效果 */
 .table_for_list tbody tr:hover {
-	background: #fbfbfb;
+	background: #f1f1f1;
 }
 
 /* 添加 */
@@ -333,7 +333,7 @@
 }
 
 .dialogPanel h1 {
-	text-shadow: 1px 1px #272822;
+	text-shadow: 1px 1px #6b6b6b;
 	margin: 0;
 }
 
@@ -341,7 +341,7 @@
 	width: 430px;
 	font-size: 20px;
 	z-index: 10000;
-	text-shadow: 1px 1px #272822;
+	text-shadow: 1px 1px #6b6b6b;
 }
 
 .dialogButton {

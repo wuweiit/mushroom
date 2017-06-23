@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.marker.mushroom.beans.Category;
 import org.marker.mushroom.beans.Page;
 
 
@@ -100,7 +101,18 @@ public interface ISupportDao {
 	
 	public boolean update(String sql, Object... args);
 
- 
-	
-	
+
+	/**
+	 * 删除所有数据
+	 */
+    void deleteAll(Class<?> clzz);
+
+    String getPreFix();
+
+
+    /**
+     * 查询所有数据
+     * @return
+     */
+    Object findAll(Class<?> clzz);
 }

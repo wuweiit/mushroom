@@ -6,7 +6,9 @@ import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag;
 import org.marker.mushroom.freemarker.BootStrap3NavDirective;
-import org.marker.mushroom.freemarker.LoadDirective; 
+import org.marker.mushroom.freemarker.HuaxiSiYuanNavDirective;
+import org.marker.mushroom.freemarker.HuaxiSiYuanPCNavDirective;
+import org.marker.mushroom.freemarker.LoadDirective;
 import org.marker.mushroom.template.NewStringTemplateLoader;
 import org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel;
 import org.slf4j.Logger;
@@ -20,7 +22,8 @@ import freemarker.template.Configuration;
 
 /**
  * freemarker模板引擎配置
- * 
+ *
+ *   好像是在页面静态化得时候使用的。
  * 
  * 
  * 
@@ -68,6 +71,8 @@ public class FreeMarkerConfigurer {
 	public static void initSharedVariable(){
 		config.setSharedVariable("load", new LoadDirective());
 		config.setSharedVariable("Boostrap3Nav", new BootStrap3NavDirective());// 导航菜单
+		config.setSharedVariable("HuaXiSiYuanNav", new HuaxiSiYuanNavDirective());// 导航菜单(mobile)
+		config.setSharedVariable("HuaXiSiYuanPCNav", new HuaxiSiYuanPCNavDirective());// 导航菜单(PC)
 		config.setSharedVariable("encoder", new FrontURLRewriteMethodModel());//URL重写
 		config.setSharedVariable("plugin", new EmbedDirectiveInvokeTag());// 嵌入式指令插件
 	}

@@ -23,7 +23,6 @@ public class ChipValidator implements Validator {
 	
 	@Override
 	public void validate(Object obj, Errors err) {
-		System.out.println("dsadsads");
 		ValidationUtils.rejectIfEmpty(err, "name", "name.empty");
  
 		

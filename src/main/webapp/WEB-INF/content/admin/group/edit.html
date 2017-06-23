@@ -1,20 +1,26 @@
 <div class="content">
 	<div class="tab_bar">
 		<ul>
-			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑用户组</h3></li>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>基本信息</h3></li>
+			<li onclick="setTabContent(this);"><h3>栏目发布权限</h3></li>
+			<li onclick="setTabContent(this);"><h3>科室发布权限</h3></li>
 		</ul>
 		<button class="btn_tabbar" onclick="submitActionForm(this);" return="group/list.do">保 存</button>
 	</div>
 	<form id="myForm" action="group/update.do" method="post">
+		<input id="channelIds" type="hidden" name="channelIds" value="${channelsStr!}" />
+        <input id="categoryIds" type="hidden" name="categoryIds" value="${categorysStr!}" />
+
+
 	<div class="tab_content">
-		<div class="tab_item tab_show"> 
+		<div class="tab_item tab_show">
 			<input type="hidden" name="id" value="${group.id?c}" />
 			<table class="table_for_add">
 				<tbody>
 					<tr class="rowBgColor">
 						<th width="140">组 名 称：</th>
 						<td><input class="input_for_add" name="name" type="text" value="${group.name!}" /></td>
-						<td><span id="name_status"></span></td>
+						<td><span></span></td>
 					</tr>
 					<tr>
 						<th width="140">组作用域：</th>
@@ -38,6 +44,12 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="tab_item">
+            <ul id="treeDemo" class="ztree"></ul>
+		</div>
+		<div class="tab_item">
+			<ul id="treeDemo2" class="ztree"></ul>
+		</div>
 	</div>
 	</form>
 </div>
@@ -45,4 +57,108 @@
 //设置栏目ID
 var scope = '${group.scope}';
 $("#scope").attr('value',scope);
-</script>
+
+
+var setting = {
+    check: {
+        enable: true,
+        chkboxType :  { "Y" : "ps", "N" : "ps" }
+    },
+    data: {
+        simpleData: {
+            enable: true
+        }
+    },
+    callback: {
+        onCheck: function(event,treeId, treeNode){
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo"); //获取树
+            var nodes = zTree.getNodes(); //获取每一个节点
+            var nodeObjects = zTree.transformToArray(nodes);
+            var selectData = [];
+            for(var i=0; i <nodeObjects.length; i++){ //转换成数组
+                var node = nodeObjects[i];
+                if(node.checked){
+                    selectData.push(node.id);
+                }
+            }
+            $("#channelIds").val(selectData.join(','));
+        }
+    }
+};
+var channelList = "${channelsStr!}".split(",");
+var zNodes =[];
+$.ajax({
+    url:'channel/all.do',
+    type:'get',
+    dataType:'json',
+    success:function(res){
+        $.each(res,function(index,o){
+            var node = {id:o.id,pId:o.pid,name:o.name};
+            for(var i=0; i <categoryList.length; i++) { //转换成数组
+                var nodeId = channelList[i];
+                if (node.id == nodeId) {
+                    node.checked = true;
+                }
+            }
+            zNodes.push(node);
+        });
+        var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        tree.expandAll(true);
+    }
+});
+
+
+
+
+
+var setting2 = {
+    check: {
+        enable: true,
+        chkboxType :  { "Y" : "ps", "N" : "ps" }
+    },
+    data: {
+        simpleData: {
+            enable: true
+        }
+    },
+    callback: {
+        onCheck: function(event,treeId, treeNode){
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo2"); //获取树
+            var nodes = zTree.getNodes(); //获取每一个节点
+            var nodeObjects = zTree.transformToArray(nodes);
+            var selectData = [];
+            for(var i=0; i <nodeObjects.length; i++){ //转换成数组
+                var node = nodeObjects[i];
+                if(node.checked){
+                    selectData.push(node.id);
+                }
+            }
+            $("#categoryIds").val(selectData.join(','));
+        }
+    }
+};
+
+var categoryList = $("#categoryIds").val().split(",");
+var categoryNodes = [];
+$.ajax({
+    url:'category/all.do',
+    type:'get',
+    dataType:'json',
+    success:function(res){
+        $.each(res,function(index,o){
+            var node = {id:o.id,pId:o.pid,name:o.name};
+            for(var i=0; i <categoryList.length; i++) { //转换成数组
+                var nodeId = categoryList[i];
+                if (node.id == nodeId) {
+                    node.checked = true;
+                }
+            }
+            categoryNodes.push(node);
+        });
+        var tree = $.fn.zTree.init($("#treeDemo2"), setting2, categoryNodes);
+        tree.expandAll(true);
+    }
+});
+
+
+ </script>

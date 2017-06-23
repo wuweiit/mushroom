@@ -23,7 +23,6 @@ public class LogInterceptor  implements MethodInterceptor{
 	@Override
 	public Object intercept(Object arg0, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
-		 System.out.println("dsadsadsad");
 		return proxy.invoke(arg0, args);
 	}
 

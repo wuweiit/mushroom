@@ -63,8 +63,6 @@ public class SystemCoreFilter implements Filter {
 	private static final String CONTENT_TYPE = "text/html;charset=utf-8";
 
 
-	/** 系统配置信息 */
-	private static final SystemConfig syscfg = SystemConfig.getInstance();
 	
 	
 	// 缓存管理器
@@ -139,19 +137,22 @@ public class SystemCoreFilter implements Filter {
 
 
 
-        String lang = request.getParameter("lang");
-        if(lang != null && !lang.equals("")){
+        String lang = HttpUtils.getLanguage(request);
+        if(!(lang != null && !lang.equals(""))){// 语言为null；
             String cookieLang = HttpUtils.getCookie(request,"lang");
             if(!lang.equals(cookieLang)){
                 response.addCookie(new Cookie("lang",lang));
             }
         }
 		// 页面静态读取
+
+		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
 		if(syscfg.isStaticPage()){
 			org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
 
 			// 传递页面URI给缓存模块
 			String pageName = "/".equals(uri)? syscfg.getHomePage() : uri;
+
 			request.setAttribute("rewriterUrl", pageName);
 			
 			
@@ -195,9 +196,10 @@ public class SystemCoreFilter implements Filter {
 
 		
 		String ip = HttpUtils.getRemoteHost(request);// IP地址获取
+        req.setAttribute(AppStatic.WEB_APP_LANG, HttpUtils.getLanguage(request));// 网址路径
 		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
 		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
-		req.setAttribute(AppStatic.WEB_APP_THEME_URL, HttpUtils.getRequestURL(request)+"/themes/"+syscfg.get(SystemConfig.THEME_PATH)+"/");// 网址路径
+		req.setAttribute(AppStatic.WEB_APP_THEME_URL, HttpUtils.getRequestURL(request)+"/themes/"+syscfg.getThemeActive());// 网址路径
 		
 		req.getRequestDispatcher(url).forward(request, response);// 请求转发
 	}

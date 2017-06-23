@@ -1,16 +1,9 @@
 package org.marker.mushroom.controller;
 
 import io.github.gitbucket.markedj.Marked;
-import org.marker.mushroom.beans.Article;
-import org.marker.mushroom.beans.ArticleTaolu;
-import org.marker.mushroom.beans.Page;
-import org.marker.mushroom.beans.ResultMessage;
+import org.marker.mushroom.beans.*;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
-import org.marker.mushroom.dao.IArticleDao;
-import org.marker.mushroom.dao.IArticleTaoluDao;
-import org.marker.mushroom.service.impl.ArticleService;
-import org.marker.mushroom.service.impl.ArticleTaoluService;
-import org.marker.mushroom.service.impl.CategoryService;
+import org.marker.mushroom.dao.ISlideDao;
 import org.marker.mushroom.support.SupportController;
 import org.marker.mushroom.utils.HttpUtils;
 import org.marker.urlrewrite.URLRewriteEngine;
@@ -21,39 +14,34 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * 文章管理
+ * 幻灯片管理
+ *
  * @author marker
  * */
 @Controller
-@RequestMapping("/admin/taolu")
-public class ArticleTaoluController extends SupportController {
+@RequestMapping("/admin/slide")
+public class SlideController extends SupportController {
 
 	// 文章Dao
 	@Autowired
-	IArticleTaoluDao articleDao;
+	ISlideDao slideDao;
 
-	@Autowired
-	ArticleTaoluService articleTaoluService;
 
-	@Autowired CategoryService categoryService;
-
-	public ArticleTaoluController() {
-		this.viewPath = "/admin/taolu/";
+	public SlideController() {
+		this.viewPath = "/admin/slide/";
 		
 	}
 	
 	//发布文章
 	@RequestMapping("/add")
 	public ModelAndView add(){
-		ModelAndView view = new ModelAndView(this.viewPath+"add"); 
-		view.addObject("categorys", categoryService.list("article"));
+		ModelAndView view = new ModelAndView(this.viewPath+"add");
 		return view;
 	}
 	
@@ -61,8 +49,7 @@ public class ArticleTaoluController extends SupportController {
 	@RequestMapping("/edit")
 	public ModelAndView edit(@RequestParam("id") int id){
 		ModelAndView view = new ModelAndView(this.viewPath+"edit");
-		view.addObject("article", commonDao.findById(ArticleTaolu.class, id));
-		view.addObject("categorys", categoryService.list("article"));
+		view.addObject("entity", commonDao.findById(Slide.class, id));
 		return view;
 	}
 	
@@ -74,7 +61,7 @@ public class ArticleTaoluController extends SupportController {
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
-	public Object save(ArticleTaolu article, @RequestParam("cid") int cid){
+	public Object save(Article article, @RequestParam("cid") int cid){
 		article.setTime(new Date());
 		article.setCid(cid);// 这里是因为不能注入bean里
 		
@@ -86,11 +73,12 @@ public class ArticleTaoluController extends SupportController {
 		}
 		if(article.getType() == 1){// marker
 
-			String orginalText = article.getContent();
-			article.setOrginal(orginalText);
+				String orginalText = article.getContent();
+				article.setOrginal(orginalText);
 
-			String html = Marked.marked(orginalText);
-			article.setContent(html);
+				String html = Marked.marked(orginalText);
+				article.setContent(html);
+				
 
 		}
 		
@@ -105,11 +93,12 @@ public class ArticleTaoluController extends SupportController {
 	//保存
 	@ResponseBody
 	@RequestMapping("/update")
-	public Object update(@ModelAttribute("article") ArticleTaolu article){
+	public Object update(@ModelAttribute("article") Article article){
 		article.setTime(new Date());
 		
 		
 		if(article.getType() == 1){// marker
+
 			String orginalText = article.getContent();
 			article.setOrginal(orginalText);
 
@@ -120,7 +109,7 @@ public class ArticleTaoluController extends SupportController {
 		
 		
 		
-		if(articleDao.update(article)){
+		if(slideDao.update(article)){
 			return new ResultMessage(true, "更新成功!");
 		}else{
 			return new ResultMessage(false,"更新失败!"); 
@@ -133,7 +122,7 @@ public class ArticleTaoluController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/delete")
 	public Object delete(@RequestParam("rid") String rid){
-		boolean status = commonDao.deleteByIds(ArticleTaolu.class, rid);
+		boolean status = commonDao.deleteByIds(Slide.class, rid);
 		if(status){
 			return new ResultMessage(true,"删除成功!");
 		}else{
@@ -146,7 +135,8 @@ public class ArticleTaoluController extends SupportController {
 	@RequestMapping("/list")
 	public ModelAndView listview(){
 		ModelAndView view = new ModelAndView(this.viewPath+"list");
-		view.addObject("categorys", categoryService.list("article"));
+        view.addObject("list", slideDao.findAll(Category.class));
+
 		return view;
 	}
 	
@@ -170,7 +160,8 @@ public class ArticleTaoluController extends SupportController {
 		params.put("cid", cid);
 		params.put("status", status);
 		params.put("keyword", keyword);
-		Page page = articleTaoluService.find(currentPageNo, pageSize, params);
+		String sql = "";
+		Page page = slideDao.findByPage(currentPageNo, pageSize, sql, params);
 		
 		URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
 		
@@ -183,5 +174,7 @@ public class ArticleTaoluController extends SupportController {
 		}
 		return page;
 	}
-	
+
+
+
 }

@@ -5,9 +5,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.ext.tag.MatchRule;
 import org.marker.mushroom.ext.tag.Taglib;
+import org.marker.mushroom.holder.SpringContextHolder;
+import org.marker.mushroom.template.MyCMSTemplate;
 import org.marker.mushroom.template.tags.res.ObjectDataSourceImpl;
 
 
@@ -76,7 +79,10 @@ public class LoopTagImpl extends Taglib{
             String whereTemp = "";//必须初始化""
             while(m_a.find()){
                 String[] field_kv = m_a.group().split("\\=\\(");//拆分数据格式 ："var=(xxxx"
-                if("limit".equals(field_kv[0])) {//数据量限制
+                if("table".equals(field_kv[0])) {
+                    data.setTableName(field_kv[1]);
+                    continue;
+                }else if("limit".equals(field_kv[0])) {//数据量限制
                     data.setLimit(field_kv[1]);
                     continue;
                 } else if("order".equals(field_kv[0])){//排序支持
@@ -85,12 +91,19 @@ public class LoopTagImpl extends Taglib{
                     whereTemp += field_kv[0]+"="+field_kv[1]+",";
                 }
             }
+            data.setItems(item);
 
 
 			// page.data为内容模型中使用的查询
 			String re = "<#list page.data as " + item + ">";
 			
-			content = content.replace(text, re);// 替换采用UUID生成必须的 
+			content = content.replace(text, re);// 替换采用UUID生成必须的
+
+			MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE);
+
+			cmstemplate.put(data);
+
+
 		}
 	}
 	

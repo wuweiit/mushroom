@@ -1,6 +1,8 @@
 package org.marker.mushroom.dao;
 
 
+import org.marker.mushroom.beans.Channel;
+
 /**
  * 通用Dao接口
  * 
@@ -22,5 +24,5 @@ public interface ICommonDao extends ISupportDao {
 	 * @return boolean 处理状态
 	 * */
 	boolean deleteByIds(Class<?> clzz, String ids);
-	
+
 }

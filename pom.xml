@@ -2,18 +2,25 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.marker</groupId>
-  <artifactId>mrcms</artifactId>
+  <artifactId>hxsycms</artifactId>
   <packaging>war</packaging>
-  <version>2.0.1</version>
-  <name>mushroom</name>
-  <url>https://github.com/wuweiit/mushroom</url>
+    <version>1.0.0.${buildNumber}</version>
+  <name>hxsycms</name>
+    <url>https://github.com/wuweiit/mushroom</url>
 	<!-- 编码及内存设置 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
+    </properties>
 
-  <build>
+    <scm>
+        <connection>scm:svn:http://127.0.0.1/dummy</connection>
+        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://127.0.0.1/dummy</url>
+    </scm>
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
     	<defaultGoal>compile</defaultGoal>
 
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -24,20 +31,48 @@
 		  </resources>
 		<plugins>
 
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>UTF-8</encoding>
-					<compilerArguments>
-						<verbose />
-					</compilerArguments>
-				</configuration>
-			</plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <source>1.7</source>
+                <target>1.7</target>
+                <encoding>UTF-8</encoding>
+                <compilerArguments>
+                    <verbose />
+                </compilerArguments>
+            </configuration>
+        </plugin>
+            <!-- 根据系统时间生成唯一序列号 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>timestamp-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <name>buildNumber</name>
+                    <pattern>yyyyMMdd.HHmmss</pattern>
+                    <timeZone>GMT+8</timeZone>
+                    <fileSet/>
+                    <regex/>
+                    <source/>
+                    <value/>
+                </configuration>
+            </plugin>
 
-    </plugins>
+
+
+
+        </plugins>
+
   </build>
   
   
@@ -188,11 +223,6 @@
     	<version>0.9</version>
     </dependency>
     <dependency>
-    	<groupId>org.commonjava.googlecode.markdown4j</groupId>
-    	<artifactId>markdown4j</artifactId>
-    	<version>2.2-cj-1.0</version>
-    </dependency>
-    <dependency>
     	<groupId>commons-codec</groupId>
     	<artifactId>commons-codec</artifactId>
     	<version>1.9</version>
@@ -202,8 +232,11 @@
     	<artifactId>ehcache-core</artifactId>
     	<version>2.6.9</version>
     </dependency>
-
-
+		  <dependency>
+			  <groupId>io.github.gitbucket</groupId>
+			  <artifactId>markedj</artifactId>
+			  <version>1.0.12</version>
+		  </dependency>
 
       <dependency>
     	<groupId>com.mchange</groupId>
@@ -270,8 +303,20 @@
 	  </dependency>
 
 
+	  <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+	  <dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+		  <version>1.16.8</version>
+	  </dependency>
 
 
+	  <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+	  <dependency>
+		  <groupId>commons-lang</groupId>
+		  <artifactId>commons-lang</artifactId>
+		  <version>2.6</version>
+	  </dependency>
 
 
 
@@ -285,4 +330,15 @@
 		</developer>
 
 	</developers>
+
+	<distributionManagement>
+		<repository>
+			<id>${profiles.active}-releases</id>
+			<url>${profiles.ip}nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>${profiles.active}-snapshots</id>
+			<url>${profiles.ip}nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>

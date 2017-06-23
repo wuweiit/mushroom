@@ -53,7 +53,7 @@ public class IPTool {
             URL url = this.getClass().getClassLoader().getResource(DAT_FILE_PATH);
  			String datfile = url.getFile();
 			String file = URLDecoder.decode(datfile, "utf-8");// 转码避免中文无法识别
-			System.out.println(file);
+
 			seeker = new IPSeeker(file);
 		} catch (IOException e) {
             logger.error("初始化纯真IP数据库失败，请检查qqwry.dat", e);

@@ -36,7 +36,7 @@ public class PluginDaoImpl extends DaoEngine implements IPluginDao{
 	
 	@Override
 	public Plugin findByMark(String mark) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder("select id,name,uri,mark,status from ");
 		sql.append(prefix).append("plugin").append(" where mark=?");
 		return jdbcTemplate.queryForObject(sql.toString(), new Object[]{mark}, new RowMapperPlugin()); 
@@ -46,7 +46,7 @@ public class PluginDaoImpl extends DaoEngine implements IPluginDao{
 
 	@Override
 	public boolean check(String uuid) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder("select count(id) from ");
 		sql.append(prefix).append("plugin").append(" where uuid=?");
 		return jdbcTemplate.queryForObject(sql.toString(), Boolean.class, uuid);  

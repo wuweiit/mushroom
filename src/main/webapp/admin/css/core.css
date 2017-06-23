@@ -98,7 +98,7 @@ button {
 	cursor:pointer;
 	border-radius: 4px;
 	border:1px RGB(225,233,220) solid;
-	text-shadow:1px 1px #272822;
+	text-shadow:1px 1px #6b6b6b;
 }
 button:hover{
 	border-color:RGB(167,220,224) ; 

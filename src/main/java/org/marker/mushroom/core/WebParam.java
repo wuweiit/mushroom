@@ -2,10 +2,11 @@ package org.marker.mushroom.core;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.config.impl.SystemConfig;
-
+import org.marker.mushroom.holder.SpringContextHolder;
 
 
 /**
@@ -21,11 +22,14 @@ public final class WebParam {
 	public static final String FIELD_T    = "type";
 	public static final String FIELD_ID   = "id";
 	public static final String FIELD_PAGE = "page";
-	
-	
-	
-	
-	/** 当前请求的静态URL名称  */
+
+
+
+
+    public String keywords;
+
+
+    /** 当前请求的静态URL名称  */
 	public String pageName = "";
 
 	/** 当前请求的模板对象名称 */
@@ -48,6 +52,8 @@ public final class WebParam {
 	/** 页面大小 */
 	public int pageSize = 10;
 
+	public String action;
+
 	/**  栏目信息 */
 	public Channel channel;
 	
@@ -55,9 +61,6 @@ public final class WebParam {
 	public String extendSql;
 
 
-	/** 系统配置信息    */ 
-	private static final SystemConfig config = SystemConfig.getInstance();
-	
 	
 	/**
 	 * 只有通过传递请求对象，才能获取解析数据对象
@@ -74,6 +77,9 @@ public final class WebParam {
 	 * 私有构造禁止开发者创建此对象
 	 * */
 	private WebParam(HttpServletRequest req){
+
+        SystemConfig config = SpringContextHolder.getBean("systemConfig");
+
 		this.pageName   = req.getParameter(FIELD_P);// 页面名称
 		this.modelType = req.getParameter(FIELD_T);// 页面类型
 		if(this.modelType == null){
@@ -88,6 +94,12 @@ public final class WebParam {
 		try{
 			this.currentPageNo = Integer.parseInt(this.page);
 		}catch(Exception e){}
+		// 动作
+		this.action = req.getParameter("action");
+		if(StringUtils.isEmpty(action)){
+			this.action = "page";
+		}
+		this.keywords = req.getParameter("keywords");
 		
 		
 		// 初始化模版页面（指向错误页面）

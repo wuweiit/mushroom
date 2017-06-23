@@ -22,7 +22,7 @@ public final class ObjectDataSourceImpl extends SqlDataSource{
 	private String limit = "10";
 	//排序
 	private String order; //例如: "id desc"
- 
+
 	 
 	
 	/**
@@ -57,6 +57,7 @@ public final class ObjectDataSourceImpl extends SqlDataSource{
 					queryString.append(SQL.QUERY_FOR_AND);
 				}
 			}
+
 		}
 		
 		

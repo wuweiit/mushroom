@@ -34,17 +34,17 @@ public class SupportController {
 	 * viewPath为视图的目录
 	 * */
 	protected String viewPath;
-	
-	protected static final DataBaseConfig dbConfig = DataBaseConfig.getInstance();
-	
-	
+
+//	protected static final DataBaseConfig dbConfig = DataBaseConfig.getInstance();
+
+
 	
 	/**
 	 * 获取数据库表前缀
 	 * @return
 	 */
 	public String getPrefix(){
-		return dbConfig.getPrefix();//表前缀，如："yl_"
+		return commonDao.getPreFix();//表前缀，如："yl_"
 	}
 	
 	

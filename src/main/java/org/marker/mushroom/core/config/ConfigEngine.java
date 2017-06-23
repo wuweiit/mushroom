@@ -71,6 +71,8 @@ public abstract class ConfigEngine implements IConfig {
 		this.read(new File(file));
 	}
 
+	public ConfigEngine() {}
+
 
 	/**
 	 * 获取配置字符串

@@ -1,7 +1,7 @@
 <div class="content">
 	<div class="tab_bar">
 		<ul>
-			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑分类</h3></li>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑科室</h3></li>
 		</ul>
 		<button class="btn_tabbar" onclick="submitForm(this);" return="category/list.do">保 存</button>
 	</div>
@@ -27,42 +27,23 @@
 						</td>
 						<td></td>
 					</tr> 
-					<tr id="modelSelect">
-						<th width="140">内容模型：</th>
-						<td>
-						<#if category.pid==0>
-							<#list models as model>
-								<#if category.model == model.type>
-									${model.name!}
-									<input type="hidden" name="model" value="${category.model!}" /> 
-								</#if>
-							</#list>
-						<#else>
-							<select id="modelFeild" class="select_for_add"  name="model">
-								<option value="">无内容模型</option>
-								<#list models as model>
-								<option value="${model.type!}">${model.name!}</option>
-								</#list>
-							</select>
-						</#if>
-						</td>
-						<td><span id="name_status"></span></td>
-					</tr> 
+
 						
 					<tr class="rowBgColor">
 						<th width="140">分类名称：</th>
 						<td><input class="input_for_add" name="name" type="text" value="${category.name!}" /></td>
-						<td><span id="name_status"></span></td>
+						<td><span ></span></td>
 					</tr>
 				    <tr>
 						<th width="140">分类别名：</th>
 						<td><input class="input_for_add" name="alias" type="text" value="${category.alias!}"  /></td>
-						<td><span id="name_status"></span></td>
+						<td><span></span></td>
 					</tr>
+
 					<tr class="rowBgColor">
 						<th width="140">分类排序：</th>
 						<td><input class="input_for_add" name="sort" type="text" value="${category.sort?c}"  /></td>
-						<td><span id="name_status"></span></td>
+						<td><span></span></td>
 					</tr>
 					<tr >
 						<th>描述信息：</th>

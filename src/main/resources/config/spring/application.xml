@@ -23,8 +23,8 @@
 
 
 	<import resource="classpath:/config/spring/spring-jdbc.xml" />
-	<import resource="classpath:/config/spring/spring-redis.xml" />
-	<import resource="classpath:/config/spring/spring-redis-session.xml" />
+	<!--<import resource="classpath:/config/spring/spring-redis.xml" />-->
+	<!--<import resource="classpath:/config/spring/spring-redis-session.xml" />-->
 	<import resource="classpath:/config/spring/spring-timer-task.xml" />
 	<import resource="classpath:/config/spring/spring-cms-core.xml" />
 

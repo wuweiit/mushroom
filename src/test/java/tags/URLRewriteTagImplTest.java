@@ -26,7 +26,7 @@ public class URLRewriteTagImplTest {
 	@Test
 	public void testMain() throws IOException { 
 		Taglib tag = new URLRewriteTagImpl();
-		String c = FileTools.getFileContet(new File(("/Users/marker/git/mushroom/src/test/java/tags/res/urlrewritetag.txt")), FileTools.FILE_CHARACTER_UTF8);
+		String c = FileTools.getFileContet(new File(("/WORK/git/mushroom/src/test/java/tags/res/urlrewritetag.txt")), FileTools.FILE_CHARACTER_UTF8);
 
 		tag.iniContent(c);
 		try {

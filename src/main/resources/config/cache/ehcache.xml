@@ -2,7 +2,7 @@
 		xsi:noNamespaceSchemaLocation="ehcache.xsd">
     
     
-    <diskStore path="java.io.tmpdir"/>
+    <diskStore path="/Users/marker/tmp/"/>
     
     <defaultCache
         maxElementsInMemory="10000"

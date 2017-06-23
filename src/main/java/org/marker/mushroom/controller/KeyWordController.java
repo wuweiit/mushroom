@@ -35,10 +35,10 @@ public class KeyWordController {
 		KeyWordComputer kwc = SingletonProxyKeyWordComputer.getInstance(); 
 	  
 		Collection<Keyword> result = kwc.computeArticleTfidf(title, content); 
-		System.out.println(result); 
+//		System.out.println(result);
 		String keyword  = result.toString();
 		String keywords = keyword.substring(1, keyword.length()-1);// 截取两边的中括号
-		System.out.println(keywords);
+//		System.out.println(keywords);
 		return keywords; 
 	}
 }

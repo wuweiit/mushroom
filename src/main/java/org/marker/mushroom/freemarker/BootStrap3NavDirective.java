@@ -12,7 +12,7 @@ import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.channel.ChannelItem;
-import org.marker.mushroom.core.channel.ChannelTree;
+import org.marker.mushroom.core.channel.TreeUtils;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.template.SendDataToView;
@@ -53,7 +53,7 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 		
 		List<Channel> list = channelDao.findValid();
 		
-		ChannelItem root = ChannelTree.foreach(new Channel(), list);
+		ChannelItem root = TreeUtils.foreach(new Channel(), list);
 		
 
 		StringBuilder str = new StringBuilder();

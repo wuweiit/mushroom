@@ -29,7 +29,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	// 判断是否有子节点
 	public boolean hasChildMenu(int menuId) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select count(id) from ").append(dbConfig.getPrefix()).append("user_menu where pid = ?");
+		sql.append("select count(id) from ").append(getPreFix()).append("user_menu where pid = ?");
 		Integer rows = this.jdbcTemplate.queryForObject(sql.toString(),new Object[]{menuId}, Integer.class); 
 		return rows>0?true: false;
 	}
@@ -37,7 +37,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	// 查询一级菜单
 	public List<Menu> findTopMenu() { 
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from ").append(dbConfig.getPrefix()).append("user_menu where pid = 0 order by sort");
+		sql.append("select * from ").append(getPreFix()).append("user_menu where pid = 0 order by sort");
 		List<Menu> list = this.jdbcTemplate.query(sql.toString(), new RowMapperMenu()); 
 		return list;
 	}
@@ -45,7 +45,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	// 根据ID查询子菜单
 	public List<Menu> findChildMenuById(int id) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from ").append(dbConfig.getPrefix()).append("user_menu where pid = ?  order by sort");
+		sql.append("select * from ").append(getPreFix()).append("user_menu where pid = ?  order by sort");
 		List<Menu> list = this.jdbcTemplate.query(sql.toString(),new Object[]{id},new RowMapperMenu()); 
 		return list;
 	}
@@ -53,7 +53,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	// 根据ID查询菜单
 	public Menu findMenuById(int id) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from ").append(dbConfig.getPrefix()).append("user_menu where id = ?");
+		sql.append("select * from ").append(getPreFix()).append("user_menu where id = ?");
 		return this.jdbcTemplate.queryForObject(sql.toString(), new Object[]{id}, new RowMapperMenu() );  
 	}
 
@@ -61,7 +61,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	// 根据分组ID查询菜单
 	public List<Menu> findTopMenuByGroupId(Serializable groupId) { 
 		StringBuilder sql = new StringBuilder();
-		sql.append("select m.* from ").append(dbConfig.getPrefix()).append("user_menu m JOIN ").
+		sql.append("select m.* from ").append(getPreFix()).append("user_menu m JOIN ").
 		append(getPreFix()).append("user_group_menu gm on gm.mid =m.id where gm.gid = ? and m.pid = 0 order by m.sort");
 		List<Menu> list = this.jdbcTemplate.query(sql.toString(),new Object[]{groupId},new RowMapperMenu()); 
 		return list; 
@@ -72,7 +72,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	public List<Menu> findChildMenuByGroupAndParentId(Serializable groupId,
 			Serializable parentId) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select m.* from ").append(dbConfig.getPrefix()).append("user_menu m JOIN ").
+		sql.append("select m.* from ").append(getPreFix()).append("user_menu m JOIN ").
 		append(getPreFix()).append("user_group_menu gm on gm.mid =m.id where gm.gid = ? and m.pid = ? order by m.sort");
 		List<Menu> list = this.jdbcTemplate.query(sql.toString(),new Object[]{groupId, parentId},new RowMapperMenu()); 
 		return list; 
@@ -107,7 +107,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	@Override
 	public Menu findByName(String name) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from ").append(dbConfig.getPrefix()).append("user_menu where name=?");
+		sql.append("select * from ").append(getPreFix()).append("user_menu where name=?");
 		try{
 			return this.jdbcTemplate.queryForObject(sql.toString(), new RowMapperMenu(), name);
 		}catch(Exception e){}
@@ -118,7 +118,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	// 检查菜单是否存在
 	public boolean checkType(String type) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select count(id) from ").append(dbConfig.getPrefix()).append("user_menu where type=?");
+		sql.append("select count(id) from ").append(getPreFix()).append("user_menu where type=?");
 		try{
 			return this.jdbcTemplate.queryForObject(sql.toString(), Boolean.class, type);
 		}catch(Exception e){}
@@ -128,7 +128,7 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 	@Override
 	public Menu findChildMaxSortMenuByPId(int parentId) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from ").append(dbConfig.getPrefix()).append("user_menu where pid=? order by sort desc limit 1");
+		sql.append("select * from ").append(getPreFix()).append("user_menu where pid=? order by sort desc limit 1");
 		try{
 			return this.jdbcTemplate.queryForObject(sql.toString(), new RowMapperMenu(), parentId);
 		}catch(Exception e){

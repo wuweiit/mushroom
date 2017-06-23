@@ -7,8 +7,10 @@ import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.dao.IModelDao;
 import org.marker.mushroom.service.impl.CategoryService;
 import org.marker.mushroom.support.SupportController;
+import org.marker.mushroom.validator.CategoryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,8 +39,19 @@ public class CategoryController extends SupportController {
 	public CategoryController() {
 		this.viewPath = "/admin/category/";
 	}
-	
-	
+
+
+
+
+    /**
+     * 批量添加分类
+     * */
+    @RequestMapping("/addBatch")
+    public ModelAndView addBatch(HttpServletRequest req){
+        ModelAndView view = new ModelAndView(this.viewPath + "add-batch");
+        view.addObject("data", categoryService.list());
+        return view;
+    }
 	
 	/**
 	 * 添加分类
@@ -47,7 +60,6 @@ public class CategoryController extends SupportController {
 	public ModelAndView add(HttpServletRequest req){
 		ModelAndView view = new ModelAndView(this.viewPath + "add");
 		view.addObject("data", categoryService.list());
-		view.addObject("models", modelDao.queryAll());
 		return view;
 	}
 	
@@ -59,7 +71,6 @@ public class CategoryController extends SupportController {
 		ModelAndView view = new ModelAndView(this.viewPath + "edit");
 		view.addObject("category", commonDao.findById(Category.class, id));
 		view.addObject("data", categoryService.list());
-		view.addObject("models", modelDao.queryAll()); 
 		return view;
 	}
 	
@@ -68,24 +79,42 @@ public class CategoryController extends SupportController {
 	 * */
 	@RequestMapping("/save")
 	@ResponseBody
-	public Object save(Category category){ 
-		if(commonDao.save(category)){
-			return new ResultMessage(true, "添加成功!");
-		}else{
-			return new ResultMessage(false,"保存失败!"); 
-		}
+	public Object save(Category category, Errors errors){
+        String nameStr = category.getName();
+
+        new CategoryValidator().validate(category, errors);
+
+
+        String[] names = nameStr.split(",");
+        for(String name : names){
+            Category entity = new Category();
+            entity.setName(name);
+            entity.setSort(category.getSort());
+            entity.setDescription(category.getDescription());
+            entity.setPid(category.getPid());
+            commonDao.save(entity);
+        }
+	    return new ResultMessage(true, "批量添加成功!");
 	}
 	
-	//保存
+	// 保存或者更新
 	@ResponseBody
 	@RequestMapping("/update")
-	public Object update( Category category){ 
-		if(commonDao.update(category)){
-			return new ResultMessage(true, "更新成功!");
-		}else{
-			return new ResultMessage(false,"更新失败!"); 
-		}
-	}
+	public Object update(Category category){
+        Integer id = category.getId();
+	    if(id != null && id > 0){
+            if(commonDao.update(category)){
+                return new ResultMessage(true, "更新成功!");
+            }
+        }else{
+            if(commonDao.save(category)){
+                return new ResultMessage(true, "添加成功!");
+            }
+        }
+
+        return new ResultMessage(false,"更新失败!");
+
+    }
 	
 	// 删除
 	@ResponseBody
@@ -94,7 +123,7 @@ public class CategoryController extends SupportController {
 		 
 		boolean isyou = categoryService.hasChild(id);
 		if(isyou){
-			return new ResultMessage(false,"该分类下有子节点，不能删除!");
+			return new ResultMessage(false,"该节点下有子节点，不能删除!");
 		}
 		
 		boolean status = commonDao.deleteByIds(Category.class, id+"");
@@ -107,7 +136,7 @@ public class CategoryController extends SupportController {
 		
 	
 	/**
-	 * 系统信息
+	 *
 	 * */
 	@RequestMapping("/list")
 	public ModelAndView list(HttpServletRequest req){
@@ -124,5 +153,17 @@ public class CategoryController extends SupportController {
 //
 //        }
 		return list;
+	}
+
+
+	/**
+	 * 获取分类信息
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/get")
+	@ResponseBody
+	public Object get(int id){
+		return categoryService.get(id);
 	}
 }

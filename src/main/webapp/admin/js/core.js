@@ -61,14 +61,29 @@ function addContent(obj){
 	var nav_one = $(obj).html();
 	
 	showBreadCrumbMenu(nav_one, nav_two );
-	
+
+
+    var url = $(obj).attr('url');
+    if(url.indexOf("http") == 0){
+        window.open(url);
+        return ;
+
+    }
+
+
 	var showtimeout = setTimeout(function(){
 		zoom.showModelDialog();// 200 毫秒若未加载完毕，则显示加载提示
 	}, options.modelTimeout);
-	$('.admin_content').load(uniqueUrl($(obj).attr('url')),function(){
-		if(showtimeout){clearTimeout(showtimeout);}
-		zoom.closeModelDialog();
-	});
+
+
+    $('.admin_content').load(uniqueUrl(url),function(){
+        if(showtimeout){clearTimeout(showtimeout);}
+        zoom.closeModelDialog();
+    });
+
+
+
+
 }
 
 

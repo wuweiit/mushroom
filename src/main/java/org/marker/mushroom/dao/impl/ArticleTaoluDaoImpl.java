@@ -16,7 +16,7 @@ public class ArticleTaoluDaoImpl extends DaoEngine implements IArticleTaoluDao {
 	
 	@Override
 	public boolean update(Article a) {
-		String prefix = dbConfig.getPrefix();//获取数据库表前缀
+		String prefix = getPreFix();//获取数据库表前缀
 		
 		
 		

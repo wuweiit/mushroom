@@ -13,6 +13,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.marker.mushroom.core.config.impl.SystemConfig;
+import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.utils.FileTools;
 
@@ -24,7 +25,9 @@ import org.marker.mushroom.utils.FileTools;
  * 
  * @author marker
  * @version 1.0
+ * @update 20170617 marker 开发了基于数据库的，没有必要使用文件存储的。
  */
+@Deprecated
 public class MessageContext {
 
 	public static final String CONFIG_FILE = "config.obj";
@@ -33,9 +36,7 @@ public class MessageContext {
 	private Properties defaultData = new Properties();
 	
 	private Map<String, Properties> data = new HashMap<String, Properties>();
-	
-	/** 系统配置对象 */
-	private SystemConfig sysconfig = SystemConfig.getInstance();
+
 	
 	/** 语言列表 */
 	private List<Locale> list = new ArrayList<Locale>(2);
@@ -97,7 +98,6 @@ public class MessageContext {
 	/**
 	 * 创建
 	 * @param lang
-	 * @param description
 	 * @throws Exception 
 	 */
 	public void create(String lang) throws Exception {
@@ -149,7 +149,9 @@ public class MessageContext {
 			if(data.containsKey(lang)){
 				return data.get(lang);
 			}else{// 默认语言
-				return data.get(sysconfig.getDefaultLanguage());
+
+				SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+				return data.get(syscfg.getDefaultLanguage());
 			}
 		}
 	}

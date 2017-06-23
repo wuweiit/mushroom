@@ -47,4 +47,14 @@ public interface DAO {
 	
 	/** 分类 DaoBean */
 	String CATEGORY = "categoryDao";
+
+
+    /** 分类 DaoBean */
+    String SLIDE = "slideDao";
+
+    String CONTENT = "contentDao";
+	String LINK = "linkDao";
+    String DOCTOR = "doctorDao";
+	String UserGroupChannelDao = "UserGroupChannelDao";
+	String UserGroupCategoryDao = "UserGroupCategoryDao";
 }

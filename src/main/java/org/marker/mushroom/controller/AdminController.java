@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.marker.app.common.SessionAttr;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.User;
 import org.marker.mushroom.beans.UserLoginLog;
@@ -163,9 +164,10 @@ public class AdminController extends SupportController {
 					if(user.getStatus() == 1){//启用
 						userDao.updateLoginTime(user.getId());// 更新登录时间
 						session.setAttribute(AppStatic.WEB_APP_SESSION_ADMIN, user); 
-						session.setAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME, user.getName());
+						session.setAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME, user.getNickname());
 						session.setAttribute(AppStatic.WEB_APP_SESSSION_USER_GROUP_ID, user.getGid());// 设置分组
-						session.removeAttribute(AppStatic.WEB_APP_AUTH_CODE);//移除验证码
+						session.setAttribute(SessionAttr.USER_GROUP_ID, user.getGid());// 用户组
+						session.removeAttribute(AppStatic.WEB_APP_AUTH_CODE); //移除验证码
 						msg = new ResultMessage(true,"登录成功!");
 					}else{
 						errorCode = 1;

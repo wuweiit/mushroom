@@ -107,6 +107,7 @@
 
 	<logger name="org.springframework.web" level="DEBUG"></logger>
 	<logger name="org.springframework.data.redis" level="INFO"></logger>
+	<logger name="org.springframework.beans.factory.support" level="INFO"></logger>
 
 
 

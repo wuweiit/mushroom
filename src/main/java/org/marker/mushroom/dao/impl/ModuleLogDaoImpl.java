@@ -37,7 +37,7 @@ public class ModuleLogDaoImpl extends DaoEngine implements IModuleLogDao{
 	//查询时候要对相同文件路径做一个统计，如果个数为1，证明只有一个插件引用，可以放心删除，如果有多个引用，就不删除包
 	@Override
 	public List<ModuleLog> findByModuleType(String moduleType) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from ").append(prefix).append("module_install_log")
 		.append(" where type=?");
@@ -61,7 +61,7 @@ public class ModuleLogDaoImpl extends DaoEngine implements IModuleLogDao{
 	//批量提交日志
 	@Override
 	public int[] batchModuleLog(List<ModuleLog> logs) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into ").append(prefix).append("module_install_log(type,file,time) values(?,?,?)");
 		
@@ -81,7 +81,7 @@ public class ModuleLogDaoImpl extends DaoEngine implements IModuleLogDao{
 	 */
 	@Override
 	public boolean deleteModuleLog(String moduleType) {
-		String prefix = dbConfig.getPrefix();
+		String prefix = getPreFix();
 		StringBuilder sql = new StringBuilder();
 		sql.append("delete from ").append(prefix).append("module_install_log where type=?");
 		

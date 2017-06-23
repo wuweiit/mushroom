@@ -1,6 +1,7 @@
 package org.marker.mushroom.template;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +12,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+import org.marker.app.utils.ConfigurationHelper;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
@@ -20,15 +23,15 @@ import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.ext.message.MessageContext;
 import org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag;
 import org.marker.mushroom.ext.tag.TaglibContext;
-import org.marker.mushroom.freemarker.BootStrap3NavDirective;
-import org.marker.mushroom.freemarker.LoadDirective;
-import org.marker.mushroom.freemarker.PageDirective;
+import org.marker.mushroom.freemarker.*;
+import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.template.tags.res.SqlDataSource;
 import org.marker.mushroom.utils.FileTools;
 import org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import freemarker.cache.StringTemplateLoader;
@@ -60,14 +63,13 @@ public class MyCMSTemplate {
 	private static final StringTemplateLoader loader = new StringTemplateLoader();
 	
 	/** 系统配置信息 */
-	private final SystemConfig syscfg = SystemConfig.getInstance();
 	
 	private final TaglibContext tagContext = TaglibContext.getInstance();
+
 	
-	/** 国际化 */
-	private final MessageContext mc = MessageContext.getInstance();
-	
-	
+	@Autowired
+	private
+	SystemConfig syscfg;
 
 	// 临时存储sql数据引擎
 	public List<SqlDataSource> temp;
@@ -85,6 +87,9 @@ public class MyCMSTemplate {
 		
 		config.setSharedVariable("load", new LoadDirective());
 		config.setSharedVariable("Boostrap3Nav", new BootStrap3NavDirective());// 导航菜单
+        config.setSharedVariable("HuaXiSiYuanNav", new HuaxiSiYuanNavDirective());// 导航菜单(mobile)
+        config.setSharedVariable("HuaXiSiYuanPCNav", new HuaxiSiYuanPCNavDirective());// 导航菜单(PC)
+
 		config.setSharedVariable("encoder", new FrontURLRewriteMethodModel());//URL重写
 		config.setSharedVariable("plugin", new EmbedDirectiveInvokeTag());// 嵌入式指令插件
 		config.setSharedVariable("page", new PageDirective());// 分页数据 
@@ -102,10 +107,8 @@ public class MyCMSTemplate {
 
 		
 	}
-	
-	 
-	
-	
+
+
 	
 	/**
 	 * 代理编译器
@@ -113,10 +116,12 @@ public class MyCMSTemplate {
 	 * @throws IOException 
 	 * */
 	public void proxyCompile(String tplFileName) throws SystemException, IOException{
-		
+
+		// 配置了制定的主题路径
+		String themesPath = syscfg.getThemesPath();
 		// 构造模模版路径
-		StringBuilder tplFilePath = new StringBuilder(WebRealPathHolder.REAL_PATH );
-		tplFilePath.append("themes").append(File.separator).append(syscfg.get(SystemConfig.THEME_PATH))
+		StringBuilder tplFilePath = new StringBuilder( themesPath);
+		tplFilePath.append(File.separator).append(syscfg.getThemeActive())
 		.append(File.separator).append(tplFileName);
 		
 		File tplFile = new File(tplFilePath.toString());//模板文件 
@@ -157,9 +162,16 @@ public class MyCMSTemplate {
 		logger.info("compiling template file " + tplFileName + " to cache");
 		
 		//第一步：加载模板内容
-		TemplateFileLoad tplloader = new TemplateFileLoad(tplFile);
-		StringBuilder tplFilePath = new StringBuilder(WebRealPathHolder.REAL_PATH );
-		tplFilePath.append("themes").append(File.separator).append("common").append(File.separator).append("function.ftl");
+		TemplateFileLoad tplloader = null;
+		try{
+			tplloader = new TemplateFileLoad(tplFile);
+		}catch (FileNotFoundException e){
+			throw new FileNotFoundException(tplFileName);
+		}
+
+        String themesPath = syscfg.getThemesPath();
+		StringBuilder tplFilePath = new StringBuilder(themesPath );
+		tplFilePath.append(File.separator).append("common").append(File.separator).append("function.ftl");
 		
 		File f = new File(tplFilePath.toString());
 		String prefix = FileTools.getFileContet(f, FileTools.FILE_CHARACTER_UTF8);
@@ -171,7 +183,11 @@ public class MyCMSTemplate {
 		sbc = replaceTaglib(sbc);// 全部标签解析
 
 
-		System.out.println(sbc);
+        if(syscfg.isdevMode()){
+            System.out.println("=================【输出Freemarker模板】==================");
+            System.out.println(sbc);
+            System.out.println("=================【输出Freemarker模板 结束】==================");
+        }
 
 		if(syscfg.isStatistics()){
 			HttpServletRequest request = ActionContext.getReq();
@@ -233,7 +249,7 @@ public class MyCMSTemplate {
 		if(tplCache.containsKey(tpl)){
 			return tplCache.get(tpl).getSqls();
 		}
-		return new ArrayList<SqlDataSource>(0);
+		return new ArrayList<>(0);
 	}
  
  

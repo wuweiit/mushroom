@@ -42,9 +42,35 @@ public final class ObjectRowMapper {
             channel.setEnd(rs.getInt("end"));// 是否结束
             channel.setSort(rs.getInt("sort"));// 排序
 			channel.setCategoryIds(rs.getString("categoryIds"));// 分类id
+
 			return channel;
 		}
 	}
+
+    public static final class RowMapperChannelNew implements RowMapper<Channel> {
+        public Channel mapRow(ResultSet rs, int arg1) throws SQLException {
+            Channel channel = new Channel();
+            channel.setId(rs.getInt("id"));
+            channel.setPid(rs.getLong("pid"));
+            channel.setName(rs.getString("name"));
+            channel.setTemplate(rs.getString("template"));
+            channel.setUrl( rs.getString("url"));// URL地址
+            channel.setRows(rs.getInt("rows"));// 分页条数目
+            channel.setIcon(rs.getString("icon"));// 图标
+            channel.setKeywords(rs.getString("keywords"));
+            channel.setDescription(rs.getString("description"));
+            channel.setRedirect(rs.getString("redirect"));// 重定向地址
+            channel.setHide(rs.getShort("hide"));
+            channel.setLangkey(rs.getString("langkey"));// 国际化
+            channel.setEnd(rs.getInt("end"));// 是否结束
+            channel.setSort(rs.getInt("sort"));// 排序
+            channel.setCategoryIds(rs.getString("categoryIds"));// 分类id
+
+            channel.setContent(rs.getString("content"));
+            channel.setContentId(rs.getInt("contentId"));// 内容Id
+            return channel;
+        }
+    }
 	
 	
 	// 菜单RowMapper
@@ -171,15 +197,37 @@ public final class ObjectRowMapper {
 			categroy.setId(rs.getInt("id"));
 			categroy.setName(rs.getString("name"));
 			categroy.setPid(rs.getInt("pid"));
+//			categroy.setRoot(rs.getInt("root"));
+//			categroy.setAlias(rs.getString("alias"));
+			categroy.setSort(rs.getInt("sort"));
+			categroy.setDescription(rs.getString("description"));
+			categroy.setType(rs.getString("type"));
+			categroy.setModel(rs.getString("model"));
+//			categroy.setModelName(rs.getString("modelName"));
+			return categroy;
+		}
+
+
+		
+	}
+
+	// 分类(Category New)
+	public static final class RowMapperCategoryNew implements RowMapper<Category>{
+
+		public Category mapRow(ResultSet rs, int arg1) throws SQLException {
+			Category categroy = new Category();
+			categroy.setId(rs.getInt("id"));
+			categroy.setName(rs.getString("name"));
+			categroy.setPid(rs.getInt("pid"));
 			categroy.setRoot(rs.getInt("root"));
 			categroy.setAlias(rs.getString("alias"));
 			categroy.setSort(rs.getInt("sort"));
 			categroy.setDescription(rs.getString("description"));
 			categroy.setType(rs.getString("type"));
-			categroy.setModel(rs.getString("model"));
-			categroy.setModelName(rs.getString("modelName"));
 			return categroy;
 		}
-		
+
+
+
 	}
 }

@@ -11,7 +11,9 @@ import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.WebParam;
+import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.ext.model.ContentModel;
+import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.template.tags.res.SqlDataSource;
 import org.springframework.util.StringUtils;
 
@@ -44,11 +46,9 @@ public class ArticleModelImpl extends ContentModel{
 	public void fetchContent(Serializable cid) {
 		String prefix = getPrefix();//表前缀，如："yl_"
 		HttpServletRequest request = ActionContext.getReq();
-		
-		
-		
-		String sql = "select  M.*,C.name cname, concat('/cms?','type=article','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from mr_category C "
-				+ "right join mr_article M on M.cid = C.id  where  M.id=?";
+
+		String sql = "select  M.*,C.name cname, concat('/cms?','type=article','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from "+prefix+"channel C "
+				+ "right join "+prefix+"article M on M.cid = C.id  where  M.id=?";
 		Object article = commonDao.queryForMap(sql,cid); 
 		commonDao.update("update " + prefix + "article set views = views+1 where id=?", cid);// 更新浏览量
 		
@@ -69,17 +69,27 @@ public class ArticleModelImpl extends ContentModel{
 	 */
 	public Page doPage(WebParam param) {
 		String prefix = getPrefix();//表前缀，如："yl_" 
-		 
-		String categoryIds = param.channel.getCategoryIds();
-		if(StringUtils.isEmpty(categoryIds)){
-			categoryIds = "0";
-		}
+
+
+
+        long id = param.channel.getId();
+
+        String categoryIds = ""+id;
+//        IChannelDao channelDao = SpringContextHolder.getBean(IChannelDao.class);
+//
+//
+//
+//
+//		String categoryIds = param.channel.getCategoryIds();
+//		if(StringUtils.isEmpty(categoryIds)){
+//			 = "0";
+//		}
 
 		StringBuilder sql = new StringBuilder();
 		sql.append("select A.*,C.name as cname,concat('type=article&id=',CAST(A.id as char),'&time=',DATE_FORMAT(A.time,'%Y%m%d')) as url from ")
 		 .append(prefix).append("article").append(SQL.QUERY_FOR_ALIAS)
-		 .append(" join ").append(prefix).append("category").append(" C on A.cid=C.id ")
-		.append("where 1=1 and ").append("A.cid in ("+categoryIds+") ").append(param.extendSql!= null?param.extendSql:"");
+		 .append(" join ").append(prefix).append("channel").append(" C on A.cid=C.id ")
+		.append("where 1=1 and ").append("A.cid in ("+categoryIds+") order by A.time desc").append(param.extendSql!= null?param.extendSql:"");
 
 		return commonDao.findByPage(param.currentPageNo, param.pageSize, sql.toString());
 	}
@@ -92,8 +102,9 @@ public class ArticleModelImpl extends ContentModel{
 	 * */
 	public StringBuilder doWebFront(String tableName, SqlDataSource sqlDataSource) {
 		String prefix = dbconfig.getPrefix();// 表前缀，如："yl_" 
-		StringBuilder sql = new StringBuilder("select  M.*,C.name cname, concat('/cms?','type=article','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from mr_category C "
-				+ "right join mr_article M on M.cid = C.id");
+		StringBuilder sql = new StringBuilder("select  M.*,C.name cname, concat('/cms?','type=article','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from" +
+				" "+prefix+"channel C "
+				+ "right join "+prefix+"article M on M.cid = C.id");
 		 
 		return sql;
 	}

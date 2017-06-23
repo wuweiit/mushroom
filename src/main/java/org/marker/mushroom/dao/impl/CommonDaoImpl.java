@@ -25,7 +25,7 @@ public class CommonDaoImpl extends DaoEngine implements ICommonDao {
 	// 批量删除
 	@Override
 	public boolean deleteByIds(Class<?> clzz, String ids) {
-		String prefix = dbConfig.getPrefix();// 表前缀
+		String prefix = getPreFix();// 表前缀
 		String tableName  = clzz.getAnnotation(Entity.class).value();
 		String primaryKey = clzz.getAnnotation(Entity.class).key();
 		

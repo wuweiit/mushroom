@@ -4,13 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.marker.mushroom.alias.DAO;
+import org.marker.mushroom.beans.Category;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.dao.DaoEngine;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper.RowMapperChannel;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -46,9 +45,11 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 		Channel channel = null;
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("select concat('/cms?p=',c.url) url, c.* from ").append(getPreFix()).append("channel c where c.url=?");
+		sql.append("select concat('/cms?p=',c.url) url, c.*, d.content from ")
+				.append(getPreFix()).append("channel c left join ")
+				.append(getPreFix()).append("content d on d.id = c.contentId where c.url=? limit 1");
 		try{
-			channel = jdbcTemplate.queryForObject(sql.toString(), new Object[] { url },  new RowMapperChannel());
+			channel = jdbcTemplate.queryForObject(sql.toString(), new Object[] { url },  new ObjectRowMapper.RowMapperChannelNew());
 		}catch (EmptyResultDataAccessException e) { 
 			logger.error("channel.url="+url+" not found! ");
 		}
@@ -59,7 +60,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	
 	/**
 	 * 查询所有栏目
-	 */
+     */
 	public List<Channel> findAll() {
 		StringBuilder sql = new StringBuilder("select * from ").append(getPreFix()).append("channel");
 		return jdbcTemplate.query(sql.toString(), new RowMapperChannel()); 
@@ -87,14 +88,14 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 
 	@Override
 	public List<Channel> findValid() {
-		StringBuilder sql = new StringBuilder("select * from ").append(getPreFix()).append("channel").append(" where hide=?");
+		StringBuilder sql = new StringBuilder("select * from ").append(getPreFix()).append("channel").append(" where hide=? order by sort asc");
 		return jdbcTemplate.query(sql.toString(), new RowMapperChannel(),1);
 	}
 
 	@Override
 	public Channel findChildMaxSortMenuByPId(long pid) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from ").append(dbConfig.getPrefix()).append("channel where pid=? order by sort desc limit 1");
+		sql.append("select * from ").append(getPreFix()).append("channel where pid=? order by sort desc limit 1");
 		try{
 			return this.jdbcTemplate.queryForObject(sql.toString(), new ObjectRowMapper.RowMapperChannel(), pid);
 		}catch(Exception e){
@@ -106,7 +107,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	@Override
 	public void updateEnd0(long pid) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("update ").append(dbConfig.getPrefix()).append("channel set end=0 where pid=?");
+		sql.append("update ").append(getPreFix()).append("channel set end=0 where pid=?");
 		try{
 		 	this.jdbcTemplate.update(sql.toString(), pid);
 		}catch(Exception e){
@@ -114,5 +115,55 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 		}
 	}
 
+    @Override
+    public List<Channel> findByPid(int deptPid) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from ").append(getPreFix()).append("channel where pid=? order by sort desc");
+        try{
+            List<Channel> list =  this.jdbcTemplate.query(sql.toString(), new ObjectRowMapper.RowMapperChannel(), deptPid);
+
+            list.add(findObjectId(deptPid));
+            return list;
+        }catch(Exception e){
+            logger.error("", e);
+        }
+        return null;
+    }
+
+	@Override
+	public List<Channel> list() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select c.* from ").append(getPreFix())
+				.append("channel c ").append(" order by c.sort asc") ;
+		return this.jdbcTemplate.query(sql.toString(), new ObjectRowMapper.RowMapperChannel());
+	}
+
+	@Override
+	public List<Channel> findByGroupId(int userGroupId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select c.* from ").append(getPreFix()).append("channel c  ")
+				.append(" where c.id in (select distinct cid from "+getPreFix()+"user_group_channel where gid = ?) ")
+				.append(" order by c.sort asc") ;
+		return this.jdbcTemplate.query(sql.toString(), new ObjectRowMapper.RowMapperChannel(), userGroupId);
+	}
+
+	@Override
+	public Channel findByUrl(String pageName) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from ").append(getPreFix()).append("channel where url=? order by sort desc limit 1");
+		try{
+			return this.jdbcTemplate.queryForObject(sql.toString(), new ObjectRowMapper.RowMapperChannel(), pageName);
+		}catch(Exception e){
+			logger.error("", e);
+		}
+		return null;
+	}
+
+
+	public Channel findObjectId(int deptPid){
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from ").append(getPreFix()).append("channel where id=? order by sort desc limit 1");
+        return this.jdbcTemplate.queryForObject(sql.toString(), new ObjectRowMapper.RowMapperChannel(), deptPid);
+    }
 
 }

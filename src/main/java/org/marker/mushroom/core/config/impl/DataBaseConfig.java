@@ -2,11 +2,11 @@ package org.marker.mushroom.core.config.impl;
 
 import java.io.File;
 import java.io.IOException;
- 
-
+import java.util.Properties;
 
 
 import org.marker.mushroom.core.config.ConfigEngine;
+import org.marker.mushroom.holder.SpringContextHolder;
 
 /**
  * 数据库动态配置
@@ -21,16 +21,13 @@ public class DataBaseConfig extends ConfigEngine {
 	// 表前缀变量
 	public static final String DB_TABLE_PREFIX = "mushroom.db.prefix";
 	
-	// 配置文件地址
-	public static final String CONFIG_FILE_PATH = "/etc/faceinner/config.properties";
-	
-	
+
 	/**
 	 * 默认构造方法
 	 * @throws IOException 
 	 * */
 	private DataBaseConfig() { 
-		super(CONFIG_FILE_PATH);
+		super();
 	}
 
 	
@@ -54,11 +51,21 @@ public class DataBaseConfig extends ConfigEngine {
 	 * 获取表前缀
 	 * */
 	public String getPrefix(){
-		return  instance.get(DB_TABLE_PREFIX);
+		Properties properties = SpringContextHolder.getBean("configProperties");
+		return  properties.getProperty(DB_TABLE_PREFIX,"mr_");
 		
 	}
-	
-	public interface Names{
+
+
+    /**
+     * 启动的时候在InitBuilderHolder中初始化。
+     * 调用
+     */
+    public void init() {
+        this.properties = SpringContextHolder.getBean("configProperties");
+    }
+
+    public interface Names{
 		String DESCRIPTION = "desription";
 	}
 

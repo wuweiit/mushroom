@@ -26,7 +26,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 	//查询全部的内容模型
 	@Override
 	public List<Module> queryAll() {
-		String prefix = dbConfig.getPrefix();//获取数据库表前缀
+		String prefix = getPreFix();//获取数据库表前缀
 		
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from ").append(prefix).append("module");
@@ -44,7 +44,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 	//检测是否安装当前要安装的内容模型
 	@Override
 	public Module checkIsInstall(String moduleType) {
-		String prefix = dbConfig.getPrefix();//获取数据库表前缀
+		String prefix = getPreFix();//获取数据库表前缀
 		
 		StringBuilder sql = new StringBuilder();
 		//暂时不优化字段
@@ -61,7 +61,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 	//安装模型
 	@Override
 	public boolean install(Module module) {	
-		String prefix = dbConfig.getPrefix();//获取数据库表前缀
+		String prefix = getPreFix();//获取数据库表前缀
 	
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into ").append(prefix).append("module")
@@ -76,7 +76,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 	 */
 	@Override
 	public boolean deleteByType(String moduleType) {
-		String prefix = dbConfig.getPrefix();//获取数据库表前缀 
+		String prefix = getPreFix();//获取数据库表前缀 
 		StringBuilder sql = new StringBuilder();
 		sql.append("delete from ").append(prefix).append("module")
 		.append(" where type=?"); 
@@ -90,7 +90,7 @@ public class ModuleDaoImpl extends DaoEngine implements IModuleDao {
 	 */
 	@Override
 	public Module findByType(String moduleType) {
-		String prefix = dbConfig.getPrefix();//获取数据库表前缀
+		String prefix = getPreFix();//获取数据库表前缀
 		
 		StringBuilder sql = new StringBuilder();
 		//暂时不优化字段

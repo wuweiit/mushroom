@@ -13,7 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.markdown4j.Markdown4jProcessor;
+import io.github.gitbucket.markedj.Marked;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.holder.WebRealPathHolder;
@@ -50,7 +50,7 @@ public class MarkDownFilter implements Filter {
 		File file = new File(p);
 		if(file.exists()){ 
 			String content =FileTools.getFileContet(file, FileTools.FILE_CHARACTER_UTF8);
-			String html = new Markdown4jProcessor().process(content); 
+			String html  =   Marked.marked(content);
 			resp.getWriter().write(html);
 		}else{
 			resp.getWriter().write("<h3>没有找到markdown文档资源，请联系作者编写！</h3>");

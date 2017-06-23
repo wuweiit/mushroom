@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.ext.message.MessageContext;
+import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.support.SupportController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +45,7 @@ public class InternationalController  extends SupportController {
 	@ResponseBody
 	public ResultMessage create(@RequestParam("sl") String sl){
 
-		MessageContext mc = MessageContext.getInstance(); 
+		MessageDBContext mc = MessageDBContext.getInstance();
 		  
 		try {
 			mc.create(sl);
@@ -63,8 +64,8 @@ public class InternationalController  extends SupportController {
 	 */
 	@RequestMapping("/list")
 	public ModelAndView international(HttpServletRequest request){
-		ModelAndView view = new ModelAndView(this.viewPath + "list"); 
-		MessageContext mc = MessageContext.getInstance(); 
+		ModelAndView view = new ModelAndView(this.viewPath + "list");
+		MessageDBContext mc = MessageDBContext.getInstance();
 		view.addObject("langs", mc.getLanguages());
 		view.addObject("select", mc.getSelectElement());
 		return view;
@@ -78,8 +79,8 @@ public class InternationalController  extends SupportController {
 	 */
 	@RequestMapping("/edit")
 	public ModelAndView edit(HttpServletRequest request){
-		ModelAndView view = new ModelAndView(this.viewPath + "edit"); 
-		MessageContext mc = MessageContext.getInstance(); 
+		ModelAndView view = new ModelAndView(this.viewPath + "edit");
+		MessageDBContext mc = MessageDBContext.getInstance();
 		view.addObject("data", mc.getDefaultProperties());
 		return view;
 	}
@@ -91,8 +92,8 @@ public class InternationalController  extends SupportController {
 	 */
 	@RequestMapping("/editkey")
 	public ModelAndView editkey(HttpServletRequest request, @RequestParam("key") String key){
-		ModelAndView view = new ModelAndView(this.viewPath + "editkey"); 
-		MessageContext mc = MessageContext.getInstance();
+		ModelAndView view = new ModelAndView(this.viewPath + "editkey");
+		MessageDBContext mc = MessageDBContext.getInstance();
 		view.addObject("key", key); 
 		view.addObject("langs", mc.getLanguages());
 		view.addObject("mapdata", mc.getKeyMap(key));
@@ -103,8 +104,9 @@ public class InternationalController  extends SupportController {
 	
 	@RequestMapping("/addlang")
 	public ModelAndView addlang(HttpServletRequest request){
-		ModelAndView view = new ModelAndView(this.viewPath + "addlang"); 
-		MessageContext mc = MessageContext.getInstance();
+		ModelAndView view = new ModelAndView(this.viewPath + "addlang");
+
+		MessageDBContext mc = MessageDBContext.getInstance();
 		view.addObject("langs", mc.getLanguages());
 		return view;
 	}
@@ -119,8 +121,8 @@ public class InternationalController  extends SupportController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Object delete( @RequestParam("lang") String lang){ 
-		MessageContext mc = MessageContext.getInstance(); 
+	public Object delete( @RequestParam("lang") String lang){
+		MessageDBContext mc = MessageDBContext.getInstance();
 		try {
 			mc.remove(lang);
 		} catch (IOException e) { 
@@ -137,12 +139,11 @@ public class InternationalController  extends SupportController {
 	 * @param request
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	@ResponseBody
-	public Object save(HttpServletRequest req, @RequestParam("key") String key){ 
-		
-		MessageContext mc = MessageContext.getInstance(); 
+	public Object save(HttpServletRequest req, @RequestParam("key") String key){
+
+		MessageDBContext mc = MessageDBContext.getInstance();
 		@SuppressWarnings("rawtypes")
 		Map data = req.getParameterMap();
 		
@@ -172,9 +173,8 @@ public class InternationalController  extends SupportController {
 	 */
 	@RequestMapping("/deletekey")
 	@ResponseBody
-	public Object deletekey( @RequestParam("key") String key){ 
-		MessageContext mc = MessageContext.getInstance();
-		
+	public Object deletekey( @RequestParam("key") String key){
+		MessageDBContext mc = MessageDBContext.getInstance();
 		try {
 			mc.removeKey(key);
 			mc.storeProperty();// 持久化
