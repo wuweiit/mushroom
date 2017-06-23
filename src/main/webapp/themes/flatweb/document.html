@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<meta name="description" content="${current.description!}">
+  	<meta name="keywords" content="${current.keywords!}">
+    <meta name="author" content="marker">
+	<title>${current.name!} - ${config.title}</title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <!--#include file="common/js.html"-->
+</head>
+
+<body>
+
+<!--#include file="common/header.html"-->
+<div class="jumbotron">
+    <div class="container">
+    	<div class="page-header">
+            <h1>帮助文档</h1>
+            <p>学习掌握这些文档的知识点，我们可以快速的构建Web应用哦！嘿嘿！</p> 
+        </div>
+    </div>
+</div>
+ 
+<div class="container" style=" margin:30px auto;">
+
+	<div class="row">
+	<!-- {c:list table=(channel) pid=(3) order=(id asc)} -->
+		  <div class="col-sm-6 col-md-4">
+		    <div class="thumbnail">
+		      <img src="${themeurl}${c.icon!}" alt="暂时没有图片信息" style="height:100px; width:100%;">
+		      <div class="caption">
+		        <h3>${c.name!}</h3>
+		        <p>${c.description!}</p>
+		        <p><a href="${c.url}" class="btn btn_mrcms" role="button">看文档去咯</a></p>
+		      </div>
+		    </div>
+		  </div>
+	<!--{/list}--> 
+	</div>
+
+
+	<!-- {c:list table=(link)  order=(id asc)} -->
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<img src="${themeurl}${c.icon!}" alt="暂时没有图片信息" style="height:100px; width:100%;">
+			<div class="caption">
+				<h3>${c.name!}</h3>
+				<p>${c.description!}</p>
+				<p><a href="${c.url!}" class="btn btn_mrcms" role="button">看文档去咯</a></p>
+			</div>
+		</div>
+	</div>
+	<!--{/list}-->
+
+</div>
+
+<!--#include file="common/footer.html"-->
+
+
+</body>
+</html>

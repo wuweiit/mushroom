@@ -48,7 +48,7 @@ a{ color: RGB(28,120,135); font-weight: bold;}
 /* 登录输入框边线颜色 */
 .input_for_login{border:1px #CCCCCC solid;}
 /* 登录消息颜色 */
-.login_for_message{background:background:RGB(38,188,213);}
+.login_for_message{background:RGB(38,188,213);}
 .login_for_messageContent h2{color:#FFF}
 
 

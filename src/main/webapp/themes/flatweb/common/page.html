@@ -1,0 +1,68 @@
+<#macro paginate currentPage totalPage actionUrl>
+	<#if (totalPage <= 0) || (currentPage > totalPage)><#return></#if>
+	<#local startPage = currentPage - 4>
+	<#if (startPage < 1)><#local startPage = 1></#if>
+	<#local endPage = currentPage + 4>
+	<#if (endPage > totalPage)><#local endPage = totalPage></#if>
+
+	<div style="line-height: 30px; margin-left: 30px;">
+		共${page.totalRows}条，共${page.totalPages}页记录
+	</div>
+	<div style=" margin-right:5px;">
+		<#if (currentPage <= 8)>
+			<#local startPage = 1>
+		</#if>
+		<#if ((totalPage - currentPage) < 8)>
+			<#local endPage = totalPage>
+		</#if>
+
+		<#if (currentPage == 1)>
+				<a class="btn btn_mrcms" style="disabled:true;">上一页</a>
+			<#else>
+				<#if currentPage == 2>
+					<#local prevPageUrl = "/cms?p=" + p>
+					<a class="btn btn_mrcms" href="${url}${encoder(prevPageUrl)}">上一页</a>
+				<#else>
+					<#local prevPageUrl = "/cms?p=" + p + "&page=" + (currentPage - 1) >
+					<a class="btn btn_mrcms" href="${url}${encoder(prevPageUrl)}">上一页</a>
+				</#if>
+		</#if>
+
+		<#if (currentPage > 8)>
+			<a class="btn btn_mrcms" href="#">#{1}</a>
+			<a class="btn btn_mrcms" href="#">#{2}</a>
+			<span class="gap">…</span>
+		</#if>
+
+		<#list startPage..endPage as i>
+			<#if currentPage == i>
+					<span class="current">#{i}</span>
+				<#else>
+					<#if i == 1>
+						<#local prevPageUrl = "/cms?p=" + p><a class="btn btn_mrcms" href="${url!}${encoder(prevPageUrl)}">1</a>
+					<#else>
+
+						<#local currentPageUrl = "/cms?p=" + p + "&page=" + i ><a class="btn btn_mrcms" href="${url!}${encoder(currentPageUrl)}">#{i}</a>
+
+
+                    </#if>
+			</#if>
+		</#list>
+
+        <#if ((totalPage - currentPage) >= 8)>
+            <span class="gap">…</span>
+            <a class="btn btn_mrcms" href="#">#{totalPage - 1}</a>
+            <a class="btn btn_mrcms" href="#">#{totalPage}</a>
+        </#if>
+
+        <#if (currentPage == totalPage)>
+            <a class="btn btn_mrcms" style="disabled:true;">下一页</a>
+            <#else>
+                <#local nextPageUrl = "/cms?p=" + p + "&page=" + (currentPage + 1) >
+                    <a class="btn btn_mrcms" href="${url}${encoder(nextPageUrl)}">下一页</a>
+        </#if>
+	</div>
+	<div style="clear:both;"></div>
+</#macro>
+
+

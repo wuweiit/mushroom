@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="${article.description!}">
+  	<meta name="keywords" content="${article.keywords!}">
+    <meta name="author" content="marker">
+	<title>${article.title!} - ${config.title}</title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <!--#include file="common/js.html"-->
+</head>
+
+<body>
+
+<!--#include file="common/header.html"-->	
+
+
+ <div class="container" style="margin:30px auto;">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="content">
+	  	 
+	  	 <h2 style="margin-top:60px;">${article.title!}</h2>	
+	  	 <div>发布时间：${article.time}</div>
+	  	 <p> 
+	  	 	${article.content!} 
+	  	 </p>
+	  </div>
+	</div>
+  </div>
+</div>
+
+
+
+
+
+ 
+<!--#include file="common/footer.html"-->
+</body>
+</html>

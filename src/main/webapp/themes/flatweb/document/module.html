@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<meta name="description" content="${current.description!}">
+  	<meta name="keywords" content="${current.keywords!}">
+    <meta name="author" content="marker">
+	<title>蘑菇内容管理系统 - ${current.name!}</title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="lib/highlight/styles/default.css" rel="stylesheet" type="text/css"/>
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <!--#include file="../common/js.html"-->
+</head>
+
+<body>
+
+<!--#include file="../common/header.html"-->
+<div class="jumbotron">
+    <div class="container">
+    	<div class="page-header">
+            <h1>插件文档</h1>
+            <p>学习掌握模板文档里的标签，我们可以快速的查询数据和遍历数据。</p> 
+        </div>
+    </div>
+</div>
+ 
+<div class="container" style="  margin:30px auto;">
+  <div class="row">
+    <div class="col-md-3"> 
+    	<div class="list-group direction">
+		  <a href="/template.html" class="list-group-item"><i class="glyphicon glyphicon-chevron-right"></i>了解模板引擎是如何实现的</a>
+		  <!-- {a:list table=(article) cid=(3) limit=(20) order=(id desc)} --> 
+		  <!--{if:${article?exists && article.id == a.id }}-->
+		  <a href="${a.url}" class="list-group-item active"><i class="glyphicon glyphicon-chevron-right white"></i>${a.title length=(12)}</a>
+		  <!--{else}-->
+		  <a href="${a.url}" class="list-group-item"><i class="glyphicon glyphicon-chevron-right"></i>${a.title length=(12)}</a>
+		  <!--{/if}-->
+		  <!-- {/list} -->
+		</div>
+    </div>
+    <div class="col-md-8">
+      <div class="content">
+         <#if article?exists>
+          <div class="bs-docs-section">
+			<div class="page-header">
+		      <h2>${article.title!} <span class="label label-default">${article.views?c}</span></h2>
+		    </div>
+            ${article.content!}
+          </div>
+         <#else>
+	  	 <div class="bs-docs-section">
+			<div class="page-header">
+		      <h2 id="">了解模板引擎是如何实现的</h2>
+		    </div>
+	         <p>
+	         	实现原理：<br/>
+	         	
+	         	当用户请求一个栏目时候，程序会从数据库中查询出该栏目对象(包含：栏目名称、描述、关键字、模板、内容类型等等信息)，
+	         	然后传递给我们的模板引擎，模板引擎处理会进行一个校验(是够存在模板、缓存中是否已经加载模板、模板是否修等等)，
+	         	<br/>具体模板目录是在ROOT/themes/模板名称/...
+	         	<br/>注意：模板页面是在创建栏目时候指定栏目模板和内容模板的。
+	         </p>
+	         <br />
+	         	<h4>一个简单的例子：</h4>
+	         
+<pre>
+&lt;!doctype html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;utf-8&quot;&gt;<br>    &lt;meta name=&quot;description&quot; content=&quot;${r"$"}{current.description!}&quot;&gt;<br>    &lt;meta name=&quot;keywords&quot; content=&quot;${r"$"}{current.keywords!}&quot;&gt;<br>    &lt;meta name=&quot;author&quot; content=&quot;marker&quot;&gt;<br>    &lt;title&gt;${r"$"}{current.name!}&lt;/title&gt;<br>    &lt;link href=&quot;css/main.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+    &lt;script src=&quot;js/bootstrap.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br>&lt;/head&gt;<br>&lt;body&gt;
+   自动校正绝对地址：
+   &lt;img src=&quot;images/logo.jpg&quot; alt=&quot;mrcms logo&quot; /&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;
+</pre>
+		 </div>				
+		  </#if>
+      </div>
+    </div>
+  </div> 
+
+
+</div>
+
+
+
+<!--#include file="../common/footer.html"-->
+
+
+</body>
+</html>

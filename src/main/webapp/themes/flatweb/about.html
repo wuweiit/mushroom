@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<meta name="description" content="${current.description!}">
+  	<meta name="keywords" content="${current.keywords!}">
+    <meta name="author" content="marker">
+	<title>${current.name!} - ${config.title}</title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+    <link href="lib/highlight/styles/default.css" rel="stylesheet" type="text/css"/>
+    <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="css/about.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+<!--#include file="common/header.html"-->
+
+<div class="jumbotron">
+    <div class="container">
+    	<div class="page-header">
+            <h1>现在开始学习吧</h1>
+            <p>快来看呀，强大的 建站系统框架终结者 为高效、简单、可扩展的 Web应用开发提供解决方案。</p> 
+        </div>
+    </div>
+</div>
+ 
+ 
+<div class="container" style="margin:30px auto;">
+  <div class="row">
+    <div class="col-md-3"> 
+    	
+        <div id="myAffix"  class="navbar-build">
+        	<div class="nav">
+	    	<div class="list-group direction">
+			  <li class="list-group-item active"><a href="#direction_jieshao"><i class="glyphicon glyphicon-chevron-right"></i>项目介绍</a></li>
+			  <li class="list-group-item"><a href="#direction_his"><i class="glyphicon glyphicon-chevron-right"></i>项目历史追溯</a></li>
+			  <li class="list-group-item"><a href="#direction_download"><i class="glyphicon glyphicon-chevron-right"></i>下载蘑菇内容管理系统</a></li>
+			   <li class="list-group-item"><a href="#direction_runtime"><i class="glyphicon glyphicon-chevron-right"></i>项目运行环境</a></li>
+			  <li class="list-group-item"><a href="#direction_files"><i class="glyphicon glyphicon-chevron-right"></i>项目文件结构</a></li>
+			  <li class="list-group-item"><a href="#direction_ex"><i class="glyphicon glyphicon-chevron-right"></i>一些简单的案例</a></li>
+			  <li class="list-group-item"><a href="#direction_study"><i class="glyphicon glyphicon-chevron-right"></i>进阶学习 </a></li>
+			</div> 
+            </div>
+		</div>
+        
+    </div>
+ 
+    <div class="col-md-8">
+      <div class="content">
+	  	 <div class="bs-docs-section">
+			<div class="page-header">
+		      <h2 id="direction_jieshao">MRCMS项目介绍</h2>
+		    </div>
+	        <p>
+	         蘑菇内容管理系统(MRCMS)是一款以Spring为核心，集成Groovy动态脚本语言的开源内容管理系统。采用面向对象、健壮性、高并发性、安全性的Java语言开发， 持久层以MySQL 数据库作为数据支撑。<br/>
+	         构建的简单、高效、可扩展的内容管理系统，为中小型网站提供一个完美的解决方案。为Web应用提供框架支持。内置插件系统只为解决系统需求多样化。</p>
+		 </div>				
+		 
+	     <div id="direction_his" class="bs-docs-section">
+		    <div class="page-header">
+		      <h2>1. 项目历史追溯</h2>
+		    </div>
+            <p>
+            	2014 年 7月：由于OSGI框架增加了插件开发的难度，抛弃了原有的Felix OSGI Framework插件系统，
+            	使用Groovy重构了模块，细化了扩展功能接口。根据OSGI规范和CommonJS规范得到灵感，构建了
+            	MSEI(模块化系统扩展接口)。<br/>架构图如下：
+            	<br/>
+            	<img src="images/module.png" style="width:100%;" alt="模块化系统扩展接口架构"/>
+            	<br/>
+            	
+            </p>
+            <br />
+            <p>2014 年：集成Felix OSGI Framework，抛弃了原有的插件系统，重构了插件扩展，扩充了基于嵌入式指令、HTTP接口、REST接口功能，声明式注解开发插件。后台集成了权限管理、支持字体图标。</p>
+            <br />
+            <p>2013年     ：多方考虑，最终选定Spring这款高效的MVC框架作为核心，Spring提供的JDBCTemplate类可以很方便的进行数据库操作。除了这点，系统还集成了诸如URL重写、加密解密、对内容模型插件管理等等功能。</p>
+            <br />
+            <p>2012年 至 2013年：CMS的雏形已然开发完成，并集成自己开发MVC框架(MyMVC)应用到CMS中，这是一个令人兴奋的事件，但是自己开发框架的性能以及bug问题极其多。</p><br />
+            <p>2012年 至 2013年：一个简单的能将网页上的标签通过正则表达式解析为sql语句，当请求页面时候会执行sql并显示到Web界面上的模板引擎研发出来了，但是并不具备完善的功能。</p><br />
+            <p>2011年 至 2012年：刚进入大学开始软件开发生涯的我，正在努力奋斗充电。</p>
+             <br />
+            <p>......以前：高中阶段我就开始着手使用柯林建站制作WAP网站，当时条件有限，一台天语A7726型号的安装一个TextEditor的J2ME应用就开始了WAP网页制作之路，名为：舞维科技网的手机网站诞生了。没几个月时间，网站消失了.... 不得不承认免费没好货。</p><br />
+	      
+	      
+	      </div>
+	     <div id="direction_download" class="bs-docs-section">
+		    <div class="page-header">
+		      <h2>2. 下载蘑菇内容管理系统</h2>
+		    </div> 
+		     <p>在下载前，您需要知道你要干什么？</p>
+		     <p>如果您只是为了建设一个网站，您需要自己学习编辑一些HTML和CSS，了解div+css布局等等网页设计相关知识，最后就是学习我们系统的模板语言，由于我们系统基于freemarker模板引擎开发的，所以您可以大胆的使用freemarker标签。</p>
+		     <p>如果你想研究我们的内容管理系统如何驱动的？这时候，您需要系统的去学习Java这门语言以及Java Web方面知识。还需要了解Java 开发的各种开源项目。例如：Spring、Hibernate、Mybatis、JFinal等等。</p>
+	        
+	          <div class="row">
+		          <div class="col-md-6">
+		          	<h3>下载已经编译包</h3>
+		            <p>编译包直接复制到tomcat容器中访问localhost进行安装。但是，没有文档，以及源代码。</p>
+		            <a   target="_black" class="btn btn-default">无此下载项目</a>
+		          </div>
+		          <div class="col-md-6">
+		          	<h3>Github下载源代码</h3>
+		          	<p>Java源代码开放了 ，目前低版本开源，没有二次开发文档。</p>
+		            <a href="http://github.com/wuweiit/mushroom" target="_black" class="btn btn-default">下载蘑菇内容管理系统源码</a> 
+		          </div>
+	          </div> 
+	      </div>
+	      <div id="direction_runtime" class="bs-docs-section">
+		    <div class="page-header">
+		      <h2>3. 项目运行环境</h2>
+		    </div> 
+	        <p>
+	        	<b>JDK</b>：   1.6及以上版本<br/>
+	        	<b>服务器</b>：Tomcat6及以上版本<br/>
+	        	<b>数据库</b>：mysql5以上<br/> 
+	        	<br/>
+	        	<p>
+	        	提醒：我们提供了一款集成运行环境工具，可以方便的安装与卸载。
+				</p>
+	        	<a href="http://pan.baidu.com/s/1FtXEd" target="_black" class="btn btn-default">下载集成运行环境</a> 
+	        </p>
+	      </div>
+	      <div id="direction_files" class="bs-docs-section">
+		    <div class="page-header">
+		      <h2>4. 项目文件结构</h2>
+		    </div> 
+	        <p>简单的目录结构，你可以快速找到你想要的数据以及对数据进行修改。
+	        </p> 
+		      <pre>
+		      <code>
+   ROOT/<br>
+     ├── admin/        后台界面相关的文件。<br>
+     ├── common/       公共页面，包含一些错误页面。<br>
+     ├── data/         一些备份数据，以及安装数据。<br>
+     ├── install/      系统安装器，安装完后，可删除。   <br>  
+     ├── modules/      已经安装的模块目录。 <br>
+     ├── public/       公共资源，如：UEditor、Jquery等三方框架。<br>
+     ├── themes/       主题目录，各类模板，可在后台预览。<br>
+     ├── upload/       上传文件目录。<br>
+     ├── META-INF/     无需理睬。<br>
+     ├── WEB-INF/      包含一些外部jar包、osgi缓存文件夹、Spring、web.xml配置文件等等<br>
+     └── robots.txt    百度蜘蛛配置文件<br>
+     </code>
+		      </pre> 
+	      </div>
+	      <div id="direction_ex" class="bs-docs-section">
+		    <div class="page-header">
+		      <h2>5. 一些简单的案例</h2>
+		    </div>
+		    <p>
+<pre>
+<code>
+&lt;!doctype html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;utf-8&quot;&gt;<br>    &lt;meta name=&quot;description&quot; content=&quot;${r"$"}{current.description!}&quot;&gt;<br>    &lt;meta name=&quot;keywords&quot; content=&quot;${r"$"}{current.keywords!}&quot;&gt;<br>    &lt;meta name=&quot;author&quot; content=&quot;marker&quot;&gt;<br>    &lt;title&gt;${r"$"}{current.name!}&lt;/title&gt;<br>    &lt;link href=&quot;css/main.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+    &lt;script src=&quot;js/bootstrap.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br>&lt;/head&gt;<br>&lt;body&gt;
+   自动校正绝对地址：
+   &lt;img src=&quot;images/logo.jpg&quot; alt=&quot;mrcms logo&quot; /&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;
+</code>
+</pre>
+		    </p>
+		    
+		    
+		  </div> 
+	      <div id="direction_study" class="bs-docs-section">
+            <div class="page-header">
+              <h2>6. 进阶学习</h2>
+            </div> 
+            <p>通过进阶学习，你可以掌握MRCMS提供的标签库，能在短时间内开发一个功能强大的企业网站。我们提供了主题下载功能，在线安装主题，都是没有问题的。选择使用MRCMS，你做的很好!!!</p>
+            <a href="/document.html" class="btn btn-default">进入项目文档</a> 
+		         
+		  </div>
+      </div>
+    </div>
+  </div> 
+
+
+</div>
+
+
+
+<!--#include file="common/footer.html"-->
+
+
+</body>
+<script type="text/javascript" src="js/about.js"></script>
+</html>
+

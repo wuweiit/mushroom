@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>defalut.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    
+    <@load items="cms_new_article" sql="select * from mr_article" >
+    	dsadasdas
+    	${userlist[0].name}
+    </@load>
+    
+    ============<br />
+  
+    
+    
+    
+   <h3>配置标签：</h3>
+   <hr/>
+   <b>系统根路径</b>：${url}<br />
+   <b>真实IP地址</b>：${realip}<br />
+   
+   <b>页面压缩</b>：${config.gzip}<br />
+   <b>备案信息</b>：${config.icp!}<br />
+   <b>版权信息</b>：${config.copyright!}<br />
+   <b>管理员邮箱</b>：${config.mastermail!}<br />
+   <b>网站标题</b>：${config.title}<br />
+   <b>栏目关键字</b>：${config.keywords!}<br />
+   <b>栏目描述</b>：${config.description!}<br />
+   
+   
+   <h3>用户标签：</h3>
+   <hr/>
+   <b>管理员账号</b>：${admin.name!}<br />
+   <b>管理员昵称</b>：${admin.nickname!}<br />
+   <b>普通用户对象</b>：${user.name!}<br />
+   
+   
+  
+   <h3>栏目标签：</h3>
+   <hr/>
+   <b>栏目名称</b>：${current.name!}<br />
+   <b>栏目关键字</b>：${current.keywords!}<br />
+   <b>栏目描述</b>：${current.description!}<br />
+   
+   
+   <h3>文章标签：</h3>
+   <hr/>
+   
+  </body>
+</html>

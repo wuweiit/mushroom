@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="${config['defaultlang']}">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="${current.description!}">
+  	<meta name="keywords" content="${current.keywords!}">
+    <meta name="author" content="marker">
+	<title><@message "website.title" /></title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+  	
+</head>
+
+<!--#include file="./common/page.html"-->
+<body>
+	<h1>${current.name!}</h1>
+	<p>this is a sample html tempate!</p>
+	<p>keywords: ${current.keywords!}</p>
+	<p>desc: ${current.description!}</p>
+
+
+
+
+	<!-- {c:list table=(guestbook) nickname=('dsa')  order=(time desc)} -->
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<div class="caption">
+				<h3>${c.nickname!} ${c.ip!}</h3>
+				<p>${c.content!}</p>hahah
+			</div>
+		</div>
+	</div>
+	<!--{/list}-->
+
+    <!-- {c:list table=(visited_his)  order=(time desc) limit=(5) } -->
+    ${c.id!} ${c.ip!} ${c.visitor!}<br>
+    <!--{/list}-->
+
+
+    <!--{c:list sql=(select a.*,b.name groupName from mr_user a join mr_user_group b on a.group=b.id)}-->
+    ${c.name!} ${c.groupName}
+    <!--{/list}-->
+
+
+
+
+
+
+<hr>
+二级栏目
+<ul>
+    <!--{c:channel}-->
+    <li><a href="${c.url}">${c.name!}</a></li>
+    <!--{/channel}-->
+</ul>
+
+
+<hr>
+二级栏目下的文章
+<ul>
+    <!--{c:loop}-->
+    <li><a href="${c.url}">${c.title!}</a></li>
+    <!--{/loop}-->
+</ul>
+${page.pageSize}
+
+    <@paginate currentPage=page.currentPageNo totalPage=page.totalPages actionUrl="article/list.do"  />
+
+
+
+==============
+<ul>
+    <!-- {c:list table=(model) limit=(5) } -->
+    <li>${c.name!}</li>
+    <!--{/list}-->
+</ul>
+
+<table border="1">
+    <tr>
+        <th>名称</th>
+        <th>时间</th>
+    </tr>
+    <!-- {c:list table=(model) limit=(5) } -->
+    <tr>
+        <td>${c.name!}</td>
+        <td>${c.time format=(yyyy-MM-dd)}</td>
+    </tr>
+    <!--{/list}-->
+</table>
+
+
+
+
+
+
+
+</body>
+</html>

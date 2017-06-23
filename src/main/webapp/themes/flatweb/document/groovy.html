@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="${current.description!}">
+  	<meta name="keywords" content="${current.keywords!}">
+    <meta name="author" content="marker">
+	<title>${config.title}</title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <!--#include file="../common/js.html"-->
+</head>
+
+<body>
+
+<!--#include file="../common/header.html"-->
+
+<div class="jumbotron">
+    <div class="container">
+    	<div class="page-header">
+            <h1>Groovy帮助文档</h1>
+            <p>在里可以帮助你学习Groovy快速动态脚本语言，快点来学习吧！</p> 
+        </div>
+    </div>
+</div>
+ 
+ <div class="container" style="margin:30px auto;">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="content">
+	  	 <div class="bs-docs-section">
+
+
+
+	  	 <!-- {loop a} -->
+	 	 	<div class="page-header">
+		      <a href="${a.url}"><h2 id="direction_jieshao">${a.time format=(yyyy-MM-dd)}: ${a.title!}</h2></a>
+		    </div>
+	        <p>
+	          ${a.description!}
+	        </p>
+		<!--{/loop}-->
+		</div>
+
+
+		  <@paginate currentPage=page.currentPageNo totalPage=page.totalPages actionUrl="article/list.do"  />
+
+	  </div>
+	</div>
+  </div>
+</div>
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+<!--#include file="../common/footer.html"-->
+
+<!--#include file="../common/page.html"-->
+
+
+</body>
+</html>

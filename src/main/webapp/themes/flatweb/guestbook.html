@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="${current.description!}">
+  	<meta name="keywords" content="${current.keywords!}">
+    <meta name="author" content="marker">
+	<title>${current.name!} - ${config.title}</title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <!--#include file="common/js.html"-->
+</head>
+<body>
+<!--#include file="common/header.html"-->
+<div class="jumbotron">
+    <div class="container">
+    	<div class="page-header">
+            <h1>您要给我们宝贵建议哦！</h1>
+            <p>您的建议可以帮助我们对产品功能的提升啦！</p> 
+        </div>
+    </div>
+</div>
+
+<div class="container" style="margin:30px auto;"> 
+	<div class="form-horizontal" role="form"  >
+	  <div class="form-group">
+	    <label for="inputEmail3" class="col-sm-2 control-label">昵称</label>
+	    <div class="col-sm-10">
+	      <input id="nickname" type="text" class="form-control" placeholder="请认真填写您的称呼">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+	    <div class="col-sm-10">
+	      <input id="email" type="email" class="form-control" placeholder="亲，邮箱可以帮助我们反馈你的建议！嘿嘿！">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="inputPassword3" class="col-sm-2 control-label">内容</label>
+	    <div class="col-sm-10">
+	       <textarea id="content" class="form-control" rows="5" placeholder="可要认真填写您的疑问或者建议哦，需"></textarea>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="inputEmail3" class="col-sm-2 control-label">验证码</label>
+	    <div class="col-sm-8">
+	      <input id="SecurityCode" type="text" class="form-control" placeholder="验证码是必须的！">
+	    </div>
+	    <div class="col-sm-2">
+	    	<img src="${url}/SecurityCode" alt="mrcms 验证码"/>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10"> 
+	      <button type="submit" onclick="submit()" data-toggle="modal" data-loading-text="正在加载..." data-target="#myModal" class="btn green_btn">提交留言</button>
+	    </div>
+	  </div>
+	</div>
+
+</div> 
+ 
+<!--#include file="common/footer.html"-->
+<!-- 提交消息 Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">消息信息</h4>
+      </div>
+      <div id="message" class="modal-body">
+        	亲，数据提交失败！
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button> 
+      </div>
+    </div> 
+  </div> 
+</div> 
+</body>
+<script type="text/javascript">
+function submit(){
+	var params = "authcode="+$("#SecurityCode").val()+"&nickname="+$("#nickname").val()+"&content="+$("#content").val()+"&email="+$("#email").val();
+	$.ajax({
+		url: "plugin/guestbook/add",
+		type:"POST",
+		data: params,
+		dataType:"JSON",
+		success: function(data){
+			$("#message").html(data.message); 
+			if(data.status){//留言成功，就重置
+				reset();
+			}
+		}
+	});
+}
+// 重置
+function reset(){
+	$("#SecurityCode").val("");
+ 	$("#nickname").val("");
+ 	$("#content").val("");
+ 	$("#email").val("");
+}
+
+</script>
+</html>

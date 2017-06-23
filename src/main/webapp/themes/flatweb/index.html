@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="${config.defaultlang}">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="${current.description!}">
+  	<meta name="keywords" content="${current.keywords!}">
+    <meta name="author" content="marker">
+	<title><@message "website.title" /></title>
+	<link href="lib/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <!--#include file="common/js.html"-->
+</head>
+
+<body>
+
+<!--#include file="common/header.html"-->
+
+
+
+<div class="banner"> 
+	<div class="container">
+        <h1>MRCMS ${loginusername!}</h1>
+    	<p><@message "index.title.description" /></p>
+        <p>
+        	<a href="/about.html"><div class="btn_main"><@message "index.get.started" /></div></a>
+        </p>
+        <div class="dependence">
+<!-- Baidu Button BEGIN -->
+<div id="bdshare" class="bdshare_b" style="line-height: 12px; float:right;">
+<img src="http://bdimg.share.baidu.com/static/images/type-button-1.jpg?cdnversion=20120831" />
+<a class="shareCount"></a>
+</div>
+<script type="text/javascript" id="bdshare_js" data="type=button&amp;uid=647438" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+</script>
+<!-- Baidu Button END --> 
+			version 3.0
+        </div>
+    </div>
+</div> 
+
+<div class="container" style="margin: 10px auto;">
+	<div class="content1">
+		<h1><@message "index.mrcms.feature" /></h1>
+        <p><@message "index.mrcms.feature.desc" /></p>
+	</div>
+    <div class="row"> 
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/gaoxingneng.png" alt="<@message " mrcms.feature.high" />" /></div>
+        	<h3><@message "mrcms.feature.high" /></h3>
+            <p><@message "mrcms.feature.high.desc" /></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/kekuozhan.png" alt="<@message " mrcms.feature.extensible" />" /></div>
+          <h3><@message "mrcms.feature.extensible" /></h3>
+          <p><@message "mrcms.feature.extensible.desc" /></p>
+        </div>
+      </div> 
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/fenbushi.png" alt="<@message " mrcms.feature.distributed" />" /></div>
+          <h3><@message "mrcms.feature.distributed" /></h3>
+          <p><@message "mrcms.feature.distributed.desc" /></p>
+        </div>
+      </div>
+    </div>
+    <div style="height:20px;"></div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/html.png" alt="<@message " mrcms.feature.templateengine" />" /></div>
+          <h3><@message "mrcms.feature.templateengine" /></h3>
+          <p><@message "mrcms.feature.templateengine.desc" /></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/moxing.png" alt="<@message " mrcms.feature.contentmodel" />" /></div>
+        	<h3><@message "mrcms.feature.contentmodel" /></h3>
+            <p><@message "mrcms.feature.contentmodel.desc" /></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/international.png" alt="<@message " mrcms.feature.internationalization" />" /></div>
+          <h3><@message "mrcms.feature.internationalization" /></h3>
+          <p><@message "mrcms.feature.internationalization.desc" /></p>
+        </div>
+      </div>
+    </div>
+    <div class="row"> 
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/fileman.png" alt="<@message " mrcms.feature.file" />"/></div>
+          <h3><@message "mrcms.feature.file" /></h3>
+          <p><@message "mrcms.feature.file.desc" /></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/ueditor.png" alt="<@message " mrcms.feature.textediting" />"/></div>
+          <h3><@message "mrcms.feature.textediting" /></h3>
+          <p><@message "mrcms.feature.textediting.desc" /></p>
+        </div>
+      </div> 
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/seo.png" alt="<@message " mrcms.feature.seo" />" /></div>
+          <h3><@message "mrcms.feature.seo" /></h3>
+          <p><@message "mrcms.feature.seo.desc" /></p>
+        </div>
+      </div> 
+    </div>
+ 	<div class="row"> 
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/count.png" alt="<@message " mrcms.feature.webstatic" />" /></div>
+          <h3><@message "mrcms.feature.webstatic" /></h3>
+          <p><@message "mrcms.feature.webstatic.desc" /></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/markdown.png" alt="<@message " mrcms.feature.markdown" />" /></div>
+          <h3><@message "mrcms.feature.markdown" /></h3>
+          <p><@message "mrcms.feature.markdown.desc" /></p>
+        </div>
+      </div> 
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/zhuti.png" alt="<@message " mrcms.feature.theme" />" /></div>
+          <h3><@message "mrcms.feature.theme" /></h3>
+          <p><@message "mrcms.feature.theme.desc" /></p>
+        </div>
+      </div> 
+    </div>
+    
+ 	<div class="row"> 
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/compress.png" alt="<@message " mrcms.feature.compress" />" /></div>
+          <h3><@message "mrcms.feature.compress" /></h3>
+          <p><@message "mrcms.feature.compress.desc" /></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/cache.png" alt="<@message " mrcms.feature.cache" />" /></div>
+          <h3><@message "mrcms.feature.cache" /></h3>
+          <p><@message "mrcms.feature.cache.desc" /></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="introduce_card">
+          <div class="icon"><img src="images/crossplatform.png" alt="<@message " mrcms.feature.crossplatform" />" /></div>
+          <h3><@message "mrcms.feature.crossplatform" /></h3>
+          <p><@message "mrcms.feature.crossplatform.desc" /></p>
+        </div>
+      </div>
+    </div>
+</div>
+
+<hr/>
+
+<div class="container" style="margin: 20px auto; ">
+	<div class="content1">
+		<h1><@message "mrcms.builder.title" /></h1>
+        <p><@message "mrcms.builder.desc" /></p>
+	</div>
+    <div class="row">
+    	<div class="col-md-3">
+        	<div class="website_card">
+          		<img src="images/kekuozhan.png" />
+            </div>
+    	</div>
+        <div class="col-md-3">
+    		<div class="website_card">
+          		<img src="images/kekuozhan.png" />
+            </div>
+        </div>
+        <div class="col-md-3">
+    		<div class="website_card">
+          		<img src="images/kekuozhan.png" />
+            </div>
+        </div>
+        <div class="col-md-3">
+    		<div class="website_card">
+          		<img src="images/kekuozhan.png" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ 
+
+<!--#include file="common/footer.html"-->
+
+
+</body>
+</html>
