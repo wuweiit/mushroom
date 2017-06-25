@@ -1,0 +1,198 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">添加医生</li>
+		</ul>
+
+		<#if Session.userGroupId == 1>
+			<button onclick="submit(this)" class="btn_tabbar submit_it" return="doctor/list.do?currentPageNo=1">发 布</button>
+		</#if>
+		<button onclick="save(this)" class="btn_tabbar submit_it" return="doctor/list.do?currentPageNo=1">保存草稿</button>
+	</div>
+	<form id="myForm" action="doctor/save.do" method="post" onsubmit="return false;">
+	<input id="status" name="status" value="0" type="hidden" />
+		<input name="cid" value="15" type="hidden" />
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_add">
+				<tbody>
+				<tr class="rowBgColor">
+					<th width="140">所属科室：</th>
+					<td>
+						<select class="select_for_add" name="did">
+							<@categoryTree id = 0 node = -1/>
+						</select>
+					</td>
+				</tr>
+					<tr>
+						<th>医生姓名： </th>
+						<td><input id="title" class="input_for_add" name="name" type="text" placeholder="" /></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>医生照片： </th>
+						<td><input id="userHeadIcon" class="input_for_add" name="icon" type="text" />
+
+							<button type="button" onclick="uploadImage()">上传图片</button>
+						</td>
+					</tr>
+					<tr>
+						<th>职称：</th>
+						<td><input class="input_for_add" name="jobname" type="text" value="" /></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>简要描述：</th>
+						<td><textarea class="textarea_for_add" name="description"></textarea></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>关键字：</th>
+						<td><input id="keywords" class="input_for_add" name="keywords" type="text" /><a onclick="keyword()">自动获取关键字</a></td>
+					</tr>
+					<tr>
+				    	<th>医生介绍：</th>
+						<td></td>
+					</tr> 
+				    <tr>
+						<td colspan="2" >
+							<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form>
+</div>
+
+
+<script id="upload_ue" type="text/plain" ></script>
+
+
+<script type="text/javascript">
+
+//初始化UE编辑器
+$(function(){
+
+	if(window.editor != null){
+		window.editor.destroy();
+	}
+
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    window.editor = UE.getEditor('mushroomeditor');
+ 	
+ 	window.editor.ready(function(){
+ 		$("#title").focus();
+ 		
+ 		var status = editor.queryCommandState( 'source' );
+ 		if(status != 1){
+ 			
+ 		}
+
+ 		
+ 	});
+ 	 
+});
+
+
+function submit(obj){
+	$("#status").val("1");
+	window.editor.sync();//手动提交需要手动同步编辑器数据
+	
+	submitActionForm(obj); 
+	
+}
+
+
+function save(obj){
+	$("#status").val("0");
+	window.editor.sync();//手动提交需要手动同步编辑器数据
+	
+	submitActionForm(obj); 
+	
+}
+
+ 
+	$('#myForm').validator({
+	    // 传入字段集合
+	    fields: {
+	    	"name": "required"
+	    }
+	}).on("click", ".submit_it", function(){
+	   // $('#myForm').trigger("submit");
+	    
+	 	window.editor.sync();//手动提交需要手动同步编辑器数据
+		submitActionForm(obj); 
+	    
+	});
+	
+	
+ 
+
+
+
+/**
+ * 关键字获取接口
+ * */
+function keyword(){
+	var title = $("#title").val();
+	var content = window.editor.getContent(); 
+	$.ajax({
+		url:"../keywords.do",
+		type:"POST",
+		data: "title="+title+"&content="+content,
+		dataType:"json",
+		success:function(data){
+			$("#keywords").val(data);
+		}
+	});
+	
+}
+
+
+
+
+
+
+var _editor = UE.getEditor('upload_ue');
+_editor.ready(function () {
+    console.log("ueditor success!")
+    //设置编辑器不可用
+    _editor.setDisabled();
+    //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+    _editor.hide();
+    //侦听图片上传
+    _editor.addListener('beforeInsertImage', function (t, arg) {
+        console.log(arg);
+    })
+    //侦听文件上传
+    _editor.addListener('afterUpfile', function (t, arg) {
+        console.log(arg);
+        $("#userHeadIcon").attr("value", arg[0].src);
+    })
+});
+
+function uploadImage(){
+    var myImage = _editor.getDialog("insertimage");
+    myImage.open();
+}
+</script>
+
+<#macro categoryTree id node>
+	<#local temp = node + 1 />
+	<#list categorys as x>
+	  	<#if id = x.pid>
+	  	<option value="${x.id?c}"><#list 0..temp as i> &nbsp; &nbsp; </#list>├ ${x.name!}</option>
+	    <@categoryTree id = x.id node=temp/>
+      	</#if>
+	</#list> 
+</#macro>
+
+<#macro channelTree id node>
+	<#local temp = node + 1 />
+	<#list channels as comment>
+		<#if id = comment.pid>
+			<option value="${comment.id?c}"><#list 0..temp as x> &nbsp; &nbsp; </#list>├ ${comment.name!}</option>
+			<@channelTree id = comment.id node=temp/>
+		</#if>
+	</#list>
+</#macro>

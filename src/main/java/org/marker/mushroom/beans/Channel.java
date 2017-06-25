@@ -18,7 +18,7 @@ public class Channel implements Serializable{
 	/** 自动生成ID */
 	private int id = 0;
 	/** 上级栏目ID */
-	private long pid = 0;
+	private int pid = 0;
 	/** 图标 */
 	private String icon;
 	/** 栏目名称 */

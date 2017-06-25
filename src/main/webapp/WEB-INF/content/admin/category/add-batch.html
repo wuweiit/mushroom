@@ -1,0 +1,101 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>批量添加科室</h3></li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitForm(this);" return="category/list.do">保 存</button>
+	</div>
+	<form id="myForm" action="category/save.do" method="post" onsubmit="return false;">
+	<input id="rootFeild" name="root" value="1" type="hidden" />
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+			<table class="table_for_add">
+				<tbody>
+				   <tr>
+						<th width="140">上级科室：</th>
+						<td>
+							<select id="categorySelect" class="select_for_add" name="pid" onchange="changePid(this)">
+								<option value="0"> -------- 根级科室 -------- </option>
+								<@categoryTree id = 0 node = -1/>
+							</select>
+						</td>
+						<td></td>
+					</tr> 
+
+					<tr class="rowBgColor">
+						<th width="140">科室名称：</th>
+						<td>
+							<ul id="category-list" style="list-style: none;padding-left:0px;">
+								<li><input class="input_for_add" name="name" type="text" /> <a style="font-size: 16px; cursor: pointer;" onclick="deleteItem(this);"><i class="fa fa-trash-o"></i></a></li>
+								<li><input class="input_for_add" name="name" type="text" /> <a style="font-size: 16px; cursor: pointer;" onclick="deleteItem(this);"><i class="fa fa-trash-o"></i></a></li>
+							</ul>
+                            <button onclick="addItem();">添加</button>
+                        </td>
+						<td><span></span></td>
+					</tr>
+                   <tr>
+                       <th width="140">科室类型：</th>
+                       <td>
+                           <select class="input_for_add" name="type">
+                               <option value="1">行政科室</option>
+                               <option value="2">临床科室</option>
+                           </select>
+                       <td><span></span></td>
+                   </tr>
+					<tr class="rowBgColor">
+						<th width="140">排序：</th>
+						<td><input class="input_for_add" name="sort" type="text" value="0" /></td>
+						<td><span></span></td>
+					</tr>
+					<tr >
+						<th>描述信息：</th>
+						<td>
+							<textarea class="textarea_for_add" name="description"></textarea>
+						</td>
+						<td>
+							<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form> 
+</div>
+<script type="text/javascript">
+function changePid(obj){
+	var pid = $(obj).val();
+	var model = $("#categorySelect option:selected").attr("model");
+
+}
+
+function submitForm(obj){
+	if($("#categorySelect").val() == 0){
+
+	}
+
+	submitActionForm(obj);
+}
+
+function addItem(){
+    $("#category-list").append('<li><input class="input_for_add" name="name" type="text" /> <a style="font-size: 16px; cursor: pointer;" onclick="deleteItem(this);"><i class="fa fa-trash-o"></i></a></li>');
+}
+
+function deleteItem(obj){
+    $(obj).parent().remove();
+}
+
+</script>
+
+
+
+<#-- 树形结构生成器 -->
+<#macro categoryTree id node>
+	<#local temp = node + 1 />
+	<#list data as comment>
+		<#if id = comment.pid>
+			<option value="${comment.id?c}"><#list 0..temp as x> &nbsp; &nbsp; </#list>├ ${comment.name!}</option>
+			<@categoryTree id = comment.id node=temp/>
+		</#if>
+	</#list>
+</#macro>

@@ -19,14 +19,10 @@
 		">
 
 
-    <context:component-scan base-package="org.marker.mushroom.dao.impl"/>
-
     <!-- 导入配置文件 -->
     <import resource="classpath:/config/spring/application-config.xml"/>
 
 
-    <!-- 提供该propertyConfigurer bean支持把properties文件中的信息读取到XML配置文件的表达式中
-    <context:property-placeholder location="classpath:/config/jdbc/connection.properties"/>-->
 
     <!--  druid数据源   -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
@@ -37,9 +33,9 @@
         <!-- druid 连接池的 -->
         <property name="filters" value="stat" />
         <!--maxActive: 最大连接数量 -->
-        <property name="maxActive" value="20" />
+        <property name="maxActive" value="${mushroom.druid.maxActive}" />
         <!--initialSize: 初始化连接 -->
-        <property name="initialSize" value="5" />
+        <property name="initialSize" value="${mushroom.druid.initialSize}" />
         <!-- 这里配置提交方式，默认就是TRUE，可以不用配置 -->
         <property name="defaultAutoCommit" value="true" />
     </bean>
@@ -60,5 +56,8 @@
     <!-- 使用annotation定义事务 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
+
+    <!-- 扫描Dao -->
+    <context:component-scan base-package="org.marker.mushroom.dao.impl"/>
 
 </beans>

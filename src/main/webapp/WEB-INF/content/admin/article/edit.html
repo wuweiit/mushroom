@@ -76,9 +76,13 @@
 						<th>文章作者：</th>
 						<td><input class="input_for_add" name="author" type="text" value="${article.author!}" /></td>
 					</tr>
+					<tr >
+						<th>原文地址：</th>
+						<td><input class="input_for_add" name="source" type="text" value="${article.source!}" /></td>
+					</tr>
 
 					<#if Session.userGroupId == 1>
-						<tr>
+						<tr class="rowBgColor">
 							<th>文章状态：</th>
 							<td>
 								<#if article.status == 1>

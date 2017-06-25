@@ -55,6 +55,7 @@ public class Article implements Serializable {
 	
 	/** 原始内容 */
 	private String orginal;
+
  
  
 

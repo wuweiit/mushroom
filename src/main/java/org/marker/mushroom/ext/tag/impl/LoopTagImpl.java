@@ -92,6 +92,7 @@ public class LoopTagImpl extends Taglib{
                 }
             }
             data.setItems(item);
+            data.setWhere(whereTemp);
 
 
 			// page.data为内容模型中使用的查询

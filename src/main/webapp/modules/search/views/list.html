@@ -1,0 +1,45 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">留言管理</li>
+		</ul>
+	</div>
+
+
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+		<table class="table_for_list">
+			<thead>
+			 <tr>
+				<th width="30" class="quanxuan" onclick="allCheck();">全选</th>
+				<th>留言内容</th>
+				<th width="100">IP地址</th>
+				<th width="80">地区</th>
+				<th width="80">昵称</th>
+				<th>邮箱</th>
+				<th width="130">留言时间</th>
+				<th width="40">操作</th>
+			  </tr>
+			</thead>
+	    	<tbody>
+	     
+			  <#list page.getData() as x>
+				<tr>
+					<td class="checkbox"><input type="checkbox" value="${x.id?c}" /></td>
+					<td>${x.content!}</td>
+					<td>${x.ip!}</td>
+					<td>${x.area!}</td>
+					<td>${x.nickname!}</td>
+					<td>${x.email!}</td>
+					<td><#if x.time?exists>${x.time?string("yyyy-MM-dd HH:mm:ss")}<#else>null</#if></td>
+					<td>
+					<a href="#" action="/plugin/guestbook/delete?rid=${x.id?c}" return="/plugin/guestbook/list?currentPageNo=${page.currentPageNo?c}" onclick="deleteById(this);">删除</a>
+				</tr>
+			  </#list>
+			</tbody>
+		</table>
+		</div>
+	</div>
+  <#include "_page.html" />
+  <@guestbookPage currentPage=page.currentPageNo totalPage=page.totalPages />
+</div>

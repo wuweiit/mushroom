@@ -68,8 +68,7 @@ public class MyCMSTemplate {
 
 	
 	@Autowired
-	private
-	SystemConfig syscfg;
+	private SystemConfig syscfg;
 
 	// 临时存储sql数据引擎
 	public List<SqlDataSource> temp;
@@ -89,6 +88,9 @@ public class MyCMSTemplate {
 		config.setSharedVariable("Boostrap3Nav", new BootStrap3NavDirective());// 导航菜单
         config.setSharedVariable("HuaXiSiYuanNav", new HuaxiSiYuanNavDirective());// 导航菜单(mobile)
         config.setSharedVariable("HuaXiSiYuanPCNav", new HuaxiSiYuanPCNavDirective());// 导航菜单(PC)
+
+
+		config.setSharedVariable("Nav",new NavDirective());// 通用导航指令
 
 		config.setSharedVariable("encoder", new FrontURLRewriteMethodModel());//URL重写
 		config.setSharedVariable("plugin", new EmbedDirectiveInvokeTag());// 嵌入式指令插件

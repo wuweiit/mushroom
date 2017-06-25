@@ -28,7 +28,7 @@ public final class ObjectRowMapper {
 		public Channel mapRow(ResultSet rs, int arg1) throws SQLException {
 			Channel channel = new Channel();
 			channel.setId(rs.getInt("id"));
-			channel.setPid(rs.getLong("pid"));
+			channel.setPid(rs.getInt("pid"));
 			channel.setName(rs.getString("name"));
 			channel.setTemplate(rs.getString("template")); 
 			channel.setUrl( rs.getString("url"));// URL地址
@@ -51,7 +51,7 @@ public final class ObjectRowMapper {
         public Channel mapRow(ResultSet rs, int arg1) throws SQLException {
             Channel channel = new Channel();
             channel.setId(rs.getInt("id"));
-            channel.setPid(rs.getLong("pid"));
+            channel.setPid(rs.getInt("pid"));
             channel.setName(rs.getString("name"));
             channel.setTemplate(rs.getString("template"));
             channel.setUrl( rs.getString("url"));// URL地址

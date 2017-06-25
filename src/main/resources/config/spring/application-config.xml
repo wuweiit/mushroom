@@ -8,23 +8,15 @@
 		http://www.springframework.org/schema/cache 
 		http://www.springframework.org/schema/cache/spring-cache.xsd	">
 
-	<bean id="cloudconfig" class="org.springframework.core.io.FileSystemResource">
-		<!--<constructor-arg value="/etc/hsxycms/config.properties"/>-->
-		<constructor-arg value=""/>
 
-	</bean>
-
-
+    <!-- 提供该propertyConfigurer bean支持把properties文件中的信息读取到XML配置文件的表达式中 -->
+    <!-- 将配置文件读取到Spring环境里 -->
     <bean id="propertyPlaceholderConfigurer"
           class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
         <property name="properties" ref="configProperties"/>
-        <property name="locations">
-            <list>
-            </list>
-        </property>
     </bean>
 
-    <!-- 加载配置文件 -->
+    <!-- 加载配置文件（可提供给代码调用读取） 文件不存在则忽略-->
     <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="ignoreResourceNotFound" value="true"/>
         <property name="locations">
@@ -32,6 +24,7 @@
                 <value>file:/etc/hsxycms/config.properties</value>
                 <value>file:/home/wuw/config.properties</value>
                 <value>file:/etc/faceinner/config_local.properties</value>
+                <value>classpath:/config.properties</value>
             </list>
         </property>
     </bean>

@@ -76,14 +76,20 @@ public class ChildChannelTagImpl extends Taglib {
 			data.setVar(var);
             WebParam param = WebParam.get();
 			String pageName = param.pageName;
+			int id  = param.channel.getId();
 			int cid = param.channel.getId();
             DataBaseConfig config = DataBaseConfig.getInstance();
 
 			long pid = param.channel.getPid();
-
 			String sql = "select *,id = "+cid + " as active, concat('p=', url) url from "+config.getPrefix()
-					+"channel where (hide=1 and pid = (select distinct id from "+config.getPrefix()+"channel where id = "+pid+" limit 1)) "
-					+" order by sort desc";
+					+"channel where hide =1 ";
+			if(pageName.indexOf("/") == -1){// 一级查询
+				sql += " and pid = " + id;
+			}else{// 二级查询
+				sql +=" and pid = " + pid;
+			}
+			sql += " order by sort asc";
+
 			data.setSql(sql);
 
 			data.setItems("mrcms_"+UUID.randomUUID().toString().replaceAll("-",""));

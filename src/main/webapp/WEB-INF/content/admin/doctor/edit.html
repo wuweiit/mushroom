@@ -1,0 +1,169 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">编辑医生</li>
+		</ul>
+		 <button class="btn_tabbar submit_it" onclick="mySubmitForm(this);" return="doctor/list.do?currentPageNo=1">保 存</button>
+	</div>
+	
+	<form id="myForm" action="doctor/update.do" method="post"  onsubmit="return false;">
+	<input name="id" type="hidden" value="${doctor.id?c}" />
+		<input name="cid" value="15" type="hidden" />
+		<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_add">
+				<tbody>
+				<tr class="rowBgColor">
+					<th width="140">所属科室：</th>
+					<td>
+						<select class="select_for_add" name="did">
+							<@categoryTree id = 0 node = -1/>
+						</select>
+					</td>
+				</tr>
+					<tr>
+						<th>医生姓名： </th>
+						<td><input id="title" class="input_for_add" name="name" type="text" placeholder="" value="${doctor.name!}" /></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>医生照片： </th>
+						<td><input id="userHeadIcon" class="input_for_add" name="icon" type="text" value="${doctor.icon!}"/>
+							<button type="button" onclick="uploadImage()">上传图片</button>
+						</td>
+					</tr>
+					<tr>
+						<th>职称：</th>
+						<td><input class="input_for_add" name="jobname" type="text" value="${doctor.jobname!}" /></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>简要描述：</th>
+						<td><textarea class="textarea_for_add" name="description">${doctor.description!}</textarea></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>关键字：</th>
+						<td><input id="keywords" class="input_for_add" name="keywords" type="text" value="${doctor.keywords!}" />
+					</tr>
+					<tr>
+						<th>医生介绍：</th>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="2" >
+							<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
+							<textarea id="mrcmsContent" style="display:none">${doctor.content!}</textarea>
+						</td>
+					</tr>
+                <#if Session.userGroupId == 1>
+                    <tr>
+                        <th>状态：</th>
+                        <td>
+                            <#if doctor.status == 1>
+                                <input id="status_1" name="status" type="radio" value="1" checked="checked" /> <label for="status_1">发布</label>
+                                <input id="status_0" name="status" type="radio" value="0" /> <label for="status_0">草稿</label>
+                                <#else>
+                                    <input id="status_1" name="status" type="radio" value="1"/> <label for="status_1">发布</label>
+                                    <input id="status_0" name="status" type="radio" value="0" checked="checked"/> <label for="status_0">草稿</label>
+                            </#if>
+                        </td>
+                    </tr>
+                <#else>
+                    <input type="hidden" name="status" value="0" />
+                </#if>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</form> 
+</div>
+
+<script id="upload_ue" type="text/plain" ></script>
+<script type="text/javascript">
+$(function(){
+
+	
+	
+	
+	if(window.editor !=null){
+		window.editor.destroy();
+	}
+	 //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    window.editor = UE.getEditor('mushroomeditor');
+ 	
+	window.editor.ready(function(){
+		$("#title").focus();//纠正显示
+
+		editor.setContent($("#mrcmsContent").val()); 
+	});
+});
+
+function mySubmitForm(obj){
+ 	window.editor.sync();//手动提交需要手动同步编辑器数据 
+	submitActionForm(obj);
+} 
+
+
+
+
+
+//设置栏目ID
+var cid = '${doctor.cid?c}';
+$("#categoryid").attr('value',cid);
+
+
+
+
+
+
+
+
+
+
+
+var _editor = UE.getEditor('upload_ue');
+_editor.ready(function () {
+    console.log("ueditor success!")
+    //设置编辑器不可用
+    _editor.setDisabled();
+    //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+    _editor.hide();
+    //侦听图片上传
+    _editor.addListener('beforeInsertImage', function (t, arg) {
+        console.log(arg);
+    })
+    //侦听文件上传
+    _editor.addListener('afterUpfile', function (t, arg) {
+        console.log(arg);
+        $("#userHeadIcon").attr("value", arg[0].src);
+    })
+});
+
+function uploadImage(){
+    var myImage = _editor.getDialog("insertimage");
+    myImage.open();
+}
+</script>
+
+
+
+<#macro categoryTree id node>
+	<#local temp = node + 1 />
+	<#list categorys as x>
+	  	<#if id = x.pid>
+	  	<option value="${x.id?c}"><#list 0..temp as i> &nbsp; &nbsp; </#list>├ ${x.name!}</option>
+	    <@categoryTree id = x.id node=temp/>
+      	</#if>
+	</#list> 
+</#macro>
+
+
+
+<#macro channelTree id node>
+	<#local temp = node + 1 />
+	<#list channels as comment>
+		<#if id = comment.pid>
+			<option value="${comment.id?c}"><#list 0..temp as x> &nbsp; &nbsp; </#list>├ ${comment.name!}</option>
+			<@channelTree id = comment.id node=temp/>
+		</#if>
+	</#list>
+</#macro>
