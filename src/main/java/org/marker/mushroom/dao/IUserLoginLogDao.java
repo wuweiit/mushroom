@@ -17,6 +17,6 @@ public interface IUserLoginLogDao extends ISupportDao {
 	
 	
 	
-	Page queryByPage(int currentPageNo,int pageSize);
+	Page queryByPage(int currentPageNo, int pageSize);
 	
 }

@@ -17,10 +17,16 @@ public abstract class SqlDataSource {
 
 	// 临时对象名称
 	protected String var = "it";
+
+	/** 数据结构类型，list：列表，page:分页 */
+	private String type = "list";
+
 	//request传递的集合名称
 	protected String items;
 	
 	protected String queryString;
+
+	protected String whereIn;
 	
 	//因为这个是在程序启动后，才有生成这类对象
 	protected ContentModelContext contentModelContext;
@@ -91,4 +97,22 @@ public abstract class SqlDataSource {
 	 * @throws SystemException 
 	 */
 	public abstract void generateSql() throws SystemException;
+
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getWhereIn() {
+        return whereIn;
+    }
+
+    public void setWhereIn(String whereIn) {
+        this.whereIn = whereIn;
+    }
 }

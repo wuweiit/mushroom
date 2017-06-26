@@ -98,4 +98,20 @@ public class TreeUtils {
     }
 
 
+    /**
+     * 计算子栏目
+     * @param channelList
+     * @param cidList
+     * @param cid
+     */
+    public static void buildChildIdList(List<Channel> channelList, List<Integer> cidList, int cid) {
+        for(Channel channel: channelList){
+            if(channel.getPid() == cid){
+                cidList.add(channel.getId());
+                buildChildIdList(channelList,cidList,channel.getId());
+            }
+        }
+    }
+
+
 }

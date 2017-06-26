@@ -17,10 +17,7 @@ import org.marker.mushroom.core.proxy.SingletonProxyKeyWordComputer;
 import org.marker.mushroom.ext.message.MessageContext;
 import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.ext.model.ContentModelContext;
-import org.marker.mushroom.ext.model.impl.ArticleModelImpl;
-import org.marker.mushroom.ext.model.impl.CategoryModelImpl;
-import org.marker.mushroom.ext.model.impl.ContentModelImpl;
-import org.marker.mushroom.ext.model.impl.DoctorModelImpl;
+import org.marker.mushroom.ext.model.impl.*;
 import org.marker.mushroom.ext.plugin.PluginContext;
 import org.marker.mushroom.ext.plugin.Pluginlet;
 import org.marker.mushroom.ext.plugin.impl.GuestBookPluginletImpl;
@@ -86,11 +83,11 @@ public class InitBuilderHolder implements ServletContextAware{
     	
 		/* 
 		 * ============================================================
-		 *               URLRewrite 初始化URL规则
+		 *               URLRewrite 初始化URL规则 （通过SPringBean初始化）
 		 * ============================================================
 		 */
-    	URLRewriteConfig urlConfig = URLRewriteConfig.getInstance();
-    	logger.info("build URL-rewriteConfig instance = {}", urlConfig);	
+//    	URLRewriteConfig urlConfig = URLRewriteConfig.getInstance();
+//    	logger.info("build URL-rewriteConfig instance = {}", urlConfig);
     	
     	
     	
@@ -116,6 +113,7 @@ public class InitBuilderHolder implements ServletContextAware{
 		contentModelContext.put(new ArticleModelImpl());// 文章数据模型
 		contentModelContext.put(new DoctorModelImpl());// 医生数据模型
         contentModelContext.put(new CategoryModelImpl());// 科室数据模型
+		contentModelContext.put(new ThematicModelImpl());// 专题数据模型
 
 
 
@@ -158,6 +156,9 @@ public class InitBuilderHolder implements ServletContextAware{
     	taglibs.put(new SingleCategoryTagImpl());
 		taglibs.put(new ChildChannelTagImpl());
 		taglibs.put(new ListCategoryTagImpl());
+        taglibs.put(new SqlPageTagImpl());
+		taglibs.put(new NavChildTagImpl());
+
 
     	logger.info("mrcms taglibs init complete");
     	

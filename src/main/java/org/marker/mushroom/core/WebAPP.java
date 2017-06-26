@@ -249,7 +249,7 @@ public final class WebAPP {
 
     /**
 	 * 发送错误消息
-	 * @throws org.marker.mushroom.core.exception.SystemException  
+	 * @throws SystemException
 	 */
 	public void handleErrorMessage(SystemException e) {
 

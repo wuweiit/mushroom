@@ -20,7 +20,9 @@ import org.marker.develop.freemarker.SessionWrapperModel;
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.alias.LOG;
+import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
+import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.dao.ISupportDao;
@@ -111,14 +113,21 @@ public class SendDataToView {
 			if(dataTmp == null) continue;
 		 
 			String queryString = dataTmp.getQueryString();
+
+			if("list".equals(dataTmp.getType())){// 列表输出
+				List<Map<String, Object>> listData = dao.queryForList(queryString);
+				request.setAttribute(dataTmp.getItems(), listData);
+			}else if("page".equals(dataTmp.getType())){// 分页输出
+				WebParam param = WebParam.get();
+				Page page = dao.findByPage(param.currentPageNo, param.pageSize,queryString);
+				request.setAttribute(dataTmp.getItems(), page);
+
+			}
 			
 			//获取当前栏目
 //			Channel current =  (Channel)request.getAttribute(AppStatic.WEB_CURRENT_CHANNEL);
 //			queryString = queryString.replaceAll("upid", current.getId()+"");
-			List<Map<String, Object>> listData = dao.queryForList(queryString);
-			request.setAttribute(dataTmp.getItems(), listData);
-					 
-			
+
 			
 		}
 		

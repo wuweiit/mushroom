@@ -12,6 +12,8 @@ public class SqlDataSourceImpl extends SqlDataSource {
 
 	/** sql语句 */
 	private String sql;
+
+
 	
 	@Override
 	public void generateSql() {
@@ -37,6 +39,6 @@ public class SqlDataSourceImpl extends SqlDataSource {
 	 */
 	public void setSql(String sql) {
 		this.sql = sql;
-	} 
-	
+	}
+
 }

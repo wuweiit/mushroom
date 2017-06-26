@@ -102,7 +102,7 @@ public class ArticleModelImpl extends ContentModel{
 	 * */
 	public StringBuilder doWebFront(String tableName, SqlDataSource sqlDataSource) {
 		String prefix = dbconfig.getPrefix();// 表前缀，如："yl_" 
-		StringBuilder sql = new StringBuilder("select  M.*,C.name cname, concat('/cms?','type=article','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from" +
+		StringBuilder sql = new StringBuilder("select  M.*,C.name cname, concat('type=article','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from" +
 				" "+prefix+"channel C "
 				+ "right join "+prefix+"article M on M.cid = C.id");
 		 

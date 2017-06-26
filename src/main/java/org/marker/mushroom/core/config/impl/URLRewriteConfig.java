@@ -42,7 +42,7 @@ public class URLRewriteConfig extends ConfigDBEngine {
 	 */
 	public URLRewriteConfig(JdbcTemplate jdbcTemplate) {
 		super(jdbcTemplate);
-		init();
+		init();// 初始化
 	}
 
 

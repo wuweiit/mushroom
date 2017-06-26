@@ -49,7 +49,7 @@ public class CategoryDaoImpl extends DaoEngine implements ICategoryDao {
         sql.append("select c.* from ").append(getPreFix()).append("category c  ")
                 .append(" where c.id in (select distinct cid from "+getPreFix()+"user_group_category where gid = ?) ")
                 .append(" order by c.sort asc") ;
-        return this.jdbcTemplate.query(sql.toString(), new ObjectRowMapper.RowMapperCategory(), userGroupId);
+        return this.jdbcTemplate.query(sql.toString(), new RowMapperCategory(), userGroupId);
     }
 
 

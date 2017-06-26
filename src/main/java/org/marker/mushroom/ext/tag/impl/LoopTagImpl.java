@@ -1,17 +1,27 @@
 package org.marker.mushroom.ext.tag.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.Core;
+import org.marker.mushroom.alias.DAO;
+import org.marker.mushroom.beans.Channel;
+import org.marker.mushroom.core.WebParam;
+import org.marker.mushroom.core.channel.TreeUtils;
 import org.marker.mushroom.core.exception.SystemException;
+import org.marker.mushroom.dao.IChannelDao;
+import org.marker.mushroom.dao.impl.ChannelDaoImpl;
 import org.marker.mushroom.ext.tag.MatchRule;
 import org.marker.mushroom.ext.tag.Taglib;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.template.MyCMSTemplate;
 import org.marker.mushroom.template.tags.res.ObjectDataSourceImpl;
+import org.marker.mushroom.template.tags.res.PageDataSourceImpl;
 
 
 /**
@@ -57,14 +67,14 @@ public class LoopTagImpl extends Taglib{
 		while(m.find()){
 			//处理提取数据.进行持久化操作
 			String text = m.group();
-			String item = m.group(1);// loop内部局部变量对象名称
+			String var = m.group(1);// loop内部局部变量对象名称
 
             int sql_start = text.indexOf(":")+1;
             int sql_end   = text.lastIndexOf("}");
             String text2 = text.substring(sql_start, sql_end);
 
-            if("".equals(item)){// 默认: it
-				item = "it";
+            if("".equals(var)){// 默认: it
+				var = "it";
 			}
 
             Pattern p_a = Pattern.compile("\\w+\\=\\('?\\w*\\x20?\\d*\\w*'?"); // 将给定的正则表达式编译到模式中
@@ -72,9 +82,10 @@ public class LoopTagImpl extends Taglib{
 
 
             //创建数据引擎
-            ObjectDataSourceImpl data = new ObjectDataSourceImpl();
+            PageDataSourceImpl data = new PageDataSourceImpl();
 
 
+            data.setItems("page");// 默认的输出对象
 
             String whereTemp = "";//必须初始化""
             while(m_a.find()){
@@ -82,21 +93,46 @@ public class LoopTagImpl extends Taglib{
                 if("table".equals(field_kv[0])) {
                     data.setTableName(field_kv[1]);
                     continue;
-                }else if("limit".equals(field_kv[0])) {//数据量限制
-                    data.setLimit(field_kv[1]);
+                } else if("items".equals(field_kv[0])) {//数据量限制
+                    data.setItems(field_kv[1]);
                     continue;
-                } else if("order".equals(field_kv[0])){//排序支持
+                }  else if("order".equals(field_kv[0])){//排序支持
                     data.setOrder(field_kv[1]);
                 }else {// Where条件
                     whereTemp += field_kv[0]+"="+field_kv[1]+",";
                 }
             }
-            data.setItems(item);
+            data.setType("page");
+            data.setVar(var);
             data.setWhere(whereTemp);
+
+            // 限制在当前栏目下的数据
+            WebParam param = WebParam.get();
+
+            int cid = param.channel.getId();
+
+            IChannelDao channelDao = SpringContextHolder.getBean(DAO.CHANNEL);
+
+
+            // 计算子节点
+            List<Channel> channelList = channelDao.findAll();
+
+            List<Integer> cidList  = new ArrayList<>();
+            cidList.add(cid);
+            TreeUtils.buildChildIdList(channelList , cidList, cid);
+
+            String cids = StringUtils.join(cidList,",");
+            data.setWhereIn("cid in ("+cids+") ");
+
+
+
+
+
+
 
 
 			// page.data为内容模型中使用的查询
-			String re = "<#list page.data as " + item + ">";
+			String re = "<#list page.data as " + var + ">";
 			
 			content = content.replace(text, re);// 替换采用UUID生成必须的
 

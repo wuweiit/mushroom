@@ -1,0 +1,521 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">新建专题</li>
+			<li class="" onclick="setTabContent(this);">绑定文章</li>
+		</ul>
+
+		<#if Session.userGroupId == 1>
+			<button onclick="submit(this)" class="btn_tabbar submit_it" return="thematic/list.do?currentPageNo=1">发 布</button>
+		</#if>
+		<button onclick="save(this)" class="btn_tabbar submit_it" return="thematic/list.do?currentPageNo=1">保存草稿</button>
+	</div>
+	<form id="myForm" action="thematic/save.do" method="post" onsubmit="return false;">
+	<input id="status" name="status" value="0" type="hidden" />
+        <input id="articleIds" name="articleIds" value="" type="hidden" />
+	<div class="tab_content">
+		<div class="tab_item tab_show"> 
+			<table class="table_for_add">
+				<tbody>
+					<tr class="rowBgColor">
+						<th width="140">所属栏目：</th>
+						<td>
+							专题专栏
+                            <input type="hidden" name="cid" value="142"/>
+						</td>
+					</tr>
+
+					<tr>
+						<th>标题： </th>
+						<td><input id="title" class="input_for_add" name="title" type="text" placeholder="请输入文章标题" /></td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>图标： </th>
+						<td><input id="articleIcon" class="input_for_add" name="icon" type="text" />
+							<button type="button" onclick="uploadImage()">上传图片</button>
+						</td>
+					</tr>
+					<tr>
+						<th>内容类型： </th>
+						<td>
+							<input id="statistics_1" name="type" type="radio" value="0" checked="checked" /><label for="statistics_1">&nbsp;HTML&nbsp; &nbsp;</label>
+							<input id="statistics_2" name="type" type="radio" value="1" /><label for="statistics_2">&nbsp;text/markdown&nbsp; &nbsp;</label>
+		
+							<span class="tip_text">切换类型将会清空内容哦!</span>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+				    	<th>专题介绍：</th>
+						<td></td>
+					</tr> 
+				    <tr>
+						<td colspan="2" >
+							<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
+						</td>
+					</tr>
+					<tr class="rowBgColor">
+						<th>关键字：</th>
+						<td><input id="keywords" class="input_for_add" name="keywords" type="text" /><a onclick="keyword()">自动获取关键字</a></td>
+					</tr>
+					<tr>
+						<th>描述：</th>
+						<td><textarea class="textarea_for_add" name="description"></textarea></td>
+					</tr> 
+					<tr class="rowBgColor">
+						<th>作者：</th>
+						<td><input class="input_for_add" name="author" type="text" value="${loginusername!}" /></td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+
+		<div class="tab_item">
+
+
+			<div class="" style=" min-width:700px; ">
+				<div style="padding-bottom:10px; line-height:40px; vertical-align: top;  overflow: auto;  height: 40px;">
+
+					<select id="statusStr" class="select_for_add" style="width:80px;border-left-width:1px; ">
+						<option value="0,1">全部状态</option>
+						<option value="1">已发布</option>
+						<option value="0">待审核</option>
+					</select>
+					&nbsp;
+					<input id="keyword" class="input_for_add" style="width:180px;border-left-width:1px; "/>
+					<button onclick="queryList();"><i class="fa fa-search"></i></button>
+				</div>
+				<div class="table_content" style="overflow: auto;     border: 1px solid #e5e5e5;">
+					<table class="table_for_list">
+						<thead>
+						<tr>
+							<th width="30" class="quanxuan" ></th>
+							<th>文章名称</th>
+							<th>作者</th>
+							<th>流量</th>
+							<th width="140">创建时间</th>
+							<th width="46">状态</th>
+						</tr>
+						</thead>
+						<tbody id="list-container">
+
+						</tbody>
+					</table>
+
+				</div>
+				<div style="height: 60px;margin-top: 10px;">
+
+
+					<div style="float: right;">
+						每页: <select id="pageSize"  style="height: 27px; width: 50px;" >
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="40">40</option>
+						<option value="60">60</option>
+						<option value="80">80</option>
+						<option value="100">100</option>
+					</select> 条
+
+						<button onclick="prevPage()" title="上一页"><i class="fa fa-step-backward"></i></button>
+						<button onclick="nextPage()" title="下一页"><i class="fa fa-step-forward"></i></button>
+						&nbsp;
+						<input id="currentPageNo" style="height: 25px; width: 50px;text-align: center;" value="1"  /> / <span id="totalPages">12</span>
+						&nbsp;
+						<button onclick="goPage();"  title="GO"><i class="fa fa-arrow-circle-right"></i></button>
+
+					</div>
+				</div>
+
+
+			</div>
+
+
+
+
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+
+//初始化UE编辑器
+$(function(){
+	$("input[name='type']").click(function(){
+ 		editor.execCommand( 'source');
+		if($(this).val() == 1){
+ 	 		editor.setDisabled();
+		}else{ 
+			editor.setEnabled();
+		}
+	 	editor.setContent('');
+	});
+	
+	
+	
+	if(window.editor != null){
+		window.editor.destroy();
+	}
+
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    window.editor = UE.getEditor('mushroomeditor');
+ 	
+ 	window.editor.ready(function(){
+ 		$("#title").focus();
+ 		
+ 		var status = editor.queryCommandState( 'source' );
+ 		if(status != 1){
+ 			
+ 		}
+
+ 		
+ 	});
+ 	 
+});
+
+
+function submit(obj){
+	$("#status").val("1");
+	window.editor.sync();//手动提交需要手动同步编辑器数据
+	
+	submitActionForm(obj); 
+	
+}
+
+
+function save(obj){
+	$("#status").val("0");
+	window.editor.sync();//手动提交需要手动同步编辑器数据
+	
+	submitActionForm(obj); 
+	
+}
+
+ 
+	$('#myForm').validator({
+	    // 传入字段集合
+	    fields: {
+	    	"title": "required" 
+	    }
+	}).on("click", ".submit_it", function(){
+	   // $('#myForm').trigger("submit");
+	    
+	 	window.editor.sync();//手动提交需要手动同步编辑器数据
+		submitActionForm(obj); 
+	    
+	});
+	
+	
+ 
+
+
+
+/**
+ * 关键字获取接口
+ * */
+function keyword(){
+	var title = $("#title").val();
+	var content = window.editor.getContent(); 
+	$.ajax({
+		url:"../keywords.do",
+		type:"POST",
+		data: "title="+title+"&content="+content,
+		dataType:"json",
+		success:function(data){
+			$("#keywords").val(data);
+		}
+	});
+	
+}
+
+
+
+var _editor = UE.getEditor('upload_ue');
+_editor.ready(function () {
+    console.log("ueditor success!")
+    //设置编辑器不可用
+    _editor.setDisabled();
+    //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+    _editor.hide();
+    //侦听图片上传
+    _editor.addListener('beforeInsertImage', function (t, arg) {
+        console.log(arg);
+    })
+    //侦听文件上传
+    _editor.addListener('afterUpfile', function (t, arg) {
+        console.log(arg);
+        $("#articleIcon").attr("value", arg[0].src);
+    })
+});
+
+function uploadImage(){
+    var myImage = _editor.getDialog("insertimage");
+    myImage.open();
+}
+</script>
+
+<#macro categoryTree id node>
+	<#local temp = node + 1 />
+	<#list categorys as x>
+	  	<#if id = x.pid>
+	  	<option value="${x.id?c}"><#list 0..temp as i> &nbsp; &nbsp; </#list>├ ${x.name!}</option>
+	    <@categoryTree id = x.id node=temp/>
+      	</#if>
+	</#list> 
+</#macro>
+
+<#macro channelTree id node>
+	<#local temp = node + 1 />
+	<#list channels as comment>
+		<#if id = comment.pid>
+			<option value="${comment.id?c}"><#list 0..temp as x> &nbsp; &nbsp; </#list>├ ${comment.name!}</option>
+			<@channelTree id = comment.id node=temp/>
+		</#if>
+	</#list>
+</#macro>
+
+
+
+
+<script type="text/javascript">
+    var template;
+    $(function(){
+        queryList();
+        $("#pageSize").change(function(){ queryList();  });
+        $("#statusStr").change(function(){ queryList();  });
+
+        // 加载模板
+        var source   = $("#article-template").html();
+        template = Handlebars.compile(source);
+
+        Date.prototype.format = function(format){
+            var o = {
+                "M+" : this.getMonth()+1, //month
+                "d+" : this.getDate(), //day
+                "h+" : this.getHours(), //hour
+                "m+" : this.getMinutes(), //minute
+                "s+" : this.getSeconds(), //second
+                "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+                "S" : this.getMilliseconds() //millisecond
+            }
+
+            if(/(y+)/.test(format)) {
+                format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+            }
+
+            for(var k in o) {
+                if(new RegExp("("+ k +")").test(format)) {
+                    format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+                }
+            }
+            return format;
+        }
+        // 注册插件
+        Handlebars.registerHelper('dateformat', function() {
+
+
+
+            return new Date(this.time).format("yyyy-MM-dd hh:mm:ss")  ;
+        });
+    });
+
+
+
+    // 查询文章列表
+    function queryList(){
+        var status  = $("#statusStr").val();
+        var keyword = $("#keyword").val();
+        var currentPageNo = $("#currentPageNo").val();
+        var pageSize = $("#pageSize").val();
+        var data = {
+            cid: 0,
+            did: 0,
+            status: status,
+            keyword: keyword,
+            currentPageNo: currentPageNo,
+            pageSize: pageSize
+
+        };
+        $.ajax({
+            url: "article.do",
+            data: data,
+            type: "get",
+            dataType: "json",
+            success: function(json){
+                $("#totalPages").text(json.totalPages);
+                $("#currentPageNo").val(json.currentPageNo);
+                $("#totalPages").text(json.totalPages);
+
+
+                var articles = getArticles();
+
+                $.each(json.data,function(i,o){
+                    $.each(articles, function(j,oo){
+                        if(oo == o.id){
+                            o.selected = true;
+                        }
+                    })
+                });
+
+                var html = template({"data":json.data});
+                $('#list-container').html(html);
+            }
+
+        });
+    }
+
+    // 上一页
+    function prevPage(){
+        var inputPageNo = $("#currentPageNo");
+        var newPageNo = parseInt(inputPageNo.val())-1;
+        if(newPageNo <=0){
+            zoom.showMessageDialog("已经到第一页了！", "消息提示",500);
+        }else{
+            inputPageNo.val(newPageNo);
+            queryList();
+        }
+    }
+
+    // 下一页
+    function nextPage(){
+        var inputPageNo = $("#currentPageNo");
+        var newPageNo = parseInt(inputPageNo.val())+1;
+        var pageSize  = parseInt($("#totalPages").text());
+        if(newPageNo > pageSize){
+            zoom.showMessageDialog("已经到最后一页了！", "消息提示",500);
+        }else{
+            inputPageNo.val(newPageNo);
+            queryList();
+        }
+    }
+
+    // go页码
+    function goPage(){
+        var newPageNo = parseInt($("#currentPageNo").val());
+        var pageSize  = parseInt($("#totalPages").text());
+
+        if(newPageNo <=0){
+            zoom.showMessageDialog("页码应该大于1哦！", "消息提示",500);
+        }else if(newPageNo > pageSize){
+            zoom.showMessageDialog("页码超过最大页数咯！", "消息提示",500);
+        }else if(isNaN(newPageNo)){
+            zoom.showMessageDialog("页码格式不正确哈！", "消息提示",500);
+        }else{
+            queryList();
+        }
+    }
+
+
+
+
+    // 审核文章
+    function auditContent(obj){
+        var action = $(obj).attr("action");
+        var title  = $(obj).attr("title");
+
+        zoom.showConfirmDialog("《"+title+"》<br>审核通过后将网站列表中展示！<br>确定审核通过吗？","消息提示", function(){
+            $.getJSON(action,null,function(data){
+                if(data.status){
+                    queryList();
+                }else{
+                    zoom.showMessageDialog(data.message,"消息提示",1500);
+                }
+                zoom.closeConfirmDialog();
+            });
+        });
+
+
+    }
+
+    function deleteArticleCheck(){
+        var action = "thematic/delete.do";
+        var list = "rid=";
+        var temp;//存放临时id
+        $(":checkbox").each(function(){
+            if($(this).attr("checked")){//被选择
+                temp = $(this).attr("value");
+                list += temp + ",";
+            }
+        });
+        list = list.substr(0,list.length-1);//去掉最后的逗号
+        if(list == "rid"){//判断有没有选择
+            zoom.showMessageDialog("您还没有选择要删除的信息哦!","消息提示", 1500);
+        }else{
+            zoom.showConfirmDialog("确定删除文章吗？","消息提示", function(){
+                $.getJSON(action, list, function(data){
+                    if(data.status){
+                        queryList();
+                    }else{
+                        zoom.showMessageDialog("批量删除失败!<br/>"+data.message,"消息提示", 1500);
+                    }
+                    zoom.closeConfirmDialog();
+                });
+            });
+        }
+
+    }
+
+
+
+
+    $(".table_content ").on('click',".checkbox input",function(){
+
+        var that = this;
+        var articles = getArticles();
+
+        if(that.checked){
+            articles.push(that.value);
+        }else{
+            $.each(articles, function(i, id){
+                if(that.value == id){
+                    articles.shift(i);
+                }
+            });
+        }
+        var ids = articles.join(",");
+        $("#articleIds").val(ids);
+
+    });
+
+
+
+    // 获取文章Id
+    function getArticles(){
+        var idsStr = $("#articleIds").val();
+        return idsStr.split(",");
+    }
+</script>
+
+
+<script id="article-template" type="text/x-handlebars-template">
+    {{#each data}}
+    <tr>
+        <td class="checkbox">
+            {{#if selected}}
+            <input type="checkbox" value="{{id}}" checked />
+            {{else}}
+            <input type="checkbox" value="{{id}}" />
+            {{/if}}
+
+        </td>
+        <td>[{{cname}}] <a href="{{url}}" target="_blank">{{title}}</a></td>
+
+        <td>{{author}}</td>
+        <td>{{views}}</td>
+        <td>{{dateformat time}}</td>
+        <td class="tac">
+            {{#if status}}
+            <b style="color:green;">已发布</b>
+            {{else}}
+            <#if Session.userGroupId == 1>
+                <a action="thematic/audit.do?id={{id}}"
+                   title="{{title}}"
+                   onclick="auditContent(this);" style="cursor: pointer;">[审核]</a>
+                <#else>
+                    <b style="color:#999;">待审核</b>
+            </#if>
+            {{/if}}
+        </td>
+    </tr>
+    {{/each}}
+</script>

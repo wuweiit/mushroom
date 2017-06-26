@@ -1,9 +1,10 @@
 package org.marker.urlrewrite;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
  
@@ -25,18 +26,20 @@ import java.util.regex.Pattern;
  * @date 2013-05-06
  * */
 public final class URLRewriteEngine {
+
+	private Logger logger = LoggerFactory.getLogger(URLRewriteEngine.class);
 	
 	/** 参数正则表达式 */
 	public static final Pattern parameterPattern = Pattern.compile("\\{[a-zA-Z_0-9]+\\}");
 	
 	/** 编码URL时地址纠正使用的正则表达式 */
-	private static final Pattern RIGHT_URL = Pattern.compile("\\w+\\=");
+    public static final Pattern RIGHT_URL = Pattern.compile("\\w+=");
 	
 	/** 规则参数 */
 	public final Map<String,Parameter> ruleParameter = new HashMap<String,Parameter>();
 	
 	/** 维护规则对象 */
-	private final Map<String,RewriteRule> rules = new HashMap<String, RewriteRule>(5);
+	private static Map<String,RewriteRule> rules = new HashMap<>(5);
 	
 	
 
@@ -51,7 +54,6 @@ public final class URLRewriteEngine {
 	
 	/**
 	 * 添加规则参数
-	 * @param Parameter param
 	 * @return Parameter
 	 * */
 	public Parameter put(Parameter param){
@@ -79,13 +81,16 @@ public final class URLRewriteEngine {
 		String inUrl    = "";// 真实访问地址
 		String outRegex = "";// 出站regex
 		String outUrl = new String(urlrule);
+		logger.debug("key:{}",key);
 		int sequence = 1;
+		List<String> paramNames = new ArrayList<>();
 		while(matcher.find()){
 			Parameter param = ruleParameter.get(matcher.group());
 			if(param != null){
 				inUrl += param.getKey() + "=$" + sequence +"&";
 				outRegex  += param.getKey() + "="+param.getRegex()+"&";
 				outUrl = outUrl.replaceAll(Pattern.quote(param.getExpress()), "\\$"+sequence++);
+                paramNames.add(param.getKey());
 			}
 		} 
 		for(String express : ruleParameter.keySet()){
@@ -103,6 +108,8 @@ public final class URLRewriteEngine {
 		Pattern outPattern = Pattern.compile(urlPattern.substring(0, urlPattern.length()-1)+"\\?" + outRegex);
 		 
 		RewriteRule rule = new RewriteRule(inPattern,urlPattern+inUrl, outPattern,outUrl);
+		rule.params = sequence - 1;// 参数个数
+        rule.paramNames = paramNames.toArray(new String[]{});
 //		System.out.println(rule.toString());
 		rules.put(key, rule);
 	}
@@ -132,11 +139,34 @@ public final class URLRewriteEngine {
 	 * 编码(将普通url地址编码为伪静态地址)
 	 * */
 	public String encoder(String url){
-		for(String key : rules.keySet()){
+        String[] sets = rules.keySet().toArray(new String[]{});
+//        Iterator<String> it = sets.iterator();
+        // 获取URL参数个数
+        // 获取URL参数个数
+        int count = StringUtils.countMatches(url,"=");
+
+
+
+        for(int i=0; i<sets.length; i++){
+		    String key = sets[i];
 			RewriteRule rule = rules.get(key);
 			/* URL地址纠正 start */
-			Matcher ma = RIGHT_URL.matcher(rule.outPattern.toString());
+			String outPatternStr = rule.outPattern.toString();
+            int params = rule.params;// 参数个数
+            if(count < params){// 参数个数不相同
+                continue;
+            }else{// count > = params 进行参数校验
+                if(!rule.checkUrl(url)){
+                    continue;
+                }
+            }
+
+
+
+
+			Matcher ma = RIGHT_URL.matcher(outPatternStr);
 			String urla = "";
+			logger.debug("匹配了{}个参数",0);
 			while(ma.find()){
 				String field = ma.group().split("=")[0];
 				int findex = url.indexOf(field);

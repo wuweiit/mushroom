@@ -97,7 +97,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from ").append(getPreFix()).append("channel where pid=? order by sort desc limit 1");
 		try{
-			return this.jdbcTemplate.queryForObject(sql.toString(), new ObjectRowMapper.RowMapperChannel(), pid);
+			return this.jdbcTemplate.queryForObject(sql.toString(), new RowMapperChannel(), pid);
 		}catch(Exception e){
 			logger.error("", e);
 		}
@@ -120,7 +120,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
         StringBuilder sql = new StringBuilder();
         sql.append("select * from ").append(getPreFix()).append("channel where pid=? order by sort desc");
         try{
-            List<Channel> list =  this.jdbcTemplate.query(sql.toString(), new ObjectRowMapper.RowMapperChannel(), deptPid);
+            List<Channel> list =  this.jdbcTemplate.query(sql.toString(), new RowMapperChannel(), deptPid);
 
             list.add(findObjectId(deptPid));
             return list;
@@ -135,7 +135,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 		StringBuilder sql = new StringBuilder();
 		sql.append("select c.* from ").append(getPreFix())
 				.append("channel c ").append(" order by c.sort asc") ;
-		return this.jdbcTemplate.query(sql.toString(), new ObjectRowMapper.RowMapperChannel());
+		return this.jdbcTemplate.query(sql.toString(), new RowMapperChannel());
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 		sql.append("select c.* from ").append(getPreFix()).append("channel c  ")
 				.append(" where c.id in (select distinct cid from "+getPreFix()+"user_group_channel where gid = ?) ")
 				.append(" order by c.sort asc") ;
-		return this.jdbcTemplate.query(sql.toString(), new ObjectRowMapper.RowMapperChannel(), userGroupId);
+		return this.jdbcTemplate.query(sql.toString(), new RowMapperChannel(), userGroupId);
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from ").append(getPreFix()).append("channel where url=? order by sort desc limit 1");
 		try{
-			return this.jdbcTemplate.queryForObject(sql.toString(), new ObjectRowMapper.RowMapperChannel(), pageName);
+			return this.jdbcTemplate.queryForObject(sql.toString(), new RowMapperChannel(), pageName);
 		}catch(Exception e){
 			logger.error("", e);
 		}
@@ -163,7 +163,7 @@ public class ChannelDaoImpl extends DaoEngine implements IChannelDao{
 	public Channel findObjectId(int deptPid){
         StringBuilder sql = new StringBuilder();
         sql.append("select * from ").append(getPreFix()).append("channel where id=? order by sort desc limit 1");
-        return this.jdbcTemplate.queryForObject(sql.toString(), new ObjectRowMapper.RowMapperChannel(), deptPid);
+        return this.jdbcTemplate.queryForObject(sql.toString(), new RowMapperChannel(), deptPid);
     }
 
 }

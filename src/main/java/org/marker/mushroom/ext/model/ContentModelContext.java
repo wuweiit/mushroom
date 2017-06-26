@@ -181,7 +181,9 @@ public class ContentModelContext implements IContentModelParse {
 					request.setAttribute(AppStatic.WEB_CURRENT_CHANNEL, currentChannel);
 					param.template   = currentChannel.getTemplate();//模板
 					param.modelType = "article";//内容模型
-
+					if(142 == currentChannel.getId()){// 专题内容模型
+						param.modelType = "thematic";
+					}
 
 					/*
 					 * 重定向重新定义

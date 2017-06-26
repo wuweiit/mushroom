@@ -3,44 +3,36 @@ package org.marker.mushroom.freemarker;
 import freemarker.core.Environment;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.*;
-import org.marker.develop.freemarker.MessageWrapperModel;
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Channel;
-import org.marker.mushroom.context.ActionContext;
-import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebParam;
-import org.marker.mushroom.core.channel.ChannelItem;
 import org.marker.mushroom.core.channel.NavItem;
 import org.marker.mushroom.core.channel.TreeUtils;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.template.SendDataToView;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 
 /**
- * 通用导航功能实现
+ * 通用二级导航功能实现
  *
- * 将栏目数据通过变量navList 输出。
- * 支持当前活跃栏目
- *
- * 
- * 调用代码： <@Nav items="navList"></@Nav>
+ * 调用代码： <@NavChild items="navList"></@NavChild>
  * 
  * @author marker
  * @version 1.0
  */
-public class NavDirective implements TemplateDirectiveModel{
+public class NavChildDirective implements TemplateDirectiveModel{
 
 
 
 	private IChannelDao channelDao;
 
 
-	public NavDirective() {
+	public NavChildDirective() {
 
 	    channelDao = SpringContextHolder.getBean(DAO.CHANNEL);
 	}
@@ -60,15 +52,27 @@ public class NavDirective implements TemplateDirectiveModel{
         WebParam param = WebParam.get();
         Integer activeId = param.channel.getId();// 当前活动的栏目ID
 
-
-        NavItem root = TreeUtils.build(new Channel(), channelList, activeId);
-        // 网站导航数据输出
-        env.setVariable(itemsName, getBeansWrapper().wrap(root.getChild()));
+        WebParam webParam = WebParam.get();
+        int level = StringUtils.countMatches(webParam.pageName,"/") + 1;// 判断当前为几级栏目
 
 
+        Channel channel = new Channel();
+        // 当前一级页面
+        if(level == 1){
+            channel.setId(webParam.channel.getId());
+            // TODO 此处有冗余查询待优化
+            NavItem root = TreeUtils.build(channel, channelList, activeId);
+            env.setVariable(itemsName, getBeansWrapper().wrap(root.getChild()));
+        }else if(level == 2){// 当前二级页面
+            channel.setId(webParam.channel.getPid());
+            // TODO 此处有冗余查询待优化
+            NavItem root = TreeUtils.build(channel, channelList, activeId);
+            env.setVariable(itemsName, getBeansWrapper().wrap(root.getChild()));
 
+        }else{
+            // TODO 占时不实现三级页面输出。
 
-
+        }
 
         body.render(env.getOut());
 	}

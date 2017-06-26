@@ -42,7 +42,7 @@ public final class WebParam {
 	public String contentId = "0";
 
 	/** 页码（默认为1） */
-	public String page = "1";//页码
+	public String page = "1";//页码contentId
 
 	public int currentPageNo = 1;// 页码
 

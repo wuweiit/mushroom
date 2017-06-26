@@ -97,7 +97,7 @@ public interface ISupportDao {
 	 * @param batchArgs
 	 * @return
 	 */
-	public int[] batchUpdate(String sql,List<Object[]> batchArgs);
+	public int[] batchUpdate(String sql, List<Object[]> batchArgs);
 	
 	public boolean update(String sql, Object... args);
 

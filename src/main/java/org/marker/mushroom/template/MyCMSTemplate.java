@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import freemarker.template.TemplateModelException;
 import org.apache.commons.lang.StringUtils;
 import org.marker.app.utils.ConfigurationHelper;
 import org.marker.mushroom.alias.Core;
@@ -91,10 +92,12 @@ public class MyCMSTemplate {
 
 
 		config.setSharedVariable("Nav",new NavDirective());// 通用导航指令
+		config.setSharedVariable("NavChild",new NavChildDirective());// 通用二级导航指令
+
 
 		config.setSharedVariable("encoder", new FrontURLRewriteMethodModel());//URL重写
 		config.setSharedVariable("plugin", new EmbedDirectiveInvokeTag());// 嵌入式指令插件
-		config.setSharedVariable("page", new PageDirective());// 分页数据 
+		config.setSharedVariable("Page", new PageDirective());// 分页数据
 		try {  
 			config.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
 			config.setDefaultEncoding(encoding);
@@ -118,6 +121,11 @@ public class MyCMSTemplate {
 	 * @throws IOException 
 	 * */
 	public void proxyCompile(String tplFileName) throws SystemException, IOException{
+		try {
+			config.setSharedVariable("req", ActionContext.getReq());
+		} catch (TemplateModelException e) {
+			e.printStackTrace();
+		}
 
 		// 配置了制定的主题路径
 		String themesPath = syscfg.getThemesPath();
