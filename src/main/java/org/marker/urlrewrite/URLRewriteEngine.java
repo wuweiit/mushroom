@@ -166,7 +166,7 @@ public final class URLRewriteEngine {
 
 			Matcher ma = RIGHT_URL.matcher(outPatternStr);
 			String urla = "";
-			logger.debug("匹配了{}个参数",0);
+//			logger.debug("匹配了{}个参数",0);
 			while(ma.find()){
 				String field = ma.group().split("=")[0];
 				int findex = url.indexOf(field);

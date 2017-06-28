@@ -43,6 +43,16 @@
 	</filter-mapping>
 
 
+	<!-- 解决xss漏洞 -->
+	<filter>
+		<filter-name>xssFilter</filter-name>
+		<filter-class>org.marker.mushroom.filter.XSSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>xssFilter</filter-name>
+		<url-pattern>/plugin/guestbook/add</url-pattern>
+	</filter-mapping>
+
 	<!-- Spring Context 配置
 	<filter>
 		<filter-name>springSessionRepositoryFilter</filter-name>

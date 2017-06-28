@@ -1,7 +1,7 @@
 <div class="content">
 	<div class="tab_bar">
 		<ul>
-			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑科室</h3></li>
+			<li class="tab_index" onclick="setTabContent(this);"><h3>编辑分类</h3></li>
 		</ul>
 		<button class="btn_tabbar" onclick="submitForm(this);" return="category/list.do">保 存</button>
 	</div>
@@ -13,10 +13,10 @@
 			<table class="table_for_add">
 				<tbody>
 				   <tr class="rowBgColor">
-						<th width="140">上级菜单：</th>
+						<th width="140">上级分类：</th>
 						<td>
 						<#if category.pid==0>
-							-------- 根级分类 --------
+							-------- 根级 --------
 							<input type="hidden" name="pid" value="0" />
 						<#else>
 							<select id="categorySelect" class="select_for_add" name="pid" onchange="changePid(this)">
@@ -30,15 +30,11 @@
 
 						
 					<tr class="rowBgColor">
-						<th width="140">分类名称：</th>
+						<th width="140">名称：</th>
 						<td><input class="input_for_add" name="name" type="text" value="${category.name!}" /></td>
 						<td><span ></span></td>
 					</tr>
-				    <tr>
-						<th width="140">分类别名：</th>
-						<td><input class="input_for_add" name="alias" type="text" value="${category.alias!}"  /></td>
-						<td><span></span></td>
-					</tr>
+
 
 					<tr class="rowBgColor">
 						<th width="140">分类排序：</th>

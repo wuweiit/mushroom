@@ -119,7 +119,7 @@ public final class WebAPP {
 	/**
 	 * 启动App
 	 * */
-	public void start(){
+	public synchronized void start(){
 		
 		/* ====================================================
 		 *                 检查系统是否安装

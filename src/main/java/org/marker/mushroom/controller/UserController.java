@@ -131,7 +131,7 @@ public class UserController extends SupportController {
 		sql.append(getPrefix()).append("user_group g on u.gid = g.id ");
 		
 		
-		Page page = commonDao.findByPage(currentPageNo, 10, sql.toString());
+		Page page = commonDao.findByPage(currentPageNo, 20, sql.toString());
 		
 		view.addObject("page", page);
 		return view;

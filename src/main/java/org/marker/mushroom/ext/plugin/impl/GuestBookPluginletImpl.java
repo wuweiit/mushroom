@@ -7,8 +7,10 @@ package org.marker.mushroom.ext.plugin.impl;
  * Created by marker on 17/5/19.
  */
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang.StringUtils;
 import org.marker.app.domain.MessageResult;
 import org.marker.mushroom.beans.GuestBook;
+import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.core.SystemStatic;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
@@ -45,7 +47,10 @@ public class GuestBookPluginletImpl extends Pluginlet {
         this.routers = new HashMap<>();
         this.routers.put(" get:/list", "list");
         this.routers.put("post:/add" , "submit");
-        this.routers.put("post:/delete" , "delete");
+        this.routers.put(" get:/delete" , "delete");
+        this.routers.put(" get:/audit" , "audit");
+
+
 
     }
 
@@ -65,7 +70,7 @@ public class GuestBookPluginletImpl extends Pluginlet {
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
 
         String sql = "select * from "+ dbcfg.getPrefix()  +"guestbook order by id desc";
-        request.setAttribute("page",  dao.findByPage(currentPageNo, 5, sql));
+        request.setAttribute("page",  dao.findByPage(currentPageNo, 20, sql));
         return "list.html";
     }
 
@@ -85,7 +90,7 @@ public class GuestBookPluginletImpl extends Pluginlet {
 
         try {
             Writer out = response.getWriter();
-            out.write(JSON.toJSONString(MessageResult.success()));
+            out.write(JSON.toJSONString(new ResultMessage(true,"删除成功!")));
             out.flush();
             out.close();
         } catch (IOException e) {
@@ -103,31 +108,82 @@ public class GuestBookPluginletImpl extends Pluginlet {
         HttpServletRequest request = getServletRequest();
         HttpServletResponse response = getServletResponse();
 
-        String code = request.getParameter("authcode");// 验证码
-        String randauthcode = (String) request.getSession().getAttribute("randauthcode");
+//        String code = request.getParameter("authcode");// 验证码
+//        String randauthcode = (String) request.getSession().getAttribute("randauthcode");
         String ip  = request.getRemoteHost();
         String nicknamea = request.getParameter("nickname");
         String content  = request.getParameter("content");
-        String email    = request.getParameter("email");
+//        String email    = request.getParameter("email");
+
+        String msg = "感谢您的留言，审核通过后显示。";
+        if(StringUtils.isEmpty(nicknamea)){
+            msg = "请填写留言人！";
+            out(response, new ResultMessage(false, msg));
+            return;
+        }
+        if(StringUtils.isEmpty(content)){
+            msg = "请填写留言内容！";
+            out(response, new ResultMessage(false, msg));
+            return;
+        }
 
 
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
 
 
-        String msg = "thanks for you";
-        if(randauthcode != null && randauthcode.toLowerCase().equals(code.toLowerCase())){
-            String sql = "insert into "+dbcfg.getPrefix()+"guestbook(nickname,ip,content,time,email) values(?,?,?,sysdate(),?)";
+//        if(randauthcode != null && randauthcode.toLowerCase().equals(code.toLowerCase())){
+            String sql = "insert into "+dbcfg.getPrefix()+"guestbook(nickname,ip,content,time,status) values(?,?,?,sysdate(),0)";
 
-            Object[] strs = new Object[]{nicknamea,ip,content,email};
+            Object[] strs = new Object[]{nicknamea,ip,content};
             if(!commonDao.update(sql, strs)){
                 msg = "亲，您留言数据无效，已经进行数据回滚";
             }
-        }else{
-            msg = "亲，验证码错了哈";
-        }
+//        }else{
+//            msg = "亲，验证码错了哈";
+//        }
+
+        out(response, new ResultMessage(true, msg));
+    }
+
+
+    private void out(HttpServletResponse response, ResultMessage msg){
         try {
             Writer out = response.getWriter();
-            out.write("{\"status\":\"true\",\"message\":\""+msg+"\"}");
+            out.write(JSON.toJSONString(msg));
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /***
+     * 留言审核
+     */
+    public void audit(){
+        HttpServletRequest request = getServletRequest();
+        HttpServletResponse response = getServletResponse();
+
+        String idStr = request.getParameter("id");// 验证码
+
+
+        int id = Integer.parseInt(idStr);
+
+
+        DataBaseConfig dbcfg = DataBaseConfig.getInstance();
+
+
+        String sql = "update "+dbcfg.getPrefix()+"guestbook set status=1 where id=?";
+        String msg = "审核成功！";
+        Object[] strs = new Object[]{id};
+        if(!commonDao.update(sql, strs)){
+            msg = "审核失败！";
+        }
+
+        try {
+            Writer out = response.getWriter();
+            out.write("{\"status\": true,\"message\":\""+msg+"\"}");
             out.flush();
             out.close();
         } catch (IOException e) {

@@ -1,6 +1,8 @@
 package org.marker.mushroom.dao;
 
 
+import org.marker.mushroom.beans.Doctor;
+
 public interface DoctorDao extends ISupportDao{
 
 
@@ -11,4 +13,8 @@ public interface DoctorDao extends ISupportDao{
      * @return
      */
     boolean updateStatus(Integer id, int status);
+
+    boolean exists(Integer id);
+
+    boolean updateInfo(Doctor doctor);
 }

@@ -13,15 +13,17 @@
 	     &nbsp;
 		 <input id="keyword" class="input_for_add" style="width:180px;border-left-width:1px; "/>
 		 <button onclick="queryList();"><i class="fa fa-search"></i></button>
+		<button class="btn_tabbar"  onclick="syncDoctor(this);">同步医生</button>
 		<button class="btn_tabbar" action="doctor/add.do" onclick="refreshContentByElement(this);">新增</button>
     </div>
 	<div class="table_content" style="overflow: auto;  position: absolute; left:0; right:0; top:45px; bottom:35px; 
 	    border: 1px solid #e5e5e5;">
 		<table class="table_for_list">
 			<thead>
-			   <tr> 
+			   <tr>
 		        <th width="30" class="quanxuan" onclick="allCheck();">全选</th>
-			 	<th>照片</th>
+			    <th>ID</th>
+			 	<th width="120">照片</th>
 		        <th>医生信息</th>
                 <th>描述</th>
 		        <th>访问量</th>
@@ -219,10 +221,25 @@ function auditContent(obj){
             zoom.closeConfirmDialog();
         });
     });
+}
+
+function syncDoctor(obj){
+    $(obj).attr("disable","disable");
+    $.getJSON("doctor/sync.do",null,function(data){
+        if(data.status){
+            zoom.showMessageDialog(data.message,"消息提示",1500);
+
+        }else{
+            zoom.showMessageDialog(data.message,"消息提示",1500);
+        }
+
+        $(obj).removeAttr("disable");
+    });
+
+
 
 
 }
-
 
 
 
@@ -260,6 +277,7 @@ function deleteArticleCheck(){
 {{#each data}}
 <tr>
    <td class="checkbox"><input type="checkbox" value="{{id}}" /></td>
+    <td>{{id}}</td>
     <td style="text-align:center"><a target="_blank" href="{{url}}"><img src="{{icon}}" width="100"/> </a></td>
     <td>
         姓名：<a href="{{url}}" target="_blank">{{name}}</a><br/>

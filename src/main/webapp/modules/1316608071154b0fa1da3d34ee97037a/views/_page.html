@@ -1,6 +1,6 @@
 <#macro guestbookPage currentPage totalPage>
 <#if (totalPage <= 0) || (currentPage > totalPage)><#return></#if>
-	<#local actionUrl = "/plugin/guestbook/list">
+	<#local actionUrl = "/plugin/guestbook/list?">
 	<#local delUrl    = "/plugin/guestbook/delete">
 	
 	

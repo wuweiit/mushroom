@@ -16,9 +16,9 @@
 				<th width="100">IP地址</th>
 				<th width="80">地区</th>
 				<th width="80">昵称</th>
-				<th>邮箱</th>
 				<th width="130">留言时间</th>
-				<th width="40">操作</th>
+                <th width="50">状态</th>
+				<th width="50">操作</th>
 			  </tr>
 			</thead>
 	    	<tbody>
@@ -30,16 +30,48 @@
 					<td>${x.ip!}</td>
 					<td>${x.area!}</td>
 					<td>${x.nickname!}</td>
-					<td>${x.email!}</td>
 					<td><#if x.time?exists>${x.time?string("yyyy-MM-dd HH:mm:ss")}<#else>null</#if></td>
-					<td>
-					<a href="#" action="/plugin/guestbook/delete?rid=${x.id?c}" return="/plugin/guestbook/list?currentPageNo=${page.currentPageNo?c}" onclick="deleteById(this);">删除</a>
+					<td class="tac">
+						<#if x.status == 1>
+							<b style="color:green;">已发布</b>
+						<#else>
+							<a
+								action="/plugin/guestbook/audit?id=${x.id?c}"
+								title="${x.nickname!}"  style="cursor: pointer;"
+								onclick="auditContent(this)">[审核]</a>
+						</#if>
+					</td>
+					<td class="tac">
+					    <a href="#" action="/plugin/guestbook/delete?rid=${x.id?c}"
+                           return="/plugin/guestbook/list?currentPageNo=${page.currentPageNo?c}"
+                           onclick="deleteById(this);">[删除]</a>
+                    </td>
 				</tr>
 			  </#list>
 			</tbody>
 		</table>
+            <#include "_page.html" />
+            <@guestbookPage currentPage=page.currentPageNo totalPage=page.totalPages />
 		</div>
 	</div>
-  <#include "_page.html" />
-  <@guestbookPage currentPage=page.currentPageNo totalPage=page.totalPages />
 </div>
+<script type="text/javascript">
+
+
+    // 审核
+    function auditContent(obj){
+        var action = $(obj).attr("action");
+        var title  = $(obj).attr("title");
+
+        zoom.showConfirmDialog(""+title+"的留言<br>审核通过后将网站列表中展示！<br>确定审核通过吗？","消息提示", function(){
+            $.getJSON(action,null,function(data){
+                if(data.status){
+                    $(obj).parent().html('<b style="color:green;">已发布</b>');
+                }else{
+                    zoom.showMessageDialog(data.message,"消息提示",1500);
+                }
+                zoom.closeConfirmDialog();
+            });
+        });
+    }
+</script>

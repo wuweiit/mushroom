@@ -1,6 +1,7 @@
 package org.marker.mushroom.beans;
  
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,8 @@ public class Page implements Serializable, Cloneable {
 	
 	/** 最后一页的页码 */
 	private int lastPageNo;
-	
+
+	private Date serverTime = new Date();
 	
 	
 	
@@ -207,7 +209,9 @@ public class Page implements Serializable, Cloneable {
 	public boolean getHasPre() {
 		return currentPageNo >1;
 	}
- 
-	
+
+    public Date getServerTime() {
+        return serverTime;
+    }
 
 }

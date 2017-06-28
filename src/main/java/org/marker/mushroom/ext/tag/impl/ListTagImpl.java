@@ -42,9 +42,9 @@ public class ListTagImpl extends Taglib {
 		this.configure(config); 
 	
 	
-		this.put("\\s*<!--\\s*\\{(\\w+):list\\s*table\\=\\((\\w+)\\)\\s*[\\w+\\=\\('?\\w+\\x20?\\d*\\w+'?\\)\\s*]*\\}\\s*-->[\\x20]*\\n?",
+		this.put("[\\x20]*<!--[\\x20]*\\{(\\w+):list[\\x20]*table\\=\\((\\w+)\\)\\s*[\\w+\\=\\('?\\w+\\x20?\\d*\\w+'?\\)[\\x20]*]*\\}[\\x20]*-->[\\x20]*\\n?",
 				"<#list $2 as $1>\n",1);
-		this.put("\\s*<!--\\s*?\\{/list\\}\\s*?-->[\\x20]*\\n?", 
+		this.put("[\\x20]*<!--[\\x20]*\\{/list\\}[\\x20]*-->[\\x20]*\\n?",
 				"</#list>\n", 0);
 	}
 	

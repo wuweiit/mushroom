@@ -32,8 +32,14 @@ public class Doctor implements Serializable {
     private String deptname;
     /** 职称 */
     private String jobname;
+    /** 类型医生 */
+    private String typeName;
     /** 描述 */
     private String description;
+    /** 擅长 */
+    private String goodAt;
+
+
 
     /** 详细描述 */
     private String content;

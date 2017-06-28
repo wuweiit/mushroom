@@ -240,9 +240,13 @@ public abstract class DaoEngine implements ISupportDao {
 		for (int i = 0; i < length; i++) {
 			Field field = fields[i];
 			String fieldName = field.getName();
-			if (fieldName.equals(map.getPrimaryKey())) {// 如果是主键
-				continue;
-			}
+//			if (fieldName.equals(map.getPrimaryKey())) {// 如果是主键
+//				if(){
+//
+//				}
+//
+//				continue;
+//			}
 			if ("serialVersionUID".equals(fieldName)) {
 				continue;
 			}
@@ -289,7 +293,7 @@ public abstract class DaoEngine implements ISupportDao {
 		
 		sql2.append(")").append(val2).append(")"); 
 		KeyHolder holder = new GeneratedKeyHolder();
-		
+
 		
 		this.jdbcTemplate.update(new PreparedStatementCreator() {
 			

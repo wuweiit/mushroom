@@ -50,7 +50,11 @@ public class SignInterceptor implements HandlerInterceptor  {
             str.append(bean.getKey()).append('=').append(bean.getValue()[0]).append("&");
         }
         String time = request.getHeader("time");
+
         String str2 = URLEncoder.encode(str.substring(0,str.length() -1),"UTF-8")+"|time=" + time ;
+//        str2 = str2.replaceAll("%3D","=");
+//        str2 = str2.replaceAll("%26","&");
+
         logger.info("sign param: {}",str2);
 
         if(StringUtils.isEmpty(signClient)){

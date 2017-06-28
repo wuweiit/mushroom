@@ -5,7 +5,7 @@ a{ color: RGB(28,120,135); font-weight: bold;}
 
 
 
-.layout_style_top{background:RGB(38,188,213); }
+.layout_style_top{background:#1ec0ae;; }
 .layout_style_left{ background:RGB(238,241,248); border-right:1px #CCCCCC solid;}
 
 /* (180 * 56）logo样式 */
@@ -42,20 +42,22 @@ a{ color: RGB(28,120,135); font-weight: bold;}
 /*  默认主题样式 */
 
 /* 登录背景 */
-.loginPanelBackground{background:RGB(38,188,213);}
+.loginPanelBackground{
+	background: #1ec0ae;
+}
 /* 登录Label的字体颜色 */
 .table_for_login tr th{ color:#FFF;}
 /* 登录输入框边线颜色 */
 .input_for_login{border:1px #CCCCCC solid;}
 /* 登录消息颜色 */
-.login_for_message{background:RGB(38,188,213);}
+.login_for_message{background:#1ec0ae;;}
 .login_for_messageContent h2{color:#FFF}
 
 
 
 /* 导航文字阴影效果 */
 .font_shadow {
-	text-shadow: 1px 1px 2px #000;
+	text-shadow: 1px 1px 2px #8a8989;
 }
 
 
@@ -76,7 +78,9 @@ a{ color: RGB(28,120,135); font-weight: bold;}
 
 
 /* 按钮颜色 */
-button {background:RGB(28,120,135); color:#FFFFFF;border: none;}
+button {
+	background: #0f8073;
+	color:#FFFFFF;border: none;}
 button:hover{ color:RGB(225,233,220) ; }
 
 /* 隔行渲染颜色 */
@@ -85,5 +89,7 @@ button:hover{ color:RGB(225,233,220) ; }
 
 
 /* diglog窗口颜色 */
-.dialog_style_content{background:RGB(38,188,213);color:#FFF;}
+.dialog_style_content{
+    background:#1ec0ae;
+    color:#FFF;}
  

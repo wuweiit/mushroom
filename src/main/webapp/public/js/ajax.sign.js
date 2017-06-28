@@ -10,7 +10,9 @@ function Ajax(){
      * @param str
      */
     function sign(str, time){
-        var hash = hex_md5(str + "|time=" + time);
+        var enStr = encodeURIComponent(str) + "|time=" + time;
+        console.log(enStr);
+        var hash = hex_md5(enStr);
         var signClient = new Base64().encode(hash);
         return signClient;
     }
@@ -24,6 +26,7 @@ function Ajax(){
         for(var key in options.data) {
             data.push(key+"="+options.data[key]);
         }
+
         var params = data.join("&");
         var time = new Date().getTime();
         var signClient=  sign(params, time);
