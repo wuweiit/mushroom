@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
 
 
 /**
@@ -23,7 +23,7 @@ public class TemplateModel {
 	private List<File> files = new ArrayList<File>(5);
 	
 	/** 解析出的sql集合 */
-	private List<SqlDataSource> sqls = new ArrayList<SqlDataSource>();
+	private List<WebDataSource> sqls = new ArrayList<WebDataSource>();
 	
 	public long getReadModified() {
 		return readModified;
@@ -41,11 +41,11 @@ public class TemplateModel {
 		this.freemarkerTpl = freemarkerTpl;
 	}
 
-	public List<SqlDataSource> getSqls() {
+	public List<WebDataSource> getSqls() {
 		return sqls;
 	}
 
-	public void setSqls(List<SqlDataSource> sqls) {
+	public void setSqls(List<WebDataSource> sqls) {
 		this.sqls = sqls;
 	}
 	

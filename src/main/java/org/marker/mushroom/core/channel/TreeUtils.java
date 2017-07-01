@@ -3,6 +3,7 @@ package org.marker.mushroom.core.channel;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.beans.Category;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
@@ -69,11 +70,20 @@ public class TreeUtils {
         URLRewriteEngine urlrewrite = SingletonProxyFrontURLRewrite.getInstance();
 
 
-        String url = urlrewrite.encoder("/cms?p="+channel.getUrl());
-
-        item.setUrl(url);
-
-
+        // 手动制定的跳转地址（避免闪屏，输出跳转目标）
+        String redirect = channel.getRedirect();
+        if(!StringUtils.isEmpty(redirect)){
+            if(redirect.startsWith("http")){
+                String url = urlrewrite.encoder("/cms?p="+channel.getUrl());
+                item.setUrl(url);
+            }else{
+                String url = urlrewrite.encoder("/cms?p="+redirect);
+                item.setUrl(url);
+            }
+        }else{
+            String url = urlrewrite.encoder("/cms?p="+channel.getUrl());
+            item.setUrl(url);
+        }
         Iterator<Channel> it = channelList.iterator();
         while(it.hasNext()){
             Channel c = it.next();

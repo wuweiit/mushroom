@@ -1,6 +1,5 @@
-package org.marker.app.interceptor;
+package org.marker.mushroom.interceptor;
 
-import org.marker.mushroom.core.AppStatic;
 import org.marker.security.Base64;
 import org.marker.security.MD5;
 import org.slf4j.Logger;
@@ -11,10 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 

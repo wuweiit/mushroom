@@ -11,7 +11,8 @@ import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.ISupportDao;
 import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.urlrewrite.URLRewriteEngine;
 
 
@@ -125,7 +126,7 @@ public abstract class ContentModel{
 	/**
 	 * Web前端生成SQL语句(模板引擎会调用来生成sql语句)
 	 * */
-	public StringBuilder doWebFront(String tableName, SqlDataSource sqlDataSource){
+	public StringBuilder doWebFront(String tableName, WebDataSource WebDataSource){
 		return null;
 	}
 

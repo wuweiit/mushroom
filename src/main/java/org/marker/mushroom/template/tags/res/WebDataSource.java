@@ -7,13 +7,17 @@ import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.ext.model.ContentModelContext;
 
 /**
+ *
+ * 数据源定制
+ *
+ *
  * @author marker
  * @date 2013-9-14 下午6:00:15
  * @version 1.0
  * @blog www.yl-blog.com
  * @weibo http://t.qq.com/wuweiit
  */ 
-public abstract class SqlDataSource {
+public abstract class WebDataSource {
 
 	// 临时对象名称
 	protected String var = "it";
@@ -23,15 +27,17 @@ public abstract class SqlDataSource {
 
 	//request传递的集合名称
 	protected String items;
-	
+
+	// SQL 查询字符串
 	protected String queryString;
 
+	// whereIn数据
 	protected String whereIn;
 	
 	//因为这个是在程序启动后，才有生成这类对象
 	protected ContentModelContext contentModelContext;
 	
-	public SqlDataSource() { 
+	public WebDataSource() {
 		// 初始化模型工厂
 	    if(contentModelContext == null){
 	    	contentModelContext =  ContentModelContext.getInstance(); 

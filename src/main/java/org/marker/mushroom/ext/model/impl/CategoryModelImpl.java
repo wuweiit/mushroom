@@ -17,7 +17,8 @@ import org.marker.mushroom.dao.IModelDao;
 import org.marker.mushroom.ext.model.ContentModel;
 import org.marker.mushroom.ext.model.IContentModelParse;
 import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.urlrewrite.URLRewriteEngine;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,7 +72,7 @@ public class CategoryModelImpl extends ContentModel {
 	 * 前台标签生成SQL遇到该模型则调用模型内算法
 	 * @param tableName 表名称
 	 * */
-	public StringBuilder doWebFront(String tableName, SqlDataSource sqlDataSource) {
+	public StringBuilder doWebFront(String tableName, WebDataSource WebDataSource) {
 		String prefix = dbconfig.getPrefix();// 表前缀，如："yl_"
 		StringBuilder sql = new StringBuilder("select  M.*, concat('/cms?','type=category','&id=',CAST(M.id as char)) url from "+prefix+"category M ");
 

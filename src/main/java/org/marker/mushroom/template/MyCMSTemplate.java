@@ -27,7 +27,7 @@ import org.marker.mushroom.ext.tag.TaglibContext;
 import org.marker.mushroom.freemarker.*;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
-import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.mushroom.utils.FileTools;
 import org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel;
 import org.slf4j.Logger;
@@ -72,7 +72,7 @@ public class MyCMSTemplate {
 	private SystemConfig syscfg;
 
 	// 临时存储sql数据引擎
-	public List<SqlDataSource> temp;
+	public List<WebDataSource> temp;
 	
 	// 存放模版读取时间，为是否更新JSP提供依据
 	private Map<String, TemplateFileLoad> tplCache = Collections.synchronizedMap(new HashMap<String, TemplateFileLoad>());
@@ -98,6 +98,7 @@ public class MyCMSTemplate {
 		config.setSharedVariable("encoder", new FrontURLRewriteMethodModel());//URL重写
 		config.setSharedVariable("plugin", new EmbedDirectiveInvokeTag());// 嵌入式指令插件
 		config.setSharedVariable("Page", new PageDirective());// 分页数据
+
 		try {  
 			config.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
 			config.setDefaultEncoding(encoding);
@@ -124,7 +125,7 @@ public class MyCMSTemplate {
 		try {
 			config.setSharedVariable("req", ActionContext.getReq());
 		} catch (TemplateModelException e) {
-			e.printStackTrace();
+			logger.error("", e);
 		}
 
 		// 配置了制定的主题路径
@@ -189,7 +190,7 @@ public class MyCMSTemplate {
 		
 		// 创建一个StringBuffer
 		String sbc = prefix + tplloader.getContent();
-		this.temp = new ArrayList<SqlDataSource>();// 创建此模板页面的数据池
+		this.temp = new ArrayList< >();// 创建此模板页面的数据池
 		sbc = replaceTaglib(sbc);// 全部标签解析
 
 
@@ -244,7 +245,7 @@ public class MyCMSTemplate {
 	 *
 	 * @throws SystemException 
 	 * */
-	public void put(SqlDataSource sqlDs) throws SystemException {
+	public void put(WebDataSource sqlDs) throws SystemException {
 		sqlDs.generateSql();//生成SQL语句
 		if(null != temp) temp.add(sqlDs);
 	}
@@ -255,7 +256,7 @@ public class MyCMSTemplate {
 	 * 获取数据引擎集合
 	 * @return Map<String,SQLDataEngine> 集合
 	 * */
-	public List<SqlDataSource> getData(String tpl){
+	public List<WebDataSource> getData(String tpl){
 		if(tplCache.containsKey(tpl)){
 			return tplCache.get(tpl).getSqls();
 		}

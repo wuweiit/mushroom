@@ -46,19 +46,6 @@
 						<td><input class="input_for_add" name="sql.pass" type="text" value="${sql['mushroom.db.pass']!}" /></td>
 						<td><span id="name_status"></span></td>
 					</tr>
-					<tr>
-						<th>调试模式：</th>
-						<td>
-							<#if sql['mushroom.db.debug'] == 'true'>
-							<input name="sql.debug" type="radio" value="true" checked="checked" />&nbsp;是&nbsp; &nbsp;
-							<input name="sql.debug" type="radio" value="false" />&nbsp;否
-							<#else>
-							<input name="sql.debug" type="radio" value="true" />&nbsp;是&nbsp; &nbsp;
-							<input name="sql.debug" type="radio" value="false" checked="checked" />&nbsp;否
-							</#if>
-						 </td>
-						<td><span id="name_status"></span></td>
-					</tr>
 				</tbody>
 			</table>
 		</div> 

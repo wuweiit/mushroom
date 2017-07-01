@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
  * 通过模板引擎解析得到的数据对象
  * @author marker
  * */
-public final class ObjectDataSourceImpl extends SqlDataSource{
+public final class ObjectDataSourceImpl extends WebDataSource{
 
 	//数据库表名称
 	private String tableName;

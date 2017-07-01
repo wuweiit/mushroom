@@ -63,12 +63,22 @@ public class ThemesResourceFilter implements Filter {
         SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
 
         setHeaders((HttpServletResponse) resp, getMediaType(servletContext, uri));
-        String themesPath = syscfg.getFilePath();
+        String themesPath = syscfg.getThemesPath();
         String file = "";
         if(uri.startsWith("/themes")){
-              file  = themesPath + uri;
+            if(org.apache.commons.lang.StringUtils.isEmpty(themesPath)){
+                chain.doFilter(req, resp);
+                return;
+            }else{
+                file  = themesPath + uri.replaceAll("/themes","");
+            }
         }else if(uri.startsWith("/upload")){
-            file  = syscfg.getFilePath() + uri;
+            if(org.apache.commons.lang.StringUtils.isEmpty(syscfg.getFilePath()) ){
+                chain.doFilter(req, resp);
+                return;
+            }else{
+                file  = syscfg.getFilePath() + uri;
+            }
         }
 
         File fileInfo = new File(file);

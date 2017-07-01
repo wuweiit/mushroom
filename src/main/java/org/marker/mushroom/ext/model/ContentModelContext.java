@@ -24,7 +24,8 @@ import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.IModelDao;
 import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.urlrewrite.URLRewriteEngine;
 
 
@@ -243,12 +244,12 @@ public class ContentModelContext implements IContentModelParse {
 	 * 这里有点问题，不能是tableName
 	 */
 	@Override
-	public StringBuilder parse(String tableName, SqlDataSource sqldatasource) throws SystemException {
+	public StringBuilder parse(String tableName, WebDataSource WebDataSource) throws SystemException {
 	 
 		//当type=null的时候应该获取栏目的模型，然后进行处理
 		ContentModel mod = contentModels.get(tableName);//获取模型
 		if(mod != null){
-			return mod.doWebFront(tableName, sqldatasource);
+			return mod.doWebFront(tableName, WebDataSource);
 		}
 		return null; 
 	}

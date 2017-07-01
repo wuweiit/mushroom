@@ -1,11 +1,22 @@
 /**
- * 
+ * The GNU GPL is the most widely used free software license and
+ * has a strong copyleft requirement. When distributing derived works,
+ * the source code of the work must be made available under the same
+ * license. There are multiple variants of the GNU GPL, each with
+ * different requirements.
+ *
+ *     https://choosealicense.com/licenses/gpl-2.0/#
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.marker.mushroom.ext.tag.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.regex.Matcher;
 
 import org.marker.mushroom.alias.Core;
@@ -15,16 +26,20 @@ import org.marker.mushroom.ext.tag.TagUtils;
 import org.marker.mushroom.ext.tag.Taglib;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.template.MyCMSTemplate;
-import org.marker.mushroom.template.tags.res.SqlDataSource;
-import org.marker.mushroom.template.tags.res.SqlDataSourceImpl;
+import org.marker.mushroom.template.tags.res.SQLDataSourceImpl;
 
 /**
- * SQL处理
+ * 执行SQL语句标签：
+ * <p>
+ *     <!--{c:list sql=(select a.* from mr_article a  limit 7)}-->
+ *         ${c.title!} - ${c.time format=(yyyy-MM-dd)}
+ *     <!--{/list}-->
+ * </p>
+ *
  *
  *
  *
  * @author marker
- * @date 2013-9-14 下午1:13:28
  * @version 1.0
  * @blog www.yl-blog.com
  * @weibo http://t.qq.com/wuweiit
@@ -61,7 +76,7 @@ public class SqlExecuteTagImpl extends Taglib {
 			int sql_end   = text.lastIndexOf(")");
 			String sql = text.substring(sql_start, sql_end);
 
-            SqlDataSourceImpl datasource = new SqlDataSourceImpl();
+			SQLDataSourceImpl datasource = new SQLDataSourceImpl();
 			
 			//创建数据引擎 
 			int left_start = text.indexOf("{")+1;

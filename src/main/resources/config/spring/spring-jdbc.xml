@@ -27,7 +27,7 @@
     <!--  druid数据源   -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="${mushroom.db.driver}" />
-        <property name="url" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}" />
+        <property name="url" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}&amp;autoReconnect=true" />
         <property name="username" value="${mushroom.db.user}" />
         <property name="password" value="${mushroom.db.pass}" />
         <!-- druid 连接池的 -->
@@ -38,6 +38,21 @@
         <property name="initialSize" value="${mushroom.druid.initialSize}" />
         <!-- 这里配置提交方式，默认就是TRUE，可以不用配置 -->
         <property name="defaultAutoCommit" value="true" />
+
+        <!-- 默认值是 true ，当从连接池取连接时，验证这个连接是否有效 -->
+        <property name="testOnBorrow" value="true" />
+        <!-- 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串 -->
+        <property name="testWhileIdle" value="true" />
+        <!-- 默认值是 flase, 当从把该连接放回到连接池的时，验证这个连接是否有效 -->
+        <property name="testOnReturn" value="true" />
+        <!--用来验证从连接池取出的连接,在将连接返回给调用者之前.如果指定,则查询必须是一个SQL SELECT并且必须返回至少一行记录-->
+        <property name="validationQuery" value="SELECT 'x'" />
+        <!-- 连接池中连接可空闲的时间 单位毫秒 30分钟 -->
+        <property name="minEvictableIdleTimeMillis" value="1800000" />
+        <property name="removeAbandoned" value="true" />
+        <property name="removeAbandonedTimeout" value="10000" />
+        <!-- 间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒，10分钟 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
     </bean>
 
     <!-- JDBC模板操作对向 -->

@@ -3,6 +3,9 @@ MRCMS
 
 作者：marker
 
+开源协议：GPL
+https://choosealicense.com/licenses/gpl-2.0/
+
 博客：www.yl-blog.com
 
 MRCMS 是一款Java开发的内容管理系统，采用数据模型+模板+插件实现，内置提供了文章模型发布功能。

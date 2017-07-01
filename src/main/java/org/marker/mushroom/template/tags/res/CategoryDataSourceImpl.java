@@ -8,7 +8,7 @@ import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.service.impl.CategoryService;
 import org.springframework.util.StringUtils;
 
-public class CategoryDataSourceImpl extends SqlDataSource {
+public class CategoryDataSourceImpl extends WebDataSource {
 
 	
 	private int id;

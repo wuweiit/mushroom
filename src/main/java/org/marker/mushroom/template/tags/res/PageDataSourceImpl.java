@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
  *
  * @author marker
  * */
-public final class PageDataSourceImpl extends SqlDataSource{
+public final class PageDataSourceImpl extends WebDataSource{
 
 	//数据库表名称
 	private String tableName;

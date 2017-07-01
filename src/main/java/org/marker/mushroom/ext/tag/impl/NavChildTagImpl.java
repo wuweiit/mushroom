@@ -1,3 +1,18 @@
+/**
+ * The GNU GPL is the most widely used free software license and
+ * has a strong copyleft requirement. When distributing derived works,
+ * the source code of the work must be made available under the same
+ * license. There are multiple variants of the GNU GPL, each with
+ * different requirements.
+ *
+ *     https://choosealicense.com/licenses/gpl-2.0/#
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.marker.mushroom.ext.tag.impl;
 
 import org.marker.mushroom.alias.Core;
@@ -8,7 +23,7 @@ import org.marker.mushroom.ext.tag.MatchRule;
 import org.marker.mushroom.ext.tag.Taglib;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.template.MyCMSTemplate;
-import org.marker.mushroom.template.tags.res.SqlDataSourceImpl;
+import org.marker.mushroom.template.tags.res.SQLDataSourceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +80,7 @@ public class NavChildTagImpl extends Taglib {
 
 			int left_start = text.indexOf("{")+1;
 			//创建数据引擎
-			SqlDataSourceImpl data = new SqlDataSourceImpl();
+			SQLDataSourceImpl data = new SQLDataSourceImpl();
 			
 			String var = text.substring(left_start, sql_start-1);
 			 

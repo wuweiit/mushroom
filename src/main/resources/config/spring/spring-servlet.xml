@@ -65,16 +65,12 @@
 
 	<mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-        <bean class="org.marker.app.interceptor.RequestParamsInterceptor"></bean>
+        <bean class="org.marker.mushroom.interceptor.RequestParamsInterceptor"></bean>
 		<mvc:interceptor>
 			<mvc:mapping path="/api/**" />
-			<bean class="org.marker.app.interceptor.SignInterceptor"></bean>
+			<bean class="org.marker.mushroom.interceptor.SignInterceptor"></bean>
 		</mvc:interceptor>
 
-        <mvc:interceptor>
-			<mvc:mapping path="/api/user/update.do" />
-			<bean class="org.marker.app.interceptor.LoginInterceptor"></bean>
-        </mvc:interceptor>
 
 
 

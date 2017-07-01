@@ -30,7 +30,7 @@ import org.marker.mushroom.ext.message.MessageContext;
 import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
-import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.mushroom.utils.HttpUtils;
 import org.marker.mushroom.utils.WebUtils;
 import org.slf4j.Logger;
@@ -107,9 +107,9 @@ public class SendDataToView {
 		//需要使用的组件准备就绪
 		ISupportDao dao = SpringContextHolder.getBean(DAO.COMMON);
 		
-		List<SqlDataSource> list = engine.getData(tpl);
+		List<WebDataSource> list = engine.getData(tpl);
 		
-		for(SqlDataSource dataTmp : list){// 一个一个的数据提取策略
+		for(WebDataSource dataTmp : list){// 一个一个的数据提取策略
 			if(dataTmp == null) continue;
 		 
 			String queryString = dataTmp.getQueryString();

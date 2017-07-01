@@ -6,7 +6,7 @@ import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.ext.model.ContentModel;
-import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -98,7 +98,7 @@ public class ThematicModelImpl extends ContentModel {
      * 前台标签生成SQL遇到该模型则调用模型内算法
      * @param tableName 表名称
      * */
-    public StringBuilder doWebFront(String tableName, SqlDataSource sqlDataSource) {
+    public StringBuilder doWebFront(String tableName, WebDataSource WebDataSource) {
         String prefix = dbconfig.getPrefix();// 表前缀，如："yl_"
         StringBuilder sql = new StringBuilder("select  M.*,C.name cname, concat('/cms?','type=thematic','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from" +
                 " "+prefix+"channel C "

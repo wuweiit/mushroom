@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.marker.mushroom.template.tags.res.SqlDataSource;
-
+import love.cq.util.IOUtil;
+import org.marker.mushroom.template.tags.res.WebDataSource;
+import redis.clients.util.IOUtils;
 
 
 /**
@@ -23,7 +24,7 @@ import org.marker.mushroom.template.tags.res.SqlDataSource;
 public class TemplateFileLoad {
 	
 	//包含模板匹配模式
-	private static final Pattern includeTagPattern = Pattern.compile("<!--\\s*#include\\s+file=[\"\'](.+)+[\'\"]\\s*-->");
+	private static final Pattern includeTagPattern = Pattern.compile("<!--\\x20*#include\\x20+file=[\"\'](.+)+[\'\"]\\x20*-->");
 	
 	
 	// 若要做递归调用，只有一行一行的读取，这样
@@ -42,7 +43,7 @@ public class TemplateFileLoad {
 	private List<File> files = new ArrayList<File>(5);
 	
 	/** 解析出的sql集合 */
-	private List<SqlDataSource> sqls = new ArrayList<SqlDataSource>();
+	private List<WebDataSource> sqls = new ArrayList<WebDataSource>();
 	
 	
 	
@@ -65,6 +66,8 @@ public class TemplateFileLoad {
 	 */
 	private void load(File tplFile) throws IOException{
 		files.add(tplFile);// 加入模板文件维护集合
+
+
 		FileInputStream   __fis = new FileInputStream(tplFile);//文件字节流
 		InputStreamReader __isr = new InputStreamReader(__fis, FILE_CHARACTER_UTF8);//字节流和字符流的桥梁，可以指定指定字符格式
 		BufferedReader    __br  = new BufferedReader(__isr);
@@ -133,13 +136,13 @@ public class TemplateFileLoad {
 
 
 
-	public List<SqlDataSource> getSqls() {
+	public List<WebDataSource> getSqls() {
 		return sqls;
 	}
 
 
 
-	public void setSqls(List<SqlDataSource> sqls) {
+	public void setSqls(List<WebDataSource> sqls) {
 		this.sqls = sqls;
 	}
  

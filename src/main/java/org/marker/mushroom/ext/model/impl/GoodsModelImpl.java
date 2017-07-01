@@ -6,7 +6,7 @@ import java.util.Map;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.ext.model.ContentModel;
-import org.marker.mushroom.template.tags.res.SqlDataSource;
+import org.marker.mushroom.template.tags.res.WebDataSource;
 
 
 
@@ -37,7 +37,7 @@ public class GoodsModelImpl extends ContentModel {
 	 * 前台标签生成SQL遇到该模型则调用模型内算法
 	 * @param tableName 表名称
 	 * */
-	public StringBuilder doWebFront(String tableName, SqlDataSource sqlDataSource) {
+	public StringBuilder doWebFront(String tableName, WebDataSource WebDataSource) {
 //		String prefix = getPrefix();// 表前缀，如："yl_"
 //		StringBuilder sql = new StringBuilder();
 //		sql.append("select A.*, concat('p=',A.url) 'url' from ");
