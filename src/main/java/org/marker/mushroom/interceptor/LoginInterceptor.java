@@ -1,12 +1,15 @@
 package org.marker.mushroom.interceptor;
 
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.marker.mushroom.core.AppStatic;
+import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginInterceptor implements HandlerInterceptor  {
 
 
+
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
@@ -30,9 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor  {
 		String username = (String)session.getAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME);
 		if(username != null){
 			return true;
-		}else{ 
-			// 可以判断页面类型，有的请求 
-			
+		}else{
 			PrintWriter out = response.getWriter();
 			String accept = request.getHeader("accept"); 
 			

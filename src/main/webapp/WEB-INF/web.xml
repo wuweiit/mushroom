@@ -218,9 +218,12 @@
 	<session-config>
 		<session-timeout>31440</session-timeout>
 	</session-config>
-	
-	
-	
+
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/public/errorpage/404.htm</location>
+	</error-page>
 	
 
   

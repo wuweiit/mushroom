@@ -1,5 +1,6 @@
 package org.marker.mushroom.controller;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.ServletContext;
@@ -13,6 +14,7 @@ import org.marker.mushroom.beans.User;
 import org.marker.mushroom.beans.UserLoginLog;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebAPP;
+import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.dao.IMenuDao;
 import org.marker.mushroom.dao.IUserDao;
 import org.marker.mushroom.dao.IUserLoginLogDao;
@@ -24,11 +26,9 @@ import org.marker.qqwryip.IPTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -49,6 +49,9 @@ public class AdminController extends SupportController {
 	@Autowired IUserLoginLogDao userLoginLogDao;
 	@Autowired IMenuDao menuDao;
 	@Autowired ServletContext application;
+
+	@Autowired @Qualifier("systemConfig")
+	SystemConfig systemConfig;
 	
 	/** 构造方法初始化一些成员变量 */
 	public AdminController() {
@@ -109,12 +112,26 @@ public class AdminController extends SupportController {
 	 * @return
 	 */
 	@RequestMapping("/login")
-	public String login(HttpServletRequest request){
+	public String login(
+			@RequestParam(value = "safe", defaultValue = "") String safe,
+			HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
 		// 如果没有安装系统
 		if(!WebAPP.install)
-			return "redirect:../install/index.jsp"; 
-		
-		request.setAttribute("url", HttpUtils.getRequestURL(request)); 
+			return "redirect:../install/index.jsp";
+
+
+
+        request.setAttribute("url", HttpUtils.getRequestURL(request));
+
+
+
+        String systemLoginSafe = systemConfig.getLoginSafe();
+
+		if(!systemLoginSafe.equals(safe)){// 验证登录路径
+            return this.viewPath + "404";
+		}
+
 		
 		HttpSession session = request.getSession(false);
 		if(session != null){
@@ -224,7 +241,12 @@ public class AdminController extends SupportController {
 	public String logout(HttpServletRequest request, HttpServletResponse response){
 		HttpSession session = request.getSession(false);
 		if(session != null) session.invalidate();
-		return "redirect:login.do";
+
+
+        String systemLoginSafe = systemConfig.getLoginSafe();
+
+
+        return "redirect:login.do?safe="+systemLoginSafe;
 	}
 	
 	

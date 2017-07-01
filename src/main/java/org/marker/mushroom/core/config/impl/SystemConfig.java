@@ -51,6 +51,8 @@ public final class SystemConfig extends ConfigDBEngine {
 
 	// 文件存储路径
 	public static final String FILE_PATH = "file_path";
+	// 登录路径配置
+	public static final String SYSTEM_LOGIN_SAFE = "system.login.safe";
 	
 	
 
@@ -177,4 +179,12 @@ public final class SystemConfig extends ConfigDBEngine {
 		return this.properties.getProperty(THEMES_ACTIVE,"default");
 	}
 
+
+	/**
+	 * 获取安全登录码
+	 * @return
+	 */
+	public String getLoginSafe(){
+		return this.properties.getProperty(SYSTEM_LOGIN_SAFE,"");
+	}
 }
