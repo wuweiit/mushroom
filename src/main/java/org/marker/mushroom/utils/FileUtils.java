@@ -10,7 +10,6 @@ public class FileUtils {
 	
 	/**
 	 * 顺序读取模板引擎的标签配置信息
-	 * @param filePath 配置路径
 	 * @param read
 	 * @param character
 	 * @throws Exception
@@ -26,4 +25,10 @@ public class FileUtils {
 		}
 		__br.close();__isr.close(); __fis.close();
 	}
+
+
+
+
+
+
 }

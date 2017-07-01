@@ -24,13 +24,13 @@ import redis.clients.util.IOUtils;
 public class TemplateFileLoad {
 	
 	//包含模板匹配模式
-	private static final Pattern includeTagPattern = Pattern.compile("<!--\\x20*#include\\x20+file=[\"\'](.+)+[\'\"]\\x20*-->");
+	private static final Pattern includeTagPattern = Pattern.compile("<!--\\x20*#include\\x20+file=[\"\'](.+)[\'\"]\\x20*-->");
 	
 	
 	// 若要做递归调用，只有一行一行的读取，这样
 			
 	// 加载的内容 	
-	private StringBuffer content = new StringBuffer();
+	private StringBuilder content = new StringBuilder();
 	 
 	/** 文本文件UTF-8编码 */
 	public static final String FILE_CHARACTER_UTF8 = "UTF-8";
@@ -99,16 +99,16 @@ public class TemplateFileLoad {
 	
 	
 	/**
-	 * 
+	 * 查找匹配模板导入的代码，进行模板导入
 	 * @param linedata
 	 */
 	private File compre(File currentFile, String linedata){
 		Matcher matcher = includeTagPattern.matcher(linedata);
 		while(matcher.find()){// 找到两个
-    		String text = matcher.group();
-    		int a = text.indexOf("\"") + 1, b = text.indexOf("\"", a);
-    		String childTemplateFileName = text.substring(a, b);
-    		File childFile = new File(currentFile.getParent() +File.separator+ childTemplateFileName);//模版文件 
+    		String text = matcher.group(1);
+    		StringBuilder filePath = new StringBuilder(currentFile.getParent());
+    		filePath.append(File.separator).append(text);
+    		File childFile = new File(filePath.toString());//模版文件
 			return childFile; 
 		}
 		return null; 
@@ -133,6 +133,13 @@ public class TemplateFileLoad {
 	public String getContent() {
 		return content.toString();
 	}
+    /**
+     * 获取文件内容buffer
+     * @return
+     */
+    public StringBuilder getContentBuffer() {
+        return content;
+    }
 
 
 

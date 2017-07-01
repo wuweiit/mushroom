@@ -11,8 +11,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.*;
 
 import freemarker.template.TemplateModelException;
+import love.cq.util.IOUtil;
 import org.apache.commons.lang.StringUtils;
 import org.marker.app.utils.ConfigurationHelper;
 import org.marker.mushroom.alias.Core;
@@ -29,6 +31,7 @@ import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.mushroom.utils.FileTools;
+import org.marker.mushroom.utils.FileUtils;
 import org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -180,36 +183,66 @@ public class MyCMSTemplate {
 			throw new FileNotFoundException(tplFileName);
 		}
 
-        String themesPath = syscfg.getThemesPath();
-		StringBuilder tplFilePath = new StringBuilder(themesPath );
-		tplFilePath.append(File.separator).append("common").append(File.separator).append("function.ftl");
-		
-		File f = new File(tplFilePath.toString());
-		String prefix = FileTools.getFileContet(f, FileTools.FILE_CHARACTER_UTF8);
+        String themesPath = syscfg.getThemesPath();// 主题文件夹
+
+
+
+
+        StringBuilder templateContent = tplloader.getContentBuffer();
+
+
+        // 通用函数（freemarker宏）头部
+		StringBuilder tplFilePath = new StringBuilder(themesPath )
+                .append(File.separator).append("common").append(File.separator).append("function.ftl");
+
+		File functionFile = new File(tplFilePath.toString());
+		if(functionFile.exists()){
+            String functionTemplateString = FileTools.getFileContet(functionFile, FileTools.FILE_CHARACTER_UTF8);
+            // 插入到头部
+            templateContent.insert(0,functionTemplateString);
+        }
 		
 		
 		// 创建一个StringBuffer
-		String sbc = prefix + tplloader.getContent();
 		this.temp = new ArrayList< >();// 创建此模板页面的数据池
-		sbc = replaceTaglib(sbc);// 全部标签解析
+		String sbc = replaceTaglib(templateContent.toString());// 全部标签解析
 
 
+        // 开发模式输出模板内容到目录里
         if(syscfg.isdevMode()){
-            System.out.println("=================【输出Freemarker模板】==================");
-            System.out.println(sbc);
-            System.out.println("=================【输出Freemarker模板 结束】==================");
+            String themesCache = syscfg.getThemesCache();
+            File file = new File(WebRealPathHolder.REAL_PATH + themesCache + File.separator+tplFileName);
+            if(!file.exists()){
+                file.getParentFile().mkdirs();
+            }
+            FileTools.setFileContet(file, sbc, FileTools.FILE_CHARACTER_UTF8);
         }
 
 		if(syscfg.isStatistics()){
 			HttpServletRequest request = ActionContext.getReq();
 			String appurl = (String) request.getAttribute(AppStatic.WEB_APP_URL);
 			sbc += "<script type=\"text/javascript\" src=\""+appurl+"/public/fetch/main.js\"></script>";
-		} 
-		tplloader.setSqls(temp);// 设置SQL集合
-		 
-		if(syscfg.isCompress()){ // 是否开启压缩
-			sbc = "<@compress single_line=true>"+sbc+"</@compress>";
 		}
+
+
+        if(syscfg.isCompress()){ // 是否开启压缩
+            sbc = "<@compress single_line=true>"+sbc+"</@compress>";
+        }
+
+
+        /** 版权注入 */
+        String copyright = "<div style=\"text-align:center;\">Powered by <a name=baidusnap0></a><a href=\"http://cms.yl-blog.com\"><B style='color:black;background-color:#ffff66'>MRCMS</B></a> &copy; 2013-2017 <a href=\"http://cms.yl-blog.com\"><B style='color:black;background-color:#ffff66'>MRCMS</B></a> Inc.</div>\n";
+
+
+        HttpServletRequest request = ActionContext.getReq();
+        String userAgent = request.getHeader("User-Agent");
+        if(!StringUtils.isEmpty(userAgent) && userAgent.indexOf("Baiduspider") != -1){
+            sbc += copyright;
+        }
+
+
+		tplloader.setSqls(temp);// 设置SQL集合
+
 		
 		// 向模板加载器中写入模板信息 
 		loader.putTemplate(tplFileName, sbc);

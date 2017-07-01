@@ -1,11 +1,8 @@
 package org.marker.mushroom.core.config.impl;
 
-import java.io.File;
-import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.config.ConfigDBEngine;
-import org.marker.mushroom.core.config.ConfigEngine;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,7 +26,10 @@ public final class SystemConfig extends ConfigDBEngine {
 	public static final String THEMES_PATH = "themes_path";
 
 	// 当前使用的主题
-	public  static  final  String THEMES_ACTIVE = "themes_active";
+	public static  final  String THEMES_ACTIVE = "themes_active";
+
+	/** 主题缓存目录 */
+	public static final String THEMES_CACHE = "themes_cache";
 	
 	// 是否开启动态HTML的GZIP
 	public static final String GZIP = "gzip";
@@ -187,4 +187,12 @@ public final class SystemConfig extends ConfigDBEngine {
 	public String getLoginSafe(){
 		return this.properties.getProperty(SYSTEM_LOGIN_SAFE,"");
 	}
+
+    /**
+     * 获取主题缓存目录
+     * @return
+     */
+    public String getThemesCache(){
+        return this.properties.getProperty(THEMES_CACHE,"/data/tmp");
+    }
 }
