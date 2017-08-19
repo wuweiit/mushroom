@@ -3,14 +3,25 @@
 <head>
 	<meta charset="utf-8">
 	<title><@spring.message "admin.system.title"/></title>
+
+
+
+
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap-switch/css/bootstrap2/bootstrap-switch.css" />
     <link rel="stylesheet" type="text/css" href="lib/ztree/css/zTreeStyle/zTreeStyle.css" />
+
+
+
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/swiss.css" />
     <link rel="stylesheet" type="text/css" href="css/jquery.validator.css" />
     <link id="theme" rel="stylesheet" type="text/css" href="css/themes/default.css" />
     <link rel="stylesheet" href="${url!}/public/datepicker/css/datepicker.css" type="text/css" />
     <link rel="stylesheet" href="${url!}/public/datepicker/css/layout.css" media="screen" type="text/css" />
+
+
     <script type="text/javascript">
      window.UEDITOR_HOME_URL = "${url}/public/ueditor/";
      window.BASE_URL = '${url}';
@@ -50,10 +61,10 @@
 </div>
 <div id="bread_crumb" class="pa">
 	<ul class="bread_crumb_menu">
-		<li><i class="fa fa-home"></i> 主界面</li>
+		<li><a href=""><i class="fa fa-home"></i> 主界面</a></li>
 		<li class="bc_line"><i class="fa fa-chevron-right"></i></li>
 		<li></li>
-		<li class="bc_line"><i class="fa fa-chevron-right"></i></li>
+		<li class="bc_line hide"><i class="fa fa-chevron-right"></i></li>
 		<li></li>
 	</ul>
 </div>
@@ -69,7 +80,9 @@
 
 
 </body>
-<script type="text/javascript" src="${url}/public/js/jquery-1.7.2.min.js"></script> 
+<script type="text/javascript" src="${url}/public/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="lib/bootstrap-switch/js/bootstrap-switch.js"></script>
 <!-- baidu tools -->
 <script type="text/javascript" charset="utf-8" src="${url}/public/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="${url}/public/ueditor/ueditor.all.js"></script>

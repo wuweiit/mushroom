@@ -46,6 +46,7 @@ function showBreadCrumbMenu(one, two){
 	var lis = $(".bread_crumb_menu li"); 
 	$(lis[2]).html(two);
 	$(lis[4]).html(one);
+	$(lis[3]).removeClass('hide');
 }
 
 

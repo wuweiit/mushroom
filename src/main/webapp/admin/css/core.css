@@ -1,10 +1,14 @@
 @charset "utf-8";
 /* 通用样式 */
-body{margin:0; padding:0; 
-font-family: arial,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif ; font-size:12px;}
+body{
+	margin:0; padding:0;
+
+	font-family: arial,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif ; font-size:12px;}
 
 
-a{text-decoration:none;}
+a{
+	text-decoration:none;
+}
 
 
 /* 绝对定位 */
@@ -29,30 +33,26 @@ a{text-decoration:none;}
 input, select, textarea{
 	padding: 0px 5px;
 	width: 290px;
-	height:30px;
 	font-family:"微软雅黑";
 	font-size:12px;
-	outline: none;
 	border: 1px solid #ccc;
-	border-radius:3px;
-	-moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+	outline: none;
 	
 }
 input, select{
- 	background: url("images/bar_bg.png") repeat-x;
-    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#efefef));
-    background: -moz-linear-gradient(top,  #fff,  #efefef); 
+ 	/*background: url("images/bar_bg.png") repeat-x;*/
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#efefef));*/
+    /*background: -moz-linear-gradient(top,  #fff,  #efefef); */
 }
 
-input[type="radio"],input[type="checkbox"] {
-	width: 18px;
-	height:18px;
-	position: relative;
-	top:3px;
-}
+
 /* 个性化样式 */
-input{}
+input, select, textarea {
+	border-radius: 0 !important;
+}
+input:active{ outline: none !important; }
+
+
 select{
 	width: 302px;
 	height: 32px;  
@@ -64,6 +64,11 @@ textarea {
 }
 
 
+label, input, button, select, textarea {
+	font-size: 12px !important;
+	font-weight: normal;
+	line-height: 28px;
+}
 
 
 
@@ -81,7 +86,7 @@ table thead tr th{
     border: 1px solid #e5e5e5; 
     color:#000;
 	font-weight: bold; 
-	background: url("images/table_head_bg.png") repeat-x;
+    background: url("images/table_head_bg.png") repeat-x;
     background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#efefef));
     background: -moz-linear-gradient(top,  #fff,  #efefef);
 }
@@ -106,3 +111,57 @@ button:hover{
 
 form .n-invalid {border: 1px solid #f00;}
 
+
+
+
+.form-horizontal .control-group {
+	padding: 5px;
+	margin-bottom: 0;
+}
+
+
+
+.form-horizontal .control-group:nth-child(odd){
+	 background:#F6F6F6;
+}
+
+
+
+.form-horizontal .control-label {
+	text-align: left;
+	font-weight: bold;
+	padding-left: 20px;
+	margin-bottom: 0px;
+}
+.form-horizontal .controls label{
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 0;
+	position: relative;
+	top: 5px;
+	padding-left: 4px;
+}
+.form-horizontal .controls input, .form-horizontal .controls textarea{
+	vertical-align: top;
+	margin-top: 2px;
+}
+.form-horizontal .controls input[type="radio"] {
+	vertical-align: top;
+	margin-top: 12px;
+}
+.form-horizontal .controls input[type="checkbox"] {
+	vertical-align: top;
+	margin-top: 12px;
+}
+.form-horizontal .controls .help-block{
+	display: inline-block;
+	color: #777777;
+	margin-left: 10px;
+	margin-top: 7px;
+	width: 56%;
+}
+
+
+.btn.active.focus,input, .btn.active:focus,.btn.focus, .btn:active.focus,.btn:active:focus, .btn:focus {
+	outline:0 !important;
+}

@@ -1,7 +1,7 @@
 <div class="content">
 	<div class="tab_bar">
 		<ul>
-			<li class="tab_index" onclick="setTabContent(this);"><h3>外链管理</h3></li>
+			<li class="tab_index" onclick="setTabContent(this);">外链管理</li>
 		</ul>
 		<button class="btn_tabbar" action="link/add.do?currentPageNo=${page.currentPageNo?c}" onclick="refreshContentByElement(this);">添加外链</button>
 	</div>
@@ -21,7 +21,7 @@
 				<tbody>
 				<#list page.data as x>
 					<tr>
-						<td class="checkbox"><input type="checkbox" value="${x.id?c}" /></td>
+						<td class="checkbox1"><input type="checkbox" value="${x.id?c}" /></td>
 						<td><img width="193" src="${x.icon!}"/></td>
 						<td>${x.name!}</td>
 						<td>${x.url!}</td>

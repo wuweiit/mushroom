@@ -1,8 +1,6 @@
 package org.marker.mushroom.holder;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -12,14 +10,11 @@ import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
-import org.marker.mushroom.core.config.impl.URLRewriteConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyKeyWordComputer;
-import org.marker.mushroom.ext.message.MessageContext;
 import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.ext.model.ContentModelContext;
 import org.marker.mushroom.ext.model.impl.*;
 import org.marker.mushroom.ext.plugin.PluginContext;
-import org.marker.mushroom.ext.plugin.Pluginlet;
 import org.marker.mushroom.ext.plugin.impl.GuestBookPluginletImpl;
 import org.marker.mushroom.ext.tag.TaglibContext;
 import org.marker.mushroom.ext.tag.impl.*;
