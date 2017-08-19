@@ -37,8 +37,10 @@ input, select, textarea{
 	font-size:12px;
 	border: 1px solid #ccc;
 	outline: none;
-	
+	border-radius: 0 !important;
 }
+
+input:active{ outline: none !important; }
 input, select{
  	/*background: url("images/bar_bg.png") repeat-x;*/
     /*background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#efefef));*/
@@ -47,10 +49,6 @@ input, select{
 
 
 /* 个性化样式 */
-input, select, textarea {
-	border-radius: 0 !important;
-}
-input:active{ outline: none !important; }
 
 
 select{

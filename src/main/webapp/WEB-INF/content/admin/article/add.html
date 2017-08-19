@@ -9,76 +9,95 @@
 		</#if>
 		<button onclick="save(this)" class="btn_tabbar submit_it" return="article/list.do?currentPageNo=1">保存草稿</button>
 	</div>
-	<form id="myForm" action="article/save.do" method="post" onsubmit="return false;">
+
+
+	<form id="myForm" action="article/save.do" method="post" class="form-horizontal" onsubmit="return false;">
+
 	<input id="status" name="status" value="0" type="hidden" />
 	<div class="tab_content">
-		<div class="tab_item tab_show"> 
-			<table class="table_for_add">
-				<tbody>
-					<tr class="rowBgColor">
-						<th width="140">所属栏目：</th>
-						<td>
-							<select class="select_for_add" name="cid">
-					  			<@channelTree id = 0 node = -1/>
-							</select>
-						</td>
-					</tr>
-					<tr class="rowBgColor">
-						<th width="140">所属科室：</th>
-						<td>
-							<select class="select_for_add" name="did">
-                                <option value="-1"> -------- 没有科室 -------- </option>
-								<@categoryTree id = 0 node = -1/>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th>文章标题： </th>
-						<td><input id="title" class="input_for_add" name="title" type="text" placeholder="请输入文章标题" /></td>
-					</tr>
-					<tr class="rowBgColor">
-						<th>文章图标： </th>
-						<td><input id="articleIcon" class="input_for_add" name="icon" type="text" />
-							<button type="button" onclick="uploadImage()">上传图片</button>
-						</td>
-					</tr>
-					<tr>
-						<th>内容类型： </th>
-						<td>
-							<input id="statistics_1" name="type" type="radio" value="0" checked="checked" /><label for="statistics_1">&nbsp;HTML&nbsp; &nbsp;</label>
-							<input id="statistics_2" name="type" type="radio" value="1" /><label for="statistics_2">&nbsp;text/markdown&nbsp; &nbsp;</label>
-		
-							<span class="tip_text">切换类型将会清空内容哦!</span>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-				    	<th>文章内容：</th>
-						<td></td>
-					</tr> 
-				    <tr>
-						<td colspan="2" >
-							<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
-						</td>
-					</tr>
-					<tr class="rowBgColor">
-						<th>文章关键字：</th>
-						<td><input id="keywords" class="input_for_add" name="keywords" type="text" /><a onclick="keyword()">自动获取关键字</a></td>
-					</tr>
-					<tr>
-						<th>文章描述：</th>
-						<td><textarea class="textarea_for_add" name="description"></textarea></td>
-					</tr> 
-					<tr class="rowBgColor">
-						<th>文章作者：</th>
-						<td><input class="input_for_add" name="author" type="text" value="${loginusername!}" /></td>
-					</tr>
-					<tr class="rowBgColor">
-						<th>原文地址：</th>
-						<td><input class="input_for_add" name="source" type="text" value="" /></td>
-					</tr> 
-				</tbody>
-			</table>
+		<div class="tab_item tab_show">
+
+			<div class="control-group">
+				<label class="control-label">所属栏目：</label>
+				<div class="controls">
+					<select name="cid">
+						<@channelTree id = 0 node = -1/>
+					</select>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">所属分类：</label>
+				<div class="controls">
+					<select name="did">
+						<option value="-1"> -------- 没有分类 -------- </option>
+						<@categoryTree id = 0 node = -1/>
+					</select>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">文章标题：</label>
+				<div class="controls">
+					<input id="title" name="title" type="text" placeholder="请输入文章标题" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">文章图标：</label>
+				<div class="controls">
+					<input id="articleIcon" class="input_for_add" name="icon" type="text" />
+					<button type="button" onclick="uploadImage()">上传图片</button>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">内容类型：</label>
+				<div class="controls">
+					<input id="statistics_1" name="type" type="radio" value="0" checked="checked" /><label for="statistics_1">&nbsp;HTML&nbsp; &nbsp;</label>
+					<input id="statistics_2" name="type" type="radio" value="1" /><label for="statistics_2">&nbsp;text/markdown&nbsp; &nbsp;</label>
+
+					<div class="help-block">切换类型将会清空内容哦</div>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
+			</div>
+
+
+			<div class="control-group">
+				<label class="control-label">文章关键字：</label>
+				<div class="controls">
+					<input id="keywords" class="input_for_add" name="keywords" type="text" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">文章描述：</label>
+				<div class="controls">
+					<textarea class="textarea_for_add" name="description"></textarea>
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+
+			<div class="control-group">
+				<label class="control-label">文章作者：</label>
+				<div class="controls">
+					<input class="input_for_add" name="author" type="text" value="${loginusername!}" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">原文地址：</label>
+				<div class="controls">
+					<input class="input_for_add" name="source" type="text" value="" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 	</form>
