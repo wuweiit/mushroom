@@ -4,6 +4,19 @@
 	transition: background 0.3s;
 	-moz-transition: background 0.3s;	/* Firefox 4 */
 	-webkit-transition: background 0.3s;	/* Safari 和 Chrome */
-	-o-transition: background 0.3s;	/* Opera */ 
-	
+	-o-transition: background 0.3s;	/* Opera */
+}
+
+.loading_animation{
+ 	animation:circle 1s infinite linear;/*匀速 循环*/
+	-moz-animation:circle 1s infinite linear;/*匀速 循环*/
+	-webkit-animation:circle 1s infinite linear;/*匀速 循环*/
+	-o-animation:circle 1s infinite linear;/*匀速 循环*/
+	-ms-animation:circle 1s infinite linear;/*匀速 循环*/
+}
+
+
+@-webkit-keyframes circle{
+	0%{ transform:rotate(0deg); }
+	100%{ transform:rotate(-360deg); }
 }

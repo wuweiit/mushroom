@@ -101,6 +101,19 @@ border-bottom: 1px #CCCCCC solid;
 
 
 /* 【内容区域】高用户体验样式 */
+.list-footer{
+	position: absolute; left: 0px; right:0; height: 30px; bottom:0; overflow: hidden;
+}
 
+.list-footer .left{
+	float:left; margin-left:5px;
+}
+.list-footer .right{
+	 float: right;
+	line-height: 30px;
+}
+.list-footer .right button, .list-footer .right input,  .list-footer .right select{
+	vertical-align: top;
+}
 
 

@@ -93,7 +93,7 @@ function trim(str){
 		<#if menu.id != 0>
 		  	<#if id = menu.pid>
 				<tr cid="${temp?c}" >
-					<td class="checkbox"><input name="mid" type="checkbox" value="${menu.id?c}" /></td> 
+					<td class="checkbox1"><input name="mid" type="checkbox" value="${menu.id?c}" /></td>
 			        <td>
 			        	<#if temp gt 0 ><#list 1..temp as x>&nbsp; &nbsp;</#list>├</#if> <i class="fa ${menu.icon!}"></i> ${menu.name!} 
 			        </td>
