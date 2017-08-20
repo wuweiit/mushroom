@@ -10,6 +10,7 @@ import java.util.Map;
 
 import ch.qos.logback.core.util.FileUtil;
 import freemarker.cache.StringTemplateLoader;
+import org.marker.mushroom.freemarker.config.WebFreeMarkerConfigurer;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 
@@ -66,7 +67,7 @@ public class ProxyPluginlet {
 		this.object = pluginlet; 
 		this.init();
 
-        FreeMarkerConfigurer freeMarkerConfigurer = SpringContextHolder.getBean("webFrontConfiguration");
+        WebFreeMarkerConfigurer freeMarkerConfigurer = SpringContextHolder.getBean("webFrontConfiguration");
         loader = SpringContextHolder.getBean("stringTemplateLoader");
 
         cfg = freeMarkerConfigurer.getConfiguration();

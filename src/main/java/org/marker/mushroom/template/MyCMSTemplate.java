@@ -28,6 +28,7 @@ import org.marker.mushroom.ext.message.MessageContext;
 import org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag;
 import org.marker.mushroom.ext.tag.TaglibContext;
 import org.marker.mushroom.freemarker.*;
+import org.marker.mushroom.freemarker.config.WebFreeMarkerConfigurer;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.template.tags.res.WebDataSource;
@@ -58,7 +59,7 @@ public class MyCMSTemplate {
 	protected Logger logger =  LoggerFactory.getLogger(LOG.TEMPLATE_ENGINE); 
 	
 	// freemarker配置
-	public Configuration config = new Configuration();
+	public Configuration config;
 	
 	// 编码集(默认UTF-8)
 	public static final String encoding = "utf-8";
@@ -85,7 +86,7 @@ public class MyCMSTemplate {
 	
 	public MyCMSTemplate(){
 		logger.info(">>>>> TemplateEngine init... ");
-        FreeMarkerConfigurer freeMarkerConfigurer = SpringContextHolder.getBean("webFrontConfiguration");
+        WebFreeMarkerConfigurer freeMarkerConfigurer = SpringContextHolder.getBean("webFrontConfiguration");
         config = freeMarkerConfigurer.getConfiguration();
 	}
 
