@@ -23,6 +23,9 @@ public class Menu implements Serializable {
 	/** 是否是同级节点的结尾 */
 	private int end = 0;
 	private String description;
+
+	/** 来自于插件Id */
+	private String moduleId;
 	 
 	public String getName() {
 		return name;
@@ -81,5 +84,13 @@ public class Menu implements Serializable {
 
 	public void setEnd(int end) {
 		this.end = end;
+	}
+
+	public String getModuleId() {
+		return moduleId;
+	}
+
+	public void setModuleId(String moduleId) {
+		this.moduleId = moduleId;
 	}
 }

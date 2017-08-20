@@ -1,4 +1,5 @@
-{ 
+{
+	"id": "唯一标记",
     "icon" : "images/demo.jpg",
 	"name"  : "留言模块",
 	"author": "marker",

@@ -86,6 +86,7 @@ public final class ObjectRowMapper {
 			menu.setEnd(rs.getInt("end"));
 			menu.setDescription(rs.getString("description"));
 			menu.setType(rs.getString("type"));
+			menu.setModuleId(rs.getString("moduleId"));
 			return menu;
 		}
 	}

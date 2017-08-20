@@ -73,4 +73,12 @@ public interface IMenuDao  extends ISupportDao{
 	 * @return
 	 */
 	Menu findChildMaxSortMenuByPId(int parentId);
+
+
+	/**
+	 * 根据模块Id查询
+	 * @param moduleId 模块Id
+	 * @return
+	 */
+    Menu findByModuleId(String moduleId);
 }

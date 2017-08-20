@@ -36,7 +36,7 @@ import org.marker.mushroom.alias.DAO;
 public class GuestBookPluginletImpl extends Pluginlet {
     public GuestBookPluginletImpl(){
         this._config = new HashMap<>();
-        this._config.put("module","1316608071154b0fa1da3d34ee97037a");
+        this._config.put("module","guestbook");
         this._config.put("name", "留言插件");
         this._config.put("author","marker");
         this._config.put("type", "guestbook");// 模型标识

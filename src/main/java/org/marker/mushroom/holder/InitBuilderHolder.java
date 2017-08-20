@@ -1,9 +1,16 @@
 package org.marker.mushroom.holder;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
+import com.wuweibi.module4j.ModuleFramework;
+import com.wuweibi.module4j.config.Configuration;
+import com.wuweibi.module4j.listener.InstallListenter;
+import com.wuweibi.module4j.module.Module;
+import com.wuweibi.module4j.module.ModuleContext;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
@@ -114,12 +121,16 @@ public class InitBuilderHolder implements ServletContextAware{
 
 
 
-
+    	/*
+		 * ============================================================
+		 *               插件加载
+		 * ============================================================
+		 */
 
         PluginContext pluginContext = PluginContext.getInstance();
 
         try {
-            pluginContext.put(new GuestBookPluginletImpl());
+//            pluginContext.put(new GuestBookPluginletImpl());
         } catch (Exception e) {
             logger.error("", e);
         }
@@ -172,10 +183,64 @@ public class InitBuilderHolder implements ServletContextAware{
             messageDBContext.init();
 		} catch (Exception e) {
 			logger.error("", e);
-		} 
-    	 
-    	
-    	logger.info("init Building complete");
+		}
+
+
+
+
+
+
+
+		String moduleDir =  webRootPath + "modules";// 模块目录
+
+		// 缓存目录
+		String cacheDir = moduleDir + File.separator + "cache";// 模块目录
+
+		Map<String,String> configMap = new HashMap<String,String>();
+		// 自动部署目录配置
+		configMap.put(Configuration.DIR_MODULES, moduleDir);
+		// 缓存目录
+		configMap.put(Configuration.DIR_CACHE, cacheDir);
+		// 日志级别
+		configMap.put(Configuration.LOG_LEVEL, "1");
+
+		try {
+			ModuleFramework moduleFramework = new ModuleFramework(configMap);
+			ModuleContext context = moduleFramework.getModuleContext();
+			moduleFramework.start();
+
+            context.addInstallListener(new InstallListenter(){
+
+                @Override
+                public void uninstall(Module module) {
+
+                }
+
+                @Override
+                public void install(Module module) {
+
+                }
+            });
+
+			// 停止服务
+//			moduleFramework.stop();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+		logger.info("init Building complete");
     	
 	}
 	

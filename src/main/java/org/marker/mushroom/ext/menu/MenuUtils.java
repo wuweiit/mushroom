@@ -113,7 +113,7 @@ public class MenuUtils {
 			int pid = menuDao.findMenuIdByType(type);
 			menu.setPid(pid);// 设置父级ID
 			
-			Menu m = menuDao.findByName(menu.getName());
+			Menu m = menuDao.findByModuleId(menu.getModuleId());
 			if(null == m){
 				// 保存操作
 				menuDao.save(menu); 

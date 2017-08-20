@@ -137,5 +137,15 @@ public class MenuDaoImpl extends DaoEngine implements IMenuDao {
 		return null;
 	}
 
+	@Override
+	public Menu findByModuleId(String moduleId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from ").append(getPreFix()).append("user_menu where moduleId=?");
+		try{
+			return this.jdbcTemplate.queryForObject(sql.toString(), new RowMapperMenu(), moduleId);
+		}catch(Exception e){}
+		return null;
+	}
+
 
 }
