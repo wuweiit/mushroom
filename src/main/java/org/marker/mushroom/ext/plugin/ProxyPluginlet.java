@@ -2,15 +2,23 @@ package org.marker.mushroom.ext.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import ch.qos.logback.core.util.FileUtil;
+import freemarker.cache.StringTemplateLoader;
+import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.marker.mushroom.utils.FileUtils;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 
 /**
@@ -28,7 +36,7 @@ public class ProxyPluginlet {
 	
 	
 	/** freeMarker模版引擎配置 */
-	private Configuration cfg = new Configuration();
+	private Configuration cfg;
 	
 	
 	// 实例
@@ -41,8 +49,13 @@ public class ProxyPluginlet {
 	
 	
 	
- 
- 
+    /** 模板加载路径 */
+	private String templateFilePath;
+
+
+
+    /**   */
+    private StringTemplateLoader loader;
 	
 	/**
 	 * 初始化
@@ -52,18 +65,17 @@ public class ProxyPluginlet {
 	public ProxyPluginlet(Pluginlet pluginlet ) throws Exception {
 		this.object = pluginlet; 
 		this.init();
-		try {
-			cfg.setTemplateUpdateDelay(0);
-			cfg.setDefaultEncoding(encoding);
-			cfg.setOutputEncoding(encoding);
-			cfg.setEncoding(locale, encoding);//设置本地字符集
-			cfg.setDirectoryForTemplateLoading(new File(WebRealPathHolder.REAL_PATH + "modules" +
-			
-					File.separator + this.object._config.get("module")+File.separator));
-		} catch (IOException e) { 
-			e.printStackTrace();
-		}
-	}
+
+        FreeMarkerConfigurer freeMarkerConfigurer = SpringContextHolder.getBean("webFrontConfiguration");
+        loader = SpringContextHolder.getBean("stringTemplateLoader");
+
+        cfg = freeMarkerConfigurer.getConfiguration();
+
+
+        templateFilePath = WebRealPathHolder.REAL_PATH + "modules" + File.separator + this.object._config.get("module")+File.separator;
+
+
+    }
 
 	
 
@@ -81,14 +93,14 @@ public class ProxyPluginlet {
 		for(String key : routers.keySet()){
 			String[] uri = key.split(":");
 			String methodName = routers.get(key);
-			if(1 == uri.length){// get
+			if(1 == uri.length){ // get
 				Method me = this.object.getClass().getDeclaredMethod(methodName);
 				getUrlMapping.put(uri[0], me);
 			}else{
 				if("post".equals(uri[0].trim().toLowerCase())){// post
 					Method me = this.object.getClass().getDeclaredMethod(methodName);
 					postUrlMapping.put(uri[1], me);
-				}else{// get
+				}else{ // get
 					Method me = this.object.getClass().getDeclaredMethod(methodName);
 					getUrlMapping.put(uri[1], me);
 				};	
@@ -137,13 +149,38 @@ public class ProxyPluginlet {
 	}
 
 
+    /**
+     *
+     * @param path
+     * @return
+     * @throws IOException
+     */
+	public Template getTemplate(String path) throws IOException {
+
+        Template template = null;
+        try {
+            template = cfg.getTemplate(path);
+        } catch (IOException e) {
+
+            if(null == template){
+                String content = com.mchange.io.FileUtils.getContentsAsString(new File(templateFilePath + path));
 
 
+                loader.putTemplate(path, content);
+            }
+        }
 
 
+        return cfg.getTemplate(path);
+	}
 
+	public ViewObject invoke(String methodName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+		Method method =  this.object.getClass().getDeclaredMethod(methodName);
+		String viewHtml = (String) method.invoke(this.object);
+        ViewObject view = new ViewObject();
+        view.setType(ViewType.HTML);
 
-	public Template getTemplate(String path) throws IOException { 
-		return this.cfg.getTemplate( path); 
+        view.setResult(viewHtml);
+        return view;
 	}
 }

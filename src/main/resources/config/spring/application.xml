@@ -28,6 +28,8 @@
 	<import resource="classpath:/config/spring/spring-timer-task.xml" />
 	<import resource="classpath:/config/spring/spring-cms-core.xml" />
 
+	<import resource="classpath:/config/spring/spring-freemarker.xml" />
+
 
 
 </beans>

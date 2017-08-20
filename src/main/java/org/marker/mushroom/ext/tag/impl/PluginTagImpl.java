@@ -6,7 +6,10 @@ import java.util.Map;
 import org.marker.mushroom.ext.tag.Taglib;
 
 /**
- * 插件调用标签 <!--{pulgin: name=(comment) invoke=(adsads)}-->
+ *
+ *
+ *
+ * 插件调用标签 <!--{pulgin name=(comment) invoke=(adsads)}-->
  * */
 public class PluginTagImpl extends Taglib {
 
@@ -21,8 +24,8 @@ public class PluginTagImpl extends Taglib {
 		
 		
 		this.put(
-				"<!--\\s*\\{\\s*pulgin:\\s*name=\\((\\w+)\\)\\s*invoke=\\((\\w+)\\)\\s*\\}\\s*-->",
-				"<%=YLPluginFactory.getInstance().get(\"$1\").initialize(request,response,application).$2()%>",
+				"<!--\\s*\\{\\s*plugin\\s*name=\\((\\w+)\\)\\s*invoke=\\((\\w+)\\)\\s*\\}\\s*-->",
+				"<@Plugin pluginName=\"$1\" invoke=\"$2\"></@Plugin>",
 				0);
 
 	}

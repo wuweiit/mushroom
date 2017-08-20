@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+    xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+ 	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+
+    ">
+
+
+    <!-- 加载器 -->
+    <bean id="stringTemplateLoader" class="freemarker.cache.StringTemplateLoader"/>
+
+
+
+    <!-- freemarker Web前端配置 -->
+    <!-- 后台Freemarker模版引擎配置 -->
+    <bean id="webFrontConfiguration" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPaths" value="/WEB-INF/content/" />
+        <property name="preTemplateLoaders" ref="stringTemplateLoader" />
+
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="defaultEncoding">UTF-8</prop>
+                <prop key="template_update_delay">0</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="number_format">0.##</prop>
+                <prop key="locale">zh_CN</prop>
+                <!-- 自动获取spring.ftl宏，此处路径是上面templateLoaderPath的相对路径 -->
+                <prop key="auto_import">common/spring.ftl as spring</prop>
+
+            </props>
+        </property>
+        <!-- freemarker变量注入 -->
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="load"><bean class="org.marker.mushroom.freemarker.LoadDirective" /></entry>
+                <entry key="Boostrap3Nav"><bean class="org.marker.mushroom.freemarker.BootStrap3NavDirective" /></entry>
+                <entry key="HuaXiSiYuanNav"><bean class="org.marker.mushroom.freemarker.HuaxiSiYuanNavDirective" /></entry>
+                <entry key="HuaXiSiYuanPCNav"><bean class="org.marker.mushroom.freemarker.HuaxiSiYuanPCNavDirective" /></entry>
+                <entry key="Nav"><bean class="org.marker.mushroom.freemarker.NavDirective" /></entry>
+                <entry key="NavChild"><bean class="org.marker.mushroom.freemarker.NavChildDirective" /></entry>
+                <entry key="encoder"><bean class="org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel" /></entry>
+                <entry key="Plugin"><bean class="org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag" /></entry>
+                <entry key="Page"><bean class="org.marker.mushroom.freemarker.PageDirective" /></entry>
+            </map>
+        </property>
+    </bean>
+
+
+
+</beans>

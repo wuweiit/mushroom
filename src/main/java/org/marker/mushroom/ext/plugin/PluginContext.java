@@ -1,7 +1,6 @@
 package org.marker.mushroom.ext.plugin;
 
-import java.io.File;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -87,7 +86,7 @@ public class PluginContext {
 	
 	/**
 	 * 移除分发器
-	 * @param clzz
+	 * @param clzz 类
 	 * @throws Exception 
 	 */
 	public void remove(String type) throws Exception{ 
@@ -97,9 +96,9 @@ public class PluginContext {
 
 
 	/**
-	 * 调用
-	 * @param pluginName
-	 * @param url
+	 * Pluginlet 调用
+	 * @param httpMethod 请求方法
+	 * @param uri URI
 	 * @return
 	 * @throws Exception
 	 */                      // POST              /guestbook/add
@@ -129,39 +128,10 @@ public class PluginContext {
 						HttpServletRequest request = ActionContext.getReq();
 						
 						Map<String,Object> root = new HashMap<String,Object>(); 
-						
-						
-						root.put("encoder", new FrontURLRewriteMethodModel());//URL重写  
-						root.put("list",  new UpperDirective());// 调用
-						root.put("load", new LoadDirective());//
-						root.put("plugin", new EmbedDirectiveInvokeTag());// 嵌入式指令插件
-						@SuppressWarnings("unchecked")
-						Enumeration<String> attrs3 = application.getAttributeNames(); 
-						while (attrs3.hasMoreElements()) {
-							String attrName = attrs3.nextElement();
-							root.put(attrName, application.getAttribute(attrName));
-						}
-						//转移Session数据
-						HttpSession session = request.getSession();
-						@SuppressWarnings("unchecked")
-						Enumeration<String> attrs2 = session.getAttributeNames();
-						while (attrs2.hasMoreElements()) {
-							String attrName = attrs2.nextElement();
-							root.put(attrName, session.getAttribute(attrName));
-						}
-						//这里是进行数据转移
-						@SuppressWarnings("unchecked")
-						Enumeration<String> attrs = request.getAttributeNames(); 
-						while (attrs.hasMoreElements()) {
-							String attrName = attrs.nextElement();
-							root.put(attrName, request.getAttribute(attrName));
-						}
 
-						
-						 
 						template.process(root, out);
 					
-						;break;
+						break;
 					default:
 						break;
 					} 
@@ -172,13 +142,56 @@ public class PluginContext {
 		}
 		return null;
 	}
-	
-	
-	
-	
- 
-	
-	
+
+
+
+
+	/**
+	 * Pluginlet 调用
+	 * @param pluginName
+	 * @param method
+	 * @return
+	 * @throws Exception
+	 */
+	public String invokeMethod(String pluginName, String method) throws Exception {
+        ProxyPluginlet pluginProxy = pluginLets.get(pluginName);
+        if(pluginProxy != null){
+            ViewObject view = pluginProxy.invoke(method);
+            if(view != null){// 如果返回值为空，代表是自己手动处理
+                ByteArrayOutputStream baos  = new ByteArrayOutputStream();
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(baos);
+                BufferedWriter out = new BufferedWriter(outputStreamWriter);
+
+
+                switch(view.getType()){
+                    case HTML:
+                        String path = "views" + File.separator+ view.getResult();
+
+                        Template template = pluginProxy.getTemplate(path);
+
+                        Map<String,Object> root = new HashMap<>();
+
+                        template.process(root, out);
+
+                        return new String(baos.toByteArray());
+
+                    default:
+                        break;
+                }
+                out.flush();
+                out.close();
+			}
+		}
+		return null;
+	}
+
+
+
+
+
+
+
+
 	/**
 	 * 获取当前维护的Pluginlet代理
 	 * @return

@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.*;
 
+import freemarker.cache.TemplateLoader;
 import freemarker.template.TemplateModelException;
 import love.cq.util.IOUtil;
 import org.apache.commons.lang.StringUtils;
@@ -41,6 +42,7 @@ import org.springframework.stereotype.Service;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 /**
  * 模板引擎
@@ -56,7 +58,7 @@ public class MyCMSTemplate {
 	protected Logger logger =  LoggerFactory.getLogger(LOG.TEMPLATE_ENGINE); 
 	
 	// freemarker配置
-	public final Configuration config = new Configuration();
+	public Configuration config = new Configuration();
 	
 	// 编码集(默认UTF-8)
 	public static final String encoding = "utf-8";
@@ -64,7 +66,7 @@ public class MyCMSTemplate {
 	// 本地语言(默认汉语)
 	public static final Locale locale = Locale.CHINA;
 	
-	private static final StringTemplateLoader loader = new StringTemplateLoader();
+//	private static final StringTemplateLoader loader = new StringTemplateLoader();
 	
 	/** 系统配置信息 */
 	
@@ -83,38 +85,8 @@ public class MyCMSTemplate {
 	
 	public MyCMSTemplate(){
 		logger.info(">>>>> TemplateEngine init... ");
-//		FreeMarkerConfigurer free = new FreeMarkerConfigurer();
-//		this.config = free.getConfig();
-//		config.setTemplateLoader(loader);//设置模板加载器
-//        
-		
-		config.setSharedVariable("load", new LoadDirective());
-		config.setSharedVariable("Boostrap3Nav", new BootStrap3NavDirective());// 导航菜单
-        config.setSharedVariable("HuaXiSiYuanNav", new HuaxiSiYuanNavDirective());// 导航菜单(mobile)
-        config.setSharedVariable("HuaXiSiYuanPCNav", new HuaxiSiYuanPCNavDirective());// 导航菜单(PC)
-
-
-		config.setSharedVariable("Nav",new NavDirective());// 通用导航指令
-		config.setSharedVariable("NavChild",new NavChildDirective());// 通用二级导航指令
-
-
-		config.setSharedVariable("encoder", new FrontURLRewriteMethodModel());//URL重写
-		config.setSharedVariable("plugin", new EmbedDirectiveInvokeTag());// 嵌入式指令插件
-		config.setSharedVariable("Page", new PageDirective());// 分页数据
-
-		try {  
-			config.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
-			config.setDefaultEncoding(encoding);
-		    config.setOutputEncoding(encoding);
-			config.setEncoding(locale, encoding);// 
-	        config.setLocale(locale);
-	        config.setLocalizedLookup(false);
-	        config.setTemplateLoader(loader);// 
-		} catch (Exception e) {
-			logger.error("template tags init exception!", e);
-		}
-
-		
+        FreeMarkerConfigurer freeMarkerConfigurer = SpringContextHolder.getBean("webFrontConfiguration");
+        config = freeMarkerConfigurer.getConfiguration();
 	}
 
 
@@ -244,7 +216,9 @@ public class MyCMSTemplate {
 		tplloader.setSqls(temp);// 设置SQL集合
 
 		
-		// 向模板加载器中写入模板信息 
+		// 向模板加载器中写入模板信息
+        StringTemplateLoader loader = SpringContextHolder.getBean("stringTemplateLoader");
+
 		loader.putTemplate(tplFileName, sbc);
 		tplCache.put(tplFileName, tplloader);
 		this.temp = null;

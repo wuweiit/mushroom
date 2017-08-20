@@ -53,6 +53,7 @@ public class PluginFilter implements Filter {
 			try {
 				pluginContext.invoke(method, pluginUrl); 
 			} catch (Exception e) {
+				logger.error("", e);
 				logger.error("plugin | {}:/{}", method, pluginUrl);
 				logger.error("plugin | plugin invoke exception", e); 
 			} 
