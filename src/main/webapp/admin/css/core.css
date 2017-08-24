@@ -119,7 +119,7 @@ form .n-invalid {border: 1px solid #f00;}
 
 
 
-.form-horizontal .control-group:nth-child(odd){
+.form-horizontal .control-group:nth-child(even){
 	 background:#F6F6F6;
 }
 

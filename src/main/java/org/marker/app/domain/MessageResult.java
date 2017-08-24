@@ -216,4 +216,14 @@ public class MessageResult implements Serializable {
 	public static MessageResult success() {
 		return new MessageResult(true, null);
 	}
+
+
+	/**
+	 * 错误消息
+	 * @param msg 消息内容
+	 * @return
+	 */
+	public static Object error(String msg) {
+		return new MessageResult(false, msg, null);
+	}
 }
