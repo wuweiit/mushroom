@@ -10,6 +10,8 @@ import java.util.Map;
 
 import ch.qos.logback.core.util.FileUtil;
 import freemarker.cache.StringTemplateLoader;
+import freemarker.template.ObjectWrapper;
+import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.freemarker.config.WebFreeMarkerConfigurer;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
@@ -19,6 +21,7 @@ import freemarker.template.Template;
 import org.marker.mushroom.utils.FileUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 
@@ -46,10 +49,8 @@ public class ProxyPluginlet {
 	// Method - URI
 	private Map<String, Method>  getUrlMapping = new HashMap<String, Method>();
 	private Map<String, Method> postUrlMapping = new HashMap<String, Method>();
-	
-	
-	
-	
+
+
     /** 模板加载路径 */
 	private String templateFilePath;
 
@@ -73,7 +74,15 @@ public class ProxyPluginlet {
         cfg = freeMarkerConfigurer.getConfiguration();
 
 
-        templateFilePath = WebRealPathHolder.REAL_PATH + "modules" + File.separator + this.object._config.get("module")+File.separator;
+        templateFilePath =   WebRealPathHolder.REAL_PATH + "modules" + File.separator + this.object._config.get("module")+File.separator;
+
+
+        // 新增freemarker模板加载路径
+
+        freeMarkerConfigurer.mergetemplateLoaderPath(templateFilePath);
+
+
+
 
 
     }
@@ -163,12 +172,13 @@ public class ProxyPluginlet {
             template = cfg.getTemplate(path);
         } catch (IOException e) {
 
-            if(null == template){
-                String content = com.mchange.io.FileUtils.getContentsAsString(new File(templateFilePath + path));
+            e.printStackTrace();
 
-
-                loader.putTemplate(path, content);
-            }
+//            if(null == template){
+//                String content = com.mchange.io.FileUtils.getContentsAsString(new File(templateFilePath + path));
+//
+//                loader.putTemplate(path, content);
+//            }
         }
 
 
@@ -184,4 +194,24 @@ public class ProxyPluginlet {
         view.setResult(viewHtml);
         return view;
 	}
+
+
+    /**
+     * 获取对象包装类
+     * @return ObjectWrapper
+     */
+    public ObjectWrapper getObjectWrapper() {
+	    return cfg.getObjectWrapper();
+    }
+
+
+
+
+    public String getPluginPath() {
+        return templateFilePath;
+    }
+
+    public String getModuleName(){
+        return (String) this.object._config.get("module");
+    }
 }

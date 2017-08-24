@@ -1,17 +1,21 @@
 package org.marker.mushroom.freemarker.config;
 
+import freemarker.cache.MultiTemplateLoader;
 import freemarker.ext.jsp.TaglibFactory;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.ui.freemarker.SpringTemplateLoader;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.servlet.ServletContext;
 import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -40,8 +44,13 @@ public class WebFreeMarkerConfigurer implements InitializingBean,ResourceLoaderA
     }
 
 
-    public void setTemplateLoaderPath(String templateLoaderPath) {
-        freeMarkerConfig.setTemplateLoaderPath(templateLoaderPath);
+    /**
+     * 设置多个模板加载路径
+     *
+     * @param templateLoaderPaths
+     */
+    public void setTemplateLoaderPaths(String... templateLoaderPaths) {
+        freeMarkerConfig.setTemplateLoaderPaths(templateLoaderPaths);
     }
 
     public void setPreTemplateLoaders(freemarker.cache.StringTemplateLoader preTemplateLoaders) {
@@ -75,6 +84,21 @@ public class WebFreeMarkerConfigurer implements InitializingBean,ResourceLoaderA
     @Override
     public void setServletContext(ServletContext servletContext) {
         freeMarkerConfig.setServletContext(servletContext);
+    }
+
+
+    /**
+     * 整合加载路径
+     *
+     * @param templateFilePath
+     */
+    public void mergetemplateLoaderPath(String templateFilePath) {
+
+
+//        freeMarkerConfig.setTemplateLoaderPaths(templateFilePath);
+
+
+
     }
 }
 

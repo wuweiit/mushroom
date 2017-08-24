@@ -24,7 +24,12 @@
     <!-- freemarker Web前端配置 -->
     <!-- 后台Freemarker模版引擎配置 -->
     <bean id="webFrontConfiguration" class="org.marker.mushroom.freemarker.config.WebFreeMarkerConfigurer" lazy-init="true">
-        <property name="templateLoaderPath" value="/WEB-INF/content/" />
+        <property name="templateLoaderPaths">
+            <array>
+                <value>/WEB-INF/content/</value>
+                <value>/modules/</value>
+            </array>
+        </property>
         <property name="preTemplateLoaders" ref="stringTemplateLoader" />
 
         <property name="freemarkerSettings">

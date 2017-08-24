@@ -4,8 +4,8 @@
   <groupId>org.marker</groupId>
   <artifactId>mrcms</artifactId>
   <packaging>war</packaging>
-    <version>1.0.0.${buildNumber}</version>
-  <name>hxsycms</name>
+    <version>1.0.0</version>
+  <name>mrcms</name>
     <url>https://github.com/wuweiit/mushroom</url>
 	<!-- 编码及内存设置 -->
 	<properties>

@@ -12,10 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
 
 
+import freemarker.ext.servlet.AllHttpScopesHashModel;
+import freemarker.template.ObjectWrapper;
+import org.apache.commons.io.IOUtils;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag;
 import org.marker.mushroom.freemarker.LoadDirective;
@@ -26,6 +29,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import freemarker.template.Template;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import sun.plugin.net.proxy.PluginProxyInfo;
 
 
 /**
@@ -42,11 +49,21 @@ public class PluginContext {
 	// 存放HTTP插件
 	// 插件路径/代理 ，主要是因为这块的热部署功能，因此使用并发库中线程安全HanMap。
 	private static final Map<String, ProxyPluginlet> pluginLets = new ConcurrentHashMap<String, ProxyPluginlet>();
-	
-	
-	
-	
-	private PluginContext(){ }
+
+
+
+    /** view */
+    private FreeMarkerView freeMarkerView = new FreeMarkerView();
+
+
+
+
+
+
+    private PluginContext(){
+
+
+    }
 	
 	/**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
@@ -69,8 +86,6 @@ public class PluginContext {
 	
 	/**
 	 * 添加分发器
-	 * @param url
-	 * @param action
 	 * @throws Exception 
 	 */
 	public void put(Pluginlet pluginlet) throws Exception{
@@ -86,7 +101,6 @@ public class PluginContext {
 	
 	/**
 	 * 移除分发器
-	 * @param clzz 类
 	 * @throws Exception 
 	 */
 	public void remove(String type) throws Exception{ 
@@ -106,31 +120,20 @@ public class PluginContext {
 		if(httpMethod == null)
 			throw new Exception("request method invalid");
 		int index = uri.indexOf("/");
-		if(index != -1){// 解析成功
+		if(index != -1){ // 解析成功
 			String pluginName = uri.substring(0, index);// 插件名称
 			String pluginCurl = uri.substring(index, uri.length());// 插件功能URL 
 			ProxyPluginlet pluginProxy = pluginLets.get(pluginName);
 			if(pluginProxy != null){
 				ViewObject view = pluginProxy.invoke(httpMethod, pluginCurl); 
-					if(view != null){// 如果返回值为空，代表是自己手动处理
+					if(view != null){ // 如果返回值为空，代表是自己手动处理
 					Writer out = ActionContext.getResp().getWriter();
 					switch(view.getType()){
 					case JSON :
-						JSON.writeJSONStringTo(view.getResult(), out, SerializerFeature.WriteClassName);
-					     
-						;break;
+                        renderJson(pluginProxy, view, out);
+						break;
 					case HTML:
-						String path = "views"+File.separator+ view.getResult();
-						
-						Template template = pluginProxy.getTemplate(path);
-						
-						ServletContext application = ActionContext.getApplication();
-						HttpServletRequest request = ActionContext.getReq();
-						
-						Map<String,Object> root = new HashMap<String,Object>(); 
-
-						template.process(root, out);
-					
+                        renderHtml(pluginProxy, view, out);
 						break;
 					default:
 						break;
@@ -165,29 +168,54 @@ public class PluginContext {
 
                 switch(view.getType()){
                     case HTML:
-                        String path = "views" + File.separator+ view.getResult();
+                        renderHtml(pluginProxy, view, out);
 
-                        Template template = pluginProxy.getTemplate(path);
-
-                        Map<String,Object> root = new HashMap<>();
-
-                        template.process(root, out);
 
                         return new String(baos.toByteArray());
-
                     default:
                         break;
                 }
-                out.flush();
-                out.close();
+
+                IOUtils.closeQuietly(out);
 			}
 		}
 		return null;
 	}
 
 
+    /**
+     * 渲染HTML
+     * @param proxy
+     * @param view
+     * @param out
+     * @throws Exception
+     */
+	protected void renderHtml(ProxyPluginlet proxy, ViewObject view, Writer out ) throws Exception {
+        String moduleName = proxy.getModuleName();
+        String path =  moduleName + File.separator + "views" + File.separator+ view.getResult();
+
+        Template template = proxy.getTemplate(path);
+
+        ServletContext application   = ActionContext.getApplication();
+        HttpServletRequest request   = ActionContext.getReq();
+
+        AllHttpScopesHashModel root = new AllHttpScopesHashModel(proxy.getObjectWrapper(), application, request);
+
+        template.process(root, out);
+    }
 
 
+    /**
+     * 渲染JSON
+     *
+     * @param proxy
+     * @param view
+     * @param out
+     * @throws Exception
+     */
+    protected void renderJson(ProxyPluginlet proxy, ViewObject view, Writer out ) throws Exception {
+        JSON.writeJSONStringTo(view.getResult(), out, SerializerFeature.WriteClassName);
+    }
 
 
 
