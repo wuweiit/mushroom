@@ -24,7 +24,7 @@
 						<td class="checkbox1"><input type="checkbox" value="${x.id?c}" /></td>
 						<td><img width="193" src="${x.icon!}"/></td>
 						<td>${x.name!}</td>
-						<td>${x.url!}</td>
+						<td><a href="${x.url!}" target="_blank">${x.url!}</a></td>
 						<td>${x.description!}</td>
 						<td>
 							<a href="#" action="link/edit.do?id=${x.id?c}&amp;currentPageNo=${page.currentPageNo?c}" onclick="refreshContentByElement(this);">修改</a> |
