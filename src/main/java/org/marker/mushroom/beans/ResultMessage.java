@@ -1,22 +1,28 @@
 package org.marker.mushroom.beans;
 
 
+import java.io.Serializable;
+
 /**
- * 登录消息
+ * 响应消息
+ *
+ *
  * @author marker
  * */
-public class ResultMessage {
+public class ResultMessage implements Serializable {
 
-	//状态
+	/** 状态 */
 	private boolean status;
-	//消息
+
+
+	/** 消息 */
 	private String message;
 	
 	
 	/**
 	 * 登录消息
-	 * @param boolean status
-	 * @param String message
+	 * @param  status 状态
+	 * @param  message 消息内容
 	 * */
 	public ResultMessage(boolean status, String message){
 		this.status = status;

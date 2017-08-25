@@ -214,7 +214,10 @@ public class PluginContext {
      * @throws Exception
      */
     protected void renderJson(ProxyPluginlet proxy, ViewObject view, Writer out ) throws Exception {
-        JSON.writeJSONStringTo(view.getResult(), out, SerializerFeature.WriteClassName);
+        JSON.writeJSONStringTo(view.getResult(), out,
+				SerializerFeature.WriteClassName,
+				SerializerFeature.NotWriteRootClassName
+	    );
     }
 
 

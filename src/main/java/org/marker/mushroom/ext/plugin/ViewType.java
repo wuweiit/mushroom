@@ -8,7 +8,21 @@ package org.marker.mushroom.ext.plugin;
  */
 public enum ViewType {
 
-	JSON, HTML,
+	/**
+	 * JSON视图
+	 */
+	JSON,
+
+	/**
+	 * HTML视图
+	 */
+	HTML,
+
+
+	/**
+	 * 不做任何渲染
+	 */
+	NONE
 	
 	
 }

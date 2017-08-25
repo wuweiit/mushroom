@@ -64,7 +64,8 @@
         var title  = $(obj).attr("title");
 
         zoom.showConfirmDialog(""+title+"的留言<br>审核通过后将网站列表中展示！<br>确定审核通过吗？","消息提示", function(){
-            $.getJSON(action,null,function(data){
+            $.getJSON(action, null, function(data){
+                debugger
                 if(data.status){
                     $(obj).parent().html('<b style="color:green;">已发布</b>');
                 }else{

@@ -1,9 +1,20 @@
 package org.marker.mushroom.ext.plugin;
 
-public class ViewObject {
 
+import java.io.Serializable;
+
+/**
+ * 视图对象
+ *
+ * @author marker
+ */
+public class ViewObject implements Serializable {
+
+	/** 返回对象 */
 	private Object result;
-	private ViewType type;
+
+	/** 视图类型 */
+	private ViewType type = ViewType.NONE;
 	
 	
 	public Object getResult() {
