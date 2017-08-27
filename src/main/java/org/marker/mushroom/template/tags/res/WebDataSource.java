@@ -3,8 +3,10 @@
  */
 package org.marker.mushroom.template.tags.res;
 
+import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.ext.model.ContentModelContext;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -19,11 +21,14 @@ import org.marker.mushroom.ext.model.ContentModelContext;
  */ 
 public abstract class WebDataSource {
 
-	// 临时对象名称
+	/** 遍历对象名称 */
 	protected String var = "it";
 
 	/** 数据结构类型，list：列表，page:分页 */
-	private String type = "list";
+    protected String type = "list";
+
+	/** 表前缀（如果等于null使用系统自带的mr_前缀） */
+    protected String prefix = null;
 
 	//request传递的集合名称
 	protected String items;
@@ -121,4 +126,30 @@ public abstract class WebDataSource {
     public void setWhereIn(String whereIn) {
         this.whereIn = whereIn;
     }
+
+
+    /**
+     * 获取插件扩展表前缀
+     *
+     * @return String
+     */
+    public String getPrefix() {
+		return prefix;
+	}
+
+
+    /**
+     * 获取系统表前缀。
+     *
+     * @return String
+     */
+	public String getSystemPrefix(){
+        return  DataBaseConfig.getInstance().getPrefix();
+    }
+
+
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
 }

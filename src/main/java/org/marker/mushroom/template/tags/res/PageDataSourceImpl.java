@@ -15,29 +15,32 @@ import org.springframework.util.StringUtils;
  * */
 public final class PageDataSourceImpl extends WebDataSource{
 
-	//数据库表名称
+	/** 数据库表名称 */
 	private String tableName;
-	//条件
+
+	/** 条件 */
 	private String where = "";
-	//查询第几页数据
+
+	/** 查询第几页数据 */
 	private int page = 1;
 
-	//排序
+	/** 排序 */
 	private String order; //例如: "id desc"
 
 	 
 	
 	/**
 	 * 生成Sql语句
+     *
+     *
 	 * @throws SystemException 
 	 * */
 	@Override
 	public void generateSql() throws SystemException{
-		String prefix = DataBaseConfig.getInstance().getPrefix();//表前缀，如："yl_"
 		
 		StringBuilder queryString = new StringBuilder();
-		queryString.append(SQL.QUERY_FOR_FORM).append(prefix)
-				.append(this.tableName).append(SQL.ALIAS_MODEL);
+		queryString.append("select M.*,concat('/cms?','type=" + this.tableName + "','&id=',CAST(M.id as char) url from ")
+                .append(this.prefix).append(this.tableName).append(SQL.ALIAS_MODEL);
 
 
 		

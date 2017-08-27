@@ -63,13 +63,29 @@ public class ContentModelContext implements IContentModelParse {
 	/**
 	 * 获取数据库配置实例
 	 * */
-	public static ContentModelContext getInstance(){ 
+	public static ContentModelContext getInstance(){
 		return SingletonHolder.instance;
 	}
 
-	
-	
-	/**
+
+    /**
+     * 获取自定义的表前缀
+     * @param modelType
+     * @return
+     */
+    public String getPrefix(String modelType) {
+        ContentModel mod = contentModels.get(modelType); // 获取模型
+        if(mod != null){
+            String prefix = mod.getModelPrefix();
+            if(!org.springframework.util.StringUtils.isEmpty(prefix)){
+                return prefix;
+            }
+        }
+        return "mr_";
+    }
+
+
+    /**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
 	 * */
 	private static class SingletonHolder {
@@ -131,12 +147,14 @@ public class ContentModelContext implements IContentModelParse {
 	 */
 	public int parse(WebParam param) throws SystemException {
 		HttpServletRequest request = ActionContext.getReq();//获取请求对象
+
+
 		
 		// 如果内容id不等于0，内容查询
 		if(param.contentId != null && !"0".equals(param.contentId)){
-			// 获取内容模型对象
-			ContentModel cm = contentModels.get(param.modelType); 
-			 
+
+            ContentModel modle = contentModels.get(param.modelType);// 获取内容模型对象
+
 			Integer cid = Integer.valueOf(param.contentId);
 
 
@@ -151,12 +169,14 @@ public class ContentModelContext implements IContentModelParse {
 
 
 
-			try{ 
-				cm.fetchContent(cid);// 通过内容id抓取内容数据
-			}catch(Exception e){ return 0; }
+			try{
+				modle.fetchContent(cid);// 通过内容id抓取内容数据
+			}catch(Exception e){
+			    e.printStackTrace();
+			    return 0; }
 			
 			
-			param.template = cm.get("template").toString();// 模型的模板
+			param.template = modle.get("template").toString();// 模型的模板
 		  
 			return 2;
 			
@@ -209,11 +229,11 @@ public class ContentModelContext implements IContentModelParse {
 						return 1;//如果重定向地址不为null
 					}
 
-					// 查到栏目对应的模型，然后进行相应操作
-					ContentModel cm = contentModels.get(param.modelType);// 获取内容模型对象
 
-					if(cm != null){
-						Page page = cm.doPage( param);
+                    ContentModel modle = contentModels.get(param.modelType);// 获取内容模型对象
+
+					if(modle != null){
+						Page page = modle.doPage( param);
 
 						request.setAttribute(AppStatic.WEB_APP_PAGE, page);
 

@@ -95,8 +95,18 @@ public abstract class ContentModel{
 		DataBaseConfig dbconfig = DataBaseConfig.getInstance();
 		return dbconfig.getPrefix();
 	}
- 
-	
+
+
+    /**
+     * 获取模型表前缀
+     * @return
+     */
+	public String getModelPrefix(){
+	    return (String) this.config.get("prefix");
+    }
+
+
+
 
 	public Map<String, Object> getConfig() {
 		return config;

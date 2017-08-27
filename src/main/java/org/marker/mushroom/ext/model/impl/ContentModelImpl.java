@@ -37,7 +37,7 @@ public class ContentModelImpl extends ContentModel {
         // 配置模型（必须调用）
         Map<String,Object> config = new HashMap<String,Object>();
         config.put("icon", "images/demo.jpg");
-        config.put("name", "文章模型");
+        config.put("name", "栏目模型");
         config.put("author", "marker");
         config.put("version", "0.1");
         config.put("type", "channel");// 模型标识

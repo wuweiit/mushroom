@@ -90,16 +90,22 @@ public class LoopTagImpl extends Taglib{
             String whereTemp = "";//必须初始化""
             while(m_a.find()){
                 String[] field_kv = m_a.group().split("\\=\\(");//拆分数据格式 ："var=(xxxx"
-                if("table".equals(field_kv[0])) {
-                    data.setTableName(field_kv[1]);
+                String key   = field_kv[0];
+                String val = field_kv[1];
+                if("table".equals(key)) {
+                    data.setTableName(val);
                     continue;
-                } else if("items".equals(field_kv[0])) {//数据量限制
-                    data.setItems(field_kv[1]);
+                } else if("items".equals(key)) { // 数据量限制
+                    data.setItems(val);
                     continue;
-                }  else if("order".equals(field_kv[0])){//排序支持
-                    data.setOrder(field_kv[1]);
+                }  else if("order".equals(key)){ // 排序支持
+                    data.setOrder(val);
+                    continue;
+                } else if("prefix".equals(key)) { // 表前缀处理
+                    data.setPrefix(val);
+                    continue;
                 }else {// Where条件
-                    whereTemp += field_kv[0]+"="+field_kv[1]+",";
+                    whereTemp += key + "=" + val + ",";
                 }
             }
             data.setType("page");

@@ -1,0 +1,11 @@
+{
+	"id": "manager_plugins",
+    "icon" : "images/demo.jpg",
+	"name"  : "插件管理器",
+	"author": "marker",
+	"git": "",
+	"version" : "0.1", 
+	"description" : "自定义管理工具",
+	"activator":"src/activator.groovy",
+	"backup":"article"
+}

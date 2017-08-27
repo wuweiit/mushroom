@@ -1,0 +1,62 @@
+<#macro guestbookPage currentPage totalPage>
+<#if (totalPage <= 0) || (currentPage > totalPage)><#return></#if>
+	<#local actionUrl = "/plugin/guestbook/list?">
+	<#local delUrl    = "/plugin/guestbook/delete">
+	
+	
+	<#local startPage = currentPage - 4>
+	<#if (startPage < 1)><#local startPage = 1></#if>
+	<#local endPage = currentPage + 4>
+	<#if (endPage > totalPage)><#local endPage = totalPage></#if>
+	<div style="float:left;margin-left:5px;">
+		<button onclick="allCheck();">全选 </button>
+		<button onclick="allRecheck();">反选 </button>
+		<button action="${delUrl}" return="${actionUrl}&currentPageNo=#{currentPage}" onclick="deleteCheck(this);">删除 </button>
+	</div>
+	<div style=" float: left; line-height: 30px; margin-left: 30px;">
+	共${page.totalRows}条，共${page.totalPages}页记录
+	</div>
+	<div style="float:right;margin-right:5px;">
+			<#if (currentPage <= 8)>
+				<#local startPage = 1>
+			</#if>
+			<#if ((totalPage - currentPage) < 8)>
+				<#local endPage = totalPage>
+			</#if>
+			
+			<#if (currentPage == 1)>
+				<button style="disabled:true;">上一页</button> 
+			<#else>
+				<button action="${actionUrl}&currentPageNo=#{currentPage - 1}${urlParas!}" onclick="refreshContentByElement(this)">上一页</button>
+			</#if>
+			
+			<#if (currentPage > 8)>
+				<button href="#" action="${actionUrl}&currentPageNo=#{1}${urlParas!}" onclick="refreshContentByElement(this)">#{1}</button>
+				<button href="#" action="${actionUrl}&currentPageNo=#{2}${urlParas!}" onclick="refreshContentByElement(this)">#{2}</button>
+				<span class="gap">…</span>
+			</#if>
+			
+			<#list startPage..endPage as i>
+				<#if currentPage == i>
+					<span class="current">#{i}</span>
+				<#else>
+					<button href="#" action="${actionUrl}&currentPageNo=#{i}${urlParas!}" onclick="refreshContentByElement(this)">#{i}</button>
+				</#if>
+			</#list>
+			
+			<#if ((totalPage - currentPage) >= 8)>
+				<span class="gap">…</span>
+				<button href="#" action="${actionUrl}&currentPageNo=#{totalPage - 1}${urlParas!}" onclick="refreshContentByElement(this)">#{totalPage - 1}</button>
+				<button href="#" action="${actionUrl}&currentPageNo=#{totalPage}${urlParas!}" onclick="refreshContentByElement(this)">#{totalPage}</button>
+			</#if>
+			
+			<#if (currentPage == totalPage)>
+				<button style="disabled:true;">下一页</button>
+			<#else>
+				<button action="${actionUrl}&currentPageNo=#{currentPage + 1}${urlParas!}" onclick="refreshContentByElement(this)">下一页</button>
+			</#if>
+	</div>
+	<div style="clear:both;"></div>
+</#macro>
+
+

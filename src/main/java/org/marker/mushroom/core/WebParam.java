@@ -59,10 +59,11 @@ public final class WebParam {
 	
 	/** 扩展条件查询 */
 	public String extendSql;
+	/** 表前缀 */
+	public String prefix;
 
 
-	
-	/**
+    /**
 	 * 只有通过传递请求对象，才能获取解析数据对象
 	 * */
 	public static WebParam get(){

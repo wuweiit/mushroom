@@ -60,10 +60,10 @@ public class ChannelService extends BaseService {
         return channelDao.findByUrl(pageName);
     }
 
-    public Channel getChannel(String modelType, String contentId) {
+    public Channel getChannel(String tableName, String contentId) {
         String prefix = channelDao.getPreFix();
         JdbcTemplate jdbcTemplate = SpringContextHolder.getBean("jdbcTemplate");
-        String sql = "select a.* from "+prefix+"channel a join "+prefix + modelType+" b on b.cid = a.id WHERE b.id = "+ contentId+" limit 1";
+        String sql = "select a.* from "+prefix+"channel a join " + tableName+" b on b.cid = a.id WHERE b.id = "+ contentId+" limit 1";
         return jdbcTemplate.queryForObject(sql, new ObjectRowMapper.RowMapperChannel());
     }
 }

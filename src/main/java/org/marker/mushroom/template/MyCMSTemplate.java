@@ -177,7 +177,7 @@ public class MyCMSTemplate {
 		
 		
 		// 创建一个StringBuffer
-		this.temp = new ArrayList< >();// 创建此模板页面的数据池
+		this.temp = new ArrayList< >(); // 创建此模板页面的数据池
 		String sbc = replaceTaglib(templateContent.toString());// 全部标签解析
 
 
@@ -254,7 +254,7 @@ public class MyCMSTemplate {
 	 * @throws SystemException 
 	 * */
 	public void put(WebDataSource sqlDs) throws SystemException {
-		sqlDs.generateSql();//生成SQL语句
+		sqlDs.generateSql(); // 生成SQL语句
 		if(null != temp) temp.add(sqlDs);
 	}
 

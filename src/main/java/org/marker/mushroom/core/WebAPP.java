@@ -23,6 +23,7 @@ import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper;
+import org.marker.mushroom.ext.model.ContentModel;
 import org.marker.mushroom.ext.model.ContentModelContext;
 import org.marker.mushroom.ext.model.IContentModelParse;
 import org.marker.mushroom.holder.SpringContextHolder;
@@ -56,7 +57,7 @@ public final class WebAPP {
 	/** 模版引擎 */
 	private static MyCMSTemplate cmstemplate;
 	/** 内容模型工厂 */
-	private static ContentModelContext cmc; 
+	private static ContentModelContext cmc;
 	
 	/** 发送数据到视图对象 */
 	private static SendDataToView dataToView;
@@ -145,12 +146,14 @@ public final class WebAPP {
 
         ChannelService channelService = SpringContextHolder.getBean(Services.CHANNEL);
 		
-		WebParam param = WebParam.get();// 解析地址
+		WebParam param = WebParam.get(); // 解析地址
 
-		if("page".equals(param.action)){
+		if("page".equals(param.action)){ // 页面
 			// 获取当前栏目信息
 			if(param.contentId != null){
-				param.channel = channelService.getChannel(param.modelType, param.contentId);
+				param.prefix = cmc.getPrefix(param.modelType);
+				String tableName = param.prefix + param.modelType;
+				param.channel = channelService.getChannel(tableName, param.contentId);
 				param.pageName = param.channel.getUrl();
 			}else{
 				param.channel = channelService.getByUrl(param.pageName);
