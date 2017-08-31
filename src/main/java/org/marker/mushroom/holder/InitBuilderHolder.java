@@ -198,7 +198,7 @@ public class InitBuilderHolder implements ServletContextAware{
 
 		Map<String,String> configMap = new HashMap<String,String>();
 		// 自动部署目录配置
-		configMap.put(Configuration.DIR_MODULES, moduleDir);
+		configMap.put(Configuration.AUTO_DEPLOY_DIR, moduleDir);
 		// 缓存目录
 		configMap.put(Configuration.DIR_CACHE, cacheDir);
 		// 日志级别
