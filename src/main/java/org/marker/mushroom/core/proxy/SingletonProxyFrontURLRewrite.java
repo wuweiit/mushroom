@@ -6,7 +6,10 @@ import org.marker.urlrewrite.URLRewriteEngine;
 /**
  * CMS前端URL重写代理
  * 单例代理这样做的目的是为了满足项目中其它重写模式
+ *
+ *
  * @author marker
+ *
  * */
 public class SingletonProxyFrontURLRewrite {
 
