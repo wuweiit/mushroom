@@ -149,8 +149,7 @@ public class MessageContext {
 			if(data.containsKey(lang)){
 				return data.get(lang);
 			}else{// 默认语言
-
-				SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+				SystemConfig syscfg = SystemConfig.getInstance();
 				return data.get(syscfg.getDefaultLanguage());
 			}
 		}

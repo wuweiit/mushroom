@@ -56,6 +56,7 @@ public final class SystemConfig extends ConfigDBEngine {
 	
 	
 
+	private static SystemConfig systemConfig;
 
 
 	/**
@@ -63,13 +64,28 @@ public final class SystemConfig extends ConfigDBEngine {
 	 *
 	 * @param jdbcTemplate
 	 */
-	public SystemConfig(JdbcTemplate jdbcTemplate) {
+	private SystemConfig(JdbcTemplate jdbcTemplate) {
 		super(jdbcTemplate);
 	}
 
+
+	/**
+	 * 获取实例
+	 * @return SystemConfig
+	 */
 	public static SystemConfig getInstance() {
-		return SpringContextHolder.getBean("systemConfig");
+		if(systemConfig == null){
+			synchronized (SystemConfig.class){
+				if(systemConfig == null){
+					JdbcTemplate jdbcTemplate = SpringContextHolder.getBean("jdbcTemplate");
+					systemConfig = new SystemConfig(jdbcTemplate);
+				}
+			}
+		}
+		return systemConfig;
 	}
+
+
 
 	/**
 	 * 配置文件中属性名称配置

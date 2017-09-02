@@ -74,8 +74,7 @@ public class MyCMSTemplate {
 	private final TaglibContext tagContext = TaglibContext.getInstance();
 
 	
-	@Autowired
-	private SystemConfig syscfg;
+
 
 	// 临时存储sql数据引擎
 	public List<WebDataSource> temp;
@@ -98,6 +97,7 @@ public class MyCMSTemplate {
 	 * @throws IOException 
 	 * */
 	public void proxyCompile(String tplFileName) throws SystemException, IOException{
+		SystemConfig syscfg = SystemConfig.getInstance();
 		try {
 			config.setSharedVariable("req", ActionContext.getReq());
 		} catch (TemplateModelException e) {
@@ -147,6 +147,7 @@ public class MyCMSTemplate {
 	 * */
 	private void compile(String tplFileName, File tplFile) throws SystemException, IOException{
 		logger.info("compiling template file " + tplFileName + " to cache");
+		SystemConfig syscfg = SystemConfig.getInstance();
 		
 		//第一步：加载模板内容
 		TemplateFileLoad tplloader = null;

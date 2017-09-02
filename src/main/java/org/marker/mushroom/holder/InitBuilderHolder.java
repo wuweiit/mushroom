@@ -70,17 +70,7 @@ public class InitBuilderHolder implements ServletContextAware{
 		 */
 		DataBaseConfig.getInstance().init();
     	
-    	
-		/* 
-		 * ============================================================
-		 *                初始化系统配置信息路径
-		 * ============================================================
-		 */
 
-		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
-    	logger.info("build systemConfig instance = {}", syscfg);
-    	application.setAttribute(AppStatic.WEB_APP_CONFIG, syscfg.getProperties());
-    	
     	
     	
 		/* 
@@ -169,9 +159,9 @@ public class InitBuilderHolder implements ServletContextAware{
     	logger.info("mrcms taglibs init complete");
     	
     	
-    	
-    	
-    	/* 
+
+
+    	/*
 		 * ============================================================
 		 *               MessageContext 初始化
 		 * ============================================================
@@ -179,11 +169,15 @@ public class InitBuilderHolder implements ServletContextAware{
     	logger.info("mrcms MessageContext init ...");
         MessageDBContext messageDBContext = MessageDBContext.getInstance();
 
-    	try {
-            messageDBContext.init();
-		} catch (Exception e) {
-			logger.error("", e);
+		if(!messageDBContext.isInit()){
+			try {
+				messageDBContext.init();
+			} catch (Exception e) {
+				logger.error("", e);
+			}
 		}
+
+
 
 
 
@@ -226,7 +220,7 @@ public class InitBuilderHolder implements ServletContextAware{
 //			moduleFramework.stop();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+		    logger.error("", e);
 		}
 
 

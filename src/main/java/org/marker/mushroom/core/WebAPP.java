@@ -255,8 +255,8 @@ public final class WebAPP {
 	 * @throws SystemException
 	 */
 	public void handleErrorMessage(SystemException e) {
+        SystemConfig syscfg = SystemConfig.getInstance();
 
-		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
 		String errorTemplate = syscfg.get("error_page"); 
 //		String errorMessage = ErrorConfig.getInstance().get(errorCode);
 		 

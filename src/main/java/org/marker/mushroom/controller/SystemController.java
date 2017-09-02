@@ -54,9 +54,7 @@ public class SystemController extends SupportController {
 	/** 日志记录对象 */ 
 	protected Logger logger =  LoggerFactory.getLogger(SystemController.class); 
 
-	/** 系统配置对象 */
-	@Autowired
-	private SystemConfig config;
+
 
 
     /**
@@ -70,7 +68,8 @@ public class SystemController extends SupportController {
 	// 网站基本信息
 	@RequestMapping("/siteinfo")
 	public String siteinfo(HttpServletRequest request){
-		request.setAttribute("config", config.getProperties());
+		SystemConfig syscfg = SystemConfig.getInstance();
+		request.setAttribute("config", syscfg.getProperties());
         MessageDBContext mc = MessageDBContext.getInstance();
 		request.setAttribute("langselect", mc.getReadySelectElement());
 		return this.viewPath + "siteinfo";
@@ -80,22 +79,24 @@ public class SystemController extends SupportController {
 	//保存网站配置信息
 	@ResponseBody
 	@RequestMapping("/saveinfo")
-	public Object saveinfo(HttpServletRequest request){ 
+	public Object saveinfo(HttpServletRequest request){
+
+		SystemConfig syscfg = SystemConfig.getInstance();
 		try{ 
 			/* 判断统计是否修改 */
 			MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE); 
 			String new_statistics = request.getParameter("config.statistics");
-			if(!config.get(SystemConfig.STATISTICS).equals(new_statistics)){
+			if(!syscfg.get(SystemConfig.STATISTICS).equals(new_statistics)){
 				cmstemplate.clearCache(); 
 			}
 			/* 判断主题是否切换 */
 			String new_themes_active = request.getParameter("config.themes_active");
-			if(!config.get(SystemConfig.THEMES_ACTIVE).equals(new_themes_active)){
+			if(!syscfg.get(SystemConfig.THEMES_ACTIVE).equals(new_themes_active)){
 				cmstemplate.clearCache(); 
 			}
 			/* 判断启用代码压缩是否切换 */
 			String new_compress = request.getParameter("config.compress");
-			if(!config.get(SystemConfig.COMPRESS).equals(new_compress)){
+			if(!syscfg.get(SystemConfig.COMPRESS).equals(new_compress)){
 				cmstemplate.clearCache(); 
 			}
 			
@@ -108,7 +109,7 @@ public class SystemController extends SupportController {
 			}
 			/* 切换默认语言*/
             String newDefaultLang = request.getParameter("config.defaultlang");
-            String oldDefaultLang = config.get(SystemConfig.DEFAULTLANG);
+            String oldDefaultLang = syscfg.get(SystemConfig.DEFAULTLANG);
 
             if(!oldDefaultLang.equals(newDefaultLang)){
 
@@ -119,35 +120,35 @@ public class SystemController extends SupportController {
 			
 			
 			/* 系统基本信息配置 */
-			config.set("title", request.getParameter("config.title"));//网站标题
-			config.set("url", request.getParameter("config.url"));//网站地址
-			config.set("keywords", request.getParameter("config.keywords"));//网站关键字
-			config.set("description", request.getParameter("config.description"));//网站描述
-			config.set("mastermail", request.getParameter("config.mastermail"));//管理员邮箱
-			config.set("copyright", request.getParameter("config.copyright"));//版权信息
-			config.set("icp", request.getParameter("config.icp"));//ICP备案 
-			config.set(SystemConfig.STATISTICS, request.getParameter("config.statistics"));// 是否启用统计
-			config.set(SystemConfig.DEFAULTLANG, request.getParameter("config.defaultlang"));// 默认语言
+			syscfg.set("title", request.getParameter("config.title"));//网站标题
+			syscfg.set("url", request.getParameter("config.url"));//网站地址
+			syscfg.set("keywords", request.getParameter("config.keywords"));//网站关键字
+			syscfg.set("description", request.getParameter("config.description"));//网站描述
+			syscfg.set("mastermail", request.getParameter("config.mastermail"));//管理员邮箱
+			syscfg.set("copyright", request.getParameter("config.copyright"));//版权信息
+			syscfg.set("icp", request.getParameter("config.icp"));//ICP备案
+			syscfg.set(SystemConfig.STATISTICS, request.getParameter("config.statistics"));// 是否启用统计
+			syscfg.set(SystemConfig.DEFAULTLANG, request.getParameter("config.defaultlang"));// 默认语言
 			
 			
 			/* 主题配置 */
-			config.set("index_page", request.getParameter("config.index_page"));//网站首页
-			config.set("error_page", request.getParameter("config.error_page"));//错误模版
-			config.set(SystemConfig.THEMES_ACTIVE, request.getParameter("config.themes_active"));//主题路径
-            config.set(SystemConfig.THEMES_PATH, request.getParameter("config.themesPath"));// 页面静态化
-			config.set("themes_cache", request.getParameter("config.themes_cache"));//主题缓存目录
-			config.set(SystemConfig.DEV_MODE, request.getParameter("config.dev_mode"));//是否开发模式
-			config.set(SystemConfig.GZIP, request.getParameter("config.gzip"));//GZIP
-			config.set(SystemConfig.COMPRESS, request.getParameter("config.compress"));//GZIP
-			config.set(SystemConfig.STATIC_PAGE, request.getParameter("config.statichtml"));// 页面静态化
-			config.set(SystemConfig.FILE_PATH, request.getParameter("config.filePath"));// 页面静态化
+			syscfg.set("index_page", request.getParameter("config.index_page"));//网站首页
+			syscfg.set("error_page", request.getParameter("config.error_page"));//错误模版
+			syscfg.set(SystemConfig.THEMES_ACTIVE, request.getParameter("config.themes_active"));//主题路径
+            syscfg.set(SystemConfig.THEMES_PATH, request.getParameter("config.themesPath"));// 页面静态化
+			syscfg.set("themes_cache", request.getParameter("config.themes_cache"));//主题缓存目录
+			syscfg.set(SystemConfig.DEV_MODE, request.getParameter("config.dev_mode"));//是否开发模式
+			syscfg.set(SystemConfig.GZIP, request.getParameter("config.gzip"));//GZIP
+			syscfg.set(SystemConfig.COMPRESS, request.getParameter("config.compress"));//GZIP
+			syscfg.set(SystemConfig.STATIC_PAGE, request.getParameter("config.statichtml"));// 页面静态化
+			syscfg.set(SystemConfig.FILE_PATH, request.getParameter("config.filePath"));// 页面静态化
 
-			config.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
-
-
+			syscfg.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
 
 
-			config.store();//修改配置信息状态
+
+
+			syscfg.store();//修改配置信息状态
 			return new ResultMessage(true, "更新成功!");
 		}catch (Exception e) {
 			logger.error("", e);
@@ -234,7 +235,9 @@ public class SystemController extends SupportController {
 	 * 获取Des加密结果
 	 * */
 	private String getDesCode(String pass){
-		String key = config.get("secret_key");//网站秘钥，这是在安装的时候获取的
+
+		SystemConfig syscfg = SystemConfig.getInstance();
+		String key = syscfg.get("secret_key");//网站秘钥，这是在安装的时候获取的
 		try {
 			return Base64.encode(DES.encrypt(pass.getBytes(), key));
 		} catch (Exception e) { e.printStackTrace();}
@@ -294,8 +297,9 @@ public class SystemController extends SupportController {
 	public @ResponseBody Object themes(HttpServletRequest request){ 
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
+        SystemConfig syscfg = SystemConfig.getInstance();
 
-		String themesPath = config.getThemesPath();
+		String themesPath = syscfg.getThemesPath();
         File file = new File(themesPath);
         String[] filelist = file.list();
 

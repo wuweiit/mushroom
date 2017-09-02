@@ -43,12 +43,22 @@ public class MessageDBContext {
 		this.jdbcTemplate  = jdbcTemplate;
 	}
 
+	private static MessageDBContext messageDBContext;
+
+	/** 是否初始化 */
+	private static boolean init = false;
+
 
 	/**
 	 * 获取数据库配置实例
 	 * */
 	public static MessageDBContext getInstance(){
-		return SpringContextHolder.getBean("messageDBContext");
+	    if(messageDBContext == null){
+            JdbcTemplate jdbcTemplate = SpringContextHolder.getBean("jdbcTemplate");
+            messageDBContext = new MessageDBContext(jdbcTemplate);
+             init = true;
+        }
+		return messageDBContext;
 	}
 
 
@@ -167,7 +177,7 @@ public class MessageDBContext {
 			if(messageData.containsKey(lang)){
 				return messageData.get(lang);
 			}else{// 默认语言
-				SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+				SystemConfig syscfg = SystemConfig.getInstance();
 				return messageData.get(syscfg.getDefaultLanguage());
 			}
 		}
@@ -405,4 +415,13 @@ public class MessageDBContext {
         }
         FileTools.load(file, properties);
     }
+
+
+	/**
+	 * 是否初始化
+	 * @return boolean
+	 */
+	public boolean isInit() {
+		return init;
+	}
 }

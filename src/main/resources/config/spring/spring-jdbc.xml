@@ -25,35 +25,68 @@
 
 
     <!--  druid数据源   -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="${mushroom.db.driver}" />
-        <property name="url" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}&amp;autoReconnect=true" />
-        <property name="username" value="${mushroom.db.user}" />
-        <property name="password" value="${mushroom.db.pass}" />
-        <!-- druid 连接池的 -->
-        <property name="filters" value="stat" />
-        <!--maxActive: 最大连接数量 -->
-        <property name="maxActive" value="${mushroom.druid.maxActive}" />
-        <!--initialSize: 初始化连接 -->
-        <property name="initialSize" value="${mushroom.druid.initialSize}" />
-        <!-- 这里配置提交方式，默认就是TRUE，可以不用配置 -->
-        <property name="defaultAutoCommit" value="true" />
+    <!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSourceC3P0Adapter">-->
+        <!--<property name="driverClassName" value="${mushroom.db.driver}" />-->
+        <!--<property name="url" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}&amp;autoReconnect=false" />-->
+        <!--<property name="username" value="${mushroom.db.user}" />-->
+        <!--<property name="password" value="${mushroom.db.pass}" />-->
 
-        <!-- 默认值是 true ，当从连接池取连接时，验证这个连接是否有效 -->
-        <property name="testOnBorrow" value="true" />
-        <!-- 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串 -->
-        <property name="testWhileIdle" value="true" />
-        <!-- 默认值是 flase, 当从把该连接放回到连接池的时，验证这个连接是否有效 -->
-        <property name="testOnReturn" value="true" />
-        <!--用来验证从连接池取出的连接,在将连接返回给调用者之前.如果指定,则查询必须是一个SQL SELECT并且必须返回至少一行记录-->
-        <property name="validationQuery" value="SELECT 'x'" />
-        <!-- 连接池中连接可空闲的时间 单位毫秒 30分钟 -->
-        <property name="minEvictableIdleTimeMillis" value="1800000" />
-        <property name="removeAbandoned" value="true" />
-        <property name="removeAbandonedTimeout" value="10000" />
-        <!-- 间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒，10分钟 -->
-        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <!--&lt;!&ndash;maxActive: 最大连接数量 &ndash;&gt;-->
+        <!--<property name="maxActive" value="${mushroom.druid.maxActive}" />-->
+        <!--&lt;!&ndash;initialSize: 初始化连接 &ndash;&gt;-->
+        <!--<property name="initialSize" value="${mushroom.druid.initialSize}" />-->
+        <!--&lt;!&ndash; 这里配置提交方式，默认就是TRUE，可以不用配置 &ndash;&gt;-->
+        <!--<property name="defaultAutoCommit" value="true" />-->
+
+        <!--&lt;!&ndash; 默认值是 true ，当从连接池取连接时，验证这个连接是否有效 &ndash;&gt;-->
+        <!--<property name="testOnBorrow" value="true" />-->
+        <!--&lt;!&ndash; 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串 &ndash;&gt;-->
+        <!--<property name="testWhileIdle" value="true" />-->
+        <!--&lt;!&ndash; 默认值是 flase, 当从把该连接放回到连接池的时，验证这个连接是否有效 &ndash;&gt;-->
+        <!--<property name="testOnReturn" value="true" />-->
+        <!--&lt;!&ndash;用来验证从连接池取出的连接,在将连接返回给调用者之前.如果指定,则查询必须是一个SQL SELECT并且必须返回至少一行记录&ndash;&gt;-->
+        <!--<property name="validationQuery" value="SELECT 'x'" />-->
+        <!--&lt;!&ndash; 连接池中连接可空闲的时间 单位毫秒 30分钟 &ndash;&gt;-->
+        <!--<property name="minEvictableIdleTimeMillis" value="1800000" />-->
+        <!--<property name="removeAbandoned" value="true" />-->
+        <!--<property name="removeAbandonedTimeout" value="10000" />-->
+        <!--&lt;!&ndash; 间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒，10分钟 &ndash;&gt;-->
+        <!--<property name="timeBetweenEvictionRunsMillis" value="60000" />-->
+        <!--<property name="notFullTimeoutRetryCount" value="3" />-->
+    <!--</bean>-->
+
+
+
+
+
+
+    <!-- 配置数据库连接池（c3p0） -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!-- 基本信息 -->
+        <property name="jdbcUrl" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}&amp;autoReconnect=false"/>
+        <property name="driverClass" value="${mushroom.db.driver}"></property>
+        <property name="user" value="${mushroom.db.user}"></property>
+        <property name="password" value="${mushroom.db.pass}"></property>
+        <!-- 其他配置 -->
+        <!--初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+        <property name="initialPoolSize" value="3"></property>
+        <!--连接池中保留的最小连接数。Default: 3 -->
+        <property name="minPoolSize" value="3"></property>
+        <!--连接池中保留的最大连接数。Default: 15 -->
+        <property name="maxPoolSize" value="5"></property>
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+        <property name="acquireIncrement" value="3"></property>
+        <!-- 控制数据源内加载的PreparedStatements数量。如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
+        <property name="maxStatements" value="8"></property>
+        <!-- maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。Default: 0 -->
+        <property name="maxStatementsPerConnection" value="5"></property>
+        <!--最大空闲时间,1800秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+        <property name="maxIdleTime" value="1800"></property>
     </bean>
+
+
+
+
 
     <!-- JDBC模板操作对向 -->
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

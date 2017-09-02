@@ -79,8 +79,7 @@ public final class WebParam {
 	 * */
 	private WebParam(HttpServletRequest req){
 
-        SystemConfig config = SpringContextHolder.getBean("systemConfig");
-
+		SystemConfig config = SystemConfig.getInstance();
 		this.pageName   = req.getParameter(FIELD_P);// 页面名称
 		this.modelType = req.getParameter(FIELD_T);// 页面类型
 		if(this.modelType == null){

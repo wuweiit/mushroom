@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.druid.util.StringUtils;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Channel;
-import org.marker.mushroom.beans.Model;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
@@ -22,9 +21,7 @@ import org.marker.mushroom.core.config.impl.URLRewriteConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.IChannelDao;
-import org.marker.mushroom.dao.IModelDao;
 import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.urlrewrite.URLRewriteEngine;
 
@@ -47,15 +44,12 @@ public class ContentModelContext implements IContentModelParse {
 	private final Map<String,ContentModel> contentModels = new ConcurrentHashMap<String,ContentModel>();
 	
 	private IChannelDao channelDao ;
-	
-	private IModelDao modelDao;
-	
+
 	
 	 
 	
 	private ContentModelContext(){ 
-		channelDao = SpringContextHolder.getBean(DAO.CHANNEL); 
-		modelDao = SpringContextHolder.getBean(DAO.MODEL);
+		channelDao = SpringContextHolder.getBean(DAO.CHANNEL);
 
 	}
 	
@@ -100,18 +94,7 @@ public class ContentModelContext implements IContentModelParse {
 		String type = model.get(ContentModel.CONFIG_TYPE).toString();  
 		// 上下文同步
 	    contentModels.put(type, model); 
-	    
-	    List<?> models = modelDao.queryAll(); 
-		for(Object obj : models){
-			Model m = (Model)obj;
-			if(!(type != null && !type.equals(m.getType()))){// 如果数据库中存在 
-				return;
-			}
-		}
-		
-		
-		// 数据库同步
-		modelDao.save(model.getConfig());
+
 		
 	}
 	
@@ -148,7 +131,7 @@ public class ContentModelContext implements IContentModelParse {
 	public int parse(WebParam param) throws SystemException {
 		HttpServletRequest request = ActionContext.getReq();//获取请求对象
 
-
+		SystemConfig syscfg = SystemConfig.getInstance();
 		
 		// 如果内容id不等于0，内容查询
 		if(param.contentId != null && !"0".equals(param.contentId)){
@@ -186,7 +169,6 @@ public class ContentModelContext implements IContentModelParse {
 				param.channel = currentChannel;// 设置栏目参数
 				if(currentChannel != null){
 
-					SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
 					String keywords    = currentChannel.getKeywords();
 					String description = currentChannel.getDescription();
 					if("".equals(description)){
@@ -295,8 +277,7 @@ public class ContentModelContext implements IContentModelParse {
 	 * @param modelType
 	 */
 	public void remove(String modelType) { 
-		contentModels.remove(modelType); 
-		modelDao.deleteByType(modelType); 
+		contentModels.remove(modelType);
 	}
 
 
