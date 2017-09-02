@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSONObject;
 import org.marker.mushroom.beans.*;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.dao.ContentDao;
@@ -17,6 +18,8 @@ import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.service.impl.ChannelService;
 import org.marker.mushroom.support.SupportController;
 import org.marker.mushroom.utils.FileTools;
+import org.marker.mushroom.utils.FileUtils;
+import org.marker.mushroom.utils.TemplateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,52 +30,69 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 栏目管理
+ *
+ *
+ *
  * @author marker
+ *
+ *
  * */
 @Controller
 @RequestMapping("/admin/channel")
 public class ChannelController extends SupportController {
-	
-	@Autowired protected IChannelDao channelDao;
 
+
+    /** 栏目Dao */
 	@Autowired
-    ChannelService channelService;
-	
-	@Autowired private IModelDao modelDao;
+    private IChannelDao channelDao;
 
+	/** 栏目Service */
+	@Autowired
+    private ChannelService channelService;
+
+
+	/** 内容Dao */
 	@Autowired private ContentDao contentDao;
 	/**
 	 * 初始化视图路径
 	 * */
 	public ChannelController() {
-		this.viewPath = "/admin/channel/";
+	    this.viewPath = "/admin/channel/";
 	}
 	
 	
 	
 	/** 添加栏目 */
 	@RequestMapping("/add")
-	public String add(HttpServletRequest request){
-		request.setAttribute("channels", dao.queryForList("select * from  "+getPrefix()+"channel"));
-		
-		return this.viewPath + "add";
+	public ModelAndView add(HttpServletRequest request){
+
+        List<String> templateList = TemplateUtils.getTempalteFiles();
+
+        ModelAndView view = new ModelAndView(this.viewPath + "add");
+
+        view.addObject("templateList", templateList);
+        view.addObject("channels", channelService.getAllTree());
+        return view;
 	}
 	
 	//编辑栏目
 	@RequestMapping("/edit")
-	public String edit( HttpServletRequest request){
+	public ModelAndView edit( HttpServletRequest request){
 		int id = Integer.parseInt(request.getParameter("id"));
 		String sql = "select a.*,b.content from  "+getPrefix()+"channel a left join "+getPrefix()+"content b on a.contentId = b.id where a.id=?";
 
 
         Map<String,Object> bean =  dao.queryForMap(sql ,id);
-        if(bean.get("contentId") ==null){
+        if(bean.get("contentId") == null){
             bean.put("contentId",0);
         }
-		request.setAttribute("channel", bean);
-		request.setAttribute("channels", dao.queryForList("select * from  "+getPrefix()+"channel"));
-		
-		return this.viewPath + "edit";
+
+        List<String> templateList = TemplateUtils.getTempalteFiles();
+        ModelAndView view = new ModelAndView(this.viewPath + "edit");
+        view.addObject("templateList", templateList);
+        view.addObject("channel", bean);
+        view.addObject("channels", channelService.getAllTree());
+        return view;
 	}
 
 	//更新栏目
@@ -157,11 +177,12 @@ public class ChannelController extends SupportController {
 	
 	/** 栏目列表 */
 	@RequestMapping("/list")
-	public ModelAndView list(){ 
-		List<Map<String,Object>> list = commonDao.queryForList(
-				"select c.* from  "+getPrefix()+"channel c order by c.sort asc");
-		ModelAndView view = new ModelAndView(this.viewPath+"list");
-		view.addObject("channels", list);
+	public ModelAndView list(){
+        List<Map<String, Object>> list2 = channelService.getAllTree();
+
+		ModelAndView view = new ModelAndView(this.viewPath + "list");
+
+		view.addObject("channels", list2);
 		return view;
 	}
 
@@ -173,4 +194,8 @@ public class ChannelController extends SupportController {
 		List<Channel> list = channelService.list();
 		return list;
 	}
+
+
+
+
 }

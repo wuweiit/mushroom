@@ -1,8 +1,8 @@
 package org.marker.mushroom.utils;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtils {
 
@@ -27,7 +27,55 @@ public class FileUtils {
 	}
 
 
+    /**
+     * 获取文件集合
+     *
+     * @param path 路径
+     * @param format 格式
+     * @return
+     */
+	public static List<String> getPathList(String path, final String format) {
+		final File file = new File(path);
+        List<String> filePathList = new ArrayList<>();
+        processPathList(filePathList, file , path , format);
 
+		return filePathList;
+	}
+
+
+    /**
+     * 递归算法
+     * @param filePathList
+     * @param file
+     * @param path
+     * @param format
+     */
+	private static void processPathList(List<String> filePathList, File file, String path, final String format) {
+        if(file.isDirectory()){
+            File[] files = file.listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File file1) {
+                    if(file1.isDirectory()){
+                        return true;
+                    }
+                    String suffix = FileTools.getSuffix(file1.getAbsolutePath());
+                    if(suffix != null && suffix.equals(format)){
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            for(File f : files){
+                if (f.isDirectory()){
+                    processPathList(filePathList, f , path , format);
+                }else{
+                    String pathItem = f.getPath();
+                    filePathList.add(pathItem.replaceAll(path,""));
+                }
+            }
+        }
+    }
 
 
 

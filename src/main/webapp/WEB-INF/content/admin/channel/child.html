@@ -4,18 +4,25 @@
 	  	<#if id == comment.pid>
 		<tr> 
 	      	<td align="center">${comment.id?c}</td>
-	        <td><#list 0..temp as x> &nbsp; &nbsp; </#list>
-				<#if comment.end == 1> └ <#else>  ├</#if>
-
-				${comment.name!}</td>
-	        <td align="left"><a href="${url!}${encoder('/cms?p=${comment.url!}')!}" target="_blank">${comment.url!}</a></td>
+	        <td>${comment.space!}
+				<#if comment.end> └ <#else>  ├</#if>
+				<a href="${url!}${encoder('/cms?p=${comment.url!}')!}" target="_blank">${comment.name!}</a>
+			</td>
+	        <td align="left">${comment.url!}</td>
 	       
-	        <td align="center">${comment.sort?c}</td>
-	        <td align="center"><#if comment.hide == true>显示<#else>隐藏</#if></td>
-	        <td align="center">
-	        <a href="#" action="channel/edit.do?id=${comment.id?c}" onclick="refreshContentByElement(this);">编辑</a>
-	        | <a href="#" action="channel/delete.do?rid=${comment.id?c}" return="channel/list.do" onclick="deleteById(this);">删除</a>
-	 	 </tr>
+	        <td class="text-center">${comment.sort?c}</td>
+	        <td class="text-center">
+				<#if comment.hide == true>
+					<i class="fa fa-eye"></i>
+				<#else>
+					<i class="fa fa-eye-slash"></i>
+				</#if>
+			</td>
+	        <td class="text-center">
+				<a href="#" action="channel/edit.do?id=${comment.id?c}" onclick="refreshContentByElement(this);">编辑</a>
+				| <a href="#" action="channel/delete.do?rid=${comment.id?c}" return="channel/list.do" onclick="deleteById(this);">删除</a>
+			</td>
+		</tr>
 	    <@tree id = comment.id node=temp/>
       </#if>
 	</#list> 

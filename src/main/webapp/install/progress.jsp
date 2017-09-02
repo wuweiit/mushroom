@@ -18,6 +18,7 @@
 <%@page import="java.io.OutputStream"%> 
 <%@page import="java.io.File"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.alibaba.druid.pool.DruidDataSource" %>
 <%@ include file="check_install.jsp" %>
 <!DOCTYPE HTML>
 <html>
@@ -62,9 +63,11 @@ if( status ){
 		 *              1. 获取数据库链接
 		 * ==============================================
 		 */
-		ComboPooledDataSource cmpd = SpringContextHolder.getBean("dataSource");
-		cmpd.setJdbcUrl(jdbcurl);//设置
-		cmpd.setUser(user);
+		DruidDataSource cmpd = SpringContextHolder.getBean("dataSource");
+        cmpd.close();
+
+        cmpd.setUrl(jdbcurl); // 设置
+		cmpd.setUsername(user);
 		cmpd.setPassword(pass);
 	 	
 	 	

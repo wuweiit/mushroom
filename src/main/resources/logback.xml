@@ -1,5 +1,5 @@
 <configuration scan="true" scanPeriod="30 seconds">
-	<property name="PROJECT_HOME" value="/data/logs/mrcms" />
+	<property name="PROJECT_HOME" value="./" />
 	<property name="MAX_FILE_SIZE" value="300mb" />
 	<property name="MAX_HISTORY" value="5" />
 	<property name="MYBATIS_MAX_HISTORY" value="${MAX_HISTORY}" />
@@ -83,29 +83,23 @@
 
 
 
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ERROR-ROLLING"/>
 		<appender-ref ref="INFO-ROLLING"/>
 		<appender-ref ref="DEBUG-ROLLING"/>
 	</root>
 
-	<logger name="com.llcloud" level="DEBUG" /> 
-	<!-- 打印sql -->
- 	<logger name="com.llcloud.dao.mapper" level="DEBUG">
- 		<appender-ref ref="MYBATIS-ROLLING"/>
- 	</logger>
-	<!-- 打印消息 -->
 	  
 	<!-- c3p0 -->
-	<logger name="org.springframework" level="DEBUG"/>
-	<logger name="com.ibatis" level="DEBUG" />
-	<logger name="org.apache.ibatis" level="DEBUG"/>
-	<logger name="org.mybatis" level="DEBUG"/>
-	<logger name="java.sql.Statement" level="DEBUG"/>
-	<logger name="java.sql.PreparedStatement" level="DEBUG"/>
+	<logger name="org.springframework" level="INFO"/>
+	<logger name="com.ibatis" level="INFO" />
+	<logger name="org.apache.ibatis" level="INFO"/>
+	<logger name="org.mybatis" level="INFO"/>
+	<logger name="java.sql.Statement" level="INFO"/>
+	<logger name="java.sql.PreparedStatement" level="INFO"/>
 
-	<logger name="org.springframework.web" level="DEBUG"></logger>
+	<logger name="org.springframework.web" level="INFO"></logger>
 	<logger name="org.springframework.data.redis" level="INFO"></logger>
 	<logger name="org.springframework.beans.factory.support" level="INFO"></logger>
 
