@@ -1,12 +1,16 @@
 package org.marker.mushroom.core.channel;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.beans.Category;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
+import org.marker.mushroom.utils.StringUtil;
 import org.marker.urlrewrite.URLRewriteEngine;
 
 
@@ -124,4 +128,54 @@ public class TreeUtils {
     }
 
 
+    /**
+     * 处理模拟树结构
+     * （最多仅支持4级递归）
+     *
+     * @param list 模拟树
+     * @param parentId 父级ID
+     * @param level 级别（1，2，3）
+     */
+    public static void processSimulateTree(List<Map<String, Object>> list, int parentId, int level) {
+
+        if(level > 3){ // 限制级数
+            return;
+        }
+
+        // 计算同级节点
+        Iterator<Map<String, Object>> it2 = list.iterator();
+        List<JSONObject> brotherList = new ArrayList<>();
+        while(it2.hasNext()){
+            Map<String, Object> bean = it2.next();
+            JSONObject jsonObject = new JSONObject(bean);
+            int pid = jsonObject.getIntValue("pid");
+            if(parentId == pid){
+                brotherList.add(jsonObject);
+            }
+        }
+        // 兄弟节点结束点
+        if(brotherList.size() == 0){
+            return;
+        }
+        JSONObject endElement = brotherList.get(brotherList.size()-1);
+
+        int endId = endElement.getIntValue("id");
+
+
+
+
+        Iterator<JSONObject> it = brotherList.iterator();
+        while(it.hasNext()){
+            JSONObject jsonObject = it.next();
+            int id = jsonObject.getIntValue("id");
+
+            // 计算空格数量
+            jsonObject.put("space", StringUtil.buidString("&nbsp;&nbsp;&nbsp;",level));
+
+            // 计算是否结尾
+            jsonObject.put("end", endId == id);
+
+            processSimulateTree(list, id, level + 1);
+        }
+    }
 }

@@ -21,10 +21,8 @@
         <property name="ignoreResourceNotFound" value="true"/>
         <property name="locations">
             <list>
-                <value>file:/etc/hsxycms/config.properties</value>
-                <value>file:/home/wuw/config.properties</value>
-                <value>file:/etc/faceinner/config_local.properties</value>
                 <value>classpath:/config.properties</value>
+                <value>file:/etc/faceinner/config.properties</value>
             </list>
         </property>
     </bean>

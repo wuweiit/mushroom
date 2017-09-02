@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:s="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+"
+	default-autowire="byType" default-lazy-init="true">
+
+    <import resource="config/spring/application.xml" />
+    <import resource="config/spring/application-config.xml" />
+    <import resource="config/spring/spring-jdbc.xml" />
+
+
+</beans>
