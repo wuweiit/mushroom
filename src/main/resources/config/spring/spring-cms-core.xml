@@ -30,11 +30,7 @@
  	<context:component-scan base-package="org.marker.mushroom.template"/>
  	<context:component-scan base-package="org.marker.mushroom.statistic"/>
  
- 
- 	<!-- 网站配置组件 -->
-	<bean id="systemConfig" class="org.marker.mushroom.core.config.impl.SystemConfig">
-		<constructor-arg ref="jdbcTemplate"></constructor-arg>
-	</bean>
+
 
 
     <!-- URL重写规则引擎配置配置组件 -->
@@ -42,9 +38,7 @@
         <constructor-arg ref="jdbcTemplate"></constructor-arg>
     </bean>
 
-    <bean id="messageDBContext" class="org.marker.mushroom.ext.message.MessageDBContext">
-        <constructor-arg ref="jdbcTemplate"></constructor-arg>
-    </bean>
+
 
 
 

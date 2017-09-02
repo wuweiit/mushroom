@@ -60,7 +60,7 @@ public class ThemesResourceFilter implements Filter {
 
         String uri = request.getRequestURI();
 
-        SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+        SystemConfig syscfg = SystemConfig.getInstance();
 
         setHeaders((HttpServletResponse) resp, getMediaType(servletContext, uri));
         String themesPath = syscfg.getThemesPath();

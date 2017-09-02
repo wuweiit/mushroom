@@ -50,8 +50,7 @@ public class AdminController extends SupportController {
 	@Autowired IMenuDao menuDao;
 	@Autowired ServletContext application;
 
-	@Autowired @Qualifier("systemConfig")
-	SystemConfig systemConfig;
+
 	
 	/** 构造方法初始化一些成员变量 */
 	public AdminController() {
@@ -125,8 +124,8 @@ public class AdminController extends SupportController {
         request.setAttribute("url", HttpUtils.getRequestURL(request));
 
 
-
-        String systemLoginSafe = systemConfig.getLoginSafe();
+		SystemConfig syscfg = SystemConfig.getInstance();
+        String systemLoginSafe = syscfg.getLoginSafe();
 
 		if(!systemLoginSafe.equals(safe)){// 验证登录路径
             return this.viewPath + "404";
@@ -242,8 +241,8 @@ public class AdminController extends SupportController {
 		HttpSession session = request.getSession(false);
 		if(session != null) session.invalidate();
 
-
-        String systemLoginSafe = systemConfig.getLoginSafe();
+		SystemConfig syscfg = SystemConfig.getInstance();
+        String systemLoginSafe = syscfg.getLoginSafe();
 
 
         return "redirect:login.do?safe="+systemLoginSafe;

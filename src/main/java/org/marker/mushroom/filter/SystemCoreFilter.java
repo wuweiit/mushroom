@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.LOG;
-import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
@@ -31,7 +30,6 @@ import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.util.StringUtils;
 
 
 /**
@@ -146,7 +144,8 @@ public class SystemCoreFilter implements Filter {
         }
 		// 页面静态读取
 
-		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+		SystemConfig syscfg = SystemConfig.getInstance(); // Spring 一定要初始化完成
+
 		if(syscfg.isStaticPage()){
 			org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
 
@@ -200,7 +199,24 @@ public class SystemCoreFilter implements Filter {
 		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
 		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
 		req.setAttribute(AppStatic.WEB_APP_THEME_URL, HttpUtils.getRequestURL(request)+"/themes/"+syscfg.getThemeActive());// 网址路径
-		
+
+
+
+		/*
+		 * ============================================================
+		 *                初始化系统配置信息路径
+		 * ============================================================
+		 */
+
+		// SpringContextHolder.getBean("systemConfig");
+		logger.info("build systemConfig instance = {}", syscfg);
+		req.setAttribute(AppStatic.WEB_APP_CONFIG, syscfg.getProperties());
+
+
+
+
+
+
 		req.getRequestDispatcher(url).forward(request, response);// 请求转发
 	}
 

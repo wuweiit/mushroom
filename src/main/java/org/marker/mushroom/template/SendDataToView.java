@@ -82,8 +82,7 @@ public class SendDataToView {
 	public void process(String tpl) throws SystemException {
 		Configuration config = engine.config;
 
-		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
-		
+        SystemConfig syscfg = SystemConfig.getInstance();
 
 		if(syscfg.isdevMode()){// 模板异常将以HTML格式输出
 			config.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);

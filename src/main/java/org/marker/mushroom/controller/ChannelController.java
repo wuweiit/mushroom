@@ -127,7 +127,7 @@ public class ChannelController extends SupportController {
 
         if(channel.getId() == 0){
             if(commonDao.save(channel)){
-				SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+                SystemConfig syscfg = SystemConfig.getInstance();
                 try {
                     String path = WebRealPathHolder.REAL_PATH+"data"+File.separator+"template"+File.separator+"template.html";
                     String topath = WebRealPathHolder.REAL_PATH + "themes" + File.separator

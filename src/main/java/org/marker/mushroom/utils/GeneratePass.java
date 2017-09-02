@@ -15,7 +15,7 @@ public class GeneratePass {
 
 	
 	public static String encode(String password) {
-		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+		SystemConfig syscfg = SystemConfig.getInstance();
 		String key = syscfg.get("secret_key");
 		try {
 			return MD5.getMD5Code(Base64.encode(DES.encrypt(
