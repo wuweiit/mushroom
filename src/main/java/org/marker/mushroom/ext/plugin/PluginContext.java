@@ -2,8 +2,6 @@ package org.marker.mushroom.ext.plugin;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,27 +10,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 
 import freemarker.ext.servlet.AllHttpScopesHashModel;
-import freemarker.template.ObjectWrapper;
 import org.apache.commons.io.IOUtils;
 import org.marker.mushroom.context.ActionContext;
-import org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag;
-import org.marker.mushroom.freemarker.LoadDirective;
-import org.marker.mushroom.freemarker.UpperDirective;
-import org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import freemarker.template.Template;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
-import sun.plugin.net.proxy.PluginProxyInfo;
 
 
 /**

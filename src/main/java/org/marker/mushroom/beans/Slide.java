@@ -1,6 +1,5 @@
 package org.marker.mushroom.beans;
 
-import lombok.Data;
 import org.marker.mushroom.dao.annotation.Entity;
 
 import java.io.Serializable;
@@ -12,7 +11,6 @@ import java.util.Date;
  * @author marker
  * Created by marker on 17/6/8.
  */
-@Data
 @Entity("slide")
 public class Slide implements Serializable{
 
@@ -30,5 +28,51 @@ public class Slide implements Serializable{
     private Date createTime;
 
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }

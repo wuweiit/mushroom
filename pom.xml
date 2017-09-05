@@ -302,15 +302,6 @@
 		  <version>20160810</version>
 	  </dependency>
 
-
-	  <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-	  <dependency>
-		  <groupId>org.projectlombok</groupId>
-		  <artifactId>lombok</artifactId>
-		  <version>1.16.8</version>
-	  </dependency>
-
-
 	  <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
 	  <dependency>
 		  <groupId>commons-lang</groupId>

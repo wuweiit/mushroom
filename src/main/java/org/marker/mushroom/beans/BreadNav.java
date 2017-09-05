@@ -1,6 +1,5 @@
 package org.marker.mushroom.beans;
 
-import lombok.Data;
 
 import java.io.Serializable;
 
@@ -10,10 +9,26 @@ import java.io.Serializable;
  * @author marker
  * Created by marker on 2017/6/12.
  */
-@Data
 public class BreadNav implements Serializable {
 
     public String name;
 
     private String url;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
