@@ -1,19 +1,19 @@
 package org.marker.mushroom.core.channel;
 
-import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
+ * 导航项
  *
- *
+ * @author marker
  *
  * Created by marker on 2017/6/24.
  */
-@Data
-public class NavItem {
+public class NavItem implements Serializable{
 
     private Integer id = 0;
 
@@ -86,5 +86,74 @@ public class NavItem {
 
     public String toString(){
         return "overwrite";
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    public NavItem getParent() {
+        return parent;
+    }
+
+    public void setParent(NavItem parent) {
+        this.parent = parent;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<NavItem> getChild() {
+        return child;
+    }
+
+    public void setChild(List<NavItem> child) {
+        this.child = child;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public boolean isEnd() {
+        return end;
+    }
+
+    public void setEnd(boolean end) {
+        this.end = end;
     }
 }

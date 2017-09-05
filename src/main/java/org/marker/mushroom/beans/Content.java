@@ -1,6 +1,5 @@
 package org.marker.mushroom.beans;
 
-import lombok.Data;
 import org.marker.mushroom.dao.annotation.Entity;
 
 import java.io.Serializable;
@@ -16,7 +15,6 @@ import java.util.Date;
  * @author marker
  * */
 @Entity("content")
-@Data
 public class Content implements Serializable {
 	private static final long serialVersionUID = -2456959238880328330L;
 	
@@ -29,8 +27,36 @@ public class Content implements Serializable {
 	/** 关键字 */
 	private Date time = new Date();
 
- 
 
-	
- 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
 }
