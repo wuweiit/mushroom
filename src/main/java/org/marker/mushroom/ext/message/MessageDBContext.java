@@ -25,7 +25,7 @@ import java.util.*;
 public class MessageDBContext {
 	
 	/** 默认数据 */
-	private Properties defaultData = new Properties();
+	private static Properties defaultData = new Properties();
 	
 	private Map<String, Properties> messageData = new HashMap<String, Properties>();
 
@@ -56,8 +56,7 @@ public class MessageDBContext {
 	    if(messageDBContext == null){
             JdbcTemplate jdbcTemplate = SpringContextHolder.getBean("jdbcTemplate");
             messageDBContext = new MessageDBContext(jdbcTemplate);
-             init = true;
-        }
+		}
 		return messageDBContext;
 	}
 
@@ -133,7 +132,7 @@ public class MessageDBContext {
             properties.put(key, value);
 
         }
-
+        init = true;
 	}
 	
 	
