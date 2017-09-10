@@ -24,6 +24,13 @@ mvn install -Dmaven.test.skip=true
 ```
 
 
+
+### 立即运行
+```
+mvn jetty:run
+```
+
+
 ###  登录系统
 
 [http://localhost:8080/admin/login.do](http://localhost:8080/admin/login.do)
