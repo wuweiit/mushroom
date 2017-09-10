@@ -36,10 +36,12 @@ import org.marker.urlrewrite.URLRewriteEngine;
  */
 public class ContentModelContext implements IContentModelParse {
 
-	
 
-	 
-	
+
+	/** 单例 */
+	public static ContentModelContext instance;
+
+
 	/** 存放模型的集合(key:类型 value:模型对象) */
 	private final Map<String,ContentModel> contentModels = new ConcurrentHashMap<String,ContentModel>();
 	
@@ -58,7 +60,14 @@ public class ContentModelContext implements IContentModelParse {
 	 * 获取数据库配置实例
 	 * */
 	public static ContentModelContext getInstance(){
-		return SingletonHolder.instance;
+		if (instance == null){
+			synchronized (ContentModelContext.class){
+				if(instance == null){
+					instance = new ContentModelContext();
+				}
+			}
+		}
+		return instance;
 	}
 
 
@@ -79,12 +88,6 @@ public class ContentModelContext implements IContentModelParse {
     }
 
 
-    /**
-	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
-	 * */
-	private static class SingletonHolder {
-		public final static ContentModelContext instance = new ContentModelContext();     
-	}
 	
 	
 	/**

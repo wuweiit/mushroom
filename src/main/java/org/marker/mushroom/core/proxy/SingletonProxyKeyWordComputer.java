@@ -13,13 +13,17 @@ import org.ansj.library.UserDefineLibrary;
  * @author marker
  * @version 1.0
  */
-public class SingletonProxyKeyWordComputer {
+public final class SingletonProxyKeyWordComputer {
+
+
+	public final static KeyWordComputer instance = new KeyWordComputer(5);// 5个关键字
+
+
+
 	/**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
 	 * */
-	private static class SingletonHolder {
-		public final static KeyWordComputer instance = new KeyWordComputer(5);// 5个关键字
-	}
+	private SingletonProxyKeyWordComputer() { }
 	
 	
 	
@@ -28,7 +32,7 @@ public class SingletonProxyKeyWordComputer {
 	 * @return KeyWordComputer
 	 */
 	public static KeyWordComputer getInstance(){
-		return SingletonHolder.instance;
+		return instance;
 	}
 	
 	
