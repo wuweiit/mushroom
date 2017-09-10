@@ -42,7 +42,7 @@ public class InitBuilderHolder implements ServletContextAware{
 	
 	@Override
 	public void setServletContext(ServletContext application) {
-    	String webRootPath = application.getRealPath(File.separator);//网站根目录路径
+    	String webRootPath = WebRealPathHolder.REAL_PATH;//网站根目录路径
     	logger.info("mrcms runtime on path = {}", webRootPath);	
     	
     	logger.info("check mrcms whether install?");
@@ -241,7 +241,9 @@ public class InitBuilderHolder implements ServletContextAware{
 	 * @return boolean 状态
 	 * */
 	private boolean isInstall(String webRootPath){
-		return new File(webRootPath + "data" + File.separator + "install.lock").exists();
+		String lockFile = webRootPath + "data" + File.separator + "install.lock";
+		logger.info("lockFile={}", lockFile);
+		return new File(lockFile).exists();
 	}
 
 }
