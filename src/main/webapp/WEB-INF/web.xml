@@ -17,10 +17,10 @@
 	</listener>
  	
 	
-	<!-- 在线人数统计监听器  
+	<!-- 在线人数统计监听器 -->
  	<listener> 
       	<listener-class>org.marker.mushroom.listener.SessionCounter</listener-class> 
-	</listener>-->
+	</listener>
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -129,6 +129,8 @@
 	    <servlet-name>IndexServlet</servlet-name>
 	    <url-pattern>/cms</url-pattern>
   	</servlet-mapping>
+
+
  	
     <!-- 分发器 -->
 	<servlet>

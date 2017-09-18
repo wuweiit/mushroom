@@ -69,6 +69,7 @@ public final class SystemConfig extends ConfigDBEngine {
 	}
 
 
+
 	/**
 	 * 获取实例
 	 * @return SystemConfig

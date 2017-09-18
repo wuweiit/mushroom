@@ -217,7 +217,7 @@ public class InitBuilderHolder implements ServletContextAware{
 //			moduleFramework.stop();
 
 		} catch (Exception e) {
-		    logger.error("", e);
+		    logger.error("{}", e.getMessage());
 		}
 
 
