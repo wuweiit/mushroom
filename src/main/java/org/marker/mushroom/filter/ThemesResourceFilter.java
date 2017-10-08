@@ -29,6 +29,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLDecoder;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -58,7 +59,7 @@ public class ThemesResourceFilter implements Filter {
         ServletContext servletContext = request.getSession().getServletContext();
 
 
-        String uri = request.getRequestURI();
+        String uri = URLDecoder.decode(request.getRequestURI(),"utf-8");
 
         SystemConfig syscfg = SystemConfig.getInstance();
 

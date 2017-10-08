@@ -1,0 +1,364 @@
+<style>
+    .photo-list{
+        display: table;
+    }
+    #online{
+        height: inherit;
+    }
+    #online .list > li > img {
+        max-width: inherit;
+    }
+    #online .list > li.add{
+        text-align: center;
+        line-height: 113px;
+    }
+    #online .list > li > .delete{
+        position: absolute;
+        right: 0;
+        color: white;
+        font-size: 13px;
+        background: black;
+        padding: 6px;
+        left: 0;
+        bottom: 0;
+        height: 20px;
+        opacity: 0.5;
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #online .list li .icon:hover .delete{
+        opacity: 1;
+    }
+
+    #online .list li img {
+        width: 113px;
+        height: 113px;
+    }
+
+</style>
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">编辑项目</li>
+            <li onclick="setTabContent(this);">项目图片</li>
+		</ul>
+		 <button class="btn_tabbar submit_it" onclick="mySubmitForm(this);" return="project/list.do?currentPageNo=1">保 存</button>
+	</div>
+
+
+	<form id="myForm" action="project/update.do" method="post" class="form-horizontal" onsubmit="return false;">
+
+		<input name="id" type="hidden" value="${article.id?c}" />
+		<input id="extJson" name="extJson" value="${article.extJson!}" type="hidden" />
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+
+			<div class="control-group">
+				<label class="control-label">所属栏目：</label>
+				<div class="controls">
+					<select id="channelId" class="select_for_add" name="cid">
+						<@channelTree id = 0 node = -1/>
+					</select>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">所属分类：</label>
+				<div class="controls">
+					<select id="categoryId"  class="select_for_add" name="did">
+						<option value="-1"> -------- 没有分类 -------- </option>
+						<@categoryTree id = 0 node = -1/>
+					</select>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目标题：</label>
+				<div class="controls">
+					<input id="title" name="title" type="text" value="${article.title!}" placeholder="请输入文章标题" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目图标：</label>
+				<div class="controls">
+					<input id="articleIcon" class="input_for_add" name="icon" value="${article.icon!}" type="text" />
+					<button type="button" onclick="uploadImage()">上传图片</button>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目客户：</label>
+				<div class="controls">
+					<input class="input_for_add" name="customer" value="${article.customer!}" type="text" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目规模：</label>
+				<div class="controls">
+					<input class="input_for_add" name="scale" value="${article.scale!}" type="text" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目地点：</label>
+				<div class="controls">
+					<input class="input_for_add" name="location" value="${article.location!}" type="text" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目时间：</label>
+				<div class="controls">
+					<input class="input_for_add" name="startTime" value="${article.startTime!}" type="text" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<script type="text/plain" id="mushroomeditor" name="content" style="height:350px;;"></script>
+				<textarea id="mrcmsContent" style="display:none">${article.content!}</textarea>
+
+			</div>
+
+
+
+			<div class="control-group">
+				<label class="control-label">文章关键字：</label>
+				<div class="controls">
+					<input id="keywords" name="keywords" value="${article.keywords!}" type="text" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">文章描述：</label>
+				<div class="controls">
+					<textarea  name="description">${article.description!}</textarea>
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+
+			<div class="control-group">
+				<label class="control-label">文章作者：</label>
+				<div class="controls">
+					<input class="input_for_add" name="author" type="text" value="${article.author!}" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">原文地址：</label>
+				<div class="controls">
+					<input name="source" type="text" value="${article.source!}" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+
+			<#if Session.userGroupId == 1>
+
+				<div class="control-group">
+					<label class="control-label">文章状态：</label>
+					<div class="controls">
+						<#if article.status == 1>
+							<input id="status_1" name="status" type="radio" value="1" checked="checked" /> <label for="status_1">发布</label>
+							<input id="status_0" name="status" type="radio" value="0" /> <label for="status_0">草稿</label>
+							<#else>
+								<input id="status_1" name="status" type="radio" value="1"/> <label for="status_1">发布</label>
+								<input id="status_0" name="status" type="radio" value="0" checked="checked"/> <label for="status_0">草稿</label>
+						</#if>
+
+
+						<div class="help-block"> </div>
+					</div>
+				</div>
+
+
+				<#else>
+					<input type="hidden" name="status" value="0" />
+			</#if>
+
+
+		</div>
+		<div class="tab_item">
+			<div class="photo-list">
+				<div id="online" class="panel focus">
+					<div id="imageList">
+						<ul class="list">
+							<li class="add" onclick="uploadMultiImage()">
+								新增图片
+								<span class="icon"></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	</form> 
+</div>
+
+<div id="upload_ue2" style="display: none" ></div>
+<script type="text/javascript">
+$(function(){
+
+	if(window.editor !=null){
+		window.editor.destroy();
+	}
+	 //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    window.editor = UE.getEditor('mushroomeditor');
+ 	
+	window.editor.ready(function(){
+		$("#title").focus();//纠正显示
+		editor.setContent($("#mrcmsContent").val()); 
+	});
+
+
+	// 初始化相册内容
+    var imageList = JSON.parse('${article.extJson!"[]"}');
+
+    var html = [];
+    $.each(imageList, function(i, o){
+        var obj = o;
+        html.push('<li>');
+        html.push('<img class="image" src="' + obj.src + '"/>');
+        html.push('<span class="icon"></span><span class="delete" onclick="deleteItem(this)">删除</span>');
+        html.push('</li>');
+    });
+    $("#imageList .list").append(html.join(""));
+
+});
+
+function mySubmitForm(obj){
+ 	window.editor.sync(); // 手动提交需要手动同步编辑器数据
+
+    var extJson = [];
+    $("#imageList .image").each(function(i, o){
+        var src = $(o).attr("src");
+        var obj = {
+            src : src
+        }
+        extJson.push(obj);
+    });
+
+    var extJsonStr = JSON.stringify(extJson);
+
+    $("#extJson").val(extJsonStr);
+
+	submitActionForm(obj);
+
+} 
+
+
+//设置栏目ID
+var cid = '${article.cid?c}';
+$("#channelId").attr('value',cid);
+$("#categoryId").attr('value','${article.did?c}');
+
+
+
+
+var _editor = UE.getEditor('upload_ue');
+_editor.ready(function () {
+    console.log("ueditor success!")
+    //设置编辑器不可用
+    _editor.setDisabled();
+    //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+    _editor.hide();
+    //侦听图片上传
+    _editor.addListener('beforeInsertImage', function (t, arg) {
+        console.log(arg);
+    })
+    //侦听文件上传
+    _editor.addListener('afterUpfile', function (t, arg) {
+        console.log(arg);
+        $("#articleIcon").attr("value", arg[0].src);
+    })
+});
+
+
+
+/** 项目多图上传 */
+if(window._editor2 != null){
+    window._editor2.destroy();
+}
+window._editor2 = UE.getEditor('upload_ue2');
+
+_editor2.ready(function () {
+    //设置编辑器不可用
+    _editor2.setDisabled();
+    //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+    _editor2.hide();
+    //侦听图片上传
+    _editor2.addListener('beforeInsertImage', function (t, arg) {
+        console.log(arg);
+    })
+    //侦听文件上传
+    _editor2.addListener('afterUpfile', function (t, arg) {
+        console.log(arg);
+        var html = [];
+        for(var i = 0; i < arg.length; i++){
+            var obj = arg[i];
+
+            html.push('<li>');
+            html.push('<img class="image" src="' + obj.src + '"/>');
+            html.push('<span class="icon"></span><span class="delete" onclick="deleteItem(this)">删除</span>');
+            html.push('</li>');
+
+        }
+
+        $("#imageList .list").append(html.join(""));
+
+
+    })
+});
+
+
+/** 多图上传触发 */
+function uploadMultiImage(){
+    var myImage = _editor2.getDialog("insertimage");
+    myImage.open();
+}
+
+/**
+ * 删除图片
+ * @param el
+ */
+function deleteItem(el){
+    $(el).parent().remove();
+}
+function uploadImage(){
+    var myImage = _editor.getDialog("insertimage");
+    myImage.open();
+}
+</script>
+
+
+
+<#macro categoryTree id node>
+	<#local temp = node + 1 />
+	<#list categorys as x>
+	  	<#if id = x.pid>
+	  	<option value="${x.id?c}"><#list 0..temp as i> &nbsp; &nbsp; </#list>├ ${x.name!}</option>
+	    <@categoryTree id = x.id node=temp/>
+      	</#if>
+	</#list> 
+</#macro>
+
+
+
+<#macro channelTree id node>
+	<#local temp = node + 1 />
+	<#list channels as comment>
+		<#if id = comment.pid>
+			<option value="${comment.id?c}"><#list 0..temp as x> &nbsp; &nbsp; </#list>├ ${comment.name!}</option>
+			<@channelTree id = comment.id node=temp/>
+		</#if>
+	</#list>
+</#macro>

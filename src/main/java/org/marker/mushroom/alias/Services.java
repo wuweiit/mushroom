@@ -9,4 +9,5 @@ public interface Services {
 	String ARTICLE_TAOLU = "articleTaoluService";
 	String DOCTOR = "doctorService";
 	String CHANNEL = "channelService";
+	String PROJECT = "projectService";
 }

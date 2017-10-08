@@ -42,6 +42,8 @@ public interface DAO {
 	String ARTICLE = "articleDao";
 
 
+
+
 	/** 文章 DaoBean */
 	String Thematic = "thematicDao";
 

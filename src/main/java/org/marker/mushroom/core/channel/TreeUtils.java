@@ -77,10 +77,11 @@ public class TreeUtils {
         // 手动制定的跳转地址（避免闪屏，输出跳转目标）
         String redirect = channel.getRedirect();
         if(!StringUtils.isEmpty(redirect)){
-            if(redirect.startsWith("http")){
-                String url = urlrewrite.encoder("/cms?p="+channel.getUrl());
-                item.setUrl(url);
-            }else{
+            if(redirect.startsWith("http")){// 跳转外网地址
+                item.setUrl(redirect);
+            } else if(redirect.startsWith("#")){// 页面内部的锚点
+                item.setUrl(redirect);
+            } else {
                 String url = urlrewrite.encoder("/cms?p="+redirect);
                 item.setUrl(url);
             }

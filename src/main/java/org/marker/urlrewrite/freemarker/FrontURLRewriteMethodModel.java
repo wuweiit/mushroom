@@ -18,7 +18,8 @@ public final class FrontURLRewriteMethodModel implements TemplateMethodModelEx {
 
 	// 获取URL重写实例
 	private final URLRewriteEngine urlrewrite = SingletonProxyFrontURLRewrite.getInstance();
-
+    // URL编码前的前缀
+	public static final String CMS_TAG = SingletonProxyFrontURLRewrite.URL_PATTERN + "p=";
 	/**
 	 * URL重写处理方法
 	 */
@@ -27,7 +28,6 @@ public final class FrontURLRewriteMethodModel implements TemplateMethodModelEx {
 		String fakeUrl = "";
 		if (args != null && args.size() > 0) {
 			SimpleScalar realUrl = (SimpleScalar) args.get(0);
-
 			fakeUrl = urlrewrite.encoder(urlrewrite.getUrlPattern()+realUrl); 
 		}
 		return fakeUrl;

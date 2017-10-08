@@ -103,6 +103,7 @@ public class InitBuilderHolder implements ServletContextAware{
 		contentModelContext.put(new DoctorModelImpl());// 医生数据模型
         contentModelContext.put(new CategoryModelImpl());// 科室数据模型
 		contentModelContext.put(new ThematicModelImpl());// 专题数据模型
+		contentModelContext.put(new ProjectModelImpl());// 项目数据模型
 
 
 

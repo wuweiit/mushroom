@@ -56,6 +56,7 @@
                 <entry key="encoder"><bean class="org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel" /></entry>
                 <entry key="Plugin"><bean class="org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag" /></entry>
                 <entry key="Page"><bean class="org.marker.mushroom.freemarker.PageDirective" /></entry>
+                <entry key="Json"><bean class="org.marker.mushroom.freemarker.JSONPaserDirective" /></entry>
             </map>
         </property>
     </bean>

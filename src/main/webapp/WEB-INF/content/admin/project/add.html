@@ -1,0 +1,382 @@
+<style>
+    .photo-list{
+        display: table;
+    }
+    #online{
+        height: inherit;
+    }
+    #online .list > li > img {
+        max-width: inherit;
+    }
+    #online .list > li.add{
+        text-align: center;
+        line-height: 113px;
+    }
+    #online .list > li > .delete{
+        position: absolute;
+        right: 0;
+        color: white;
+        font-size: 13px;
+        background: black;
+        padding: 6px;
+        left: 0;
+        bottom: 0;
+        height: 20px;
+        opacity: 0.5;
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #online .list li .icon:hover .delete{
+        opacity: 1;
+    }
+
+    #online .list li img {
+        width: 113px;
+        height: 113px;
+    }
+
+</style>
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">新建项目</li>
+			<li onclick="setTabContent(this);">项目图片</li>
+		</ul>
+
+		<#if Session.userGroupId == 1>
+			<button onclick="submit(this)" class="btn_tabbar submit_it" return="project/list.do?currentPageNo=1">发 布</button>
+		</#if>
+		<button onclick="save(this)" class="btn_tabbar submit_it" return="project/list.do?currentPageNo=1">保存草稿</button>
+	</div>
+
+
+	<form id="myForm" action="project/save.do" method="post" class="form-horizontal" onsubmit="return false;">
+		<input name="type" type="hidden" value="0"  />
+
+		<input id="status" name="status" value="0" type="hidden" />
+        <input id="extJson" name="extJson" value="{}" type="hidden" />
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+
+			<div class="control-group">
+				<label class="control-label">所属栏目：</label>
+				<div class="controls">
+					<select name="cid">
+						<@channelTree id = 0 node = -1/>
+					</select>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">所属分类：</label>
+				<div class="controls">
+					<select name="did">
+						<option value="-1"> -------- 没有分类 -------- </option>
+						<@categoryTree id = 0 node = -1/>
+					</select>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目标题：</label>
+				<div class="controls">
+					<input id="title" name="title" type="text" placeholder="请输入文章标题" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目图标：</label>
+				<div class="controls">
+					<input id="articleIcon" class="input_for_add" name="icon" type="text" />
+					<button type="button" onclick="uploadImage()">上传图片</button>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目客户：</label>
+				<div class="controls">
+					<input class="input_for_add" name="customer" type="text" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目规模：</label>
+				<div class="controls">
+					<input class="input_for_add" name="scale" type="text" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">项目地点：</label>
+				<div class="controls">
+					<input class="input_for_add" name="location" type="text" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+            <div class="control-group">
+                <label class="control-label">项目时间：</label>
+                <div class="controls">
+                    <input class="input_for_add" name="startTime" type="text" />
+                    <div class="help-block"></div>
+                </div>
+            </div>
+
+			<div class="control-group">
+				<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">关键字：</label>
+				<div class="controls">
+					<input id="keywords" class="input_for_add" name="keywords" type="text" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">描述：</label>
+				<div class="controls">
+					<textarea class="textarea_for_add" name="description"></textarea>
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+
+			<div class="control-group">
+				<label class="control-label">发布者：</label>
+				<div class="controls">
+					<input class="input_for_add" name="author" type="text" value="${loginusername!}" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+
+		</div>
+
+        <div class="tab_item">
+
+            <div class="photo-list">
+
+                <div id="online" class="panel focus">
+                    <div id="imageList">
+                        <ul class="list">
+                            <li class="add" onclick="uploadMultiImage()">
+                                新增图片
+                                <span class="icon"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+	</div>
+	</form>
+</div>
+<div id="upload_ue2" style="display: none" ></div>
+<script type="text/javascript">
+
+//初始化UE编辑器
+$(function(){
+	$("input[name='type']").click(function(){
+ 		editor.execCommand( 'source');
+		if($(this).val() == 1){
+ 	 		editor.setDisabled();
+		}else{ 
+			editor.setEnabled();
+		}
+	 	editor.setContent('');
+	});
+	
+	
+	
+	if(window.editor != null){
+		window.editor.destroy();
+	}
+
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    window.editor = UE.getEditor('mushroomeditor');
+ 	
+ 	window.editor.ready(function(){
+ 		$("#title").focus();
+ 		
+ 		var status = editor.queryCommandState( 'source' );
+ 		if(status != 1){
+ 			
+ 		}
+
+ 		
+ 	});
+ 	 
+});
+
+
+function submit(obj){
+	$("#status").val("1");
+	window.editor.sync();//手动提交需要手动同步编辑器数据
+	
+	submitActionForm(obj); 
+	
+}
+
+
+function save(obj){
+	$("#status").val("0");
+	window.editor.sync();//手动提交需要手动同步编辑器数据
+
+    var extJson = [];
+
+    $("#imageList .image").each(function(i, o){
+        var src = $(o).attr("src");
+        var obj = {
+            src : src
+        }
+        extJson.push(obj);
+    });
+
+    var extJsonStr = JSON.stringify(extJson);
+
+    console.log(extJsonStr);
+
+    $("#extJson").val(extJsonStr);
+
+
+	submitActionForm(obj);
+	
+}
+
+ 
+//	$('#myForm').validator({
+//	    // 传入字段集合
+//	    fields: {
+//	    	"title": "required"
+//	    }
+//	}).on("click", ".submit_it", function(){
+//	   // $('#myForm').trigger("submit");
+//
+//	 	window.editor.sync();//手动提交需要手动同步编辑器数据
+//		submitActionForm(obj);
+//
+//	});
+	
+	
+ 
+
+
+
+/**
+ * 关键字获取接口
+ * */
+function keyword(){
+	var title = $("#title").val();
+	var content = window.editor.getContent(); 
+	$.ajax({
+		url:"../keywords.do",
+		type:"POST",
+		data: "title="+title+"&content="+content,
+		dataType:"json",
+		success:function(data){
+			$("#keywords").val(data);
+		}
+	});
+	
+}
+
+
+/** 内容单图上传 */
+var _editor = UE.getEditor('upload_ue');
+_editor.ready(function () {
+    console.log("ueditor success!")
+    //设置编辑器不可用
+    _editor.setDisabled();
+    //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+    _editor.hide();
+    //侦听图片上传
+    _editor.addListener('beforeInsertImage', function (t, arg) {
+        console.log(arg);
+    })
+    //侦听文件上传
+    _editor.addListener('afterUpfile', function (t, arg) {
+        console.log(arg);
+        $("#articleIcon").attr("value", arg[0].src);
+    })
+});
+
+
+/** 项目多图上传 */
+if(window._editor2 != null){
+    window._editor2.destroy();
+}
+window._editor2 = UE.getEditor('upload_ue2');
+
+_editor2.ready(function () {
+    //设置编辑器不可用
+    _editor2.setDisabled();
+    //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+    _editor2.hide();
+    //侦听图片上传
+    _editor2.addListener('beforeInsertImage', function (t, arg) {
+        console.log(arg);
+    })
+    //侦听文件上传
+    _editor2.addListener('afterUpfile', function (t, arg) {
+        console.log(arg);
+        var html = [];
+        for(var i = 0; i < arg.length; i++){
+            var obj = arg[i];
+
+            html.push('<li>');
+            html.push('<img class="image" src="' + obj.src + '"/>');
+            html.push('<span class="icon"></span><span class="delete" onclick="deleteItem(this)">删除</span>');
+            html.push('</li>');
+
+        }
+
+        $("#imageList .list").append(html.join(""));
+
+
+    })
+});
+
+/** 多图上传触发 */
+function uploadMultiImage(){
+    var myImage = _editor2.getDialog("insertimage");
+    myImage.open();
+}
+
+/**
+ * 删除图片
+ * @param el
+ */
+function deleteItem(el){
+    $(el).parent().remove();
+}
+
+function uploadImage(){
+    var myImage = _editor.getDialog("insertimage");
+    myImage.open();
+}
+</script>
+
+<#macro categoryTree id node>
+	<#local temp = node + 1 />
+	<#list categorys as x>
+	  	<#if id = x.pid>
+	  	<option value="${x.id?c}"><#list 0..temp as i> &nbsp; &nbsp; </#list>├ ${x.name!}</option>
+	    <@categoryTree id = x.id node=temp/>
+      	</#if>
+	</#list> 
+</#macro>
+
+<#macro channelTree id node>
+	<#local temp = node + 1 />
+	<#list channels as comment>
+		<#if id = comment.pid>
+			<option value="${comment.id?c}"><#list 0..temp as x> &nbsp; &nbsp; </#list>├ ${comment.name!}</option>
+			<@channelTree id = comment.id node=temp/>
+		</#if>
+	</#list>
+</#macro>
