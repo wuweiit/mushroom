@@ -9,12 +9,12 @@ public class Test {
 	private static final URLRewriteEngine urlRewrite = SingletonProxyFrontURLRewrite.getInstance();
 	
 	public static void main(String[] args) {
-//		urlRewrite.putRule("channel", "/{channel}.html");
+		urlRewrite.putRule("channel", "/{channel}.html");
 		urlRewrite.putRule("content", "/{type}/{id}.html");
         urlRewrite.putRule("thematicPage", "/{type}/{id}/{page}.html");
 //		urlRewrite.putRule("page", "/{channel}-{page}.html");
 				
-		String url1 = "/cms?type=thematic&id=1&page=1";
+		String url1 = "/cms?type=thematic#video&id=1&page=1";
 
 
 		System.out.println("E:" + urlRewrite.encoder(url1));
@@ -27,6 +27,12 @@ public class Test {
 		System.out.println("E:" + urlRewrite.encoder(url2));
 //		System.out.println("D:" + urlRewrite.decoder(url2));
 
+
+
+		  url2 = "/cms?p=about#video";
+
+
+		System.out.println("E:" + urlRewrite.encoder(url2));
 
 	}
 }

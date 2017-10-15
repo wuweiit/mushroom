@@ -74,21 +74,24 @@ public class TreeUtils {
         URLRewriteEngine urlrewrite = SingletonProxyFrontURLRewrite.getInstance();
 
 
+
         // 手动制定的跳转地址（避免闪屏，输出跳转目标）
         String redirect = channel.getRedirect();
         if(!StringUtils.isEmpty(redirect)){
             if(redirect.startsWith("http")){// 跳转外网地址
                 item.setUrl(redirect);
-            } else if(redirect.startsWith("#")){// 页面内部的锚点
-                item.setUrl(redirect);
+            } else if(redirect.indexOf("#",2) != -1){// 页面内部的锚点
+                String url = urlrewrite.encoder("/cms?p="+redirect);
+                item.setUrl(url);
             } else {
                 String url = urlrewrite.encoder("/cms?p="+redirect);
                 item.setUrl(url);
             }
         }else{
-            String url = urlrewrite.encoder("/cms?p="+channel.getUrl());
+            String url = urlrewrite.encoder("/cms?p=" + channel.getUrl());
             item.setUrl(url);
         }
+        // 默认情况下回自动重写路径
         Iterator<Channel> it = channelList.iterator();
         while(it.hasNext()){
             Channel c = it.next();
