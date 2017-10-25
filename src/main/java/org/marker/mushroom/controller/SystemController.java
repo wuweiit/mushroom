@@ -125,6 +125,8 @@ public class SystemController extends SupportController {
 			syscfg.set("keywords", request.getParameter("config.keywords"));//网站关键字
 			syscfg.set("description", request.getParameter("config.description"));//网站描述
 			syscfg.set("mastermail", request.getParameter("config.mastermail"));//管理员邮箱
+			syscfg.set("mobile", request.getParameter("config.mobile"));// 电话
+			syscfg.set("qq", request.getParameter("config.qq"));// qq
 			syscfg.set("copyright", request.getParameter("config.copyright"));//版权信息
 			syscfg.set("icp", request.getParameter("config.icp"));//ICP备案
 			syscfg.set(SystemConfig.STATISTICS, request.getParameter("config.statistics"));// 是否启用统计
