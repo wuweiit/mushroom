@@ -52,6 +52,17 @@ public class ProjectModelImpl extends ContentModel{
 		
 		// 必须发送数据
 		request.setAttribute("article", article);
+
+		// 查询上一条数据
+		sql = "select  M.*,C.name cname, concat('/cms?','type=project','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from "+prefix+"channel C "
+				+ "right join "+prefix+"project M on M.cid = C.id  where M.id < ? order by id desc limit 1";
+		article = commonDao.queryForMap(sql, cid);
+		request.setAttribute("articlePrev", article);
+		// 查询下一跳数据
+		sql = "select  M.*,C.name cname, concat('/cms?','type=project','&id=',CAST(M.id as char),'&time=',DATE_FORMAT(M.time,'%Y%m%d')) url from "+prefix+"channel C "
+				+ "right join "+prefix+"project M on M.cid = C.id  where M.id > ? order by id asc limit 1";
+		article = commonDao.queryForMap(sql, cid);
+		request.setAttribute("articleNext", article);
 	}
 
 

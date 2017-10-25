@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -81,7 +82,11 @@ public abstract class DaoEngine implements ISupportDao {
 	// 查询单个对象实现
 	@Override
 	public Map<String,Object> queryForMap(String sql, Object... args){
-		return jdbcTemplate.queryForMap(sql, args);
+		try{
+			return jdbcTemplate.queryForMap(sql, args);
+		}catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 	
 	
