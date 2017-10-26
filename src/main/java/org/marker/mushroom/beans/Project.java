@@ -57,6 +57,9 @@ public class Project implements Serializable {
 	private String scale;
 	private String startTime;
 
+	/** 是否置顶 */
+	private int stick;
+
 	private String extJson;
 
 
@@ -227,4 +230,12 @@ public class Project implements Serializable {
     public void setExtJson(String extJson) {
         this.extJson = extJson;
     }
+
+	public int getStick() {
+		return stick;
+	}
+
+	public void setStick(int stick) {
+		this.stick = stick;
+	}
 }

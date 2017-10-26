@@ -50,7 +50,7 @@ public class ArticleService extends BaseService{
         String prefix = config.getPrefix();
 
 
-		String sql = "select a.id,a.title, a.author,a.views,a.status, a.time, concat('/cms?type=article','&id=',CAST(a.id as char),'&time=',DATE_FORMAT(a.time,'%Y%m%d'))  url, c.name as cname ,'article' model from "+config.getPrefix()+"article as a "
+		String sql = "select a.id,a.title, a.author,a.views,a.status, a.time, concat('/cms?type=article','&id=',CAST(a.id as char),'&time=',DATE_FORMAT(a.time,'%Y%m%d'))  url, c.name as cname ,'article' model, a.stick from "+config.getPrefix()+"article as a "
 				+ "left join "+prefix+"channel c on c.id = a.cid ";
 
         sql +=  "where a.status in ("+status+") ";
@@ -83,7 +83,7 @@ public class ArticleService extends BaseService{
 		}
 
 
-		sql +=" and a.title like ? order by a.id desc";
+		sql +=" and a.title like ? order by a.stick desc, a.id desc";
 
 		return commonDao.findByPage(currentPageNo, pageSize,  sql,'%'+keyword+'%');
 	}

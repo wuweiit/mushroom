@@ -54,6 +54,10 @@ public class Article implements Serializable {
 	/** 原始内容 */
 	private String orginal;
 
+	/** 是否置顶 */
+	private int stick;
+
+
 
 	public Integer getId() {
 		return id;
@@ -182,4 +186,12 @@ public class Article implements Serializable {
 	public void setOrginal(String orginal) {
 		this.orginal = orginal;
 	}
+
+    public int getStick() {
+        return stick;
+    }
+
+    public void setStick(int stick) {
+        this.stick = stick;
+    }
 }

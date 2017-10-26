@@ -181,6 +181,18 @@
 					<input type="hidden" name="status" value="0" />
 			</#if>
 
+			<div class="control-group">
+				<label class="control-label">是否推荐：</label>
+				<div class="controls">
+					<#if article.stick?? && article.stick == 1>
+						<input name="stick" type="checkbox" value="1" checked="checked" />
+						<#else>
+							<input name="stick" type="checkbox" value="1" />
+					</#if>
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
 
 		</div>
 		<div class="tab_item">

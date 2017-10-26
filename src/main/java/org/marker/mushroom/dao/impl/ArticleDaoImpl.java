@@ -25,12 +25,12 @@ public class ArticleDaoImpl extends DaoEngine implements IArticleDao {
 		
 		StringBuilder sql = new StringBuilder();
 		sql.append("update ").append(prefix).append("article")
-		.append(" set cid=?,did=?, title=?,keywords=?,description=?,author=?, content=?,status=?,source=?,icon=? where id=?");
+		.append(" set cid=?,did=?, title=?,keywords=?,description=?,author=?, content=?,status=?,source=?,icon=?,stick=? where id=?");
 		
 		
 		
 		int status = jdbcTemplate.update(sql.toString(),a.getCid(),a.getDid(), a.getTitle(),a.getKeywords(),a.getDescription()
-				,a.getAuthor(),a.getContent(),a.getStatus(),a.getSource(),a.getIcon(),a.getId()); 
+				,a.getAuthor(),a.getContent(),a.getStatus(),a.getSource(),a.getIcon(), a.getStick(), a.getId());
 		return status>0? true : false; 
 	}
 

@@ -30,6 +30,7 @@
 		        <th>作者</th>
 		        <th>流量</th>
 		        <th width="140">创建时间</th>
+			    <th width="46">推荐</th>
 		        <th width="46">状态</th>
 		        <th width="80">操作</th>
 		      </tr>
@@ -106,11 +107,14 @@ $(function(){
 	} 
 	// 注册插件
 	Handlebars.registerHelper('dateformat', function() {
-		
-		
-		
 	  return new Date(this.time).format("yyyy-MM-dd hh:mm:ss")  ;
 	});
+
+    // 注册插件
+    Handlebars.registerHelper('showBoolean', function() {
+        if(this.stick == 1){  return "是" ; }
+        return "" ;
+    });
 });
 
 
@@ -269,6 +273,7 @@ function deleteArticleCheck(){
     <td>{{author}}</td>
     <td>{{views}}</td>
     <td>{{dateformat time}}</td>
+	<td class="tac">{{showBoolean stick}}</td>
     <td class="tac">
         {{#if status}}
 	    	<b style="color:green;">已发布</b>

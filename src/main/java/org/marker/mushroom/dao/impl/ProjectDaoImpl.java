@@ -26,12 +26,12 @@ public class ProjectDaoImpl extends DaoEngine implements ProjectDao {
 		StringBuilder sql = new StringBuilder();
 		sql.append("update ").append(prefix).append("project")
 		.append(" set cid=?,did=?, title=?,keywords=?,description=?,author=?, content=?,status=?,source=?" +
-                ",icon=?,location=?,customer=?,scale=?,startTime=?,extJson=? where id=?");
+                ",icon=?,location=?,customer=?,scale=?,startTime=?,extJson=?,stick=? where id=?");
 
 		
 		int status = jdbcTemplate.update(sql.toString(),a.getCid(),a.getDid(), a.getTitle(),a.getKeywords(),a.getDescription()
 				,a.getAuthor(),a.getContent(),a.getStatus(),a.getSource()
-                ,a.getIcon(),a.getLocation(),a.getCustomer(),a.getScale(),a.getStartTime(),a.getExtJson(), a.getId());
+                ,a.getIcon(),a.getLocation(),a.getCustomer(),a.getScale(),a.getStartTime(),a.getExtJson(),a.getStick(), a.getId());
 		return status>0? true : false; 
 	}
 
