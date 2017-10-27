@@ -1,0 +1,50 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">编辑地位</li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="position/list.do?currentPageNo=1">保 存</button>
+	</div>
+
+
+
+	<form id="myForm" action="position/update.do"  method="post" class="form-horizontal" onsubmit="return false;">
+		<input type="hidden" name="id" value="${entity.id?c}" />
+		<div class="tab_content">
+			<div class="tab_item tab_show">
+
+
+				<div class="control-group">
+					<label class="control-label">地区：</label>
+					<div class="controls">
+						<input name="area" type="text" value="${entity.area!}"/>
+						<div class="help-block">
+
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">单位：</label>
+					<div class="controls">
+						<input name="company" type="text" value="${entity.company!}"/>
+						<div class="help-block">
+
+						</div>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">描述信息：</label>
+					<div class="controls">
+						<textarea class="textarea_for_add" name="description">${entity.description!}</textarea>
+						<div class="help-block">
+							说明
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</form>
+</div>

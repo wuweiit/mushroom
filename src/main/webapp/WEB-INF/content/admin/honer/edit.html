@@ -1,7 +1,7 @@
 <div class="content">
 	<div class="tab_bar">
 		<ul>
-			<li class="tab_index" onclick="setTabContent(this);">编辑外链</li>
+			<li class="tab_index" onclick="setTabContent(this);">编辑荣誉</li>
 		</ul>
 		<button class="btn_tabbar" onclick="submitActionForm(this);" return="honer/list.do?currentPageNo=1">保 存</button>
 	</div>
@@ -20,7 +20,7 @@
 					<div class="controls">
 						<input name="title" type="text" value="${entity.title!}"/>
 						<div class="help-block">
-							外部网站链接名称
+
 						</div>
 					</div>
 				</div>
@@ -29,7 +29,7 @@
 					<div class="controls">
 						<input name="year" type="text" value="${entity.year?c}"/>
 						<div class="help-block">
-							获奖年份
+
 						</div>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 							 src="${entity.icon!}" />
 
 						<div class="help-block">
-							上传图片的尺寸为：280 * 120 像素，可能会有拉伸情况，根据前端实际采用的尺寸上传即可。
+							 可能会有拉伸情况，根据前端实际采用的尺寸上传即可。
 						</div>
 					</div>
 				</div>
@@ -52,7 +52,7 @@
 					<div class="controls">
 						<textarea class="textarea_for_add" name="description">${entity.description!}</textarea>
 						<div class="help-block">
-							外链说明
+							说明
 						</div>
 					</div>
 				</div>

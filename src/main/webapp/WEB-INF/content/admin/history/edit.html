@@ -1,0 +1,50 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">编辑历程</li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="history/list.do?currentPageNo=1">保 存</button>
+	</div>
+
+
+
+	<form id="myForm" action="history/update.do"  method="post" class="form-horizontal" onsubmit="return false;">
+		<input type="hidden" name="id" value="${entity.id?c}" />
+		<div class="tab_content">
+			<div class="tab_item tab_show">
+
+
+				<div class="control-group">
+					<label class="control-label">年份：</label>
+					<div class="controls">
+						<input name="year" type="text" value="${entity.year?c}"/>
+						<div class="help-block">
+
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">介绍：</label>
+					<div class="controls">
+						<input name="title" type="text" value="${entity.title!}"/>
+						<div class="help-block">
+
+						</div>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">描述信息：</label>
+					<div class="controls">
+						<textarea class="textarea_for_add" name="description">${entity.description!}</textarea>
+						<div class="help-block">
+							说明
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</form>
+</div>
