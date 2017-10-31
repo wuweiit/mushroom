@@ -1,11 +1,6 @@
 package org.marker.mushroom.controller;
 
 import freemarker.template.utility.StringUtil;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import org.marker.app.common.SessionAttr;
-import org.marker.app.domain.MessageResult;
-import org.marker.mushroom.beans.Article;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.dao.ICommonDao;
 import org.marker.mushroom.holder.SpringContextHolder;

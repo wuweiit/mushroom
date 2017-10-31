@@ -1,10 +1,10 @@
 package org.marker.mushroom.controller;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
 
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.support.SupportController;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

@@ -14,7 +14,7 @@
 
  	<!-- EhCache library setup -->
 	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" 
-		p:config-location="classpath:config/cache/ehcache.xml" p:shared="true"/>
+		p:config-location="classpath:config/cache/ehcache.xml" p:shared="false"/>
   	
  	
  	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" 
