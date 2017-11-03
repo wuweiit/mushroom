@@ -1,9 +1,72 @@
+<style>
+    .photo-list{
+        display: table;
+    }
+    #online{
+        height: inherit;
+    }
+    #imageList .list li{
+        width: 206px;
+        height: 160px;
+    }
+    #imageList .list > li > img {
+        max-width: inherit;
+    }
+    #imageList .list > li.add{
+        text-align: center;
+        line-height: 154px;
+    }
+    #imageList .list > li > .delete{
+        position: absolute;
+        right: 0;
+        color: white;
+        font-size: 13px;
+        background: black;
+        padding: 6px;
+        left: 0;
+        bottom: 0;
+        height: 20px;
+        opacity: 0.5;
+        text-align: center;
+        z-index: 1000;
+    }
+    #imageList .list li .icon{
+        width: 200px;
+        height: 100px;
+    }
+    #imageList .list li .icon:hover .delete{
+        opacity: 1;
+    }
+
+    #imageList .list li .input{
+        width: 100%;
+        padding: 0;
+    }
+
+    #imageList ul li .icon:hover {
+        width: 200px;
+        height: 100px;
+        border: 3px solid #1094fa;
+    }
+    #imageList ul li.add .icon:hover {
+        width: 200px;
+        height: 154px;
+        border: 3px solid #1094fa;
+    }
+
+    #imageList .list li img {
+        width: 200px;
+        height: 100px;
+    }
+
+</style>
 <div class="content">
 	<div class="tab_bar">
 		<ul>
 			<li class="tab_index" onclick="setTabContent(this);">编辑荣誉</li>
+			<li class="" onclick="setTabContent(this);">荣誉列表</li>
 		</ul>
-		<button class="btn_tabbar" onclick="submitActionForm(this);" return="honer/list.do?currentPageNo=1">保 存</button>
+		<button class="btn_tabbar" onclick="mySubmitForm(this);" return="honer/list.do?currentPageNo=1">保 存</button>
 	</div>
 
 
@@ -34,20 +97,6 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">图标：</label>
-					<div class="controls">
-						<img class="image-upload"
-							 id="link-icon"
-							 onclick="uploadImage()"
-							 title="上传图片"
-							 src="${entity.icon!}" />
-
-						<div class="help-block">
-							 可能会有拉伸情况，根据前端实际采用的尺寸上传即可。
-						</div>
-					</div>
-				</div>
-				<div class="control-group">
 					<label class="control-label">描述信息：</label>
 					<div class="controls">
 						<textarea class="textarea_for_add" name="description">${entity.description!}</textarea>
@@ -59,37 +108,125 @@
 
 
 			</div>
+			<div class="tab_item">
+                <div class="photo-list">
+                    <div id="online" class="panel focus">
+                        <div id="imageList">
+                            <ul class="list">
+                                <li class="add" onclick="uploadMultiImage()">
+                                    新增图片
+                                    <span class="icon"></span>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+
+			</div>
 		</div>
 	</form>
 </div>
+<div id="upload_ue2" style="display: none" ></div>
+
 <script type="text/javascript">
+
+    $(function(){
+
+
+        // 初始化相册内容
+        var imageList = JSON.parse('${entity.icon!"[]"}');
+
+        var html = [];
+        $.each(imageList, function(i, o){
+            var obj = o;
+            html.push('<li>');
+            html.push('<img class="image" src="' + obj.src + '"/>');
+            html.push('<span class="icon"></span><span class="delete" onclick="deleteItem(this)">删除</span>');
+            html.push('<input class="input" placeholder="请输入奖项名称" value="'+obj.text+'">');
+            html.push('</li>');
+        });
+        $("#imageList .list").append(html.join(""));
+
+    });
     var linkImageUrl = '${entity.icon!}';
     if(linkImageUrl != ''){
         $("#link-icon").css({'background-image': 'none'})
     }
 
 
-    var _editor = UE.getEditor('upload_ue');
-    _editor.ready(function () {
+
+    function mySubmitForm(obj){
+        var extJson = [];
+        $("#imageList .honer-item").each(function(i, o){
+            var src = $(o).find(".image").attr("src");
+            var text = $(o).find(".input").val();
+            var obj = {
+                src : src,
+                text: text
+            }
+            extJson.push(obj);
+        });
+
+        var extJsonStr = JSON.stringify(extJson);
+
+        $("#channelIcon").val(extJsonStr);
+
+        submitActionForm(obj);
+
+    }
+
+
+    /** 项目多图上传 */
+    if(window._editor2 != null){
+        window._editor2.destroy();
+    }
+    window._editor2 = UE.getEditor('upload_ue2');
+
+    _editor2.ready(function () {
         //设置编辑器不可用
-        _editor.setDisabled();
+        _editor2.setDisabled();
         //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
-        _editor.hide();
+        _editor2.hide();
         //侦听图片上传
-        _editor.addListener('beforeInsertImage', function (t, arg) {
+        _editor2.addListener('beforeInsertImage', function (t, arg) {
             console.log(arg);
         })
         //侦听文件上传
-        _editor.addListener('afterUpfile', function (t, arg) {
-            if(arg.length > 0){
-                $("#link-icon").attr("src", arg[0].src);
-                $("#channelIcon").attr("value", arg[0].src);
+        _editor2.addListener('afterUpfile', function (t, arg) {
+            console.log(arg);
+            var html = [];
+            for(var i = 0; i < arg.length; i++){
+                var obj = arg[i];
+
+                html.push('<li class="honer-item">');
+                html.push('<img class="image" src="' + obj.src + '"/>');
+                html.push('<span class="icon"></span><span class="delete" onclick="deleteItem(this)">删除</span>');
+                html.push('<input class="input" placeholder="请输入奖项名称">');
+                html.push('</li>');
+
             }
+
+            $("#imageList .list").append(html.join(""));
+
+
         })
     });
 
-    function uploadImage(){
-        var myImage = _editor.getDialog("insertimage");
+
+    /** 多图上传触发 */
+    function uploadMultiImage(){
+        var myImage = _editor2.getDialog("insertimage");
         myImage.open();
+    }
+
+    /**
+     * 删除图片
+     * @param el
+     */
+    function deleteItem(el){
+        $(el).parent().remove();
     }
 </script>
