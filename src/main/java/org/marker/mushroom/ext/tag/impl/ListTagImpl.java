@@ -42,7 +42,7 @@ public class ListTagImpl extends Taglib {
 		this.configure(config); 
 	
 	
-		this.put("[\\x20]*<!--[\\x20]*\\{(\\w+):list[\\x20]*table\\=\\((\\w+)\\)\\s*[\\w+\\=\\('?\\w+\\x20?\\d*\\w+'?\\)[\\x20]*]*\\}[\\x20]*-->[\\x20]*\\n?",
+		this.put("[\\x20]*<!--[\\x20]*\\{(\\w+):list[\\x20]*table\\=\\((\\w+)\\)\\s*[\\w+\\=\\('?\\w+[\\x20,]?\\d*\\w+'?\\)[\\x20]*]*\\}[\\x20]*-->[\\x20]*\\n?",
 				"<#list $2 as $1>\n",1);
 		this.put("[\\x20]*<!--[\\x20]*\\{/list\\}[\\x20]*-->[\\x20]*\\n?",
 				"</#list>\n", 0);
@@ -65,7 +65,7 @@ public class ListTagImpl extends Taglib {
 			int sql_start = text.indexOf(":")+1;
 			int sql_end   = text.lastIndexOf("}");
 			String text2 = text.substring(sql_start, sql_end); 
-			Pattern p_a = Pattern.compile("\\w+\\=\\('?\\w*\\x20?\\d*\\w*'?"); // 将给定的正则表达式编译到模式中
+			Pattern p_a = Pattern.compile("\\w+\\=\\('?\\w*[\\x20,]?\\d*\\w*'?"); // 将给定的正则表达式编译到模式中
 			Matcher m_a = p_a.matcher(text2);
 			
 			

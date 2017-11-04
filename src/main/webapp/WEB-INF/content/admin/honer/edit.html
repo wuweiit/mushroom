@@ -72,7 +72,7 @@
 
 
 	<form id="myForm" action="honer/update.do"  method="post" class="form-horizontal" onsubmit="return false;">
-		<input id="channelIcon" name="icon" type="hidden" value="${entity.icon!}" />
+		<input id="channelIcon" name="icon" type="hidden" value='${entity.icon!}' />
 		<input type="hidden" name="id" value="${entity.id?c}" />
 		<div class="tab_content">
 			<div class="tab_item tab_show">
@@ -134,7 +134,6 @@
 <script type="text/javascript">
 
     $(function(){
-
 
         // 初始化相册内容
         var imageList = JSON.parse('${entity.icon!"[]"}');
