@@ -51,6 +51,7 @@ public class FileUtils {
      * @param format
      */
 	private static void processPathList(List<String> filePathList, File file, String path, final String format) {
+        int len  = path.length();
         if(file.isDirectory()){
             File[] files = file.listFiles(new FileFilter() {
                 @Override
@@ -71,7 +72,9 @@ public class FileUtils {
                     processPathList(filePathList, f , path , format);
                 }else{
                     String pathItem = f.getPath();
-                    filePathList.add(pathItem.replaceAll(path,""));
+                    String pathi = pathItem.substring(len);
+
+                    filePathList.add(pathi);
                 }
             }
         }

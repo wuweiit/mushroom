@@ -1,5 +1,5 @@
 <configuration scan="true" scanPeriod="30 seconds">
-	<property name="PROJECT_HOME" value="./" />
+	<property name="PROJECT_HOME" value="" />
 	<property name="MAX_FILE_SIZE" value="300mb" />
 	<property name="MAX_HISTORY" value="5" />
 	<property name="MYBATIS_MAX_HISTORY" value="${MAX_HISTORY}" />
@@ -85,8 +85,8 @@
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="ERROR-ROLLING"/>
 		<appender-ref ref="INFO-ROLLING"/>
+		<appender-ref ref="ERROR-ROLLING"/>
 		<appender-ref ref="DEBUG-ROLLING"/>
 	</root>
 

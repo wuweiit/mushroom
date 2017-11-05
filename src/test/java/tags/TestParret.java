@@ -24,4 +24,13 @@ public class TestParret {
 		m_a.find();
 		System.out.printf(m_a.group());
 	}
+
+	@Test
+	public void test1(){
+//		String str = "D:\\servers\\tomcat\\webapps\ROOT\\themes\\mrcms\\";
+//
+//
+//		System.out.println(str);
+//		"".replaceAll(str,"");
+	}
 }

@@ -213,16 +213,18 @@ $(function(){
  	 
 });
 
-
+/**
+ * 发布
+ * */
 function submit(obj){
 	$("#status").val("1");
-	window.editor.sync();//手动提交需要手动同步编辑器数据
-	
-	submitActionForm(obj); 
-	
+    save(obj);
 }
 
 
+/**
+ * 保存草稿
+ * */
 function save(obj){
 	$("#status").val("0");
 	window.editor.sync();//手动提交需要手动同步编辑器数据
