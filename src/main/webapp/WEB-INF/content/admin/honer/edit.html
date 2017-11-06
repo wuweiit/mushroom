@@ -141,7 +141,7 @@
         var html = [];
         $.each(imageList, function(i, o){
             var obj = o;
-            html.push('<li>');
+            html.push('<li class="honer-item">');
             html.push('<img class="image" src="' + obj.src + '"/>');
             html.push('<span class="icon"></span><span class="delete" onclick="deleteItem(this)">删除</span>');
             html.push('<input class="input" placeholder="请输入奖项名称" value="'+obj.text+'">');
