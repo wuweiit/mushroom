@@ -39,7 +39,7 @@ public final class PageDataSourceImpl extends WebDataSource{
 	public void generateSql() throws SystemException{
 		
 		StringBuilder queryString = new StringBuilder();
-		queryString.append("select M.*,concat('/cms?','type=" + this.tableName + "','&id=',CAST(M.id as char) url from ")
+		queryString.append("select M.*,concat('/cms?','type=" + this.tableName + "','&id=',CAST(M.id as char)) url from ")
                 .append(this.prefix).append(this.tableName).append(SQL.ALIAS_MODEL);
 
 
