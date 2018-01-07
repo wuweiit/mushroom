@@ -1,0 +1,202 @@
+<style>
+    #bodyData input{ width: 100%}
+</style>
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">党建配置</li>
+		</ul>
+		<button class="btn_tabbar"  onclick="saveData();">保存</button>
+	</div>
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+			<table class="table_for_list">
+				<thead>
+				<tr>
+					<th width="60" class="quanxuan" >序号</th>
+					<th width="220" class="tac">图标</th>
+					<th>信息</th>
+				</tr>
+				</thead>
+				<tbody id="bodyData">
+
+                <tr>
+                    <td class="checkbox1"> 1</td>
+                    <td onclick="uploadImageIcon(this)">
+                        <img style="width: 200px; height: 130px"
+                             class="icon"
+                             src="http://localhost:8080/themes/mrcms/images/new/party03.png"/>
+                    </td>
+                    <td>
+                        <table width="80%">
+                            <tr>
+                                <td width="100">标题：</td>
+                                <td><input class="title" value="dsadsads"></td>
+                            </tr>
+                            <tr>
+                                <td>描述：</td>
+                                <td><input class="desc"  value="dsadsads"></td>
+                            </tr>
+                            <tr>
+                                <td>文章地址：</td>
+                                <td><input class="url"  value="dsadsads"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+				</tbody>
+			</table>
+
+            <a class="btn btn-default" onclick="addRow()">添加</a>
+
+		</div>
+	</div>
+</div>
+
+<script>
+
+    Handlebars.registerHelper("addOne",function(index){
+      //利用+1的时机，在父级循环对象中添加一个_index属性，用来保存父级每次循环的索引
+      this._index = index+1;
+      //返回+1之后的结果
+      return this._index;
+    });
+
+
+
+    var json = JSON.parse('${json!}');
+//    alert(json);
+//    json = [
+//        {name:"dsad",url:"dsad",title:"title","desc":"miaoshu",icon:"http://localhost:8080/themes/mrcms/images/new/party03.png"},
+//        {name:"dsad",url:"dsad",title:"title","desc":"miaoshu",icon:"http://localhost:8080/themes/mrcms/images/new/party03.png"},
+//        {name:"dsad",url:"dsad",title:"title","desc":"miaoshu",icon:"http://localhost:8080/themes/mrcms/images/new/party03.png"},
+//        {name:"dsad",url:"dsad",title:"title","desc":"miaoshu",icon:"http://localhost:8080/themes/mrcms/images/new/party03.png"},
+//        {name:"dsad",url:"dsad",title:"title","desc":"miaoshu",icon:"http://localhost:8080/themes/mrcms/images/new/party03.png"}
+//    ]
+
+
+    // 加载模板
+    var source   = $("#dangjian-template").html();
+    template = Handlebars.compile(source);
+
+    var html = template({"data": json});
+    $('#bodyData').html(html);
+
+
+
+
+
+
+    window.index = 0;
+
+    /**
+     * 弹出传图窗口
+     * @param el
+     */
+    function uploadImageIcon(el){
+        var myImage = _editor.getDialog("insertimage");
+        myImage.open();
+
+        window.index = $(el).parent().index();
+        console.log(window.index);
+
+    }
+
+
+    function addRow(){
+        var source   = $("#dangjian-template").html();
+        var template = Handlebars.compile(source);
+
+        var html = template({"data": [{}]});
+        $('#bodyData').append(html);
+
+    }
+
+
+
+    var _editor = UE.getEditor('upload_ue');
+    _editor.ready(function () {
+        //设置编辑器不可用
+        _editor.setDisabled();
+        //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+        _editor.hide();
+        //侦听图片上传
+        _editor.addListener('beforeInsertImage', function (t, arg) {
+            console.log(arg);
+        })
+        //侦听文件上传
+        _editor.addListener('afterUpfile', function (t, arg) {
+            if(arg.length > 0){
+                var icon = $($("#bodyData > tr")[window.index]).find(".icon");
+                icon.attr("src", arg[0].src);
+            }
+        })
+    });
+
+
+    /**
+     * 保存数据
+     */
+    function saveData(){
+        var list = [];
+        $("#bodyData > tr").each(function(i, o){
+            var item = {
+                icon   :$(o).find(".icon").attr("src"),
+                title :$(o).find(".title").val(),
+                desc  :$(o).find(".desc").val(),
+                url   :$(o).find(".url").val()
+            }
+            list.push(item);
+        });
+
+
+        $.ajax({
+            url: "dangjian/update.do",
+            type:"POST",
+            data: {json: JSON.stringify(list)},
+            dataType:"JSON",
+            success: function(data){
+                if(data.status){
+                    zoom.showMessageDialog(data.message,"消息提示",1500);
+                }
+
+            }
+        });
+
+
+
+
+
+
+    }
+
+</script>
+
+<script id="dangjian-template" type="text/x-handlebars-template">
+    {{#each data}}
+    <tr>
+        <td class="tac" style="font-size: 20px"> {{addOne @index}}</td>
+        <td onclick="uploadImageIcon(this)">
+            <img style="width: 200px; height: 130px"
+                 class="icon"
+                 src="{{icon}}"/>
+        </td>
+        <td>
+            <table width="80%">
+                <tr>
+                    <td width="100">标题：</td>
+                    <td><input class="title" value="{{title}}"></td>
+                </tr>
+                <tr>
+                    <td>描述：</td>
+                    <td><input class="desc"  value="{{desc}}"></td>
+                </tr>
+                <tr>
+                    <td>文章地址：</td>
+                    <td><input class="url"  value="{{url}}"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    {{/each}}
+</script>

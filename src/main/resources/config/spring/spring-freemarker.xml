@@ -57,6 +57,7 @@
                 <entry key="Plugin"><bean class="org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag" /></entry>
                 <entry key="Page"><bean class="org.marker.mushroom.freemarker.PageDirective" /></entry>
                 <entry key="Json"><bean class="org.marker.mushroom.freemarker.JSONPaserDirective" /></entry>
+                <entry key="Dangjian"><bean class="org.marker.mushroom.freemarker.DangjianDirective" /></entry>
             </map>
         </property>
     </bean>

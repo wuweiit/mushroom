@@ -57,6 +57,7 @@ public final class SystemConfig extends ConfigDBEngine {
 	
 
 	private static SystemConfig systemConfig;
+	private String dangjian;
 
 
 	/**
@@ -88,7 +89,7 @@ public final class SystemConfig extends ConfigDBEngine {
 
 
 
-	/**
+    /**
 	 * 配置文件中属性名称配置
 	 * */
 	public interface Names{
@@ -212,4 +213,12 @@ public final class SystemConfig extends ConfigDBEngine {
     public String getThemesCache(){
         return this.properties.getProperty(THEMES_CACHE,"/data/tmp");
     }
+
+
+	public String getDangjian() {
+		return this.properties.getProperty("dangjian","[]");
+	}
+
+
+
 }
