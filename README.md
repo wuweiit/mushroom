@@ -47,3 +47,19 @@ mvn jetty:run
 [https://www.oschina.net/p/mrcms](https://www.oschina.net/p/mrcms)
 
 
+### 成功案例
+
+排名不分先后。
+
+- MRCMS官网 http://cms.yl-blog.com/
+- 汉搜云 （该公司一些业务使用了MRCMS）
+- 武汉妇联网 http://fl.hansap.cn/
+- 武汉纺织行业协会 http://fzxh.hansap.com/
+- 火凤凰官网 http://hanfis.com/
+- 大众生态园林 http://www.dzstyl.com/
+
+注意：数据来源源HTTP 的 renfer 请求头，凡是通过网站调转到官网的都会被记录。
+MRCMS并没有特意采集用户信息。
+
+
+
