@@ -1,37 +1,24 @@
 package org.marker.mushroom.filter;
 
-import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.LOG;
-import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.config.impl.SystemConfig;
-import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
-import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.holder.WebRealPathHolder;
-import org.marker.mushroom.utils.DateUtils;
-import org.marker.mushroom.utils.FileTools;
-import org.marker.mushroom.utils.HttpUtils;
-import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.resource.EncodedResource;
-import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import javax.activation.FileTypeMap;
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.*;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLDecoder;
-import java.util.UUID;
-import java.util.regex.Pattern;
 
 
 /**
@@ -86,6 +73,10 @@ public class ThemesResourceFilter implements Filter {
         if(!fileInfo.exists()){
             return;
         }
+
+        long len = fileInfo.length();
+
+        resp.setContentLength((int)len);
 
         InputStream inputStream = new FileInputStream(fileInfo);
 

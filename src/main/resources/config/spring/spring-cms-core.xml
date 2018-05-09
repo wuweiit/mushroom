@@ -19,17 +19,15 @@
  	
     <!-- 核心类加载器 -->
     <context:component-scan base-package="org.marker.mushroom.core.loader"/>
-   
- 	
  	<context:component-scan base-package="org.marker.mushroom.service"/>
-    
     <context:component-scan base-package="org.marker.mushroom.module"/>
  	<context:component-scan base-package="org.marker.mushroom.plugins"/>
- 
- 
  	<context:component-scan base-package="org.marker.mushroom.template"/>
  	<context:component-scan base-package="org.marker.mushroom.statistic"/>
- 
+
+
+ 	<context:component-scan base-package="org.marker.app" />
+
 
 
 
