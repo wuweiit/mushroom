@@ -16,9 +16,9 @@
 	
  	
     <!-- Spring TimerTask(定时任务)的注解支持 --> 
-    <task:annotation-driven />
+    <!--<task:annotation-driven />-->
 	<!-- 扫描任务类 -->
- 	<context:component-scan base-package="org.marker.mushroom.task" />
+ 	<!--<context:component-scan base-package="org.marker.mushroom.task" />-->
  
     
      
