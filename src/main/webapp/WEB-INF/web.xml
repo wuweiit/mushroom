@@ -147,8 +147,8 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>mushroom</servlet-name>
-		<url-pattern>/</url-pattern>
 		<url-pattern>*.do</url-pattern>
+		<url-pattern>/</url-pattern>
 		<url-pattern>/themes/*</url-pattern>
 	</servlet-mapping>
  	
