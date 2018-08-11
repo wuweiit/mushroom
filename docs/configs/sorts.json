@@ -1,0 +1,31 @@
+{
+    "": [
+        "index.md", 
+        "readme.md", 
+        "summary.md", 
+        "index3.md", 
+        "index2.md", 
+        "_book"
+    ], 
+    "__positions": {
+        "summary.md": 3, 
+        "_book": 6, 
+        "index.md": 1, 
+        "index3.md": 4, 
+        "readme.md": 2, 
+        "_book/gitbook": 6001, 
+        "index2.md": 5
+    }, 
+    "_book": [
+        "gitbook"
+    ], 
+    "__raw_positions": {
+        "summary.md": 3, 
+        "_book": 6, 
+        "index.md": 1, 
+        "index3.md": 4, 
+        "index2.md": 5, 
+        "_book/gitbook": 1, 
+        "readme.md": 2
+    }
+}
