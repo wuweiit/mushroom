@@ -1,13 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:cache="http://www.springframework.org/schema/cache"
-	xmlns:p="http://www.springframework.org/schema/p" 
  	xsi:schemaLocation="http://www.springframework.org/schema/beans 
     	http://www.springframework.org/schema/beans/spring-beans.xsd
-
-		http://www.springframework.org/schema/cache 
-		http://www.springframework.org/schema/cache/spring-cache.xsd	">
-
+    	">
 
     <!-- 提供该propertyConfigurer bean支持把properties文件中的信息读取到XML配置文件的表达式中 -->
     <!-- 将配置文件读取到Spring环境里 -->
@@ -26,9 +21,5 @@
             </list>
         </property>
     </bean>
-
-
-
-
 
 </beans>
