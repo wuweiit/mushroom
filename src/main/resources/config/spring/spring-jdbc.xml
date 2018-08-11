@@ -23,9 +23,12 @@
     <import resource="classpath:/config/spring/application-config.xml"/>
 
 
+    <bean id="dataSource" class="org.marker.mushroom.core.DataSourceProxy">
+        <property name="dataSource" ref="dataSource1" />
+    </bean>
 
     <!--  druid数据源   -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    <bean id="dataSource1" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="${mushroom.db.driver}" />
         <property name="url" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}&amp;autoReconnect=false" />
         <property name="username" value="${mushroom.db.user}" />
@@ -39,11 +42,11 @@
         <property name="defaultAutoCommit" value="true" />
 
         <!-- 默认值是 true ，当从连接池取连接时，验证这个连接是否有效 -->
-        <property name="testOnBorrow" value="true" />
+        <property name="testOnBorrow" value="false" />
         <!-- 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串 -->
-        <property name="testWhileIdle" value="true" />
+        <property name="testWhileIdle" value="false" />
         <!-- 默认值是 flase, 当从把该连接放回到连接池的时，验证这个连接是否有效 -->
-        <property name="testOnReturn" value="true" />
+        <property name="testOnReturn" value="false" />
         <!--用来验证从连接池取出的连接,在将连接返回给调用者之前.如果指定,则查询必须是一个SQL SELECT并且必须返回至少一行记录-->
         <property name="validationQuery" value="SELECT 'x'" />
         <!-- 连接池中连接可空闲的时间 单位毫秒 30分钟 -->

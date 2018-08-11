@@ -1,19 +1,10 @@
 package org.marker.mushroom.controller;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import io.github.gitbucket.markedj.Marked;
-import org.marker.app.common.SessionAttr;
 import org.marker.mushroom.beans.Article;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.beans.ResultMessage;
+import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.IArticleDao;
 import org.marker.mushroom.dao.IChannelDao;
@@ -26,13 +17,15 @@ import org.marker.urlrewrite.URLRewriteEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * 文章管理
@@ -64,7 +57,7 @@ public class ArticleController extends SupportController {
 	@RequestMapping("/add")
 	public ModelAndView add(HttpSession session){
 		ModelAndView view = new ModelAndView(this.viewPath+"add");
-		int userGroupId = (int)session.getAttribute(SessionAttr.USER_GROUP_ID);
+		int userGroupId = (int)session.getAttribute(AppStatic.USER_GROUP_ID);
 		view.addObject("channels", channelService.getUserGroupChannel(userGroupId));
 		view.addObject("categorys", categoryService.getUserGroupCategory(userGroupId));
 
@@ -76,7 +69,7 @@ public class ArticleController extends SupportController {
 	public ModelAndView edit(@RequestParam("id") int id,HttpSession session){
 		ModelAndView view = new ModelAndView(this.viewPath+"edit");
 		view.addObject("article", commonDao.findById(Article.class, id));
-		int userGroupId = (int)session.getAttribute(SessionAttr.USER_GROUP_ID);
+		int userGroupId = (int)session.getAttribute(AppStatic.USER_GROUP_ID);
 		view.addObject("channels", channelService.getUserGroupChannel(userGroupId));
 		view.addObject("categorys", categoryService.getUserGroupCategory(userGroupId));
 		return view;
@@ -175,7 +168,7 @@ public class ArticleController extends SupportController {
 	@RequestMapping("/list")
 	public ModelAndView listview(HttpSession session){
 		ModelAndView view = new ModelAndView(this.viewPath+"list");
-        int userGroupId = (int)session.getAttribute(SessionAttr.USER_GROUP_ID);
+        int userGroupId = (int)session.getAttribute(AppStatic.USER_GROUP_ID);
         view.addObject("channels", channelService.getUserGroupChannel(userGroupId));
 		view.addObject("categorys", categoryService.getUserGroupCategory(userGroupId));
 
@@ -207,7 +200,7 @@ public class ArticleController extends SupportController {
 		params.put("cid", cid);
 		params.put("did", did);
 		params.put("status", status);
-        int userGroupId = (int)session.getAttribute(SessionAttr.USER_GROUP_ID);
+        int userGroupId = (int)session.getAttribute(AppStatic.USER_GROUP_ID);
         params.put("userGroupId", userGroupId);
 
 

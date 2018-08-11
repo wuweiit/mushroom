@@ -147,6 +147,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>mushroom</servlet-name>
+		<url-pattern>/</url-pattern>
 		<url-pattern>*.do</url-pattern>
 		<url-pattern>/themes/*</url-pattern>
 	</servlet-mapping>
@@ -163,8 +164,6 @@
     
     <!-- 验证码Serlvet接口 --> 
 	  <servlet>
-	    <description>This is the description of my J2EE component</description>
-	    <display-name>This is the display name of my J2EE component</display-name>
 	    <servlet-name>SecurityCodeServlet</servlet-name>
 	    <servlet-class>org.marker.mushroom.servlet.SecurityCodeServlet</servlet-class>
 	  </servlet> 
@@ -195,10 +194,10 @@
 	</session-config>
 
 
-	<error-page>
-		<error-code>404</error-code>
-		<location>/public/errorpage/404.htm</location>
-	</error-page>
+	<!--<error-page>-->
+		<!--<error-code>404</error-code>-->
+		<!--<location>/public/errorpage/404.htm</location>-->
+	<!--</error-page>-->
 	
 
   

@@ -56,5 +56,7 @@ public interface AppStatic {
 	public static String JSON_OBJECT_NAME = "data";
 	
 	
-	public static final String WEB_APP_PAGE = "page"; 
+	public static final String WEB_APP_PAGE = "page";
+
+    public static final String  USER_GROUP_ID = "userGroupId";
 }

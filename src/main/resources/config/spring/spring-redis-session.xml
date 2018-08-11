@@ -16,7 +16,7 @@
 
 
 	<!-- Redis Session COnfig -->
-	<bean class="org.marker.app.session.SessionConfig" />
+	<!--<bean class="org.marker.app.session.SessionConfig" />-->
 
 	<!-- 将session放入redis （这种配置不能配置多个jedisConnectionFactory ）
 	<bean id="redisHttpSessionConfiguration"

@@ -1,11 +1,5 @@
 package org.marker.mushroom.holder;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
 import com.wuweibi.module4j.ModuleFramework;
 import com.wuweibi.module4j.config.Configuration;
 import com.wuweibi.module4j.listener.InstallListenter;
@@ -25,6 +19,11 @@ import org.marker.mushroom.ext.tag.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ServletContextAware;
+
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -165,62 +164,66 @@ public class InitBuilderHolder implements ServletContextAware{
 		 * ============================================================
 		 */
     	logger.info("mrcms MessageContext init ...");
-        MessageDBContext messageDBContext = MessageDBContext.getInstance();
+    	if(WebAPP.install){
+			MessageDBContext messageDBContext = MessageDBContext.getInstance();
 
-		if(!messageDBContext.isInit()){
-			try {
-				messageDBContext.init();
-			} catch (Exception e) {
-				logger.error("", e);
+			if(!messageDBContext.isInit()){
+				try {
+					messageDBContext.init();
+				} catch (Exception e) {
+					logger.error("", e);
+				}
 			}
+
 		}
 
 
 
 
+        if(WebAPP.install){
 
 
 
+			String moduleDir =  webRootPath + "modules";// 模块目录
+
+			// 缓存目录
+			String cacheDir = moduleDir + File.separator + "cache";// 模块目录
+
+			Map<String,String> configMap = new HashMap<String,String>();
+			// 自动部署目录配置
+			configMap.put(Configuration.AUTO_DEPLOY_DIR, moduleDir);
+			// 缓存目录
+			configMap.put(Configuration.DIR_CACHE, cacheDir);
+			// 日志级别
+			configMap.put(Configuration.LOG_LEVEL, "1");
+
+			try {
+				ModuleFramework moduleFramework = new ModuleFramework(configMap);
+				ModuleContext context = moduleFramework.getModuleContext();
+				moduleFramework.start();
+
+				context.addInstallListener(new InstallListenter(){
+
+					@Override
+					public void uninstall(Module module) {
+
+					}
+
+					@Override
+					public void install(Module module) {
+
+					}
+				});
+
+				// 停止服务
+	//			moduleFramework.stop();
+
+			} catch (Exception e) {
+				logger.error("{}", e.getMessage());
+			}
 
 
-		String moduleDir =  webRootPath + "modules";// 模块目录
-
-		// 缓存目录
-		String cacheDir = moduleDir + File.separator + "cache";// 模块目录
-
-		Map<String,String> configMap = new HashMap<String,String>();
-		// 自动部署目录配置
-		configMap.put(Configuration.AUTO_DEPLOY_DIR, moduleDir);
-		// 缓存目录
-		configMap.put(Configuration.DIR_CACHE, cacheDir);
-		// 日志级别
-		configMap.put(Configuration.LOG_LEVEL, "1");
-
-		try {
-			ModuleFramework moduleFramework = new ModuleFramework(configMap);
-			ModuleContext context = moduleFramework.getModuleContext();
-			moduleFramework.start();
-
-            context.addInstallListener(new InstallListenter(){
-
-                @Override
-                public void uninstall(Module module) {
-
-                }
-
-                @Override
-                public void install(Module module) {
-
-                }
-            });
-
-			// 停止服务
-//			moduleFramework.stop();
-
-		} catch (Exception e) {
-		    logger.error("{}", e.getMessage());
-		}
-
+        }
 
 
 

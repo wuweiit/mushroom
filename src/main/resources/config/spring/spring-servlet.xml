@@ -15,6 +15,7 @@
 
     ">
 
+	<context:annotation-config />
 
 
 
@@ -48,7 +49,7 @@
 
 
 
-    <!-- ①：启动Spring MVC3.2的注解功能(使用最新的处理类)  -->
+    <!-- ①：启动Spring MVC的注解功能(使用最新的处理类)  -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
  
     </bean>
@@ -61,7 +62,8 @@
 	</bean>
 
 
-	<mvc:default-servlet-handler/>
+
+	<mvc:annotation-driven />
 
 	<mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
@@ -82,7 +84,8 @@
         </mvc:interceptor>
 	</mvc:interceptors>
 
-    <mvc:resources mapping="/public/" location="/public/"/>
+    <mvc:resources mapping="/public/**" location="/public/"/>
+    <mvc:resources mapping="/install/**" location="/WEB-INF/content/install/"/>
 
 
 

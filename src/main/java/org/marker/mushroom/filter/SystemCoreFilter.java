@@ -1,28 +1,14 @@
 package org.marker.mushroom.filter;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.UUID;
-import java.util.regex.Pattern;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.core.AppStatic;
+import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
+import org.marker.mushroom.utils.ArrayUtils;
 import org.marker.mushroom.utils.DateUtils;
 import org.marker.mushroom.utils.FileTools;
 import org.marker.mushroom.utils.HttpUtils;
@@ -30,6 +16,16 @@ import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+
+import javax.servlet.*;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 
 /**
@@ -61,6 +57,22 @@ public class SystemCoreFilter implements Filter {
 	private static final String CONTENT_TYPE = "text/html;charset=utf-8";
 
 
+	/**
+	 * 不需要走MVC的地址
+	 */
+	private String[] jumpUrlPaths = new String[]{
+        "/public", // 因为这里是公共文件，所以直接返回了
+        "/themes", // 因为这里是公共文件，所以直接返回了
+        "/modules",  // 因为这里是model核心路径，所以直接返回了
+        "/plugin/",  // 插件路径
+        "/install/",  // 安装路径
+        "/SecurityCode",// 验证码接口
+        "/fetch", // 统计接口
+        "/druid" // 监控
+	};
+
+
+
 	
 	
 	// 缓存管理器
@@ -88,37 +100,11 @@ public class SystemCoreFilter implements Filter {
 		 *              系统内置路径过滤
 		 * ============================================
 		 */
-		if(uri.startsWith("/public")){
+		if(ArrayUtils.containsStartWith(jumpUrlPaths, uri)){
 			chain.doFilter(req, response);
 			return; // 因为这里是公共文件，所以直接返回了
 		}
-		if(uri.startsWith("/themes")){
-			chain.doFilter(req, response);
-			return; // 因为这里是公共文件，所以直接返回了
-		}
-		if(uri.startsWith("/modules")){
-			chain.doFilter(req, response);
-			return; // 因为这里是model核心路径，所以直接返回了
-		}
-		// 插件路径，进入插件过滤器  // uri: /plugin/dsdsd.html
-		uri = uri.replace(request.getContextPath(), "");// 移除项目名称 
-		if(uri.startsWith("/plugin/")){
-			chain.doFilter(request, response);
-			return;
-		}
-		if(uri.startsWith("/SecurityCode")){ // 验证码接口
-			chain.doFilter(req, response);
-			return;
-		}
-		if(uri.startsWith("/fetch")){ // 统计接口
-			chain.doFilter(req, response);
-			return;
-		}
-		if(uri.startsWith("/druid")){
-			chain.doFilter(req, response);
-			return; // 监控
-		}
-		
+
 		
 		/* ============================================
 		 *              排除过滤格式
@@ -132,6 +118,20 @@ public class SystemCoreFilter implements Filter {
 				return; // 因为这里是静态文件，所以直接返回了
 			}
 		}
+
+        /* ====================================================
+		 *                 检查系统是否安装
+		 * ====================================================
+		 */
+        if ( !WebAPP.install ) {
+            try {
+                logger.error("mrcms not install");
+                response.sendRedirect("install/index.do");// 没有安装则进入安装页面
+                return; // 处理完毕直接返回。
+            } catch (IOException e) {
+                logger.error("",e);
+            }
+        }
 
 
 
@@ -192,6 +192,9 @@ public class SystemCoreFilter implements Filter {
 		 */
 		String url = rewrite.decoder(uri); 
 		logger.info("URL: {} => {}", uri, url);
+		if("/".equals(url)){ // 修复jetty 默认首页问题
+			url = "cms";
+		}
 
 		
 		String ip = HttpUtils.getRemoteHost(request);// IP地址获取

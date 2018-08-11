@@ -83,7 +83,7 @@
 
 
 
-	<root level="INFO">
+	<root level="debug">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="INFO-ROLLING"/>
 		<appender-ref ref="ERROR-ROLLING"/>
@@ -92,16 +92,17 @@
 
 	  
 	<!-- c3p0 -->
-	<logger name="org.springframework" level="INFO"/>
+	<logger name="org.springframework" level="debug"/>
 	<logger name="com.ibatis" level="INFO" />
 	<logger name="org.apache.ibatis" level="INFO"/>
 	<logger name="org.mybatis" level="INFO"/>
 	<logger name="java.sql.Statement" level="INFO"/>
 	<logger name="java.sql.PreparedStatement" level="INFO"/>
 
-	<logger name="org.springframework.web" level="INFO"></logger>
+	<logger name="org.springframework.web" level="debug"></logger>
 	<logger name="org.springframework.data.redis" level="INFO"></logger>
 	<logger name="org.springframework.beans.factory.support" level="INFO"></logger>
+	<logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO"></logger>
 
 
 

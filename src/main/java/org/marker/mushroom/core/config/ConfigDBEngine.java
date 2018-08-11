@@ -1,13 +1,15 @@
 package org.marker.mushroom.core.config;
 
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
-import org.marker.mushroom.holder.SpringContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -87,6 +89,8 @@ public abstract class ConfigDBEngine {
 	 * 线程安全
 	 */
 	public synchronized void read(){
+	    if(jdbcTemplate == null)
+	        return;
 		String name = this.getClass().getSimpleName();
 
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
@@ -162,6 +166,40 @@ public abstract class ConfigDBEngine {
         }
 
     }
+
+
+	/**
+	 * 配置持久化
+	 */
+	public void storeFile(File cfgFile){
+		OutputStream out = null;
+		OutputStreamWriter osw = null;
+		try{
+			out = new FileOutputStream(cfgFile);
+			osw = new OutputStreamWriter(out, FILE_ENCODEING);
+			this.properties.store(osw, "");
+
+		}catch (FileNotFoundException e) {
+			logger.error("config file not found " + cfgFile.getAbsolutePath(), e);
+		} catch (UnsupportedEncodingException e) {
+			logger.error("not supported encoding " + FILE_ENCODEING,e);
+		} catch (IOException e) {
+			logger.error("IOException " + cfgFile.getAbsolutePath(), e);
+		}finally{
+			try {
+				if(osw != null){
+					osw.close();
+				}
+				if(out != null){
+					out.close();
+				}
+			} catch (IOException e) {
+				logger.error(
+						"close stream IOException "
+								+ cfgFile.getAbsolutePath(), e);
+			}
+		}
+	}
 }
 
 

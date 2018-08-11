@@ -1,18 +1,6 @@
 package org.marker.mushroom.core;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.marker.mushroom.alias.Core;
-import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.alias.Services;
 import org.marker.mushroom.beans.BreadNav;
@@ -21,9 +9,6 @@ import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
-import org.marker.mushroom.dao.IChannelDao;
-import org.marker.mushroom.dao.mapper.ObjectRowMapper;
-import org.marker.mushroom.ext.model.ContentModel;
 import org.marker.mushroom.ext.model.ContentModelContext;
 import org.marker.mushroom.ext.model.IContentModelParse;
 import org.marker.mushroom.holder.SpringContextHolder;
@@ -34,7 +19,16 @@ import org.marker.mushroom.template.MyCMSTemplate;
 import org.marker.mushroom.template.SendDataToView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 前台处理核心对象
@@ -129,7 +123,7 @@ public final class WebAPP {
 		if ( !install ) { 
 			try {
 				logger.error("mrcms not install");
-				response.sendRedirect("install/index.jsp");// 没有安装则进入安装页面
+				response.sendRedirect("install/index.do");// 没有安装则进入安装页面
 				return; // 处理完毕直接返回。
 			} catch (IOException e) {
 				logger.error("",e);

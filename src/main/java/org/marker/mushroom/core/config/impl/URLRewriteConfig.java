@@ -1,13 +1,9 @@
 package org.marker.mushroom.core.config.impl;
 
-import java.io.IOException;
-
-import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.core.config.ConfigEngine;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.urlrewrite.URLRewriteEngine;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * URL重写配置
@@ -17,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @blog www.yl-blog.com
  * @weibo http://t.qq.com/wuweiit
  */
-public class URLRewriteConfig extends ConfigDBEngine {
+public class URLRewriteConfig extends ConfigEngine {
 
 	/** 页面后缀key */
 	public static final String PAGE_SUFFIX = "page.suffix";
@@ -38,10 +34,9 @@ public class URLRewriteConfig extends ConfigDBEngine {
 	/**
 	 * 初始化就读取配置文件哦
 	 *
-	 * @param jdbcTemplate
 	 */
-	public URLRewriteConfig(JdbcTemplate jdbcTemplate) {
-		super(jdbcTemplate);
+	public URLRewriteConfig() {
+        super("WEB-INF/conf/urlrewrite.properties");
 		init();// 初始化
 	}
 

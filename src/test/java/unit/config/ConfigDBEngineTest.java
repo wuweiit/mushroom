@@ -1,13 +1,9 @@
 package unit.config;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.marker.mushroom.beans.Menu;
-import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.config.impl.URLRewriteConfig;
-import org.marker.mushroom.dao.IMenuDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -35,7 +31,7 @@ public class ConfigDBEngineTest extends AbstractJUnit4SpringContextTests {
 	@Test
 	public void test(){
 		String file = "/WORK/git/cms/src/main/resources/config/site/system.config";
-        systemConfig.loadFile(file);
+//        systemConfig.loadFile(file);
 
         systemConfig.store();
 
@@ -44,9 +40,9 @@ public class ConfigDBEngineTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void test2(){
-        String file = "/WORK/git/cms/src/main/resources/config/urlrewrite/urlrewrite.config";
-        urlRewriteConfig.loadFile(file);
-        urlRewriteConfig.store();
+//        String file = "/WORK/git/cms/src/main/resources/config/urlrewrite/urlrewrite.config";
+//        urlRewriteConfig.read(new File(file));
+//        urlRewriteConfig.store();
     }
 }
  

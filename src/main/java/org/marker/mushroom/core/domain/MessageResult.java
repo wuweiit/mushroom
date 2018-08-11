@@ -1,15 +1,12 @@
-package org.marker.app.domain;
-
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+package org.marker.mushroom.core.domain;
 
 import com.alibaba.fastjson.JSON;
-import org.marker.app.common.ErrorCode;
-import org.marker.mushroom.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -192,14 +189,7 @@ public class MessageResult implements Serializable {
 	}
 
 
-	/**
-	 * 包装错误码
-	 * @param errorCode 错误代码
-	 * @return
-	 */
-	public static MessageResult wrapErrorCode(ErrorCode errorCode) {
-		return new MessageResult(errorCode.getCode(),errorCode.getMsg(), null);
-	}
+
 
 	/**
 	 * 操作成功
@@ -223,7 +213,7 @@ public class MessageResult implements Serializable {
 	 * @param msg 消息内容
 	 * @return
 	 */
-	public static Object error(String msg) {
+	public static MessageResult error(String msg) {
 		return new MessageResult(false, msg, null);
 	}
 }

@@ -26,14 +26,18 @@
  	<context:component-scan base-package="org.marker.mushroom.statistic"/>
 
 
- 	<context:component-scan base-package="org.marker.app" />
 
 
 
 
     <!-- URL重写规则引擎配置配置组件 -->
     <bean id="URLRewriteConfig" class="org.marker.mushroom.core.config.impl.URLRewriteConfig">
-        <constructor-arg ref="jdbcTemplate"></constructor-arg>
+        <!--<constructor-arg ref="jdbcTemplate"></constructor-arg>-->
+    </bean>
+
+	<!--  系统配置组件 -->
+    <bean id="SystemConfig" class="org.marker.mushroom.core.config.impl.SystemConfig">
+
     </bean>
 
 

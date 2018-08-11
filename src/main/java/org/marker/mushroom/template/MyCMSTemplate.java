@@ -1,49 +1,30 @@
 package org.marker.mushroom.template;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.swing.*;
-
-import freemarker.cache.TemplateLoader;
+import freemarker.cache.StringTemplateLoader;
+import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
-import love.cq.util.IOUtil;
 import org.apache.commons.lang.StringUtils;
-import org.marker.app.utils.ConfigurationHelper;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
-import org.marker.mushroom.ext.message.MessageContext;
-import org.marker.mushroom.ext.plugin.freemarker.EmbedDirectiveInvokeTag;
 import org.marker.mushroom.ext.tag.TaglibContext;
-import org.marker.mushroom.freemarker.*;
 import org.marker.mushroom.freemarker.config.WebFreeMarkerConfigurer;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.template.tags.res.WebDataSource;
 import org.marker.mushroom.utils.FileTools;
-import org.marker.mushroom.utils.FileUtils;
-import org.marker.urlrewrite.freemarker.FrontURLRewriteMethodModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import freemarker.cache.StringTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.TemplateExceptionHandler;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * 模板引擎

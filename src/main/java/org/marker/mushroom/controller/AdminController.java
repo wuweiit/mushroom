@@ -1,14 +1,5 @@
 package org.marker.mushroom.controller;
 
-import java.io.IOException;
-import java.util.Date;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.marker.app.common.SessionAttr;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.User;
 import org.marker.mushroom.beans.UserLoginLog;
@@ -26,10 +17,19 @@ import org.marker.qqwryip.IPTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Date;
 
 
 
@@ -64,7 +64,7 @@ public class AdminController extends SupportController {
 	public String index(HttpServletRequest request){ 
 		// 如果没有安装系统
 		if(!WebAPP.install)
-			return "redirect:../install/index.jsp";
+			return "redirect:../install/index.do";
 		
 		request.setAttribute("url", HttpUtils.getRequestURL(request)); 
 		HttpSession session = request.getSession(false);
@@ -117,7 +117,7 @@ public class AdminController extends SupportController {
             HttpServletResponse response) throws IOException {
 		// 如果没有安装系统
 		if(!WebAPP.install)
-			return "redirect:../install/index.jsp";
+			return "redirect:../install/index.do";
 
 
 
@@ -182,7 +182,7 @@ public class AdminController extends SupportController {
 						session.setAttribute(AppStatic.WEB_APP_SESSION_ADMIN, user); 
 						session.setAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME, user.getNickname());
 						session.setAttribute(AppStatic.WEB_APP_SESSSION_USER_GROUP_ID, user.getGid());// 设置分组
-						session.setAttribute(SessionAttr.USER_GROUP_ID, user.getGid());// 用户组
+						session.setAttribute(AppStatic.USER_GROUP_ID, user.getGid());// 用户组
 						session.removeAttribute(AppStatic.WEB_APP_AUTH_CODE); //移除验证码
 						msg = new ResultMessage(true,"登录成功!");
 					}else{

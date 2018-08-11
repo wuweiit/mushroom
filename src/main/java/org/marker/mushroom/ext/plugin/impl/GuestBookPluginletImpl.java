@@ -8,24 +8,19 @@ package org.marker.mushroom.ext.plugin.impl;
  */
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
-import org.marker.app.domain.MessageResult;
+import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.GuestBook;
 import org.marker.mushroom.beans.ResultMessage;
-import org.marker.mushroom.core.SystemStatic;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
-import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.dao.ISupportDao;
-import javax.servlet.http.HttpServletRequest;
+import org.marker.mushroom.ext.plugin.Pluginlet;
 import org.marker.mushroom.holder.SpringContextHolder;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.lang.Integer;
-import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.marker.mushroom.ext.plugin.Pluginlet;
-import org.marker.mushroom.alias.DAO;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.HashMap;
 
 
 

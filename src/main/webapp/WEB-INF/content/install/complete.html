@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>MRCMS 安装完成 Power By marker</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="install">
+    <h1>安装完成</h1>
+    <div class="content">
+
+        <#if install>
+            默认管理员账号：admin 密码：mrcms <br />
+
+            请<a href="${WebRootPath!}/admin/login.do">登录后台</a> 修改密码。<br />
+
+        <#else>
+            安装失败！<br />
+            原因：${exceptionStr!}<br />
+        </#if>
+    </div>
+    <div class="menu">
+        <button type="button" onclick="window.location.href='${WebRootPath!}';">进入首页</button>
+    </div>
+</div>
+</body>
+</html>

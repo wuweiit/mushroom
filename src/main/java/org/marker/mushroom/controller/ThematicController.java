@@ -2,16 +2,13 @@ package org.marker.mushroom.controller;
 
 import io.github.gitbucket.markedj.Marked;
 import org.apache.commons.lang.StringUtils;
-import org.marker.app.common.SessionAttr;
-import org.marker.mushroom.beans.Article;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.Thematic;
+import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
-import org.marker.mushroom.dao.IArticleDao;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.ThematicDao;
-import org.marker.mushroom.service.impl.ArticleService;
 import org.marker.mushroom.service.impl.CategoryService;
 import org.marker.mushroom.service.impl.ChannelService;
 import org.marker.mushroom.service.impl.ThematicService;
@@ -60,7 +57,7 @@ public class ThematicController extends SupportController {
 	@RequestMapping("/add")
 	public ModelAndView add(HttpSession session){
 		ModelAndView view = new ModelAndView(this.viewPath+"add");
-		int userGroupId = (int)session.getAttribute(SessionAttr.USER_GROUP_ID);
+		int userGroupId = (int)session.getAttribute(AppStatic.USER_GROUP_ID);
 		view.addObject("channels", channelService.getUserGroupChannel(userGroupId));
 		view.addObject("categorys", categoryService.getUserGroupCategory(userGroupId));
 
@@ -72,7 +69,7 @@ public class ThematicController extends SupportController {
 	public ModelAndView edit(@RequestParam("id") int id,HttpSession session){
 		ModelAndView view = new ModelAndView(this.viewPath+"edit");
 		view.addObject("article", commonDao.findById(Thematic.class, id));
-		int userGroupId = (int)session.getAttribute(SessionAttr.USER_GROUP_ID);
+		int userGroupId = (int)session.getAttribute(AppStatic.USER_GROUP_ID);
 		view.addObject("channels", channelService.getUserGroupChannel(userGroupId));
 		view.addObject("categorys", categoryService.getUserGroupCategory(userGroupId));
 
@@ -218,7 +215,7 @@ public class ThematicController extends SupportController {
 	@RequestMapping("/list")
 	public ModelAndView listview(HttpSession session){
 		ModelAndView view = new ModelAndView(this.viewPath+"list");
-        int userGroupId = (int)session.getAttribute(SessionAttr.USER_GROUP_ID);
+        int userGroupId = (int)session.getAttribute(AppStatic.USER_GROUP_ID);
         view.addObject("channels", channelService.getUserGroupChannel(userGroupId));
 		view.addObject("categorys", categoryService.getUserGroupCategory(userGroupId));
 
@@ -250,7 +247,7 @@ public class ThematicController extends SupportController {
 		params.put("cid", cid);
 		params.put("did", did);
 		params.put("status", status);
-        int userGroupId = (int)session.getAttribute(SessionAttr.USER_GROUP_ID);
+        int userGroupId = (int)session.getAttribute(AppStatic.USER_GROUP_ID);
         params.put("userGroupId", userGroupId);
 
 

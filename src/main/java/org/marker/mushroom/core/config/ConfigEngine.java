@@ -1,19 +1,11 @@
 package org.marker.mushroom.core.config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.util.Properties;
-
+import org.marker.mushroom.holder.WebRealPathHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.Properties;
 
 
 /**
@@ -53,22 +45,9 @@ public abstract class ConfigEngine implements IConfig {
 	 * 初始化就读取配置文件哦
 	 * @param cfgFilePath
 	 */
-	public ConfigEngine(String cfgFilePath) { 
-		String file = null;
-		String osName = System.getProperty("os.name");
-        if(cfgFilePath.lastIndexOf(".config") != -1){//软件配置
-            file = ConfigEngine.class.getResource(cfgFilePath).getFile();
-        }else{
-            if(osName.toLowerCase().indexOf("win") != -1){ // win
-
-                String path = ConfigEngine.class.getResource("/").getPath();
-                String prefix = path.substring(1,3);
-                file = prefix+""+cfgFilePath;
-            }else{
-                file = cfgFilePath;
-            }
-        }
-		this.read(new File(file));
+	public ConfigEngine(String cfgFilePath) {
+		String filepath = WebRealPathHolder.REAL_PATH + cfgFilePath;
+		this.read(new File(filepath));
 	}
 
 	public ConfigEngine() {}

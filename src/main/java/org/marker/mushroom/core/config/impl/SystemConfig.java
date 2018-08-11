@@ -2,10 +2,9 @@ package org.marker.mushroom.core.config.impl;
 
 
 import org.apache.commons.lang.StringUtils;
-import org.marker.mushroom.core.config.ConfigDBEngine;
+import org.marker.mushroom.core.config.ConfigEngine;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 
 /**
@@ -14,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * 在系统StartListener监听器中进行配置文件地址的初始化
  * @author marker
  * */
-public final class SystemConfig extends ConfigDBEngine {
+public final class SystemConfig extends ConfigEngine {
 
 
 	
@@ -63,10 +62,9 @@ public final class SystemConfig extends ConfigDBEngine {
 	/**
 	 * 初始化就读取配置文件哦
 	 *
-	 * @param jdbcTemplate
 	 */
-	private SystemConfig(JdbcTemplate jdbcTemplate) {
-		super(jdbcTemplate);
+	public SystemConfig() {
+		super("WEB-INF/conf/site.properties");
 	}
 
 
@@ -79,8 +77,7 @@ public final class SystemConfig extends ConfigDBEngine {
 		if(systemConfig == null){
 			synchronized (SystemConfig.class){
 				if(systemConfig == null){
-					JdbcTemplate jdbcTemplate = SpringContextHolder.getBean("jdbcTemplate");
-					systemConfig = new SystemConfig(jdbcTemplate);
+					systemConfig = SpringContextHolder.getBean("SystemConfig");
 				}
 			}
 		}

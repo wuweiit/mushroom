@@ -1,12 +1,10 @@
 package org.marker.mushroom.core.config.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
-
-
 import org.marker.mushroom.core.config.ConfigEngine;
 import org.marker.mushroom.holder.SpringContextHolder;
+
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * 数据库动态配置
@@ -34,7 +32,7 @@ public class DataBaseConfig extends ConfigEngine {
 	/**
 	 * 这种写法最大的美在于，完全使用了Java虚拟机的机制进行同步保证。
 	 * */
-	private static  DataBaseConfig instance;
+	private static DataBaseConfig instance;
 	
 	
 	/**

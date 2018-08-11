@@ -74,6 +74,9 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.6.v20170531</version>
+				<configuration>
+
+				</configuration>
 			</plugin>
         </plugins>
 
@@ -323,6 +326,15 @@
 		  <artifactId>module4j</artifactId>
 		  <version>0.0.1</version>
 	  </dependency>
+
+
+	  <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+	  <dependency>
+		  <groupId>org.yaml</groupId>
+		  <artifactId>snakeyaml</artifactId>
+		  <version>1.21</version>
+	  </dependency>
+
 
 
 
