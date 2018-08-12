@@ -71,6 +71,9 @@ public abstract class ConfigEngine implements IConfig {
 	 */
 	@Override
 	public void set(String key, String val) {
+		if(val == null){
+			val = "";
+		}
 		this.properties.put(key, val);
 	}
 
