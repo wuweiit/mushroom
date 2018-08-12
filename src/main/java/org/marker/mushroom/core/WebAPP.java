@@ -89,6 +89,7 @@ public final class WebAPP {
 		 * 项目刚初始化成功，能处理大批量的并发请求
 		 * 
 		 * */
+
 		if(!initialization){
 			synchronized (WebAPP.class) {
 				
