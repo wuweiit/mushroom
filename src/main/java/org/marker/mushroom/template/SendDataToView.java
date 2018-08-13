@@ -1,19 +1,9 @@
 package org.marker.mushroom.template;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import freemarker.ext.servlet.AllHttpScopesHashModel;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateExceptionHandler;
 import org.marker.develop.freemarker.MessageWrapperModel;
 import org.marker.develop.freemarker.ServletContextWrapperModel;
 import org.marker.develop.freemarker.SessionWrapperModel;
@@ -26,7 +16,6 @@ import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.dao.ISupportDao;
-import org.marker.mushroom.ext.message.MessageContext;
 import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
@@ -37,10 +26,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 
-import freemarker.ext.servlet.AllHttpScopesHashModel;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateExceptionHandler;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -134,8 +126,8 @@ public class SendDataToView {
 		try {
 			template = config.getTemplate(tpl);
 		} catch (IOException e) {
-			e.printStackTrace();
-			throw new SystemException("获取模板失败：" + tpl);
+			logger.error(e.getMessage());
+			throw new SystemException("获取模板失败：" + tpl+" <br/> "+ e.getMessage());
 		}
 		Writer writer = null;
 		try {

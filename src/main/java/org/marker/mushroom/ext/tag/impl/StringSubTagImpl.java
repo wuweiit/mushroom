@@ -1,9 +1,9 @@
 package org.marker.mushroom.ext.tag.impl;
 
+import org.marker.mushroom.ext.tag.Taglib;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.marker.mushroom.ext.tag.Taglib;
 
 /**
  * 字符串截取标签 格式:
@@ -21,8 +21,8 @@ public class StringSubTagImpl extends Taglib {
 		this.configure(config); 
 		
 		
-		this.put("\\$\\{\\s*(\\w+\\.?\\w+)\\s+length\\=\\((\\d+)\\)\\s*\\}",
-				"<#if ($1?length>$2)>" + "\\${$1[0..$2]}..." + "<#else>"
+		this.put("\\$\\{\\s*([\\w+\\.?]+)\\s+length\\=\\((\\d+)\\)\\s*\\}",
+				"<#if ($1?length>$2)>" + "\\${$1[0..$2-1]}..." + "<#else>"
 						+ "\\${$1!}" + "</#if>", 0);
 	}
 
