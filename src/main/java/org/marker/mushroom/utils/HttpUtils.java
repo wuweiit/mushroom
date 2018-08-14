@@ -1,12 +1,10 @@
 package org.marker.mushroom.utils;
 
-import org.marker.mushroom.context.ActionContext;
 import org.springframework.util.StringUtils;
-
-import java.util.Locale;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 
 /**
@@ -113,6 +111,9 @@ public class HttpUtils {
 			}
 		}
 		Locale locale = request.getLocale();
-		return locale.getLanguage()+"-"+locale.getCountry();
+		if(org.apache.commons.lang.StringUtils.isBlank(locale.getCountry())){
+			return locale.getLanguage();
+		}
+		return locale.getLanguage() + "-" + locale.getCountry();
 	}
 }
