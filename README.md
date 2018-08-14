@@ -63,6 +63,8 @@ mvn jetty:run
 - 火凤凰官网 http://hanfis.com/
 - 大众生态园林 http://www.dzstyl.com/
 - 嘉禾粮油 http://www.whjiahe.com/
+- 91农业网 http://www.91nongye.com/
+- nuchain  http://www.nuchain.net/
 
 注意：数据来源源HTTP 的 renfer 请求头，凡是通过网站调转到官网的都会被记录。
 MRCMS并没有特意采集用户信息。
