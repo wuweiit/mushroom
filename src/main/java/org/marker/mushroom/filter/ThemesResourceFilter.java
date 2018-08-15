@@ -1,6 +1,5 @@
 package org.marker.mushroom.filter;
 
-import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +31,7 @@ import java.net.URLDecoder;
 public class ThemesResourceFilter implements Filter {
 	
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.WEBFOREGROUND); 
+	protected Logger logger =  LoggerFactory.getLogger(ThemesResourceFilter.class);
 
 
 
@@ -43,7 +42,7 @@ public class ThemesResourceFilter implements Filter {
 
 
 	    HttpServletRequest request = (HttpServletRequest)req;
-        ServletContext servletContext = request.getSession().getServletContext();
+        ServletContext servletContext = request.getServletContext();
 
 
         String uri = URLDecoder.decode(request.getRequestURI(),"utf-8");

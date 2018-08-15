@@ -1,25 +1,17 @@
 package org.marker.mushroom.filter;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import io.github.gitbucket.markedj.Marked;
-import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.utils.FileTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 
 /**
  *  插件过滤器
@@ -28,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class MarkDownFilter implements Filter {
 
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.WEBFOREGROUND); 
+	protected Logger logger =  LoggerFactory.getLogger(MarkDownFilter.class);
 	
 	
 	// 全局作用域

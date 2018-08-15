@@ -20,7 +20,8 @@ import java.io.IOException;
  * @author marker
  *
  * */
-public class RequestParamsInterceptor implements HandlerInterceptor {
+public class
+RequestParamsInterceptor implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(RequestParamsInterceptor.class);
 
     @Override

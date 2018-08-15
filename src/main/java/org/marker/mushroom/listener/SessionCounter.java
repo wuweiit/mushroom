@@ -1,20 +1,27 @@
 package org.marker.mushroom.listener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
+ *
+ *
  * 统计在线人数
+ *
+ *
  * @author marker
  * */
-public class SessionCounter implements HttpSessionListener { 
-    
-	private final Log log = LogFactory.getLog(SessionCounter.class);
+public class SessionCounter implements HttpSessionListener {
+    /**
+     * 日志记录
+     */
+	private final Logger log = LoggerFactory.getLogger(SessionCounter.class);
 	
 	
 	/** Session个数代码${sessions} */
@@ -23,7 +30,7 @@ public class SessionCounter implements HttpSessionListener {
 	
 	@Override
 	public void sessionCreated(HttpSessionEvent event) { 
-        ServletContext ctx = event.getSession().getServletContext( ); 
+        ServletContext ctx = event.getSession().getServletContext();
         Integer numSessions = (Integer) ctx.getAttribute(SESSION_COUNT); 
         if (numSessions == null) { 
             numSessions = new Integer(1); 
@@ -40,7 +47,7 @@ public class SessionCounter implements HttpSessionListener {
 	
     @Override
 	public void sessionDestroyed(HttpSessionEvent event) { 
-        ServletContext ctx = event.getSession( ).getServletContext( ); 
+        ServletContext ctx = event.getSession().getServletContext( );
         Integer numSessions = (Integer) ctx.getAttribute(SESSION_COUNT); 
         if (numSessions == null) { 
             numSessions = new Integer(0); 
@@ -53,7 +60,6 @@ public class SessionCounter implements HttpSessionListener {
         log.info("destroy a session. current sessions:" + numSessions+" count.");
         ctx.setAttribute(SESSION_COUNT, numSessions); 
     }
-    
     
     
 } 

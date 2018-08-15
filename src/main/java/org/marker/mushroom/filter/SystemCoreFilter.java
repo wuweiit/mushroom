@@ -1,7 +1,6 @@
 package org.marker.mushroom.filter;
 
 import org.marker.mushroom.alias.CacheO;
-import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.SystemConfig;
@@ -42,7 +41,7 @@ import java.util.regex.Pattern;
 public class SystemCoreFilter implements Filter {
 	
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.WEBFOREGROUND); 
+	protected Logger logger =  LoggerFactory.getLogger(SystemCoreFilter.class);
 
 	// URL重写引擎
 	private static URLRewriteEngine rewrite = SingletonProxyFrontURLRewrite.getInstance();
@@ -125,7 +124,7 @@ public class SystemCoreFilter implements Filter {
 		 */
         if ( !WebAPP.install ) {
             try {
-                logger.error("mrcms not install");
+                logger.warn("mrcms not install");
                 response.sendRedirect("install/index.do");// 没有安装则进入安装页面
                 return; // 处理完毕直接返回。
             } catch (IOException e) {
@@ -210,15 +209,7 @@ public class SystemCoreFilter implements Filter {
 		 *                初始化系统配置信息路径
 		 * ============================================================
 		 */
-
-		// SpringContextHolder.getBean("systemConfig");
-		logger.info("build systemConfig instance = {}", syscfg);
 		req.setAttribute(AppStatic.WEB_APP_CONFIG, syscfg.getProperties());
-
-
-
-
-
 
 		req.getRequestDispatcher(url).forward(request, response);// 请求转发
 	}

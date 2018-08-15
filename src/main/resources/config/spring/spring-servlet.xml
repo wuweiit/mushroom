@@ -67,14 +67,16 @@
 
 	<mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-        <bean class="org.marker.mushroom.interceptor.RequestParamsInterceptor"></bean>
 		<mvc:interceptor>
 			<mvc:mapping path="/api/**" />
 			<bean class="org.marker.mushroom.interceptor.SignInterceptor"></bean>
 		</mvc:interceptor>
 
 
-
+		<mvc:interceptor>
+			<mvc:mapping path="**.do"/>
+			<bean class="org.marker.mushroom.interceptor.RequestParamsInterceptor"></bean>
+		</mvc:interceptor>
 
         <mvc:interceptor>
             <mvc:mapping path="/admin/**.do"/>
@@ -94,19 +96,13 @@
 	<context:component-scan base-package="org.marker.mushroom" annotation-config="true" />
 
 
-    <bean
-		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="mediaTypes">
-			<map>
-				<entry key="html" value="text/html" />
-				<entry key="json" value="application/json" />
-			</map>
-		</property>
-		</bean>
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+
+    </bean>
     
     <!-- ③：对模型视图名称的解析，这里采用多视图支持框架 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-	  	<property name="cache" value="false"/>
+	  	<property name="cache" value="true"/>
 		<property name="prefix" value=""/>
 		<property name="suffix" value=".html"/>
 		<property name="contentType" value="text/html; charset=utf-8"></property>

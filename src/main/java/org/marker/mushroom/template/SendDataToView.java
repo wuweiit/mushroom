@@ -4,12 +4,12 @@ import freemarker.ext.servlet.AllHttpScopesHashModel;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
+import org.apache.commons.io.IOUtils;
 import org.marker.develop.freemarker.MessageWrapperModel;
 import org.marker.develop.freemarker.ServletContextWrapperModel;
 import org.marker.develop.freemarker.SessionWrapperModel;
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.DAO;
-import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.WebParam;
@@ -42,7 +42,7 @@ import java.util.Map;
 public class SendDataToView {
 	
 	/** 日志记录对象 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.TEMPLATE_ENGINE); 
+	protected Logger logger =  LoggerFactory.getLogger(SendDataToView.class);
 
 
 	
@@ -135,72 +135,62 @@ public class SendDataToView {
 				if(WebUtils.checkAccetptGzip(request)){
 					OutputStream os = WebUtils.buildGzipOutputStream(response); 
 					writer = new OutputStreamWriter(os,"utf-8"); 
-				}else{
+				} else {
 					writer = response.getWriter();
 				}
-			}else{
+			} else {
 				writer = response.getWriter();
 			} 
 			template.process(root, writer);
-			
-			
-			
-			// 是否启用缓存
-			if(syscfg.isStaticPage()){
-				EhCacheCacheManager cm =  SpringContextHolder.getBean(CacheO.CacheManager);
-				 
-				org.springframework.cache.Cache cache = cm.getCache(CacheO.STATIC_HTML);
-				
-				String path =  "data" + File.separator+"cache" + File.separator +
-						lang +File.separator + request.getAttribute("rewriterUrl");
-				 
-				
-				
-				File file = new File(WebRealPathHolder.REAL_PATH + path);
-				if(!file.getParentFile().exists()){
-					file.getParentFile().mkdirs();
-				}
-				OutputStream fw = new FileOutputStream(file);
-				
-				OutputStreamWriter osw = new OutputStreamWriter(fw, "utf-8");
-				
-				template.process(root, osw); 
-				osw.flush();
-				osw.close();fw.close();
-				
-				// lang+"_"+uri
-				
-				String key = lang + "_" + request.getAttribute("rewriterUrl");
-				
-				 
-				cache.put(key, path);
+            writer.flush();
+        } catch (Exception e) {
+            logger.error("", e);
+            new SystemException("发送对象失败");
+        } finally {
+            IOUtils.closeQuietly(writer);
+        }
 
-			}
-						
-			
-		} catch (Exception e) {
-			logger.error("", e);
-			new SystemException("发送对象失败");
-		}finally{
-			if(null != writer){
-				try {
-					writer.close();
-				} catch (IOException e) {
-					logger.error("response error writer content!", e);
-				}
-			}
-		} 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+        // 是否启用缓存
+        if(syscfg.isStaticPage()){
+            EhCacheCacheManager cm =  SpringContextHolder.getBean(CacheO.CacheManager);
+
+            org.springframework.cache.Cache cache = cm.getCache(CacheO.STATIC_HTML);
+
+            String path =  "data" + File.separator+"cache" + File.separator +
+                    lang + File.separator + request.getAttribute("rewriterUrl");
+
+
+
+            File file = new File(WebRealPathHolder.REAL_PATH + path);
+            if(!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
+            OutputStreamWriter osw = null;
+            OutputStream fw = null;
+            try {
+                fw = new FileOutputStream(file);
+
+                osw = new OutputStreamWriter(fw, "utf-8");
+
+                template.process(root, osw);
+                osw.flush();
+
+            } catch (Exception e){
+                logger.error("", e);
+
+            } finally {
+                IOUtils.closeQuietly(osw);
+                IOUtils.closeQuietly(fw);
+            }
+
+            // lang+"_"+uri
+
+            String key = lang + "_" + request.getAttribute("rewriterUrl");
+
+
+            cache.put(key, path);
+
+        }
 	}
 	
 	

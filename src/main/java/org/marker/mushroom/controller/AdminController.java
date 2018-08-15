@@ -92,7 +92,7 @@ public class AdminController extends SupportController {
 	public Object menu(HttpServletRequest request, @RequestParam("id") int id){
 		ModelAndView view = new ModelAndView(this.viewPath+"childmenus");
 		view.addObject("menu",menuDao.findMenuById(id));
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		if(session != null){
 			try{
 				int groupId = (Integer) session.getAttribute(AppStatic.WEB_APP_SESSSION_USER_GROUP_ID);
@@ -132,7 +132,7 @@ public class AdminController extends SupportController {
 		}
 
 		
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession(true);
 		if(session != null){
 			try{
 				User user = (User) session.getAttribute(AppStatic.WEB_APP_SESSION_ADMIN);

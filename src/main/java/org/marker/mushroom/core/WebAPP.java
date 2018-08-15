@@ -1,7 +1,6 @@
 package org.marker.mushroom.core;
 
 import org.marker.mushroom.alias.Core;
-import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.alias.Services;
 import org.marker.mushroom.beans.BreadNav;
 import org.marker.mushroom.beans.Channel;
@@ -40,7 +39,7 @@ import java.util.List;
 public final class WebAPP {
 
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.TEMPLATE_ENGINE); 
+	protected Logger logger =  LoggerFactory.getLogger(WebAPP.class);
 	
 	
 	/** 请求响应相关的对象 */
@@ -123,7 +122,7 @@ public final class WebAPP {
 		 */
 		if ( !install ) { 
 			try {
-				logger.error("mrcms not install");
+				logger.warn("mrcms not install");
 				response.sendRedirect("install/index.do");// 没有安装则进入安装页面
 				return; // 处理完毕直接返回。
 			} catch (IOException e) {
@@ -201,9 +200,11 @@ public final class WebAPP {
 			
 			
 			
-		}catch(SystemException syse){ logger.error("", syse);
+		}catch(SystemException syse){
+			logger.error("", syse);
 			handleErrorMessage(syse); 
-		}catch (FileNotFoundException e) { logger.error("", e);
+		}catch (FileNotFoundException e) {
+			logger.error("", e);
 			handleErrorMessage(new SystemException(e.getMessage() + " 模板未找到"));
 		} catch (IOException e) {
 			logger.error("", e); 

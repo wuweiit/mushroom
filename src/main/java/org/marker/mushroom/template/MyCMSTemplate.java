@@ -5,7 +5,6 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.Core;
-import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.config.impl.SystemConfig;
@@ -37,7 +36,7 @@ import java.util.*;
 public class MyCMSTemplate {
 	
 	/** 日志记录对象 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.TEMPLATE_ENGINE); 
+	protected Logger logger =  LoggerFactory.getLogger(MyCMSTemplate.class);
 	
 	// freemarker配置
 	public Configuration config;

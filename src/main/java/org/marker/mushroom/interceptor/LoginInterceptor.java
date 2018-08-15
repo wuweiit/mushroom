@@ -26,7 +26,7 @@ public class LoginInterceptor implements HandlerInterceptor  {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		String username = (String)session.getAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME);
 		if(username != null){
 			return true;

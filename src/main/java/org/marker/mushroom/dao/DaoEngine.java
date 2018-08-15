@@ -1,5 +1,19 @@
 package org.marker.mushroom.dao;
 
+import org.marker.mushroom.beans.Page;
+import org.marker.mushroom.dao.annotation.Entity;
+import org.marker.mushroom.dao.annotation.EntityFieldIgnore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -11,27 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang.StringUtils;
-import org.marker.mushroom.alias.LOG;
-import org.marker.mushroom.beans.Channel;
-import org.marker.mushroom.beans.Page;
-import org.marker.mushroom.core.config.impl.DataBaseConfig;
-import org.marker.mushroom.dao.annotation.Entity;
-import org.marker.mushroom.dao.annotation.EntityFieldIgnore;
-import org.marker.mushroom.dao.mapper.ObjectRowMapper;
-import org.marker.mushroom.utils.SQLUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 
 
@@ -49,7 +42,7 @@ import org.springframework.jdbc.support.KeyHolder;
 public abstract class DaoEngine implements ISupportDao {
 	
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.DAOENGINE);
+	protected Logger logger =  LoggerFactory.getLogger(DaoEngine.class);
 	
 	/** 数据库配置 */
 //	protected static final DataBaseConfig dbConfig = DataBaseConfig.getInstance(); 

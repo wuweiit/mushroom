@@ -1,49 +1,48 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.marker</groupId>
-  <artifactId>mrcms</artifactId>
-  <packaging>war</packaging>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.marker</groupId>
+    <artifactId>mrcms</artifactId>
+    <packaging>war</packaging>
     <version>1.0.0</version>
-  <name>mrcms</name>
+    <name>mrcms</name>
     <url>https://github.com/wuweiit/mushroom</url>
-	<!-- 编码及内存设置 -->
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- 编码及内存设置 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <profiles.ip>http://192.168.1.4:8081/</profiles.ip>
     </properties>
 
-    <scm>
-        <connection>scm:svn:http://127.0.0.1/dummy</connection>
-        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
-        <tag>HEAD</tag>
-        <url>http://127.0.0.1/dummy</url>
-    </scm>
+
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
-    	<defaultGoal>compile</defaultGoal>
+        <defaultGoal>compile</defaultGoal>
 
-		<sourceDirectory>src/main/java</sourceDirectory>
-		  <resources>
-			  <resource>
-				  <directory>src/main/resources</directory>
-			  </resource>
-		  </resources>
-		<plugins>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <plugins>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.1</version>
-            <configuration>
-                <source>1.7</source>
-                <target>1.7</target>
-                <encoding>UTF-8</encoding>
-                <compilerArguments>
-                    <verbose />
-                </compilerArguments>
-            </configuration>
-        </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <verbose/>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
             <!-- 根据系统时间生成唯一序列号 -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -69,286 +68,288 @@
             </plugin>
 
 
-			<!-- Jetty插件 -->
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.6.v20170531</version>
-				<configuration>
+            <!-- Jetty插件 -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.6.v20170531</version>
+                <configuration>
 
-				</configuration>
-			</plugin>
+                </configuration>
+            </plugin>
         </plugins>
 
-  </build>
-  
-  
-  
-  <!-- 依赖配置 -->
-  <dependencies>
- 	<dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>4.1.0.RELEASE</version> 
-        <!-- Spring4 抛弃了JCL，使用SLF4J
-        <exclusions>
-            <exclusion>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-            </exclusion>
-        </exclusions> -->
-    </dependency>
-  	<dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-        <version>4.1.0.RELEASE</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-tx</artifactId>
-    	<version>4.1.0.RELEASE</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-beans</artifactId>
-    	<version>4.1.0.RELEASE</version>
-    </dependency>
-     <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-webmvc</artifactId>
-    	<version>4.1.0.RELEASE</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-jdbc</artifactId>
-    	<version>4.1.0.RELEASE</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-test</artifactId>
-    	<version>4.1.0.RELEASE</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-context-support</artifactId>
-    	<version>4.1.0.RELEASE</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-core</artifactId>
-    	<version>4.1.0.RELEASE</version>
-    </dependency>
- 
-    
-
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.6.2</version>
-    </dependency>
-	  <dependency>
-		  <groupId>ch.qos.logback</groupId>
-		  <artifactId>logback-core</artifactId>
-		  <version>1.2.1</version>
-	  </dependency>
-	  <dependency>
-		  <groupId>ch.qos.logback</groupId>
-		  <artifactId>logback-classic</artifactId>
-		  <version>1.2.1</version>
-	  </dependency>
-	  <dependency>
-		  <groupId>ch.qos.logback</groupId>
-		  <artifactId>logback-access</artifactId>
-		  <version>1.2.1</version>
-	  </dependency>
+    </build>
 
 
+    <!-- 依赖配置 -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>4.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>4.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>4.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>4.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>4.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.1.0.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 
-	  <dependency>
-    	<groupId>commons-fileupload</groupId>
-    	<artifactId>commons-fileupload</artifactId>
-    	<version>1.3.1</version>
-    </dependency>
-
-	<dependency>
-		<groupId>org.freemarker</groupId>
-		<artifactId>freemarker</artifactId>
-		<version>2.3.20</version>
-	</dependency>
- 
-    
-	<!-- mongodb 支持 -->
-    <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-mongodb</artifactId>
-        <version>1.6.0.RELEASE</version>
-    </dependency>
-    <dependency>
-		  <groupId>org.springframework.data</groupId>
-		  <artifactId>spring-data-redis</artifactId>
-		  <version>1.6.2.RELEASE</version>
-	  </dependency>
-	  <dependency>
-		  <groupId>org.springframework.session</groupId>
-		  <artifactId>spring-session</artifactId>
-		  <version>1.0.2.RELEASE</version>
-	  </dependency>
-	  <dependency>
-		  <groupId>redis.clients</groupId>
-		  <artifactId>jedis</artifactId>
-		  <version>2.8.1</version>
-	  </dependency>
-    <dependency>
-    	<groupId>com.alibaba</groupId>
-    	<artifactId>fastjson</artifactId>
-    	<version>1.1.41</version>
-    </dependency>
-    <dependency>
-    	<groupId>net.sourceforge.jexcelapi</groupId>
-    	<artifactId>jxl</artifactId>
-    	<version>2.6.12</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.mail</groupId>
-      <artifactId>mail</artifactId>
-      <version>1.4.3</version>
-      <scope>provided</scope>
-    </dependency>
- 
-
-    
-    <!-- Junit4 支持 -->
-    <dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>4.11</version> 
-	</dependency>
-    <dependency>
-    	<groupId>org.ansj</groupId>
-    	<artifactId>ansj_seg</artifactId>
-    	<version>0.9</version>
-    </dependency>
-    <dependency>
-    	<groupId>commons-codec</groupId>
-    	<artifactId>commons-codec</artifactId>
-    	<version>1.9</version>
-    </dependency>
-	  <!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
-	  <dependency>
-		  <groupId>net.sf.ehcache</groupId>
-		  <artifactId>ehcache</artifactId>
-		  <version>2.10.4</version>
-	  </dependency>
-
-		  <dependency>
-			  <groupId>io.github.gitbucket</groupId>
-			  <artifactId>markedj</artifactId>
-			  <version>1.0.12</version>
-		  </dependency>
-
-      <dependency>
-    	<groupId>com.mchange</groupId>
-    	<artifactId>c3p0</artifactId>
-    	<version>0.9.5-pre8</version>
-    </dependency>
-	<dependency>
-		<groupId>org.codehaus.groovy</groupId>
-		<artifactId>groovy</artifactId>
-		<version>1.5.7</version>
-	</dependency>
-  	<dependency>
-		<groupId>com.google.code.gson</groupId>
-		<artifactId>gson</artifactId>
-		<version>2.3</version>
-	</dependency>
-
-  	<dependency>
-  		<groupId>jstl</groupId>
-  		<artifactId>jstl</artifactId>
-  		<version>1.2</version>
-  	</dependency>
-
-  	<dependency>
-  		<groupId>javax.servlet</groupId>
-  		<artifactId>servlet-api</artifactId>
-  		<version>3.0-alpha-1</version>
-
-  	</dependency>
-  	
-  	<!-- 数据库驱动 -->
-  	<dependency>
-  		<groupId>mysql</groupId>
-  		<artifactId>mysql-connector-java</artifactId>
-  		<version>5.1.5</version>
-  	</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-access</artifactId>
+            <version>1.2.1</version>
+        </dependency>
 
 
-	  <!--  -->
-	  <dependency>
-		  <groupId>javax.servlet</groupId>
-		  <artifactId>javax.servlet-api</artifactId>
-		  <version>3.1.0</version>
-		  <scope>runtime</scope>
-	  </dependency>
-	  <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
-	  <dependency>
-		  <groupId>com.alibaba</groupId>
-		  <artifactId>druid</artifactId>
-		  <version>1.0.27</version>
-	  </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.28</version>
+        </dependency>
+
+
+        <!-- mongodb 支持 -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>1.6.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>1.6.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session</artifactId>
+            <version>1.0.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.41</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+            <version>2.6.12</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+
+
+        <!-- Junit4 支持 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.ansj/ansj_seg -->
+        <dependency>
+            <groupId>org.ansj</groupId>
+            <artifactId>ansj_seg</artifactId>
+            <version>0.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>2.10.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.gitbucket</groupId>
+            <artifactId>markedj</artifactId>
+            <version>1.0.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5-pre8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3</version>
+        </dependency>
 
 
 
+        <!-- 数据库驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.5</version>
+        </dependency>
 
 
+        <!--  -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>3.0-alpha-1</version>
+            <scope>provided</scope>
+        </dependency>
 
 
-	  <!-- https://mvnrepository.com/artifact/org.json/json -->
-	  <dependency>
-		  <groupId>org.json</groupId>
-		  <artifactId>json</artifactId>
-		  <version>20160810</version>
-	  </dependency>
-
-	  <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
-	  <dependency>
-		  <groupId>commons-lang</groupId>
-		  <artifactId>commons-lang</artifactId>
-		  <version>2.6</version>
-	  </dependency>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.27</version>
+        </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
 
 
-	  <dependency>
-		  <groupId>com.wuweibi</groupId>
-		  <artifactId>module4j</artifactId>
-		  <version>0.0.1</version>
-	  </dependency>
+        <dependency>
+            <groupId>com.wuweibi</groupId>
+            <artifactId>module4j</artifactId>
+            <version>0.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 
-	  <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
-	  <dependency>
-		  <groupId>org.yaml</groupId>
-		  <artifactId>snakeyaml</artifactId>
-		  <version>1.21</version>
-	  </dependency>
+        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.21</version>
+        </dependency>
 
 
+    </dependencies>
+    <!-- 项目成员团体信息 -->
+    <developers>
+        <developer>
+            <id>marker</id>
+            <name>marker</name>
+            <email>admin@wuweibi.com</email>
+        </developer>
+
+    </developers>
 
 
-  </dependencies>
-	<!-- 项目成员团体信息 -->
-	<developers>
-		<developer>
-			<id>marker</id>
-			<name>marker</name>
-			<email>admin@wuweibi.com</email>
-		</developer>
-
-	</developers>
-
+    <!--
 	<distributionManagement>
 		<repository>
 			<id>${profiles.active}-releases</id>
@@ -359,4 +360,6 @@
 			<url>${profiles.ip}nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+	-->
+
 </project>

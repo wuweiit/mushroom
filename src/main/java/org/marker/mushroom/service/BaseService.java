@@ -1,6 +1,5 @@
 package org.marker.mushroom.service;
 
-import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class BaseService {
 
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.SERVICE_LAYER);
+	protected Logger logger =  LoggerFactory.getLogger(BaseService.class);
 	
 	/** 数据库配置 */
 	protected DataBaseConfig config = DataBaseConfig.getInstance(); 

@@ -1,11 +1,6 @@
 package org.marker.mushroom.servlet;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Random;
+import org.marker.mushroom.core.AppStatic;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -14,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.marker.mushroom.core.AppStatic;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
 
 
 
@@ -103,7 +100,7 @@ public class SecurityCodeServlet extends HttpServlet {
             randomCode.append(strRand);   
         }   
         // 将四位数字的验证码保存到Session中。   
-        HttpSession session = request.getSession();   
+        HttpSession session = request.getSession(false);
         session.setAttribute(AppStatic.WEB_APP_AUTH_CODE, randomCode.toString().toLowerCase());   
   
         //图象生效   

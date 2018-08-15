@@ -1,16 +1,15 @@
 package org.marker.mushroom.ext.plugin;
 
-import java.util.Map;
+import org.marker.mushroom.alias.DAO;
+import org.marker.mushroom.context.ActionContext;
+import org.marker.mushroom.dao.ISupportDao;
+import org.marker.mushroom.holder.SpringContextHolder;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.marker.mushroom.alias.DAO;
-import org.marker.mushroom.context.ActionContext;
-import org.marker.mushroom.dao.ISupportDao;
-import org.marker.mushroom.holder.SpringContextHolder;
+import java.util.Map;
 
 
 /**
@@ -67,17 +66,17 @@ public abstract class Pluginlet {
 	 * @return
 	 */
 	public HttpSession getSession(){
-		return ActionContext.getReq().getSession();
+		return ActionContext.getReq().getSession(false);
 	}
 	
 	
 	/**
 	 * 获取当前会话(Session)对象
-	 * @param boolean 是否创建新的Session
+	 * @param created 是否创建新的Session
 	 * @return
 	 */
-	public HttpSession getSession(boolean is){
-		return ActionContext.getReq().getSession(is);
+	public HttpSession getSession(boolean created){
+		return ActionContext.getReq().getSession(created);
 	}
 	
 	

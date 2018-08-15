@@ -5,7 +5,6 @@ import com.wuweibi.module4j.config.Configuration;
 import com.wuweibi.module4j.listener.InstallListenter;
 import com.wuweibi.module4j.module.Module;
 import com.wuweibi.module4j.module.ModuleContext;
-import org.marker.mushroom.alias.LOG;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
@@ -36,7 +35,7 @@ import java.util.Map;
 public class InitBuilderHolder implements ServletContextAware{
 	
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.WEBFOREGROUND); 
+	protected Logger logger =  LoggerFactory.getLogger(InitBuilderHolder.class);
 	
 	
 	@Override

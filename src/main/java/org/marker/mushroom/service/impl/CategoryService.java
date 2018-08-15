@@ -1,22 +1,19 @@
 package org.marker.mushroom.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerTree;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.alias.Services;
 import org.marker.mushroom.beans.Category;
-import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.core.channel.CategoryItem;
-import org.marker.mushroom.core.channel.ChannelItem;
 import org.marker.mushroom.core.channel.TreeUtils;
 import org.marker.mushroom.dao.ICategoryDao;
 import org.marker.mushroom.dao.ISupportDao;
 import org.marker.mushroom.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 
 /**
