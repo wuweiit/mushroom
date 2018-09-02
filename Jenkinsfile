@@ -21,10 +21,12 @@ pipeline {
                    echo "mrcms-${env.BRANCH_NAME} docker stop...."
 
 
-                   sh "docker stop mrcms-${env.BRANCH_NAME}"
-
-
                    sh '''
+
+
+                       ssh root@ww-server-04 "docker stop mrcms-${BRANCH_NAME}"
+
+
                        echo "douruimi-web bakup...."
                        if [ ! -f "/opt/data/tomcat/mrcms/$BRANCH_NAME.war" ];then
                             echo "文件不存在"
