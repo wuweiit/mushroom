@@ -17,7 +17,7 @@
         <property name="locations">
             <list>
                 <value>classpath:/config.properties</value>
-                <value>file:/etc/faceinner/config.properties</value>
+                <value>file:/etc/mrcms/config.properties</value>
             </list>
         </property>
     </bean>
