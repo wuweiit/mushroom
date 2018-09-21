@@ -1,12 +1,11 @@
 package org.marker.mushroom.core;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.config.impl.SystemConfig;
-import org.marker.mushroom.holder.SpringContextHolder;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -39,7 +38,7 @@ public final class WebParam {
 	public String modelType = "";
 
 	/** 内容ID */
-	public String contentId = "0";
+	public Integer contentId = 0;
 
 	/** 页码（默认为1） */
 	public String page = "1";//页码contentId
@@ -88,7 +87,9 @@ public final class WebParam {
 		if(!(this.pageName != null && !"".equals(this.pageName))){
 			this.pageName = config.get("index_page");// 获取默认主页地址
 		}
-		this.contentId = req.getParameter(FIELD_ID);// 内容ID
+
+        String contentId = req.getParameter(FIELD_ID);
+		this.contentId = contentId == null?0: Integer.valueOf(contentId);// 内容ID
 
 		this.page      = req.getParameter(FIELD_PAGE);// 页码
 		try{

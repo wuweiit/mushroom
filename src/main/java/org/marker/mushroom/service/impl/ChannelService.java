@@ -1,9 +1,7 @@
 package org.marker.mushroom.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.alias.Services;
-import org.marker.mushroom.beans.Category;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.core.channel.TreeUtils;
 import org.marker.mushroom.dao.IChannelDao;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -64,10 +61,17 @@ public class ChannelService extends BaseService {
         return channelDao.findByUrl(pageName);
     }
 
-    public Channel getChannel(String tableName, String contentId) {
+
+	/**
+	 * 获取栏目
+	 * @param tableName 表名称
+	 * @param contentId 内容Id
+	 * @return
+	 */
+	public Channel getChannel(String tableName, Integer contentId) {
         String prefix = channelDao.getPreFix();
         JdbcTemplate jdbcTemplate = SpringContextHolder.getBean("jdbcTemplate");
-        String sql = "select a.* from "+prefix+"channel a join " + tableName+" b on b.cid = a.id WHERE b.id = "+ contentId+" limit 1";
+        String sql = "select a.* from "+prefix+"channel a join " + tableName + " b on b.cid = a.id WHERE b.id = "+ contentId+" limit 1";
         return jdbcTemplate.queryForObject(sql, new ObjectRowMapper.RowMapperChannel());
     }
 

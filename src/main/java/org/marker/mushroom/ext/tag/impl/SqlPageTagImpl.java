@@ -82,19 +82,16 @@ public class SqlPageTagImpl extends Taglib {
 			datasource.setType("page");
 			datasource.setVarAndItems(var, items);
 
-            String contentId = WebParam.get().contentId;
-
+            Integer contentId = WebParam.get().contentId;
 
             // TODO 占时写死的代码，需要调整
             if(sql.indexOf("thematic_article") !=-1){
 
-                datasource.setSql(sql +" and b.tid = "+contentId);
+                datasource.setSql(sql + " and b.tid = " + contentId);
 
             }else{
                 datasource.setSql(sql);
             }
-
-
 
 		 
 			String re = "<#list ".concat(items).concat(".data as ").concat(var).concat(">");
