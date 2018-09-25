@@ -1,6 +1,7 @@
 package org.marker.mushroom.filter;
 
 import org.marker.mushroom.core.config.impl.SystemConfig;
+import org.marker.mushroom.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -17,7 +18,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLDecoder;
 
 
 /**
@@ -44,8 +44,7 @@ public class ThemesResourceFilter implements Filter {
 	    HttpServletRequest request = (HttpServletRequest)req;
         ServletContext servletContext = request.getServletContext();
 
-
-        String uri = URLDecoder.decode(request.getRequestURI(),"utf-8");
+        String uri = WebUtils.getRequestUri(request);
 
         SystemConfig syscfg = SystemConfig.getInstance();
 

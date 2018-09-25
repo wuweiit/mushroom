@@ -144,7 +144,7 @@ public final class WebAPP {
 
 		if("page".equals(param.action)){ // 页面
 			// 获取当前栏目信息
-			if(param.contentId != null){
+			if(param.existsContentId()){
 				param.prefix = cmc.getPrefix(param.modelType);
 				String tableName = param.prefix + param.modelType;
 				param.channel = channelService.getChannel(tableName, param.contentId);

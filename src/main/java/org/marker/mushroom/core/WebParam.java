@@ -123,5 +123,13 @@ public final class WebParam {
 		
 		return sb.toString();
 	}
-	
+
+
+	/**
+	 * 是否存在内容Id
+	 * @return
+	 */
+	public boolean existsContentId() {
+		return this.contentId != null && this.contentId != 0;
+	}
 }

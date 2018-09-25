@@ -7,10 +7,7 @@ import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
-import org.marker.mushroom.utils.ArrayUtils;
-import org.marker.mushroom.utils.DateUtils;
-import org.marker.mushroom.utils.FileTools;
-import org.marker.mushroom.utils.HttpUtils;
+import org.marker.mushroom.utils.*;
 import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,9 +86,8 @@ public class SystemCoreFilter implements Filter {
 		
 		HttpServletRequest  request  = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
-		
-		String uri  = request.getRequestURI();
 
+        String uri = WebUtils.getRequestUri(request);
 		
 		
 		/* 

@@ -1,15 +1,19 @@
 
 package org.marker.mushroom.utils;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.zip.GZIPOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.zip.GZIPOutputStream;
  
 
 /**
@@ -19,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  * @since 1.0
  */
 public class WebUtils {
+
+    private static Logger logger = LoggerFactory.getLogger(WebUtils.class);
 
 	public static final long ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
@@ -159,5 +165,20 @@ public class WebUtils {
 		out.write("<script type=\"text/javascript\">window.location.href = '"+url+"';</script>"); 
 		out.flush();
 		out.close();
+	}
+
+	/**
+	 * 获取处理后的请求uri
+	 * @param request
+	 * @return
+	 */
+	public static String getRequestUri(HttpServletRequest request) {
+        String uri = null;
+        try {
+            uri = URLDecoder.decode(request.getRequestURI(),"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error("", e);
+        }
+        return uri.replaceFirst(request.getContextPath(), "");
 	}
 }

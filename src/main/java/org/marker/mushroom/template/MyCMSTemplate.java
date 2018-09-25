@@ -131,9 +131,9 @@ public class MyCMSTemplate {
 		
 		//第一步：加载模板内容
 		TemplateFileLoad tplloader = null;
-		try{
+		try {
 			tplloader = new TemplateFileLoad(tplFile);
-		}catch (FileNotFoundException e){
+		} catch (FileNotFoundException e){
 			throw new FileNotFoundException(tplFileName);
 		}
 
