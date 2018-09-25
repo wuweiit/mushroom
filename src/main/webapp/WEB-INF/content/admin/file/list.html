@@ -4,7 +4,7 @@
 			<li class="tab_index" onclick="setTabContent(this);">文件管理</li>
 		</ul>
 
-		<button class="btn_tabbar" action="file/list.do?pathURL=/" onclick="refreshContentByElement(this);">根目录</button>
+		<button class="btn_tabbar" action="file/list.do?path=/" onclick="refreshContentByElement(this);">根目录</button>
 		<button class="btn_tabbar" action="file/newfile.do?path=${pathURL!}" onclick="refreshContentByElement(this);">新建文件</button>
 		<button class="btn_tabbar" action="file/newfolder.do?path=${pathURL!}" onclick="refreshContentByElement(this);">新建文件夹</button>
 		<button class="btn_tabbar" action="file/upload.do?path=${pathURL!}" onclick="refreshContentByElement(this);">上传文件</button>

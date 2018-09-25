@@ -36,8 +36,8 @@ public class FileManagerImpl implements FileManager {
     @Override
     public boolean checkPath(String path) {
         if(path.indexOf("..") != -1){
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }

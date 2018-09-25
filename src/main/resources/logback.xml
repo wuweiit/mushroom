@@ -83,7 +83,7 @@
 
 
 
-	<root level="info">
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="INFO-ROLLING"/>
 		<appender-ref ref="ERROR-ROLLING"/>

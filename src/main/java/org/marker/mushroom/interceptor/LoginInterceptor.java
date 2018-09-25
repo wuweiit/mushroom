@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 
@@ -27,24 +28,17 @@ public class LoginInterceptor implements HandlerInterceptor  {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		HttpSession session = request.getSession(false);
-		String username = (String)session.getAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME);
-		if(username != null){
-			return true;
-		}else{
-			PrintWriter out = response.getWriter();
-			String accept = request.getHeader("accept"); 
-			
-			if(accept.matches(".*application/json.*")){// json数据请求 
-				out.write("{\"status\":false,\"code\":\"101\",\"message\":\"当前会话失效，请重新登录系统!\"}");
-			} else {
-				// HTML页面
-				out.write("<script type='text/javascript'>window.location.href='login.do?status=timeout';</script>");
-			}
-
-			out.flush();
-			out.close();
+		if(session == null){
+			loginErrorInfo(request, response);
 			return false;
-		} 
+		}
+
+		String username = (String)session.getAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME);
+		if(username == null){
+			loginErrorInfo(request, response);
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -57,6 +51,23 @@ public class LoginInterceptor implements HandlerInterceptor  {
 	public void afterCompletion(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
+	}
+
+	private void loginErrorInfo(HttpServletRequest request,
+								HttpServletResponse response) throws IOException {
+
+		PrintWriter out = response.getWriter();
+		String accept = request.getHeader("accept");
+
+		if(accept.matches(".*application/json.*")){// json数据请求
+			out.write("{\"status\":false,\"code\":\"101\",\"message\":\"当前会话失效，请重新登录系统!\"}");
+		} else {
+			// HTML页面
+			out.write("<script type='text/javascript'>window.location.href='login.do?status=timeout';</script>");
+		}
+
+		out.flush();
+		out.close();
 	}
 
 }

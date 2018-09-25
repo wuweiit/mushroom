@@ -1,10 +1,9 @@
 package org.marker.mushroom.holder;
 
-import java.io.File;
+import org.springframework.web.context.ServletContextAware;
 
 import javax.servlet.ServletContext;
-
-import org.springframework.web.context.ServletContextAware;
+import java.io.File;
 
 /**
  * 用静态变量保存web真实路径，方便其他类调用
@@ -16,6 +15,7 @@ public class WebRealPathHolder implements ServletContextAware {
 
 	/** Web应用真实路径 */
 	public static String REAL_PATH;
+	public static String CONTEXT_PATH;
 
 	@Override
 	public void setServletContext(ServletContext sc) {
@@ -25,6 +25,8 @@ public class WebRealPathHolder implements ServletContextAware {
 			webRootPath += File.separator;
 		}
         REAL_PATH = webRootPath;
+        CONTEXT_PATH = sc.getContextPath();
+
 	}
 
 }
