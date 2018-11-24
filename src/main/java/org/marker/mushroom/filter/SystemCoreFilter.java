@@ -108,6 +108,10 @@ public class SystemCoreFilter implements Filter {
 		int dotIndex= uri.lastIndexOf(".") + 1;// 请求文件后缀
 		if (dotIndex != -1) {// 有后缀
 			String suffix = uri.substring(dotIndex, uri.length());
+			if("do".equals(suffix)){// 后台功能
+				chain.doFilter(req, response);
+				return;
+			}
 			if (suffixPattern.matcher(suffix).matches()) {
 				chain.doFilter(req, response);
 				return; // 因为这里是静态文件，所以直接返回了

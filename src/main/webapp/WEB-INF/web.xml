@@ -4,6 +4,26 @@
   	<welcome-file-list>
 	    <welcome-file>cms</welcome-file>
   	</welcome-file-list>
+
+
+
+    <!-- 在上下文context-param中设置profile.default的默认值 -->
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>dev</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>profiles.activation</param-name>
+        <param-value>dev</param-value>
+    </context-param>
+
+    <!-- 在上下文context-param中设置profile.active的默认值 -->
+    <!-- 设置active后default失效，web启动时会加载对应的环境信息 -->
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>${profiles.activation}</param-value>
+    </context-param>
   
 
     <!--  Spring的ApplicationContext 载入 -->
@@ -12,11 +32,21 @@
 	</listener>
 
 	<!-- Spring 刷新Introspector防止内存泄露 -->
-	<listener>
-		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
-	</listener>
- 	
-	
+	<!--<listener>-->
+		<!--<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>-->
+	<!--</listener>-->
+ 	<!---->
+    <!-- 配置日志     logback-->
+         <context-param>
+            <param-name>logbackConfigLocation</param-name>
+            <param-value>classpath:/logback.xml</param-value>
+         </context-param>
+         <!-- logback扩展，监听,用于解决与spring的结合 -->
+        <listener>
+           <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+       </listener>
+
+
 	<!-- 在线人数统计监听器 -->
  	<listener> 
       	<listener-class>org.marker.mushroom.listener.SessionCounter</listener-class> 
@@ -25,21 +55,13 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:config/spring/application.xml
+			classpath:/config/spring/application.xml
 		</param-value>
 	</context-param>
 
 
-	<!-- Spring Context 配置
-	<filter>
-		<filter-name>springSessionRepositoryFilter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSessionRepositoryFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>-->
+	<!-- Spring Context 配置 -->
+
 
 
 	<filter>
@@ -52,7 +74,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>/</url-pattern>
 	</filter-mapping>
 
 
@@ -92,9 +114,9 @@
 	    	<param-name>exclude_format</param-name>
 	    	<param-value>css|jpg|js|jpeg|png|gif|htm|do</param-value>
 	    </init-param>
-  	</filter> 
+  	</filter>
   	<filter-mapping>
-	    <filter-name>SystemCoreFilter</filter-name> 
+	    <filter-name>SystemCoreFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
   	</filter-mapping>
 
@@ -102,22 +124,22 @@
 
  
  	<!-- 插件过滤器  -->
-  	<filter>
-	    <filter-name>pluginFilter</filter-name>
-	    <filter-class>org.marker.mushroom.filter.PluginFilter</filter-class>
-  	</filter> 
-  	<filter-mapping>
-	    <filter-name>pluginFilter</filter-name> 
-	    <url-pattern>/plugin/*</url-pattern>
-  	</filter-mapping>
+  	<!--<filter>-->
+	    <!--<filter-name>pluginFilter</filter-name>-->
+	    <!--<filter-class>org.marker.mushroom.filter.PluginFilter</filter-class>-->
+  	<!--</filter> -->
+  	<!--<filter-mapping>-->
+	    <!--<filter-name>pluginFilter</filter-name> -->
+	    <!--<url-pattern>/plugin/*</url-pattern>-->
+  	<!--</filter-mapping>-->
 	
 	<!-- markdown过滤器  -->
   	<filter>
 	    <filter-name>markdownFilter</filter-name>
 	    <filter-class>org.marker.mushroom.filter.MarkDownFilter</filter-class>
-  	</filter> 
+  	</filter>
   	<filter-mapping>
-	    <filter-name>markdownFilter</filter-name> 
+	    <filter-name>markdownFilter</filter-name>
 	    <url-pattern>*.md</url-pattern>
   	</filter-mapping>
 
@@ -139,17 +161,13 @@
 	<servlet>
 		<servlet-name>mushroom</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:/config/spring/spring-servlet.xml</param-value>
-		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>mushroom</servlet-name>
 		<url-pattern>*.do</url-pattern>
-		<url-pattern>/</url-pattern>
-		<url-pattern>/themes/*</url-pattern>
+		<!--<url-pattern>/</url-pattern>-->
+		<!--<url-pattern>/themes/*</url-pattern>-->
 	</servlet-mapping>
  	
  	<!-- 微信Servlet接口 -->

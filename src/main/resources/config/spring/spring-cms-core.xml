@@ -12,8 +12,7 @@
 	http://www.springframework.org/schema/jee/spring-jee.xsd 
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context.xsd">
-    
-	<import resource="spring-jdbc.xml" />
+
     <!-- 组件 --> 
  	<context:component-scan base-package="org.marker.mushroom.core.component"/>
  	

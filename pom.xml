@@ -17,17 +17,34 @@
         <profiles.ip>http://192.168.1.4:8081/</profiles.ip>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profiles.activation>dev</profiles.activation>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.activation>prod</profiles.activation>
+            </properties>
+        </profile>
+    </profiles>
+
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
-        <defaultGoal>compile</defaultGoal>
-
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
+
         <plugins>
 
             <plugin>
@@ -43,27 +60,23 @@
                     </compilerArguments>
                 </configuration>
             </plugin>
-            <!-- 根据系统时间生成唯一序列号 -->
+
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>timestamp-property</id>
-                        <goals>
-                            <goal>timestamp-property</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
                 <configuration>
-                    <name>buildNumber</name>
-                    <pattern>yyyyMMdd.HHmmss</pattern>
-                    <timeZone>GMT+8</timeZone>
-                    <fileSet/>
-                    <regex/>
-                    <source/>
-                    <value/>
+                    <webResources>
+
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>**/web.xml</include>
+                            </includes>
+                            <targetPath>./</targetPath>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
 
@@ -74,6 +87,7 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.6.v20170531</version>
                 <configuration>
+
 
                 </configuration>
             </plugin>
@@ -87,47 +101,47 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.3.18.RELEASE</version>
+            <version>5.1.2.RELEASE</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-logging</artifactId>
@@ -157,7 +171,11 @@
             <artifactId>logback-access</artifactId>
             <version>1.2.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+            <version>0.1.4</version>
+        </dependency>
 
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -265,35 +283,36 @@
         </dependency>
 
 
-
         <!-- 数据库驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.5</version>
+            <version>5.0.8</version>
         </dependency>
 
 
         <!--  -->
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>3.0-alpha-1</version>
-            <scope>provided</scope>
-        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>javax.servlet</groupId>-->
+        <!--<artifactId>servlet-api</artifactId>-->
+        <!--<version>3.0-alpha-1</version>-->
+        <!--<scope>provided</scope>-->
+        <!--</dependency>-->
 
 
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.0.27</version>
+            <version>1.1.12</version>
         </dependency>
 
 

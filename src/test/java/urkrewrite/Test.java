@@ -14,7 +14,7 @@ public class Test {
         urlRewrite.putRule("thematicPage", "/{type}/{id}/{page}.html");
 //		urlRewrite.putRule("page", "/{channel}-{page}.html");
 				
-		String url1 = "/cms?type=thematic#video&id=1&page=1";
+		String url1 = "/test/cms?type=thematic#video&id=1&page=1";
 
 
 		System.out.println("E:" + urlRewrite.encoder(url1));

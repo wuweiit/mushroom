@@ -1,13 +1,16 @@
 package org.marker.mushroom.holder;
 
+
 import com.wuweibi.module4j.ModuleFramework;
 import com.wuweibi.module4j.config.Configuration;
+import com.wuweibi.module4j.exception.PackageJsonNotFoundException;
 import com.wuweibi.module4j.listener.InstallListenter;
 import com.wuweibi.module4j.module.Module;
 import com.wuweibi.module4j.module.ModuleContext;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
+import org.marker.mushroom.core.config.impl.URLRewriteConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyKeyWordComputer;
 import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.ext.model.ContentModelContext;
@@ -23,7 +26,6 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
 
 
 /**
@@ -73,8 +75,8 @@ public class InitBuilderHolder implements ServletContextAware{
 		 *               URLRewrite 初始化URL规则 （通过SPringBean初始化）
 		 * ============================================================
 		 */
-//    	URLRewriteConfig urlConfig = URLRewriteConfig.getInstance();
-//    	logger.info("build URL-rewriteConfig instance = {}", urlConfig);
+    	URLRewriteConfig urlConfig = URLRewriteConfig.getInstance();
+    	logger.info("build URL-rewriteConfig instance = {}", urlConfig);
     	
     	
     	
@@ -217,6 +219,8 @@ public class InitBuilderHolder implements ServletContextAware{
 				// 停止服务
 	//			moduleFramework.stop();
 
+			} catch (PackageJsonNotFoundException e) {
+				logger.error("{}", "PackageJsonNotFoundException");
 			} catch (Exception e) {
 				logger.error("{}", e.getMessage());
 			}

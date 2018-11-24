@@ -1,6 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
     	http://www.springframework.org/schema/beans/spring-beans.xsd
     	">
 
@@ -14,12 +16,31 @@
     <!-- 加载配置文件（可提供给代码调用读取） 文件不存在则忽略-->
     <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="ignoreResourceNotFound" value="true"/>
-        <property name="locations">
-            <list>
-                <value>classpath:/config.properties</value>
-                <value>file:/etc/mrcms/config.properties</value>
-            </list>
+        <property name="location" value="#{profileConfig.config}" >
         </property>
     </bean>
+
+
+
+    <!-- 开发环境配置文件 -->
+    <beans profile="dev">
+        <bean id="profileConfig" class="org.marker.mushroom.spring.ProfileConfig"
+              p:config="classpath:/config.properties">
+        </bean>
+    </beans>
+
+    <!-- 测试环境配置文件 -->
+    <beans profile="test">
+        <bean id="profileConfig" class="org.marker.mushroom.spring.ProfileConfig"
+              p:config="classpath:/config.properties">
+        </bean>
+    </beans>
+
+    <!-- 生产环境配置文件 -->
+    <beans profile="prod">
+        <bean id="profileConfig" class="org.marker.mushroom.spring.ProfileConfig"
+              p:config="file:/etc/mrcms/config.properties">
+        </bean>
+    </beans>
 
 </beans>

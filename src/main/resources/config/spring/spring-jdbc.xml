@@ -30,7 +30,7 @@
     <!--  druid数据源   -->
     <bean id="dataSource1" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="${mushroom.db.driver}" />
-        <property name="url" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?setUnicode=true&amp;characterEncoding=${mushroom.db.char}&amp;autoReconnect=false" />
+        <property name="url" value="jdbc:mysql://${mushroom.db.host}:${mushroom.db.port}/${mushroom.db.demo}?serverTimezone=UTC&amp;setUnicode=true&amp;characterEncoding=${mushroom.db.char}&amp;autoReconnect=false" />
         <property name="username" value="${mushroom.db.user}" />
         <property name="password" value="${mushroom.db.pass}" />
 

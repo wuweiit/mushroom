@@ -116,9 +116,9 @@ public class MenuUtils {
 			Menu m = menuDao.findByModuleId(menu.getModuleId());
 			if(null == m){
 				// 保存操作
-				menuDao.save(menu); 
-				// 将菜单添加给内置管理员组
-				menuDao.saveMenuToAdminGroup(menu.getId()); 
+//				menuDao.save(menu);
+//				// 将菜单添加给内置管理员组
+//				menuDao.saveMenuToAdminGroup(menu.getId());
 			}else{
 				return m;
 			} 
