@@ -24,7 +24,7 @@ pipeline {
                    sh '''
 
 
-                       ssh root@ww-server-04 "docker stop mrcms-${BRANCH_NAME}"
+                       ssh root@ww-server-15 "docker stop mrcms-${BRANCH_NAME}"
 
 
                        echo "douruimi-web bakup...."
@@ -43,7 +43,7 @@ pipeline {
                        echo "mrcms-${BRANCH_NAME}  docker start...."
 
 
-                       ssh root@ww-server-04 "docker start mrcms-${BRANCH_NAME}"
+                       ssh root@ww-server-15 "docker start mrcms-${BRANCH_NAME}"
 
                    '''
                }
