@@ -6,7 +6,7 @@ pipeline {
                steps {
                    echo "env: ${env.BRANCH_NAME}"
                    echo "Building.."
-                   sh "/opt/maven/bin/mvn clean package -Dmaven.test.skip=true"
+                   sh "/opt/maven/bin/mvn clean package -Dmaven.test.skip=true -P${env.BRANCH_NAME}"
                }
            }
            stage('Test') {
