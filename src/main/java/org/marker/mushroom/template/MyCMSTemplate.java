@@ -134,7 +134,7 @@ public class MyCMSTemplate {
 		try {
 			tplloader = new TemplateFileLoad(tplFile);
 		} catch (FileNotFoundException e){
-			throw new FileNotFoundException(tplFileName);
+			throw new FileNotFoundException(tplFile.getAbsolutePath());
 		}
 
         String themesPath = syscfg.getThemesPath();// 主题文件夹
