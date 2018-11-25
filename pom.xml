@@ -10,13 +10,15 @@
     <version>1.0.0</version>
     <name>mrcms</name>
     <url>https://github.com/wuweiit/mushroom</url>
+
+
     <!-- 编码及内存设置 -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <profiles.ip>http://192.168.1.4:8081/</profiles.ip>
     </properties>
 
+    <!--Maven Profile 结合Spring Profile 实现环境定制-->
     <profiles>
         <profile>
             <id>dev</id>
