@@ -16,6 +16,8 @@ import org.marker.mushroom.holder.WebRealPathHolder;
 public final class SystemConfig extends ConfigEngine {
 
 
+
+
 	
 	
 	// 开发模式
@@ -63,8 +65,8 @@ public final class SystemConfig extends ConfigEngine {
 	 * 初始化就读取配置文件哦
 	 *
 	 */
-	public SystemConfig() {
-		super("WEB-INF/conf/site.properties");
+	public SystemConfig(String profile) {
+		super("WEB-INF/conf/" + profile + "/site.properties");
 	}
 
 

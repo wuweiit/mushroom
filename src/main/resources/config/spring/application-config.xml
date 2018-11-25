@@ -25,21 +25,24 @@
     <!-- 开发环境配置文件 -->
     <beans profile="dev">
         <bean id="profileConfig" class="org.marker.mushroom.spring.ProfileConfig"
-              p:config="classpath:/config.properties">
+              p:config="classpath:/config.properties"
+              p:profile="dev" >
         </bean>
     </beans>
 
     <!-- 测试环境配置文件 -->
     <beans profile="test">
         <bean id="profileConfig" class="org.marker.mushroom.spring.ProfileConfig"
-              p:config="classpath:/config.properties">
+              p:config="classpath:/config.properties"
+              p:profile="test" >
         </bean>
     </beans>
 
     <!-- 生产环境配置文件 -->
     <beans profile="prod">
         <bean id="profileConfig" class="org.marker.mushroom.spring.ProfileConfig"
-              p:config="file:/etc/mrcms/config.properties">
+              p:config="file:/etc/mrcms/config.properties"
+              p:profile="prod" >
         </bean>
     </beans>
 
