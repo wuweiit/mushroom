@@ -25,6 +25,7 @@ public class SingletonProxyFrontURLRewrite {
 		instance.put(new Parameter("id","{id}","([0-9]+)"));
 		instance.put(new Parameter("time","{time}","([0-9]+)"));
 		instance.put(new Parameter("page","{page}","([0-9]+)"));
+		instance.put(new Parameter("lang","{lang}","([a-zA-Z_-]+)"));
 	}
 
 

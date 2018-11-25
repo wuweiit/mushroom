@@ -2,15 +2,6 @@ package org.marker.mushroom.controller;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.beans.ResultMessage;
@@ -27,12 +18,20 @@ import org.marker.security.Base64;
 import org.marker.security.DES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -63,10 +62,12 @@ public class SystemController extends SupportController {
 	public SystemController() {
 		this.viewPath = "/admin/system/";
 	}
-	 
-	
-	// 网站基本信息
-	@RequestMapping("/siteinfo")
+
+
+	/**
+	 * 获取网站基本信息
+ 	 */
+	@GetMapping("/siteinfo")
 	public String siteinfo(HttpServletRequest request){
 		SystemConfig syscfg = SystemConfig.getInstance();
 		request.setAttribute("config", syscfg.getProperties());
@@ -74,11 +75,13 @@ public class SystemController extends SupportController {
 		request.setAttribute("langselect", mc.getReadySelectElement());
 		return this.viewPath + "siteinfo";
 	}
-	
-	
-	//保存网站配置信息
+
+
+	/**
+	 * 保存网站配置信息
+	 */
 	@ResponseBody
-	@RequestMapping("/saveinfo")
+	@PostMapping("/saveinfo")
 	public Object saveinfo(HttpServletRequest request){
 
 		SystemConfig syscfg = SystemConfig.getInstance();
@@ -146,6 +149,7 @@ public class SystemController extends SupportController {
 			syscfg.set(SystemConfig.FILE_PATH, request.getParameter("config.filePath"));// 页面静态化
 
 			syscfg.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
+			syscfg.set(SystemConfig.SYSTEM_TONGJI_SCRIPT, request.getParameter("config.tongjiScirpt"));// 统计脚本
 
 
 

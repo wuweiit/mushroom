@@ -1,28 +1,29 @@
 package org.marker.mushroom.freemarker;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import freemarker.template.utility.StringUtil;
-import org.marker.develop.freemarker.MessageWrapperModel;
-import org.marker.mushroom.alias.DAO;
-import org.marker.mushroom.beans.Channel;
-import org.marker.mushroom.context.ActionContext;
-import org.marker.mushroom.core.AppStatic;
-import org.marker.mushroom.core.channel.ChannelItem;
-import org.marker.mushroom.core.channel.TreeUtils;
-import org.marker.mushroom.dao.IChannelDao;
-import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.template.SendDataToView;
-
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
+import org.marker.develop.freemarker.MessageWrapperModel;
+import org.marker.mushroom.alias.DAO;
+import org.marker.mushroom.beans.Channel;
+import org.marker.mushroom.context.ActionContext;
+import org.marker.mushroom.core.AppStatic;
+import org.marker.mushroom.core.WebParam;
+import org.marker.mushroom.core.channel.ChannelItem;
+import org.marker.mushroom.core.channel.TreeUtils;
+import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
+import org.marker.mushroom.dao.IChannelDao;
+import org.marker.mushroom.holder.SpringContextHolder;
+import org.marker.mushroom.template.SendDataToView;
+import org.marker.urlrewrite.URLRewriteEngine;
 import org.springframework.util.StringUtils;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -52,9 +53,15 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 		MessageWrapperModel languageModel = (MessageWrapperModel) ActionContext.getReq().getAttribute(SendDataToView.KEY_MESSAGE_CONTEXT);
 		
 		List<Channel> list = channelDao.findValid();
-		
+
+		// 树形结构转换
 		ChannelItem root = TreeUtils.foreach(new Channel(), list);
-		
+
+
+		// 获取URL重写实例
+		URLRewriteEngine urlrewrite = SingletonProxyFrontURLRewrite.getInstance();
+
+
 
 		StringBuilder str = new StringBuilder();
 
@@ -75,9 +82,10 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 				if(hasChild){
 					str.append("data-toggle=\"dropdown\" class=\"dropdown-toggle\" ");
 				}
+
+				String url = urlrewrite.encoder("/cms?p=" + c.getUrl()+"&lang=" + WebParam.get().language);
 				
-				
-				str.append("href=\"").append(web+"/"+c.getUrl()+".html").append("\">");
+				str.append("href=\"").append(url).append("\">");
                 if(!StringUtils.isEmpty(c.getLangkey())){
                     str.append(languageModel.get(c.getLangkey()));
                 }else{
@@ -90,8 +98,12 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 					Iterator<ChannelItem> cit = citems.iterator();
 					while(cit.hasNext()){
 						ChannelItem citem = cit.next();
-						Channel cc = citem.getChannel(); 
-						str.append("      <li><a href=\"").append(web+"/"+cc.getUrl()+".html").append("\">");
+						Channel cc = citem.getChannel();
+
+
+						String url2 = urlrewrite.encoder("/cms?p=" + cc.getUrl()+"&lang=" + WebParam.get().language);
+
+						str.append("      <li><a href=\"").append(url2).append("\">");
 
 						if(!StringUtils.isEmpty(cc.getLangkey())){
 							str.append(languageModel.get(cc.getLangkey()));

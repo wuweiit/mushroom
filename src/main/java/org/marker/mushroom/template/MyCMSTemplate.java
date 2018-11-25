@@ -160,48 +160,51 @@ public class MyCMSTemplate {
 		// 创建一个StringBuffer
 		this.temp = new ArrayList< >(); // 创建此模板页面的数据池
 		String sbc = replaceTaglib(templateContent.toString());// 全部标签解析
+        StringBuilder templateStringBuilder = new StringBuilder(sbc);
 
 
         // 开发模式输出模板内容到目录里
         if(syscfg.isdevMode()){
             String themesCache = syscfg.getThemesCache();
-            File file = new File(WebRealPathHolder.REAL_PATH + themesCache + File.separator+tplFileName);
+            File file = new File(WebRealPathHolder.REAL_PATH + themesCache + File.separator + tplFileName);
             if(!file.exists()){
                 file.getParentFile().mkdirs();
             }
             FileTools.setFileContet(file, sbc, FileTools.FILE_CHARACTER_UTF8);
         }
 
-		if(syscfg.isStatistics()){
+		if(syscfg.isStatistics()){// 是否开启站内统计
 			HttpServletRequest request = ActionContext.getReq();
 			String appurl = (String) request.getAttribute(AppStatic.WEB_APP_URL);
-			sbc += "<script type=\"text/javascript\" src=\""+appurl+"/public/fetch/main.js\"></script>";
+            templateStringBuilder.append("<script type=\"text/javascript\" src=\"")
+                    .append(appurl)
+                    .append("/public/fetch/main.js\"></script>");
 		}
 
-
         if(syscfg.isCompress()){ // 是否开启压缩
-            sbc = "<@compress single_line=true>"+sbc+"</@compress>";
+            templateStringBuilder.insert(0, "<@compress single_line=true>")
+                    .append("</@compress>");
         }
 
+        /** 三方统计 */
+        templateStringBuilder.append(syscfg.getTongjiScript());
 
-        /** 版权注入 */
-        String copyright = "<div style=\"text-align:center;\">Powered by <a name=baidusnap0></a><a href=\"http://cms.yl-blog.com\"><B style='color:black;background-color:#ffff66'>MRCMS</B></a> &copy; 2013-2017 <a href=\"http://cms.yl-blog.com\"><B style='color:black;background-color:#ffff66'>MRCMS</B></a> Inc.</div>\n";
+
 
 
         HttpServletRequest request = ActionContext.getReq();
         String userAgent = request.getHeader("User-Agent");
+        // 检查为百度蜘蛛
         if(!StringUtils.isEmpty(userAgent) && userAgent.indexOf("Baiduspider") != -1){
-            sbc += copyright;
+            templateStringBuilder.append(Core.COPYRIGHT);
         }
 
-
 		tplloader.setSqls(temp);// 设置SQL集合
-
 		
 		// 向模板加载器中写入模板信息
         StringTemplateLoader loader = SpringContextHolder.getBean("stringTemplateLoader");
 
-		loader.putTemplate(tplFileName, sbc);
+		loader.putTemplate(tplFileName, templateStringBuilder.toString());
 		tplCache.put(tplFileName, tplloader);
 		this.temp = null;
 	}

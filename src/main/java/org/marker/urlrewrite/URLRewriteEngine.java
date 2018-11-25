@@ -110,7 +110,6 @@ public final class URLRewriteEngine {
 		RewriteRule rule = new RewriteRule(inPattern,urlPattern+inUrl, outPattern,outUrl);
 		rule.params = sequence - 1;// 参数个数
         rule.paramNames = paramNames.toArray(new String[]{});
-//		System.out.println(rule.toString());
 		rules.put(key, rule);
 	}
 

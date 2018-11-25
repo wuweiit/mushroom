@@ -16,17 +16,23 @@ import javax.servlet.http.HttpServletRequest;
  * */
 public final class WebParam {
 	public static final String ATTR_WEB_PARAM    = ".mrcms.Webparam";
-	
-	public static final String FIELD_P    = "p";
-	public static final String FIELD_T    = "type";
-	public static final String FIELD_ID   = "id";
-	public static final String FIELD_PAGE = "page";
+
+	public static final String FIELD_P    = "p"; // 栏目
+	public static final String FIELD_T    = "type";// 类型
+	public static final String FIELD_ID   = "id"; // ID
+	public static final String FIELD_PAGE = "page";// 页码
+	public static final String FIELD_LANG = "lang";// 语言
 
 
 
 
     public String keywords;
 
+
+	/**
+	 * 语言
+	 */
+	public String language;
 
     /** 当前请求的静态URL名称  */
 	public String pageName = "";
@@ -58,6 +64,7 @@ public final class WebParam {
 	
 	/** 扩展条件查询 */
 	public String extendSql;
+
 	/** 表前缀 */
 	public String prefix;
 
@@ -77,10 +84,14 @@ public final class WebParam {
 	 * 私有构造禁止开发者创建此对象
 	 * */
 	private WebParam(HttpServletRequest req){
-
 		SystemConfig config = SystemConfig.getInstance();
-		this.pageName   = req.getParameter(FIELD_P);// 页面名称
-		this.modelType = req.getParameter(FIELD_T);// 页面类型
+
+		this.pageName    = req.getParameter(FIELD_P);// 页面名称
+		this.modelType   = req.getParameter(FIELD_T);// 页面类型
+		this.language    = req.getParameter(FIELD_LANG);// 语言
+        this.page        = req.getParameter(FIELD_PAGE);// 页码
+        String contentId = req.getParameter(FIELD_ID);
+
 		if(this.modelType == null){
 			this.modelType = "channel";
 		}
@@ -88,21 +99,22 @@ public final class WebParam {
 			this.pageName = config.get("index_page");// 获取默认主页地址
 		}
 
-        String contentId = req.getParameter(FIELD_ID);
 		this.contentId = contentId == null?0: Integer.valueOf(contentId);// 内容ID
 
-		this.page      = req.getParameter(FIELD_PAGE);// 页码
 		try{
 			this.currentPageNo = Integer.parseInt(this.page);
-		}catch(Exception e){}
+		} catch (Exception e) {}
 		// 动作
 		this.action = req.getParameter("action");
 		if(StringUtils.isEmpty(action)){
 			this.action = "page";
 		}
 		this.keywords = req.getParameter("keywords");
-		
-		
+
+		if(StringUtils.isBlank(this.language)){
+            this.language = (String) req.getAttribute(AppStatic.WEB_APP_LANG);
+        }
+
 		// 初始化模版页面（指向错误页面）
 		this.template = config.get("error_page");
 		req.setAttribute("p", this.pageName);
@@ -116,11 +128,12 @@ public final class WebParam {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("R:\n");
-		sb.append("pageName="+pageName+"\n");
-		sb.append("modelType="+modelType+"\n");
-		sb.append("contentId="+contentId+"\n");
-		sb.append("page="+page+"\n");
-		
+		sb.append("pageName=" + pageName + "\n");
+		sb.append("modelType=" + modelType + "\n");
+		sb.append("contentId=" + contentId + "\n");
+		sb.append("page=" + page + "\n");
+		sb.append("lang=" + language + "\n");
+
 		return sb.toString();
 	}
 

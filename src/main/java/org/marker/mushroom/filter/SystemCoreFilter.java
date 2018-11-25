@@ -87,6 +87,8 @@ public class SystemCoreFilter implements Filter {
 		HttpServletRequest  request  = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
+
+
         String uri = WebUtils.getRequestUri(request);
 		
 		
@@ -123,13 +125,8 @@ public class SystemCoreFilter implements Filter {
 		 * ====================================================
 		 */
         if ( !WebAPP.install ) {
-            try {
-                logger.warn("mrcms not install");
-                response.sendRedirect("install/index.do");// 没有安装则进入安装页面
-                return; // 处理完毕直接返回。
-            } catch (IOException e) {
-                logger.error("",e);
-            }
+			WebUtils.jumpInstall(response);
+            return;
         }
 
 
@@ -181,18 +178,17 @@ public class SystemCoreFilter implements Filter {
 			cookie.setMaxAge(life);// 当天内有效
 			response.addCookie(cookie);
 		}
-		
-	
-		
+
 		/* 
 		 * ============================================
 		 *                URI -> URL 解码操作
 		 * ============================================
 		 */
-		String url = rewrite.decoder(uri); 
+        String url = rewrite.decoder(uri);
+
 		logger.info("URL: {} => {}", uri, url);
 		if("/".equals(url)){ // 修复jetty 默认首页问题
-			url = "cms";
+			url = "/cms?lang=" + syscfg.getDefaultLanguage() ;
 		}
 
 		

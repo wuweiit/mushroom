@@ -54,10 +54,15 @@ public final class SystemConfig extends ConfigEngine {
 	public static final String FILE_PATH = "file_path";
 	// 登录路径配置
 	public static final String SYSTEM_LOGIN_SAFE = "system.login.safe";
-	
+
+    /** 统计脚本 */
+	public static final String SYSTEM_TONGJI_SCRIPT = "system.tongjiScirpt";
+
 	
 
 	private static SystemConfig systemConfig;
+
+
 	private String dangjian;
 
 
@@ -86,6 +91,14 @@ public final class SystemConfig extends ConfigEngine {
 		return systemConfig;
 	}
 
+
+    /**
+     * 获取统计脚本
+     * @return
+     */
+    public String getTongjiScript() {
+        return this.properties.getProperty(SYSTEM_TONGJI_SCRIPT, "");
+    }
 
 
     /**

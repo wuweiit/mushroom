@@ -1,16 +1,14 @@
 package org.marker.mushroom.ext.message;
 
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.utils.FileTools;
-import org.springframework.cglib.core.Local;
-import org.springframework.data.redis.connection.convert.StringToRedisClientInfoConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -169,6 +167,9 @@ public class MessageDBContext {
 	 * @return
 	 */
 	public Properties get(String lang){
+		if(StringUtils.isBlank(lang)){ // 如果没有语言包，输出默认语言包
+			return defaultData;
+		}
 		if(messageData.containsKey(lang)){
 			return messageData.get(lang);
 		}else{

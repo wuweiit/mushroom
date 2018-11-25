@@ -19,7 +19,7 @@ import java.util.zip.GZIPOutputStream;
 /**
  * Http与Servlet工具类.利用spring web包中的类做到
  * 
- * @author jayd
+ * @author marker
  * @since 1.0
  */
 public class WebUtils {
@@ -180,5 +180,20 @@ public class WebUtils {
             logger.error("", e);
         }
         return uri.replaceFirst(request.getContextPath(), "");
+	}
+
+
+	/**
+	 * 跳转到安装界面
+	 * @param response
+	 */
+	public static void jumpInstall(HttpServletResponse response) {
+		try {
+			logger.warn("mrcms not install");
+			response.sendRedirect("install/index.do");// 没有安装则进入安装页面
+			return; // 处理完毕直接返回。
+		} catch (IOException e) {
+			logger.error("",e);
+		}
 	}
 }
