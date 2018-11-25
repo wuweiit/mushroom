@@ -162,6 +162,10 @@
 		<servlet-name>mushroom</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:/config/spring/spring-servlet.xml</param-value>
+        </init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>mushroom</servlet-name>
