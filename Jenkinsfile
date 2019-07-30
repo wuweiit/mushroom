@@ -24,7 +24,7 @@ pipeline {
                    sh '''
 
 
-                       ssh root@ww-server-15 "docker stop mrcms-${BRANCH_NAME}"
+                       ssh root@192.168.1.6 "docker stop mrcms-${BRANCH_NAME}"
 
 
                        echo "douruimi-web bakup...."
@@ -34,7 +34,7 @@ pipeline {
                            mv /opt/data/tomcat/mrcms/$BRANCH_NAME.war  /opt/data/tomcat/app-$(date +%Y%m%d%h%m%s).war
                        fi
 
-                       scp ./target/mrcms-1.0.0.war root@192.168.1.6:/opt/data/tomcat/mrcms/ROOT.war
+                       scp ./target/mrcms-1.0.0.war root@192.168.1.6:/opt/data/tomcat/mrcms/tomcat/data/ROOT.war
 
 
                        echo "mrcms-${BRANCH_NAME} docker deploying...."
@@ -43,7 +43,7 @@ pipeline {
                        echo "mrcms-${BRANCH_NAME}  docker start...."
 
 
-                       ssh root@ww-server-15 "docker start mrcms-${BRANCH_NAME}"
+                       ssh root@192.168.1.6 "docker start mrcms-${BRANCH_NAME}"
 
                    '''
                }
