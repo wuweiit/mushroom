@@ -336,21 +336,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>com.wuweibi</groupId>
-            <artifactId>module4j</artifactId>
-            <version>0.0.2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-log4j12</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
