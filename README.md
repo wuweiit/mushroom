@@ -20,7 +20,7 @@ MRCMS 是一款Java开发的内容管理系统，采用数据模型+模板+插�
 
 
 ```
-mvn install -Dmaven.test.skip=true
+mvn install -Dmaven.test.skip=true -P dev
 ```
 
 

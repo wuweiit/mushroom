@@ -15,7 +15,9 @@
 
     ">
 
+    <mvc:annotation-driven />
 	<context:annotation-config />
+    <mvc:annotation-driven />
 
 
 
@@ -63,7 +65,6 @@
 
 
 
-	<mvc:annotation-driven />
 
 	<mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
@@ -74,18 +75,20 @@
 
 
 		<mvc:interceptor>
-			<mvc:mapping path="**.do"/>
+			<mvc:mapping path="/admin/**.do"/>
 			<bean class="org.marker.mushroom.interceptor.RequestParamsInterceptor"></bean>
 		</mvc:interceptor>
 
-        <mvc:interceptor>
-            <mvc:mapping path="/admin/**.do"/>
-			<mvc:exclude-mapping path="/admin/login.*"/>
-            <mvc:exclude-mapping path="/admin/loginSystem.*"/>
-            <bean class="org.marker.mushroom.interceptor.LoginInterceptor" />
-        </mvc:interceptor>
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/admin/**.do"/>-->
+			<!--<mvc:exclude-mapping path="/admin/login.*"/>-->
+            <!--<mvc:exclude-mapping path="/admin/loginSystem.*"/>-->
+            <!--<bean class="org.marker.mushroom.interceptor.LoginInterceptor" />-->
+        <!--</mvc:interceptor>-->
 	</mvc:interceptors>
 
+
+	<!-- 静态资源配置 -->
     <mvc:resources mapping="/public/**" location="/public/"/>
     <mvc:resources mapping="/install/**" location="/WEB-INF/content/install/"/>
     <mvc:resources mapping="/admin/**" location="/admin/"/>

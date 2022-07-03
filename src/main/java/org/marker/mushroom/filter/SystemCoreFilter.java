@@ -1,38 +1,27 @@
 package org.marker.mushroom.filter;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.UUID;
-import java.util.regex.Pattern;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.marker.mushroom.alias.CacheO;
-import org.marker.mushroom.alias.LOG;
-import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
-import org.marker.mushroom.utils.DateUtils;
-import org.marker.mushroom.utils.FileTools;
-import org.marker.mushroom.utils.HttpUtils;
+import org.marker.mushroom.utils.*;
 import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.util.StringUtils;
+
+import javax.servlet.*;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 
 /**
@@ -49,7 +38,7 @@ import org.springframework.util.StringUtils;
 public class SystemCoreFilter implements Filter {
 	
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(LOG.WEBFOREGROUND); 
+	protected Logger logger =  LoggerFactory.getLogger(SystemCoreFilter.class);
 
 	// URL重写引擎
 	private static URLRewriteEngine rewrite = SingletonProxyFrontURLRewrite.getInstance();
@@ -119,6 +108,10 @@ public class SystemCoreFilter implements Filter {
 		int dotIndex= uri.lastIndexOf(".") + 1;// 请求文件后缀
 		if (dotIndex != -1) {// 有后缀
 			String suffix = uri.substring(dotIndex, uri.length());
+			if("do".equals(suffix)){// 后台功能
+				chain.doFilter(req, response);
+				return;
+			}
 			if (suffixPattern.matcher(suffix).matches()) {
 				chain.doFilter(req, response);
 				return; // 因为这里是静态文件，所以直接返回了
@@ -182,7 +175,9 @@ public class SystemCoreFilter implements Filter {
 			cookie.setMaxAge(life);// 当天内有效
 			response.addCookie(cookie);
 		}
-
+		
+	
+		
 		/* 
 		 * ============================================
 		 *                URI -> URL 解码操作
@@ -191,18 +186,15 @@ public class SystemCoreFilter implements Filter {
 		String url = rewrite.decoder(uri); 
 		logger.info("URL: {} => {}", uri, url);
 		if("/".equals(url)){ // 修复jetty 默认首页问题
-			url = "/cms?lang=" +  lang;
+			url = "cms";
 		}
 
 		
 		String ip = HttpUtils.getRemoteHost(request);// IP地址获取
-        req.setAttribute(AppStatic.WEB_APP_LANG, lang);// 网址路径
+        req.setAttribute(AppStatic.WEB_APP_LANG, HttpUtils.getLanguage(request));// 网址路径
 		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
 		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
 		req.setAttribute(AppStatic.WEB_APP_THEME_URL, HttpUtils.getRequestURL(request)+"/themes/"+syscfg.getThemeActive());// 网址路径
-
-
-
 
 
 
@@ -211,15 +203,7 @@ public class SystemCoreFilter implements Filter {
 		 *                初始化系统配置信息路径
 		 * ============================================================
 		 */
-
-		// SpringContextHolder.getBean("systemConfig");
-		logger.info("build systemConfig instance = {}", syscfg);
 		req.setAttribute(AppStatic.WEB_APP_CONFIG, syscfg.getProperties());
-
-
-
-
-
 
 		req.getRequestDispatcher(url).forward(request, response);// 请求转发
 	}

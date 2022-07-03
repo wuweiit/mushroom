@@ -80,7 +80,7 @@ public class SystemController extends SupportController {
 	//保存网站配置信息
 	@ResponseBody
 	@RequestMapping("/saveinfo")
-	public Object saveinfo(HttpServletRequest request){ 
+	public Object saveinfo(HttpServletRequest request){
 		try{ 
 			/* 判断统计是否修改 */
 			MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE); 
@@ -149,7 +149,7 @@ public class SystemController extends SupportController {
 			config.set(SystemConfig.STATIC_PAGE, request.getParameter("config.statichtml"));// 页面静态化
 			config.set(SystemConfig.FILE_PATH, request.getParameter("config.filePath"));// 页面静态化
 
-			config.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
+			syscfg.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
 
 
 

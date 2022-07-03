@@ -16,6 +16,7 @@ import org.marker.mushroom.service.impl.ArticleService;
 import org.marker.mushroom.service.impl.ChannelService;
 import org.marker.mushroom.template.MyCMSTemplate;
 import org.marker.mushroom.template.SendDataToView;
+import org.marker.mushroom.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,14 +121,9 @@ public final class WebAPP {
 		 *                 检查系统是否安装
 		 * ====================================================
 		 */
-		if ( !install ) { 
-			try {
-				logger.warn("mrcms not install");
-				response.sendRedirect("install/index.do");// 没有安装则进入安装页面
-				return; // 处理完毕直接返回。
-			} catch (IOException e) {
-				logger.error("",e);
-			}
+		if ( !install ) {
+			WebUtils.jumpInstall(response);
+			return;
 		}
 	
 		

@@ -38,13 +38,14 @@ public class DispatcherServlet extends HttpServlet {
 	 * @throws IOException
 	 * */
 	public void progress(HttpServletRequest request,
-			HttpServletResponse response) throws IOException { 
-		
+			HttpServletResponse response) throws IOException {
+
+
+
 		// 线程绑定请求对象和响应对象
 		ActionContext.currentThreadBindRequestAndResponse(request, response);
- 
-		
-	
+
+
 		// 创建应用实例(多线程模式)
 		WebAPP app = WebAPP.newInstance();
 		app.start();// 启动实例 

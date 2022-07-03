@@ -9,8 +9,6 @@
 	</div>
 
 
-
-
 	<form id="myForm" action="system/saveinfo.do" method="post" class="form-horizontal">
 
 
@@ -209,10 +207,7 @@
                 </div>
 
 		</div>
-		<div class="tab_item">
-
-
-
+		<div class="tab_item"><!-- 高级配置 -->
             <div class="control-group">
                 <label class="control-label">上传存储路径：</label>
                 <div class="controls">
@@ -234,6 +229,17 @@
                 <div class="controls">
                     <input name="config.loginSafe" type="text" value="${config['system.login.safe']!}"  />
                     <div class="help-block">例如  安全码为：123，则登录地址为：login.do?safe=123</div>
+                    <span class="tip_text"></span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">统计脚本：</label>
+                <div class="controls">
+                    <textarea class="textarea_for_add" style="width:680px;" name="config.tongjiScirpt" >${config['system.tongjiScirpt']!}</textarea>
+                    <div class="help-block">
+                        三方统计脚本
+                    </div>
                     <span class="tip_text"></span>
                 </div>
             </div>

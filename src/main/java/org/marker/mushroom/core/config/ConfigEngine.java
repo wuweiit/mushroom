@@ -39,6 +39,12 @@ public abstract class ConfigEngine implements IConfig {
 	
 	/** 配置文件路径 */
 	protected File cfgFile;
+
+
+	/**
+	 * Spring Profile 环境控制
+	 */
+	protected String profile;
  
 	
 	/**
@@ -156,7 +162,14 @@ public abstract class ConfigEngine implements IConfig {
 			}
 		}
 	}
- 
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
 }
 
 

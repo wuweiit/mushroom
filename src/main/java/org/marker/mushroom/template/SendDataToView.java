@@ -227,10 +227,8 @@ public class SendDataToView {
         // 创建ServletContex数据模型
         ServletContextWrapperModel servletContextModel = new ServletContextWrapperModel(application,config.getObjectWrapper());
         root.putUnlistedModel(KEY_APPLICATION, servletContextModel);
-		
-		
-        // 国际化数据包装模型
-		String lang = HttpUtils.getLanguage(request);
+
+        String lang = WebParam.get().language;
 
 		MessageDBContext mc = MessageDBContext.getInstance();
 

@@ -17,6 +17,11 @@ public class ProfileConfig implements Serializable{
 
 
     /**
+     * Spring Profile 默认dev
+     */
+    private String profile = "dev";
+
+    /**
      * 配置文件路径
      */
     private String config;
@@ -28,5 +33,13 @@ public class ProfileConfig implements Serializable{
 
     public void setConfig(String config) {
         this.config = config;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 }

@@ -76,9 +76,13 @@ public class AdminController extends SupportController {
 				log.error("因为没有登录，在主页就不能查询到分组ID");
 				return "redirect:login.do";
 			}
+		} else {
+
+			log.error("因为没有登录，在主页就不能查询到分组ID");
+			return "redirect:login.do";
 		}
 		
-		return this.viewPath+"index";
+		return this.viewPath + "index";
 	}
 	
 	

@@ -117,7 +117,7 @@
   	</filter>
   	<filter-mapping>
 	    <filter-name>SystemCoreFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
+	    <url-pattern>*</url-pattern>
   	</filter-mapping>
 
 
@@ -162,12 +162,16 @@
 		<servlet-name>mushroom</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:/config/spring/spring-servlet.xml</param-value>
+        </init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>mushroom</servlet-name>
 		<url-pattern>*.do</url-pattern>
-		<!--<url-pattern>/</url-pattern>-->
-		<!--<url-pattern>/themes/*</url-pattern>-->
+		<url-pattern>/</url-pattern>
+		<url-pattern>/themes/*</url-pattern>
 	</servlet-mapping>
  	
  	<!-- 微信Servlet接口 -->

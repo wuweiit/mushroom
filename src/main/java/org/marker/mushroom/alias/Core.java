@@ -19,5 +19,12 @@ public interface Core {
 	
 	/** 管理员用户组ID */
 	int ADMINI_GROUP_ID = 1;
-	
+
+
+	/**
+	 * 版权注入
+	 */
+	String COPYRIGHT = "<div style=\"text-align:center;\">Powered by <a name=baidusnap0></a><a href=\"http://cms.yl-blog.com\"><B style='color:black;background-color:#ffff66'>MRCMS</B></a> &copy; 2013-2017 <a href=\"http://cms.yl-blog.com\"><B style='color:black;background-color:#ffff66'>MRCMS</B></a> Inc.</div>\n";
+
+
 }
