@@ -3,6 +3,7 @@ package org.marker.mushroom.beans;
 import java.io.Serializable;
 import java.util.Date;
 
+import lombok.Data;
 import org.marker.mushroom.dao.annotation.Entity;
 
  

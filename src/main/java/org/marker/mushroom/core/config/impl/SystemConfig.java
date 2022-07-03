@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 
 /**
@@ -52,8 +53,9 @@ public final class SystemConfig extends ConfigDBEngine {
 	public static final String FILE_PATH = "file_path";
 	// 登录路径配置
 	public static final String SYSTEM_LOGIN_SAFE = "system.login.safe";
-	
-	
+
+
+	private static SystemConfig systemConfig;
 
 
 
@@ -66,7 +68,12 @@ public final class SystemConfig extends ConfigDBEngine {
 		super(jdbcTemplate);
 	}
 
+	/**
+	 * 获取实例
+	 * @return SystemConfig
+	 */
 	public static SystemConfig getInstance() {
+		systemConfig = SpringContextHolder.getBean("systemConfig");
 		if(systemConfig == null){
 			synchronized (SystemConfig.class){
 				if(systemConfig == null){
@@ -77,7 +84,6 @@ public final class SystemConfig extends ConfigDBEngine {
 		}
 		return systemConfig;
 	}
-
 
 
     /**

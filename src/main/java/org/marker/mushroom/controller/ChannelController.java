@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSONObject;
@@ -98,6 +99,9 @@ public class ChannelController extends SupportController {
         return view;
 	}
 
+    @Resource
+    private SystemConfig systemConfig;
+
     /**
      * 更新栏目
      * @param channel
@@ -136,7 +140,6 @@ public class ChannelController extends SupportController {
         String langKey = "site.channel."+channel.getUrl();
         channel.setLangkey(langKey);
 
-        SystemConfig systemConfig = SystemConfig.getInstance();
         String defaultLang = systemConfig.getDefaultLanguage();
 
         MessageDBContext mc = MessageDBContext.getInstance();
@@ -145,11 +148,10 @@ public class ChannelController extends SupportController {
 
         if(channel.getId() == 0){
             if(commonDao.save(channel)){
-                SystemConfig syscfg = SystemConfig.getInstance();
                 try {
                     String path = WebRealPathHolder.REAL_PATH+"data"+File.separator+"template"+File.separator+"template.html";
                     String topath = WebRealPathHolder.REAL_PATH + "themes" + File.separator
-                            + syscfg.getThemeActive() + File.separator + channel.getTemplate();
+                            + systemConfig.getThemeActive() + File.separator + channel.getTemplate();
 
                     FileTools.copy(path, topath);
 

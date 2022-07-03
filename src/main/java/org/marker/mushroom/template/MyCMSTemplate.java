@@ -187,7 +187,7 @@ public class MyCMSTemplate {
         }
 
         /** 三方统计 */
-        templateStringBuilder.append(syscfg.getTongjiScript());
+//        templateStringBuilder.append(syscfg.getTongjiScript());
 
 
 

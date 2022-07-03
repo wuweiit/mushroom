@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,6 +50,8 @@ public class AdminController extends SupportController {
 	@Autowired IUserLoginLogDao userLoginLogDao;
 	@Autowired IMenuDao menuDao;
 	@Autowired ServletContext application;
+	@Resource
+	private SystemConfig syscfg;
 
 
 	
@@ -128,7 +131,6 @@ public class AdminController extends SupportController {
         request.setAttribute("url", HttpUtils.getRequestURL(request));
 
 
-		SystemConfig syscfg = SystemConfig.getInstance();
         String systemLoginSafe = syscfg.getLoginSafe();
 
 		if(!systemLoginSafe.equals(safe)){// 验证登录路径
@@ -245,7 +247,6 @@ public class AdminController extends SupportController {
 		HttpSession session = request.getSession(false);
 		if(session != null) session.invalidate();
 
-		SystemConfig syscfg = SystemConfig.getInstance();
         String systemLoginSafe = syscfg.getLoginSafe();
 
 

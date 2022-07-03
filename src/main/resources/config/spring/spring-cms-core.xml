@@ -37,7 +37,7 @@
     </bean>
 
 	<!--  系统配置组件 -->
-    <bean id="SystemConfig" class="org.marker.mushroom.core.config.impl.SystemConfig"
+    <bean id="systemConfig" class="org.marker.mushroom.core.config.impl.SystemConfig"
 			c:profile="#{profileConfig.profile}">
     </bean>
 

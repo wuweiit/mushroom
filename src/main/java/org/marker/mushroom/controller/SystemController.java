@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.marker.mushroom.alias.CacheO;
@@ -124,17 +125,17 @@ public class SystemController extends SupportController {
 			mc.setProperty(newDefaultLang, "config.description", request.getParameter("config.description"));
 
 			/* 系统基本信息配置 */
-			syscfg.set("title", request.getParameter("config.title"));//网站标题
-			syscfg.set("url", request.getParameter("config.url"));//网站地址
-			syscfg.set("keywords", request.getParameter("config.keywords"));//网站关键字
-			syscfg.set("description", request.getParameter("config.description"));//网站描述
-			syscfg.set("mastermail", request.getParameter("config.mastermail"));//管理员邮箱
-			syscfg.set("mobile", request.getParameter("config.mobile"));// 电话
-			syscfg.set("qq", request.getParameter("config.qq"));// qq
-			syscfg.set("copyright", request.getParameter("config.copyright"));//版权信息
-			syscfg.set("icp", request.getParameter("config.icp"));//ICP备案
-			syscfg.set(SystemConfig.STATISTICS, request.getParameter("config.statistics"));// 是否启用统计
-			syscfg.set(SystemConfig.DEFAULTLANG, request.getParameter("config.defaultlang"));// 默认语言
+			config.set("title", request.getParameter("config.title"));//网站标题
+			config.set("url", request.getParameter("config.url"));//网站地址
+			config.set("keywords", request.getParameter("config.keywords"));//网站关键字
+			config.set("description", request.getParameter("config.description"));//网站描述
+			config.set("mastermail", request.getParameter("config.mastermail"));//管理员邮箱
+			config.set("mobile", request.getParameter("config.mobile"));// 电话
+			config.set("qq", request.getParameter("config.qq"));// qq
+			config.set("copyright", request.getParameter("config.copyright"));//版权信息
+			config.set("icp", request.getParameter("config.icp"));//ICP备案
+			config.set(SystemConfig.STATISTICS, request.getParameter("config.statistics"));// 是否启用统计
+			config.set(SystemConfig.DEFAULTLANG, request.getParameter("config.defaultlang"));// 默认语言
 			
 			
 			/* 主题配置 */
@@ -149,7 +150,7 @@ public class SystemController extends SupportController {
 			config.set(SystemConfig.STATIC_PAGE, request.getParameter("config.statichtml"));// 页面静态化
 			config.set(SystemConfig.FILE_PATH, request.getParameter("config.filePath"));// 页面静态化
 
-			syscfg.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
+			config.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
 
 
 
@@ -237,12 +238,12 @@ public class SystemController extends SupportController {
 		view.addObject("sql", config);
 		return view;
 	}
+	@Resource
+	private SystemConfig syscfg;
 	/**
 	 * 获取Des加密结果
 	 * */
 	private String getDesCode(String pass){
-
-		SystemConfig syscfg = SystemConfig.getInstance();
 		String key = syscfg.get("secret_key");//网站秘钥，这是在安装的时候获取的
 		try {
 			return Base64.encode(DES.encrypt(pass.getBytes(), key));

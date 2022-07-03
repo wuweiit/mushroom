@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+
 
 /**
  * 荣誉管理
@@ -33,6 +35,8 @@ public class DangjianController extends SupportController {
 	}
 
 
+	@Resource
+	private SystemConfig systemConfig;
 
 
 	/** 保存 */
@@ -40,10 +44,9 @@ public class DangjianController extends SupportController {
 	@RequestMapping("/update")
 	public Object update(@RequestParam("json") String json){
 
-        SystemConfig syscfg = SystemConfig.getInstance();
 
-        syscfg.set("dangjian", json);
-        syscfg.store();
+		systemConfig.set("dangjian", json);
+		systemConfig.store();
         return new ResultMessage(true, "更新成功!");
 
 	}
@@ -58,8 +61,7 @@ public class DangjianController extends SupportController {
 	public ModelAndView list() {
         ModelAndView view = new ModelAndView(this.viewPath + "list");
 
-        SystemConfig syscfg = SystemConfig.getInstance();
-        String json = syscfg.getDangjian();
+        String json = systemConfig.getDangjian();
         view.addObject("json", json);
 		return view;
 	}

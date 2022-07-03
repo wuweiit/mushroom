@@ -152,6 +152,7 @@ public class InitBuilderHolder implements ServletContextAware{
 		taglibs.put(new ListCategoryTagImpl());
 		taglibs.put(new SqlPageTagImpl());
 		taglibs.put(new NavChildTagImpl());
+		taglibs.put(new NavOneTagImpl());
 
 
 		logger.info("mrcms taglibs init complete");
