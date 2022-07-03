@@ -23,7 +23,7 @@
     </bean>
 
 
-    <!-- 姚列工之前的接口使用 -->
+    <!-- redisTemplate -->
     <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
         <property name="connectionFactory" ref="jedisConnectionFactory" />
     </bean>

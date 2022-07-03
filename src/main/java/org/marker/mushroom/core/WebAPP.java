@@ -159,10 +159,6 @@ public final class WebAPP {
             request.setAttribute("keywrods", param.keywords);
 		}
 
-
-
-
-
 		// 查询当前栏目和 面包屑数
 		List<Channel> channelList = channelService.getAll();
         List<BreadNav> breadNavs = new ArrayList<>(4);

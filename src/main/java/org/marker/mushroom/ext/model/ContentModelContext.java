@@ -166,7 +166,6 @@ public class ContentModelContext implements IContentModelParse {
 				Channel currentChannel = channelDao.queryByUrl(param.pageName);
 				param.channel = currentChannel;// 设置栏目参数
 				if(currentChannel != null){
-
 					String keywords    = currentChannel.getKeywords();
 					String description = currentChannel.getDescription();
 					if("".equals(description)){

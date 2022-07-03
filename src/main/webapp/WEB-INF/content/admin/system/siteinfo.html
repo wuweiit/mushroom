@@ -29,7 +29,7 @@
 					<input name="config.title" type="text" value="${config.title}"
 						   placeholder="站点名称"/>
                     <div class="help-block">
-                        网站标题 ${config.title}
+                        网站标题 {config.title}
                     </div>
 				</div>
 			</div>
@@ -50,6 +50,9 @@
 				<div class="controls">
 					<input name="config.keywords" type="text" value="${config.keywords}"
 						   placeholder="网站关键字"/>
+                    <div class="help-block">
+                        SEO关键字 {config.keywords}
+                    </div>
 				</div>
 			</div>
 			<div class="control-group">
@@ -57,7 +60,7 @@
 				<div class="controls">
 					<textarea class="textarea_for_add" name="config.description" >${config.description}</textarea>
                     <div class="help-block">
-                        该配置与网站SEO有关系
+                        该配置与网站SEO有关系 {config.description}
                     </div>
 				</div>
 			</div>

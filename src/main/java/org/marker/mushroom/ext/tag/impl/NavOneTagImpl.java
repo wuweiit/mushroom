@@ -99,7 +99,7 @@ public class NavOneTagImpl extends Taglib {
 			int cid = param.channel.getId();
             DataBaseConfig config = DataBaseConfig.getInstance();
 
-			long pid = param.channel.getPid();
+//			long pid = param.channel.getPid();
 
 
 			//INSERT INTO `db_mrcms_dev`.`mr_channel`(`id`, `pid`, `sort`, `rows`, `name`, `template`, `hide`, `keywords`, `description`, `url`, `icon`, `redirect`, `langkey`, `end`, `categoryIds`, `contentId`) VALUES (1, 0, 10, 10, '首页', 'index.html', 1, '华西医院 华西四院  医院 眼科 耳鼻喉科 生病', '华西公共卫生学院是中国最著名的公共卫生学院之一，历史可追溯到1914年在“华西协和大学医学院”建立的公共卫生学课程组', 'index', '', '', '', 0, '1,11,18,2,6', 23);
@@ -110,12 +110,12 @@ public class NavOneTagImpl extends Taglib {
 
 			String sql = "select c.`id`, c.`pid`, c.`sort`, ifnull((select `value` from mr_sys_language WHERE `key` = c.langKey and lang='"+lang+"'), c.name) as name," +
 					"  c.`keywords`, c.`description`, c.`icon`,  c.`langkey`,  c.id = "+cid + " as active, concat('p=', c.url) url from "+config.getPrefix()
-					+"channel c where c.hide =1 ";
-			if(pageName.indexOf("/") == -1){// 一级查询
-				sql += " and c.pid = 0";
-			}else{// 二级查询
-				sql +=" and c.pid = " + pid;
-			}
+					+"channel c where c.hide =1 and c.pid = 0";
+//			if(pageName.indexOf("/") == -1){// 一级查询
+//				sql += " and c.pid = 0";
+//			}else{// 二级查询
+//				sql +=" and c.pid = " + pid;
+//			}
 			sql += " order by c.sort asc";
 
 			data.setSql(sql);
