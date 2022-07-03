@@ -117,8 +117,13 @@ public class SystemController extends SupportController {
 
 
             }
-			
-			
+
+			// 国际化信息同步
+			MessageDBContext mc = MessageDBContext.getInstance();
+			mc.setProperty(newDefaultLang, "config.title", request.getParameter("config.title"));
+			mc.setProperty(newDefaultLang, "config.keywords", request.getParameter("config.keywords"));
+			mc.setProperty(newDefaultLang, "config.description", request.getParameter("config.description"));
+
 			/* 系统基本信息配置 */
 			syscfg.set("title", request.getParameter("config.title"));//网站标题
 			syscfg.set("url", request.getParameter("config.url"));//网站地址

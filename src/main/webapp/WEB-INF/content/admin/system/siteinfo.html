@@ -14,8 +14,16 @@
 	<form id="myForm" action="system/saveinfo.do" method="post" class="form-horizontal">
 
 
+
     <div class="tab_content">
 		<div class="tab_item tab_show">
+            <div style="margin: 10px;">
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="label label-warning">注意</span>
+                    部分配置保存会同步到对应的语言国际化配置中。
+                </div>
+            </div>
 
 			<div class="control-group">
 				<label class="control-label">站点名称：</label>
@@ -23,7 +31,7 @@
 					<input name="config.title" type="text" value="${config.title}"
 						   placeholder="站点名称"/>
                     <div class="help-block">
-                        网站标题
+                        网站标题 ${config.title}
                     </div>
 				</div>
 			</div>

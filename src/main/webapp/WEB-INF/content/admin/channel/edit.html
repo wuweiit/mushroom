@@ -37,10 +37,10 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">语言引用：</label>
+				<label class="control-label">栏目地址：</label>
 				<div class="controls">
-					<input class="input_for_add" name="langkey" type="text" value="${channel.langkey!}" />
-					<div class="help-block"></div>
+					<input class="input_for_add" name="url" type="text" value="${channel.url!}" />
+					<div class="help-block">地址不能重复哦</div>
 				</div>
 			</div>
 
@@ -85,14 +85,6 @@
 						</#list>
 					</select>
 					<div class="help-block"></div>
-				</div>
-			</div>
-
-			<div class="control-group">
-				<label class="control-label">栏目地址：</label>
-				<div class="controls">
-					<input class="input_for_add" name="url" type="text" value="${channel.url!}" />
-					<div class="help-block">地址不能重复哦</div>
 				</div>
 			</div>
 

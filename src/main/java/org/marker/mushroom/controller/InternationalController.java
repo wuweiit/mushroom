@@ -38,7 +38,6 @@ public class InternationalController  extends SupportController {
 	
 	/**
 	 * 创建
-	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value="/create",method=RequestMethod.POST)

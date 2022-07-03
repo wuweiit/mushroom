@@ -29,11 +29,7 @@ import java.util.regex.Pattern;
  * 系统前端核心过滤器
  * 1. 反向代理真实IP获取，主要是请求头中的X-Real-IP参数
  * 2. URL重写功能 (主要是重写前端访问地址)
- * 
- * 
  * @author marker
- * 
- * 
  * */
 public class SystemCoreFilter implements Filter {
 	
@@ -123,13 +119,8 @@ public class SystemCoreFilter implements Filter {
 		 * ====================================================
 		 */
         if ( !WebAPP.install ) {
-            try {
-                logger.warn("mrcms not install");
-                response.sendRedirect("install/index.do");// 没有安装则进入安装页面
-                return; // 处理完毕直接返回。
-            } catch (IOException e) {
-                logger.error("",e);
-            }
+			WebUtils.jumpInstall(response);
+            return;
         }
 
 
@@ -181,23 +172,22 @@ public class SystemCoreFilter implements Filter {
 			cookie.setMaxAge(life);// 当天内有效
 			response.addCookie(cookie);
 		}
-		
-	
-		
+
 		/* 
 		 * ============================================
 		 *                URI -> URL 解码操作
 		 * ============================================
 		 */
-		String url = rewrite.decoder(uri); 
+        String url = rewrite.decoder(uri);
+
 		logger.info("URL: {} => {}", uri, url);
 		if("/".equals(url)){ // 修复jetty 默认首页问题
-			url = "cms";
+			url = "/cms?lang=" +  lang;
 		}
 
 		
 		String ip = HttpUtils.getRemoteHost(request);// IP地址获取
-        req.setAttribute(AppStatic.WEB_APP_LANG, HttpUtils.getLanguage(request));// 网址路径
+        req.setAttribute(AppStatic.WEB_APP_LANG, lang);// 网址路径
 		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
 		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
 		req.setAttribute(AppStatic.WEB_APP_THEME_URL, HttpUtils.getRequestURL(request)+"/themes/"+syscfg.getThemeActive());// 网址路径
