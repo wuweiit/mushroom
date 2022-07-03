@@ -21,27 +21,27 @@ import java.io.InputStream;
 
 
 /**
- * 
+ *
  * 静态资源
  *
  * @author marker
- * 
- * 
+ *
+ *
  * */
 public class ThemesResourceFilter implements Filter {
-	
-	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(ThemesResourceFilter.class);
+
+    /** 日志记录器 */
+    protected Logger logger =  LoggerFactory.getLogger(ThemesResourceFilter.class);
 
 
 
-	
-	@Override
-	public void doFilter(ServletRequest req, ServletResponse resp,
-			FilterChain chain) throws IOException, ServletException {
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse resp,
+                         FilterChain chain) throws IOException, ServletException {
 
 
-	    HttpServletRequest request = (HttpServletRequest)req;
+        HttpServletRequest request = (HttpServletRequest)req;
         ServletContext servletContext = request.getServletContext();
 
         String uri = WebUtils.getRequestUri(request);
@@ -80,18 +80,18 @@ public class ThemesResourceFilter implements Filter {
 
         StreamUtils.copy(inputStream, resp.getOutputStream());
         return;
-	}
+    }
 
 
 
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-	}
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+    }
 
-	
-	@Override
-	public void destroy() {
-	}
+
+    @Override
+    public void destroy() {
+    }
 
 
     protected void setHeaders(HttpServletResponse response, MediaType mediaType) throws IOException {

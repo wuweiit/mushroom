@@ -1,5 +1,5 @@
 <configuration scan="true" scanPeriod="30 seconds">
-	<property name="PROJECT_HOME" value="./logs/" />
+	<property name="PROJECT_HOME" value="/data/logs/mrcms" />
 	<property name="MAX_FILE_SIZE" value="300mb" />
 	<property name="MAX_HISTORY" value="5" />
 	<property name="MYBATIS_MAX_HISTORY" value="${MAX_HISTORY}" />
@@ -85,11 +85,17 @@
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="INFO-ROLLING"/>
 		<appender-ref ref="ERROR-ROLLING"/>
+		<appender-ref ref="INFO-ROLLING"/>
 		<appender-ref ref="DEBUG-ROLLING"/>
 	</root>
 
+	<logger name="com.llcloud" level="DEBUG" /> 
+	<!-- 打印sql -->
+ 	<logger name="com.llcloud.dao.mapper" level="DEBUG">
+ 		<appender-ref ref="MYBATIS-ROLLING"/>
+ 	</logger>
+	<!-- 打印消息 -->
 	  
 	<!-- c3p0 -->
 	<logger name="org.springframework" level="INFO"/>

@@ -30,34 +30,34 @@ import java.util.Map;
 
 /**
  * 环境初始化构建
- * 
- * 
+ *
+ *
  * @author marker
  * */
 public class InitBuilderHolder implements ServletContextAware{
-	
-	/** 日志记录器 */ 
+
+	/** 日志记录器 */
 	protected Logger logger =  LoggerFactory.getLogger(InitBuilderHolder.class);
-	
-	
+
+
 	@Override
 	public void setServletContext(ServletContext application) {
-    	String webRootPath = WebRealPathHolder.REAL_PATH;//网站根目录路径
-    	logger.info("mrcms runtime on path = {}", webRootPath);	
-    	
-    	logger.info("check mrcms whether install?");
-    	WebAPP.install = isInstall(webRootPath);// 设置系统是否被安装
-    	logger.info("check success. install = {}", WebAPP.install);
-    	
-    	
-    	
-		/* 
+		String webRootPath = WebRealPathHolder.REAL_PATH;//网站根目录路径
+		logger.info("mrcms runtime on path = {}", webRootPath);
+
+		logger.info("check mrcms whether install?");
+		WebAPP.install = isInstall(webRootPath);// 设置系统是否被安装
+		logger.info("check success. install = {}", WebAPP.install);
+
+
+
+		/*
 		 * ============================================================
 		 *          ActionContext bind (application)应用作用域
 		 * ============================================================
-		 */ 	
-    	logger.info("bind application context = {}", application);	
-    	ActionContext.currentThreadBindServletContext(application);
+		 */
+		logger.info("bind application context = {}", application);
+		ActionContext.currentThreadBindServletContext(application);
 
 
 		/*
@@ -66,42 +66,42 @@ public class InitBuilderHolder implements ServletContextAware{
 		 * ============================================================
 		 */
 		DataBaseConfig.getInstance().init();
-    	
 
-    	
-    	
-		/* 
+
+
+
+		/*
 		 * ============================================================
 		 *               URLRewrite 初始化URL规则 （通过SPringBean初始化）
 		 * ============================================================
 		 */
-    	URLRewriteConfig urlConfig = URLRewriteConfig.getInstance();
-    	logger.info("build URL-rewriteConfig instance = {}", urlConfig);
-    	
-    	
-    	
-    	/* 
+		URLRewriteConfig urlConfig = URLRewriteConfig.getInstance();
+		logger.info("build URL-rewriteConfig instance = {}", urlConfig);
+
+
+
+		/*
 		 * ============================================================
 		 *               关键字提取代理，初始化(避免懒加载带来的等待)
 		 * ============================================================
 		 */
-    	logger.info("build keyword instance = {}", "");	
-    	SingletonProxyKeyWordComputer.init(webRootPath);// 初始化dic
-    	SingletonProxyKeyWordComputer.getInstance();
+		logger.info("build keyword instance = {}", "");
+		SingletonProxyKeyWordComputer.init(webRootPath);// 初始化dic
+		SingletonProxyKeyWordComputer.getInstance();
 
 
 
-    	/*
+		/*
 		 * ============================================================
 		 *               内容模型支持
 		 * ============================================================
 		 */
 		ContentModelContext contentModelContext = ContentModelContext.getInstance();
 
-        contentModelContext.put(new ContentModelImpl());// 栏目数据模型
+		contentModelContext.put(new ContentModelImpl());// 栏目数据模型
 		contentModelContext.put(new ArticleModelImpl());// 文章数据模型
 		contentModelContext.put(new DoctorModelImpl());// 医生数据模型
-        contentModelContext.put(new CategoryModelImpl());// 科室数据模型
+		contentModelContext.put(new CategoryModelImpl());// 科室数据模型
 		contentModelContext.put(new ThematicModelImpl());// 专题数据模型
 		contentModelContext.put(new ProjectModelImpl());// 项目数据模型
 
@@ -109,63 +109,63 @@ public class InitBuilderHolder implements ServletContextAware{
 
 
 
-    	/*
+		/*
 		 * ============================================================
 		 *               插件加载
 		 * ============================================================
 		 */
 
-        PluginContext pluginContext = PluginContext.getInstance();
+		PluginContext pluginContext = PluginContext.getInstance();
 
-        try {
+		try {
 //            pluginContext.put(new GuestBookPluginletImpl());
-        } catch (Exception e) {
-            logger.error("", e);
-        }
-    	
+		} catch (Exception e) {
+			logger.error("", e);
+		}
 
-    	
-    	
-    	
-    	/* 
+
+
+
+
+		/*
 		 * ============================================================
 		 *               TaglibContext 初始化
 		 * ============================================================
 		 */
-    	logger.info("mrcms taglibs init ...");
-    	TaglibContext taglibs = TaglibContext.getInstance();
-    	
-    	// 系统内置标签
-    	taglibs.put(new AbsoluteURLTagImpl());
-    	taglibs.put(new ExecuteTimeTagImpl());
-    	taglibs.put(new FormatDateTagImpl());
-    	taglibs.put(new IfTagImpl());
-    	taglibs.put(new ListTagImpl());
-    	taglibs.put(new LoopTagImpl());
-    	taglibs.put(new OnlineUsersTagImpl());
-    	taglibs.put(new PluginTagImpl());
-    	taglibs.put(new SqlExecuteTagImpl());
-    	taglibs.put(new StringSubTagImpl());
-    	taglibs.put(new URLRewriteTagImpl());
-    	taglibs.put(new SingleCategoryTagImpl());
+		logger.info("mrcms taglibs init ...");
+		TaglibContext taglibs = TaglibContext.getInstance();
+
+		// 系统内置标签
+		taglibs.put(new AbsoluteURLTagImpl());
+		taglibs.put(new ExecuteTimeTagImpl());
+		taglibs.put(new FormatDateTagImpl());
+		taglibs.put(new IfTagImpl());
+		taglibs.put(new ListTagImpl());
+		taglibs.put(new LoopTagImpl());
+		taglibs.put(new OnlineUsersTagImpl());
+		taglibs.put(new PluginTagImpl());
+		taglibs.put(new SqlExecuteTagImpl());
+		taglibs.put(new StringSubTagImpl());
+		taglibs.put(new URLRewriteTagImpl());
+		taglibs.put(new SingleCategoryTagImpl());
 		taglibs.put(new ChildChannelTagImpl());
 		taglibs.put(new ListCategoryTagImpl());
-        taglibs.put(new SqlPageTagImpl());
+		taglibs.put(new SqlPageTagImpl());
 		taglibs.put(new NavChildTagImpl());
 
 
-    	logger.info("mrcms taglibs init complete");
-    	
-    	
+		logger.info("mrcms taglibs init complete");
 
 
-    	/*
+
+
+		/*
 		 * ============================================================
 		 *               MessageContext 初始化
 		 * ============================================================
 		 */
-    	logger.info("mrcms MessageContext init ...");
-    	if(WebAPP.install){
+		logger.info("mrcms MessageContext init ...");
+		if(WebAPP.install){
 			MessageDBContext messageDBContext = MessageDBContext.getInstance();
 
 			if(!messageDBContext.isInit()){
@@ -181,7 +181,7 @@ public class InitBuilderHolder implements ServletContextAware{
 
 
 
-        if(WebAPP.install){
+		if(WebAPP.install){
 
 
 
@@ -217,7 +217,7 @@ public class InitBuilderHolder implements ServletContextAware{
 				});
 
 				// 停止服务
-	//			moduleFramework.stop();
+				//			moduleFramework.stop();
 
 			} catch (PackageJsonNotFoundException e) {
 				logger.error("{}", "PackageJsonNotFoundException");
@@ -226,7 +226,7 @@ public class InitBuilderHolder implements ServletContextAware{
 			}
 
 
-        }
+		}
 
 
 
@@ -239,10 +239,10 @@ public class InitBuilderHolder implements ServletContextAware{
 
 
 		logger.info("init Building complete");
-    	
+
 	}
-	
-	
+
+
 	/**
 	 * 判断是否是否已安装(true:安装 false:未安装)
 	 * @return boolean 状态

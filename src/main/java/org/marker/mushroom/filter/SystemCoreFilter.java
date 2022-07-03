@@ -1,27 +1,38 @@
 package org.marker.mushroom.filter;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.UUID;
+import java.util.regex.Pattern;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.marker.mushroom.alias.CacheO;
+import org.marker.mushroom.alias.LOG;
+import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
-import org.marker.mushroom.utils.*;
+import org.marker.mushroom.utils.DateUtils;
+import org.marker.mushroom.utils.FileTools;
+import org.marker.mushroom.utils.HttpUtils;
 import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-
-import javax.servlet.*;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.UUID;
-import java.util.regex.Pattern;
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -29,12 +40,16 @@ import java.util.regex.Pattern;
  * 系统前端核心过滤器
  * 1. 反向代理真实IP获取，主要是请求头中的X-Real-IP参数
  * 2. URL重写功能 (主要是重写前端访问地址)
+ * 
+ * 
  * @author marker
+ * 
+ * 
  * */
 public class SystemCoreFilter implements Filter {
 	
 	/** 日志记录器 */ 
-	protected Logger logger =  LoggerFactory.getLogger(SystemCoreFilter.class);
+	protected Logger logger =  LoggerFactory.getLogger(LOG.WEBFOREGROUND); 
 
 	// URL重写引擎
 	private static URLRewriteEngine rewrite = SingletonProxyFrontURLRewrite.getInstance();
@@ -65,7 +80,7 @@ public class SystemCoreFilter implements Filter {
 
 
 
-	
+
 	
 	// 缓存管理器
 	private EhCacheCacheManager cacheManager;
@@ -84,7 +99,7 @@ public class SystemCoreFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 
         String uri = WebUtils.getRequestUri(request);
-		
+
 		
 		/* 
 		 * ============================================
@@ -104,10 +119,6 @@ public class SystemCoreFilter implements Filter {
 		int dotIndex= uri.lastIndexOf(".") + 1;// 请求文件后缀
 		if (dotIndex != -1) {// 有后缀
 			String suffix = uri.substring(dotIndex, uri.length());
-			if("do".equals(suffix)){// 后台功能
-				chain.doFilter(req, response);
-				return;
-			}
 			if (suffixPattern.matcher(suffix).matches()) {
 				chain.doFilter(req, response);
 				return; // 因为这里是静态文件，所以直接返回了
@@ -134,8 +145,7 @@ public class SystemCoreFilter implements Filter {
         }
 		// 页面静态读取
 
-		SystemConfig syscfg = SystemConfig.getInstance(); // Spring 一定要初始化完成
-
+		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
 		if(syscfg.isStaticPage()){
 			org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
 
@@ -178,8 +188,7 @@ public class SystemCoreFilter implements Filter {
 		 *                URI -> URL 解码操作
 		 * ============================================
 		 */
-        String url = rewrite.decoder(uri);
-
+		String url = rewrite.decoder(uri); 
 		logger.info("URL: {} => {}", uri, url);
 		if("/".equals(url)){ // 修复jetty 默认首页问题
 			url = "/cms?lang=" +  lang;
@@ -194,12 +203,23 @@ public class SystemCoreFilter implements Filter {
 
 
 
+
+
+
 		/*
 		 * ============================================================
 		 *                初始化系统配置信息路径
 		 * ============================================================
 		 */
+
+		// SpringContextHolder.getBean("systemConfig");
+		logger.info("build systemConfig instance = {}", syscfg);
 		req.setAttribute(AppStatic.WEB_APP_CONFIG, syscfg.getProperties());
+
+
+
+
+
 
 		req.getRequestDispatcher(url).forward(request, response);// 请求转发
 	}

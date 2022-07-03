@@ -54,7 +54,9 @@ public class SystemController extends SupportController {
 	/** 日志记录对象 */ 
 	protected Logger logger =  LoggerFactory.getLogger(SystemController.class); 
 
-
+	/** 系统配置对象 */
+	@Autowired
+	private SystemConfig config;
 
 
     /**
@@ -68,8 +70,7 @@ public class SystemController extends SupportController {
 	// 网站基本信息
 	@RequestMapping("/siteinfo")
 	public String siteinfo(HttpServletRequest request){
-		SystemConfig syscfg = SystemConfig.getInstance();
-		request.setAttribute("config", syscfg.getProperties());
+		request.setAttribute("config", config.getProperties());
         MessageDBContext mc = MessageDBContext.getInstance();
 		request.setAttribute("langselect", mc.getReadySelectElement());
 		return this.viewPath + "siteinfo";
@@ -79,24 +80,22 @@ public class SystemController extends SupportController {
 	//保存网站配置信息
 	@ResponseBody
 	@RequestMapping("/saveinfo")
-	public Object saveinfo(HttpServletRequest request){
-
-		SystemConfig syscfg = SystemConfig.getInstance();
+	public Object saveinfo(HttpServletRequest request){ 
 		try{ 
 			/* 判断统计是否修改 */
 			MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE); 
 			String new_statistics = request.getParameter("config.statistics");
-			if(!syscfg.get(SystemConfig.STATISTICS).equals(new_statistics)){
+			if(!config.get(SystemConfig.STATISTICS).equals(new_statistics)){
 				cmstemplate.clearCache(); 
 			}
 			/* 判断主题是否切换 */
 			String new_themes_active = request.getParameter("config.themes_active");
-			if(!syscfg.get(SystemConfig.THEMES_ACTIVE).equals(new_themes_active)){
+			if(!config.get(SystemConfig.THEMES_ACTIVE).equals(new_themes_active)){
 				cmstemplate.clearCache(); 
 			}
 			/* 判断启用代码压缩是否切换 */
 			String new_compress = request.getParameter("config.compress");
-			if(!syscfg.get(SystemConfig.COMPRESS).equals(new_compress)){
+			if(!config.get(SystemConfig.COMPRESS).equals(new_compress)){
 				cmstemplate.clearCache(); 
 			}
 			
@@ -109,7 +108,7 @@ public class SystemController extends SupportController {
 			}
 			/* 切换默认语言*/
             String newDefaultLang = request.getParameter("config.defaultlang");
-            String oldDefaultLang = syscfg.get(SystemConfig.DEFAULTLANG);
+            String oldDefaultLang = config.get(SystemConfig.DEFAULTLANG);
 
             if(!oldDefaultLang.equals(newDefaultLang)){
 
@@ -139,23 +138,23 @@ public class SystemController extends SupportController {
 			
 			
 			/* 主题配置 */
-			syscfg.set("index_page", request.getParameter("config.index_page"));//网站首页
-			syscfg.set("error_page", request.getParameter("config.error_page"));//错误模版
-			syscfg.set(SystemConfig.THEMES_ACTIVE, request.getParameter("config.themes_active"));//主题路径
-            syscfg.set(SystemConfig.THEMES_PATH, request.getParameter("config.themesPath"));// 页面静态化
-			syscfg.set("themes_cache", request.getParameter("config.themes_cache"));//主题缓存目录
-			syscfg.set(SystemConfig.DEV_MODE, request.getParameter("config.dev_mode"));//是否开发模式
-			syscfg.set(SystemConfig.GZIP, request.getParameter("config.gzip"));//GZIP
-			syscfg.set(SystemConfig.COMPRESS, request.getParameter("config.compress"));//GZIP
-			syscfg.set(SystemConfig.STATIC_PAGE, request.getParameter("config.statichtml"));// 页面静态化
-			syscfg.set(SystemConfig.FILE_PATH, request.getParameter("config.filePath"));// 页面静态化
+			config.set("index_page", request.getParameter("config.index_page"));//网站首页
+			config.set("error_page", request.getParameter("config.error_page"));//错误模版
+			config.set(SystemConfig.THEMES_ACTIVE, request.getParameter("config.themes_active"));//主题路径
+            config.set(SystemConfig.THEMES_PATH, request.getParameter("config.themesPath"));// 页面静态化
+			config.set("themes_cache", request.getParameter("config.themes_cache"));//主题缓存目录
+			config.set(SystemConfig.DEV_MODE, request.getParameter("config.dev_mode"));//是否开发模式
+			config.set(SystemConfig.GZIP, request.getParameter("config.gzip"));//GZIP
+			config.set(SystemConfig.COMPRESS, request.getParameter("config.compress"));//GZIP
+			config.set(SystemConfig.STATIC_PAGE, request.getParameter("config.statichtml"));// 页面静态化
+			config.set(SystemConfig.FILE_PATH, request.getParameter("config.filePath"));// 页面静态化
 
-			syscfg.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
-
-
+			config.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
 
 
-			syscfg.store();//修改配置信息状态
+
+
+			config.store();//修改配置信息状态
 			return new ResultMessage(true, "更新成功!");
 		}catch (Exception e) {
 			logger.error("", e);
@@ -304,9 +303,8 @@ public class SystemController extends SupportController {
 	public @ResponseBody Object themes(HttpServletRequest request){ 
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
-        SystemConfig syscfg = SystemConfig.getInstance();
 
-		String themesPath = syscfg.getThemesPath();
+		String themesPath = config.getThemesPath();
         File file = new File(themesPath);
         String[] filelist = file.list();
 
