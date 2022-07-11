@@ -1,21 +1,18 @@
 package org.marker.mushroom.freemarker.config;
 
-import freemarker.cache.MultiTemplateLoader;
-import freemarker.ext.jsp.TaglibFactory;
+import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.ui.freemarker.SpringTemplateLoader;
 import org.springframework.web.context.ServletContextAware;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.servlet.ServletContext;
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
 
 /**
@@ -35,7 +32,7 @@ public class WebFreeMarkerConfigurer implements InitializingBean,ResourceLoaderA
 
 
     /** FreeMarkerConfigurer */
-    private FreeMarkerConfigurer freeMarkerConfig = new FreeMarkerConfigurer();
+    private final FreeMarkerConfigurer freeMarkerConfig = new FreeMarkerConfigurer();
 
 
 
@@ -47,7 +44,7 @@ public class WebFreeMarkerConfigurer implements InitializingBean,ResourceLoaderA
     /**
      * 设置多个模板加载路径
      *
-     * @param templateLoaderPaths
+     * @param templateLoaderPaths 模板加载路径
      */
     public void setTemplateLoaderPaths(String... templateLoaderPaths) {
         freeMarkerConfig.setTemplateLoaderPaths(templateLoaderPaths);
@@ -61,7 +58,7 @@ public class WebFreeMarkerConfigurer implements InitializingBean,ResourceLoaderA
         freeMarkerConfig.setFreemarkerSettings(freemarkerSettings);
     }
 
-    public void setFreemarkerVariables(java.util.Map freemarkerVariables) {
+    public void setFreemarkerVariables(Map<String, Object> freemarkerVariables) {
         freeMarkerConfig.setFreemarkerVariables(freemarkerVariables);
     }
 
@@ -69,8 +66,8 @@ public class WebFreeMarkerConfigurer implements InitializingBean,ResourceLoaderA
     /**
      * 配置完成调用
      *
-     * @throws IOException
-     * @throws TemplateException
+     * @throws IOException io异常
+     * @throws TemplateException 模板异常
      */
     public void afterPropertiesSet() throws IOException, TemplateException {
         freeMarkerConfig.afterPropertiesSet();
@@ -90,12 +87,18 @@ public class WebFreeMarkerConfigurer implements InitializingBean,ResourceLoaderA
     /**
      * 整合加载路径
      *
-     * @param templateFilePath
+     * @param templateFilePath 模板路径
      */
     public void mergetemplateLoaderPath(String templateFilePath) {
 
+        try {
 
-//        freeMarkerConfig.setTemplateLoaderPaths(templateFilePath);
+            freeMarkerConfig.setPostTemplateLoaders( new FileTemplateLoader(new File(templateFilePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
 
 

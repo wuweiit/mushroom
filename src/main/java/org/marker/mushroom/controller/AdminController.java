@@ -1,5 +1,6 @@
 package org.marker.mushroom.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.User;
 import org.marker.mushroom.beans.UserLoginLog;
@@ -160,23 +161,23 @@ public class AdminController extends SupportController {
 	@ResponseBody
 	@RequestMapping(value="/loginSystem", method=RequestMethod.POST)
 	public Object loginSystem(HttpServletRequest request){
-		String randcode = request.getParameter("randcode").toLowerCase();//验证码
+		String randcode = request.getParameter("randcode");//验证码
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String device   = request.getParameter("device");// 设备
 		HttpSession session = request.getSession();// 如果会话不存在也就创建
-		Object authCode = session.getAttribute(AppStatic.WEB_APP_AUTH_CODE);
+		String serverValidCode = (String) session.getAttribute(AppStatic.WEB_APP_AUTH_CODE);
 		
 		int errorCode = 0;// 登录日志类型
-		String scode = "";
-		if(authCode != null){
-			scode =((String)authCode).toLowerCase();
+		if(serverValidCode == null){
+			return new ResultMessage(false,"验证码错误");
 		}
 		
 		ResultMessage msg = null;
-		if(scode != null && 	!scode.equals(randcode)){// 验证码不匹配
+		if(!StringUtils.equalsIgnoreCase(serverValidCode, randcode)){// 验证码不匹配
 			msg = new ResultMessage(false,"验证码错误!");
 			errorCode = 1;// 错误
+			return msg;
 		}else{
 			String password2 = null;
 			try {
@@ -185,7 +186,7 @@ public class AdminController extends SupportController {
 				if(user != null){
 					if(user.getStatus() == 1){//启用
 						userDao.updateLoginTime(user.getId());// 更新登录时间
-						session.setAttribute(AppStatic.WEB_APP_SESSION_ADMIN, user); 
+						session.setAttribute(AppStatic.WEB_APP_SESSION_ADMIN, user);
 						session.setAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME, user.getNickname());
 						session.setAttribute(AppStatic.WEB_APP_SESSSION_USER_GROUP_ID, user.getGid());// 设置分组
 						session.setAttribute(AppStatic.USER_GROUP_ID, user.getGid());// 用户组
@@ -204,7 +205,7 @@ public class AdminController extends SupportController {
 				msg = new ResultMessage(false,"系统加密算法异常!");
 				log.error("系统加密算法异常!", e);
 			}
-			
+
 		}
 		// 获取真实IP地址
 		String ip = HttpUtils.getRemoteHost(request);

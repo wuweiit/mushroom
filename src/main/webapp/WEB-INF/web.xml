@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
 
-  	<welcome-file-list>
-	    <welcome-file>cms</welcome-file>
-  	</welcome-file-list>
-
+    <welcome-file-list>
+        <welcome-file>cms</welcome-file>
+    </welcome-file-list>
 
 
     <!-- 在上下文context-param中设置profile.default的默认值 -->
@@ -24,71 +25,68 @@
         <param-name>spring.profiles.active</param-name>
         <param-value>${profiles.activation}</param-value>
     </context-param>
-  
+
 
     <!--  Spring的ApplicationContext 载入 -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
-	<!-- Spring 刷新Introspector防止内存泄露 -->
-	<!--<listener>-->
-		<!--<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>-->
-	<!--</listener>-->
- 	<!---->
-    <!-- 配置日志     logback-->
-         <context-param>
-            <param-name>logbackConfigLocation</param-name>
-            <param-value>classpath:/logback.xml</param-value>
-         </context-param>
-         <!-- logback扩展，监听,用于解决与spring的结合 -->
-        <listener>
-           <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
-       </listener>
-
-
-	<!-- 在线人数统计监听器 -->
- 	<listener> 
-      	<listener-class>org.marker.mushroom.listener.SessionCounter</listener-class> 
-	</listener>
-	
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			classpath:/config/spring/application.xml
-		</param-value>
-	</context-param>
+    <!-- Spring 刷新Introspector防止内存泄露 -->
+    <!--<listener>-->
+    <!--<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>-->
+    <!--</listener>-->
+    <!---->
+    <!-- 配置日志 logback-->
+    <context-param>
+        <param-name>logbackConfigLocation</param-name>
+        <param-value>classpath:/logback.xml</param-value>
+    </context-param>
+    <!-- logback扩展，监听,用于解决与spring的结合 -->
+    <listener>
+        <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+    </listener>
 
 
-	<!-- Spring Context 配置 -->
+    <!-- 在线人数统计监听器 -->
+    <listener>
+        <listener-class>org.marker.mushroom.listener.SessionCounter</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:/config/spring/application.xml
+        </param-value>
+    </context-param>
 
 
-
-	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/</url-pattern>
-	</filter-mapping>
+    <!-- Spring Context 配置 -->
 
 
-	<!-- 解决xss漏洞 -->
-	<filter>
-		<filter-name>xssFilter</filter-name>
-		<filter-class>org.marker.mushroom.filter.XSSFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>xssFilter</filter-name>
-		<url-pattern>/plugin/guestbook/add</url-pattern>
-	</filter-mapping>
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
 
 
+    <!-- 解决xss漏洞 -->
+    <filter>
+        <filter-name>xssFilter</filter-name>
+        <filter-class>org.marker.mushroom.filter.XSSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>xssFilter</filter-name>
+        <url-pattern>/plugin/guestbook/add</url-pattern>
+    </filter-mapping>
 
 
     <!-- 静态资源映射 -->
@@ -103,125 +101,114 @@
     </filter-mapping>
 
 
- 	<!-- 
- 	 	1. 反向代理真实IP获取
- 		2. URL重写过滤器  
- 	-->
-  	<filter>
-	    <filter-name>SystemCoreFilter</filter-name>
-	    <filter-class>org.marker.mushroom.filter.SystemCoreFilter</filter-class>
-	    <init-param>
-	    	<param-name>exclude_format</param-name>
-	    	<param-value>css|jpg|js|jpeg|png|gif|htm|do</param-value>
-	    </init-param>
-  	</filter>
-  	<filter-mapping>
-	    <filter-name>SystemCoreFilter</filter-name>
-	    <url-pattern>*</url-pattern>
-  	</filter-mapping>
+    <!--
+         1. 反向代理真实IP获取
+        2. URL重写过滤器
+    -->
+    <filter>
+        <filter-name>SystemCoreFilter</filter-name>
+        <filter-class>org.marker.mushroom.filter.SystemCoreFilter</filter-class>
+        <init-param>
+            <param-name>exclude_format</param-name>
+            <param-value>css|jpg|js|jpeg|png|gif|htm|do</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SystemCoreFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
 
+    <!-- 插件过滤器  -->
+    <filter>
+    <filter-name>pluginFilter</filter-name>
+    <filter-class>org.marker.mushroom.filter.PluginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+    <filter-name>pluginFilter</filter-name>
+    <url-pattern>/plugin/*</url-pattern>
+    </filter-mapping>
 
- 
- 	<!-- 插件过滤器  -->
-  	<!--<filter>-->
-	    <!--<filter-name>pluginFilter</filter-name>-->
-	    <!--<filter-class>org.marker.mushroom.filter.PluginFilter</filter-class>-->
-  	<!--</filter> -->
-  	<!--<filter-mapping>-->
-	    <!--<filter-name>pluginFilter</filter-name> -->
-	    <!--<url-pattern>/plugin/*</url-pattern>-->
-  	<!--</filter-mapping>-->
-	
-	<!-- markdown过滤器  -->
-  	<filter>
-	    <filter-name>markdownFilter</filter-name>
-	    <filter-class>org.marker.mushroom.filter.MarkDownFilter</filter-class>
-  	</filter>
-  	<filter-mapping>
-	    <filter-name>markdownFilter</filter-name>
-	    <url-pattern>*.md</url-pattern>
-  	</filter-mapping>
+    <!-- markdown过滤器  -->
+    <filter>
+        <filter-name>markdownFilter</filter-name>
+        <filter-class>org.marker.mushroom.filter.MarkDownFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>markdownFilter</filter-name>
+        <url-pattern>*.md</url-pattern>
+    </filter-mapping>
 
 
-	
- 	<!-- 这是前台系统入口  -->
-  	<servlet> 
-	    <servlet-name>IndexServlet</servlet-name>
-	    <servlet-class>org.marker.mushroom.servlet.DispatcherServlet</servlet-class>
-  	</servlet>
-  	<servlet-mapping>
-	    <servlet-name>IndexServlet</servlet-name>
-	    <url-pattern>/cms</url-pattern>
-  	</servlet-mapping>
+    <!-- 这是前台系统入口  -->
+    <servlet>
+        <servlet-name>IndexServlet</servlet-name>
+        <servlet-class>org.marker.mushroom.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IndexServlet</servlet-name>
+        <url-pattern>/cms</url-pattern>
+    </servlet-mapping>
 
 
- 	
     <!-- 分发器 -->
-	<servlet>
-		<servlet-name>mushroom</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
+    <servlet>
+        <servlet-name>mushroom</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:/config/spring/spring-servlet.xml</param-value>
         </init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>mushroom</servlet-name>
-		<url-pattern>*.do</url-pattern>
-		<url-pattern>/</url-pattern>
-		<url-pattern>/themes/*</url-pattern>
-	</servlet-mapping>
- 	
- 	<!-- 微信Servlet接口 -->
-	<servlet>
-		<servlet-name>weixinServlet</servlet-name>
-		<servlet-class>org.marker.mushroom.servlet.WeixinServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>weixinServlet</servlet-name>
-		<url-pattern>/weixin/dealwith.do</url-pattern>
-	</servlet-mapping>
-    
-    <!-- 验证码Serlvet接口 --> 
-	  <servlet>
-	    <servlet-name>SecurityCodeServlet</servlet-name>
-	    <servlet-class>org.marker.mushroom.servlet.SecurityCodeServlet</servlet-class>
-	  </servlet> 
-	  <servlet-mapping>
-	    <servlet-name>SecurityCodeServlet</servlet-name>
-	    <url-pattern>/SecurityCode</url-pattern>
-	  </servlet-mapping>
-	
-	
-	<!-- Fetch统计Servlet接口 -->
-	<servlet>
-		<servlet-name>fetchServlet</servlet-name>
-		<servlet-class>org.marker.mushroom.servlet.FetchServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>fetchServlet</servlet-name>
-		<url-pattern>/fetch</url-pattern>
-	</servlet-mapping>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mushroom</servlet-name>
+        <url-pattern>*.do</url-pattern>
+        <url-pattern>/</url-pattern>
+        <url-pattern>/themes/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- 微信Servlet接口 -->
+    <servlet>
+        <servlet-name>weixinServlet</servlet-name>
+        <servlet-class>org.marker.mushroom.servlet.WeixinServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>weixinServlet</servlet-name>
+        <url-pattern>/weixin/dealwith.do</url-pattern>
+    </servlet-mapping>
+
+    <!-- 验证码Serlvet接口 -->
+    <servlet>
+        <servlet-name>SecurityCodeServlet</servlet-name>
+        <servlet-class>org.marker.mushroom.servlet.SecurityCodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SecurityCodeServlet</servlet-name>
+        <url-pattern>/SecurityCode</url-pattern>
+    </servlet-mapping>
 
 
+    <!-- Fetch统计Servlet接口 -->
+    <servlet>
+        <servlet-name>fetchServlet</servlet-name>
+        <servlet-class>org.marker.mushroom.servlet.FetchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fetchServlet</servlet-name>
+        <url-pattern>/fetch</url-pattern>
+    </servlet-mapping>
 
 
+    <session-config>
+        <session-timeout>31440</session-timeout>
+    </session-config>
 
 
-	
-	<session-config>
-		<session-timeout>31440</session-timeout>
-	</session-config>
+    <!--<error-page>-->
+    <!--<error-code>404</error-code>-->
+    <!--<location>/public/errorpage/404.htm</location>-->
+    <!--</error-page>-->
 
 
-	<!--<error-page>-->
-		<!--<error-code>404</error-code>-->
-		<!--<location>/public/errorpage/404.htm</location>-->
-	<!--</error-page>-->
-	
-
-  
-  
 </web-app>

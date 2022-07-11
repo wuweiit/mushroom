@@ -1,6 +1,6 @@
 package org.marker.mushroom.ext.model;
 
-import com.alibaba.druid.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Channel;
 import org.marker.mushroom.beans.Page;
@@ -14,6 +14,7 @@ import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.template.tags.res.WebDataSource;
+import org.marker.mushroom.utils.StringUtil;
 import org.marker.urlrewrite.URLRewriteEngine;
 
 import javax.servlet.http.HttpServletRequest;

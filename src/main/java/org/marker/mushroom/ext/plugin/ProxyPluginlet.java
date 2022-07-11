@@ -1,5 +1,15 @@
 package org.marker.mushroom.ext.plugin;
 
+import freemarker.cache.StringTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.ObjectWrapper;
+import freemarker.template.Template;
+import lombok.extern.slf4j.Slf4j;
+import org.marker.mushroom.freemarker.config.WebFreeMarkerConfigurer;
+import org.marker.mushroom.holder.SpringContextHolder;
+import org.marker.mushroom.holder.WebRealPathHolder;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -8,24 +18,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import ch.qos.logback.core.util.FileUtil;
-import com.alibaba.fastjson.JSON;
-import freemarker.cache.StringTemplateLoader;
-import freemarker.template.ObjectWrapper;
-import org.marker.mushroom.context.ActionContext;
-import org.marker.mushroom.freemarker.config.WebFreeMarkerConfigurer;
-import org.marker.mushroom.holder.SpringContextHolder;
-import org.marker.mushroom.holder.WebRealPathHolder;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import org.marker.mushroom.utils.FileUtils;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
-
 
 /**
  * Pluginlet代理，主要是为了节约每次获取Method的时间，这样处理，更加高效。
@@ -33,6 +25,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
  * @author marker
  * @version 1.0
  */
+@Slf4j
 public class ProxyPluginlet {
     // 编码集(默认UTF-8)
     public static final String encoding = "utf-8";
@@ -81,8 +74,9 @@ public class ProxyPluginlet {
         cfg = freeMarkerConfigurer.getConfiguration();
 
 
-        templateFilePath = WebRealPathHolder.REAL_PATH + "modules" + File.separator + this.object._config.get("module") + File.separator;
+        templateFilePath = WebRealPathHolder.REAL_PATH + "modules" + File.separator + this.object._config.get("module") + File.separator ;
 
+        log.info("templateFilePath={}", templateFilePath);
 
         // 新增freemarker模板加载路径
 

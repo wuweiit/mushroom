@@ -35,8 +35,7 @@ public class PluginFilter implements Filter {
 		
 		// 线程绑定请求对象和响应对象
 		ActionContext.currentThreadBindRequestAndResponse(request, response);
-		
-		 
+
 		String uri = request.getRequestURI(); 
 		int gradient = uri.indexOf("/",7) + 1;  
 		if(gradient != -1){

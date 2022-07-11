@@ -6,15 +6,10 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
 	<title><@spring.message "admin.system.title"/></title>
 
-
-
-
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="lib/ztree/css/zTreeStyle/zTreeStyle.css" />
     <link rel="stylesheet" type="text/css" href="/public/ueditor/dialogs/image/image.css" />
-
-
 
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/swiss.css" />
@@ -110,10 +105,7 @@ $(function(){
 	$('.admin_menu').load(uniqueUrl('childmenus.do?id=2'));
 	$(".loading_panel").show();
 	$('.admin_content').load('systeminfo.do',function(){
-		$(".loading_panel").hide();	
-	
-
-
+		$(".loading_panel").hide();
 		$(".font_shadow li:first-child").click();
 	});
 });
