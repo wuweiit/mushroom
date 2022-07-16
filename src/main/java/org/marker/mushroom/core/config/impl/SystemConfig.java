@@ -51,6 +51,10 @@ public final class SystemConfig extends ConfigDBEngine {
 
 	// 文件存储路径
 	public static final String FILE_PATH = "file_path";
+	/**
+	 * 统计脚本
+	 */
+	public static final String STATISTICS_SCRIPT = "statisticsScript";
 	// 登录路径配置
 	public static final String SYSTEM_LOGIN_SAFE = "system.login.safe";
 
@@ -86,7 +90,7 @@ public final class SystemConfig extends ConfigDBEngine {
 	}
 
 
-    /**
+	/**
 	 * 配置文件中属性名称配置
 	 * */
 	public interface Names{

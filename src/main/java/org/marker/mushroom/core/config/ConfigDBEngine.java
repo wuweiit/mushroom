@@ -1,15 +1,13 @@
 package org.marker.mushroom.core.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.*;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 
 /**
@@ -27,6 +25,7 @@ import java.util.Properties;
  * @time 2013-11-15
  * @author marker
  * */
+@Slf4j
 public abstract class ConfigDBEngine {
 
 	/** 日志记录器 */
@@ -108,9 +107,25 @@ public abstract class ConfigDBEngine {
 			properties.put(key,value);
 		}
 	}
-	
-	
-	
+
+
+	/**
+	 * 异步存储配置信息到数据库
+	 * @return
+	 */
+	public void storeAsync() {
+		log.info("ConfigDBEngine store async...");
+		new Thread(){
+			@Override
+			public void run() {
+				store();
+				log.info("ConfigDBEngine store async end.");
+			}
+		}.start();
+	}
+
+
+
 	/**
 	 * 配置持久化
 	 */
@@ -120,26 +135,16 @@ public abstract class ConfigDBEngine {
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
         String prefix = dbcfg.getPrefix();
 
-
-
         String sql = "update "+prefix+"sys_config set value=? where config=? and `key`=?";
-        String sqlInsert = "insert into "+prefix+"sys_config values(null,?,?,?)";
-
-        String sqlExist = "select count(1) from "+prefix+"sys_config where config=? and `key`=?";
-
+		List<Object[]> paramsList = new ArrayList<>(properties.entrySet().size());
 		Iterator<Map.Entry<Object, Object>> it = properties.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Object, Object> entry = it.next();
 			Object key = entry.getKey();
 			Object value = entry.getValue();
-			boolean status = jdbcTemplate.queryForObject(sqlExist, Boolean.class,name, key);
-			if(status){
-                jdbcTemplate.update(sql, value,name,key);
-            }else{
-                jdbcTemplate.update(sqlInsert,name,key,value);
-            }
-
+			paramsList.add(new Object[]{value, name, key});
 		}
+		jdbcTemplate.batchUpdate(sql, paramsList);
 	}
 
     public void loadFile(String file ) {

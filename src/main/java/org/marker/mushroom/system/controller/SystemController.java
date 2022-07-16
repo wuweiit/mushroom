@@ -1,17 +1,7 @@
-package org.marker.mushroom.controller;
+package org.marker.mushroom.system.controller;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.beans.ResultMessage;
@@ -31,9 +21,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -80,7 +79,7 @@ public class SystemController extends SupportController {
 	
 	//保存网站配置信息
 	@ResponseBody
-	@RequestMapping("/saveinfo")
+	@PostMapping("/saveinfo")
 	public Object saveinfo(HttpServletRequest request){
 		try{ 
 			/* 判断统计是否修改 */
@@ -149,13 +148,11 @@ public class SystemController extends SupportController {
 			config.set(SystemConfig.COMPRESS, request.getParameter("config.compress"));//GZIP
 			config.set(SystemConfig.STATIC_PAGE, request.getParameter("config.statichtml"));// 页面静态化
 			config.set(SystemConfig.FILE_PATH, request.getParameter("config.filePath"));// 页面静态化
+			config.set(SystemConfig.STATISTICS_SCRIPT, request.getParameter("config.statisticsScript"));
 
 			config.set(SystemConfig.SYSTEM_LOGIN_SAFE, request.getParameter("config.loginSafe"));// 登录安全码
 
-
-
-
-			config.store();//修改配置信息状态
+			config.storeAsync();//修改配置信息状态
 			return new ResultMessage(true, "更新成功!");
 		}catch (Exception e) {
 			logger.error("", e);
@@ -228,16 +225,19 @@ public class SystemController extends SupportController {
 	public ModelAndView dbinfo(HttpServletRequest request){
 		ModelAndView view = new ModelAndView(this.viewPath + "dbinfo");
 		DataBaseConfig dbconfig = DataBaseConfig.getInstance();
-		Properties config = (Properties) dbconfig.getProperties().clone();
+		Properties configClone = (Properties) dbconfig.getProperties().clone();
  
-		String pass = config.getProperty("mushroom.db.pass");
-		
+		String pass = configClone.getProperty("mushroom.db.pass");
 		String desPass = getDesCode(pass);
-//		config.setProperty("mushroom.db.pass", desPass);
+		configClone.setProperty("mushroom.db.pass", desPass);
 		
-		view.addObject("sql", config);
+		view.addObject("sql", configClone);
 		return view;
 	}
+
+
+
+
 	@Resource
 	private SystemConfig syscfg;
 	/**
