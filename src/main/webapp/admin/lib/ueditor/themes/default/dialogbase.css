@@ -92,7 +92,7 @@ a.button {
     width: 95px;
     border: 0;
     color: #838383;
-    background: url(../../themes/default/images/icons-all.gif) no-repeat;
+    background: url(images/icons-all.gif) no-repeat;
 }
 
 a.button:hover {
