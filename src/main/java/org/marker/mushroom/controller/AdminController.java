@@ -174,11 +174,11 @@ public class AdminController extends SupportController {
 		}
 		
 		ResultMessage msg = null;
-		if(!StringUtils.equalsIgnoreCase(serverValidCode, randcode)){// 验证码不匹配
-			msg = new ResultMessage(false,"验证码错误!");
-			errorCode = 1;// 错误
-			return msg;
-		}
+//		if(!StringUtils.equalsIgnoreCase(serverValidCode, randcode)){// 验证码不匹配
+//			msg = new ResultMessage(false,"验证码错误!");
+//			errorCode = 1;// 错误
+//			return msg;
+//		}
 		String password2 = null;
 		try {
 			password2 = GeneratePass.encode(password);
