@@ -22,28 +22,11 @@ pipeline {
 
 
                    sh '''
-
-
-                       ssh root@192.168.1.6 "docker stop mrcms-${BRANCH_NAME}"
-
-
-                       echo "douruimi-web bakup...."
-                       if [ ! -f "/opt/data/tomcat/mrcms/$BRANCH_NAME.war" ];then
-                            echo "文件不存在"
-                       else
-                           mv /opt/data/tomcat/mrcms/$BRANCH_NAME.war  /opt/data/tomcat/app-$(date +%Y%m%d%h%m%s).war
-                       fi
-
-                       scp ./target/mrcms-1.0.0.war root@192.168.1.6:/opt/data/tomcat/mrcms/tomcat/data/ROOT.war
-
-
+                       echo "mrcms-${BRANCH_NAME}.war deploying...."
+                       scp ./target/mrcms-1.0.0.war root@192.168.1.6:/opt/data/tomcat/mrcms/tomcat/webapps/ROOT.war
                        echo "mrcms-${BRANCH_NAME} docker deploying...."
 
-
-                       echo "mrcms-${BRANCH_NAME}  docker start...."
-
-
-                       ssh root@192.168.1.6 "docker start mrcms-${BRANCH_NAME}"
+                       ssh -o StrictHostKeyChecking=no root@192.168.1.6 "kubectl rollout restart deployment mrcms --namespace home"
 
                    '''
                }
