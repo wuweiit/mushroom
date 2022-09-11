@@ -1,6 +1,5 @@
 package org.marker.mushroom.controller;
 
-import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.User;
 import org.marker.mushroom.beans.UserLoginLog;
@@ -169,9 +168,9 @@ public class AdminController extends SupportController {
 		String serverValidCode = (String) session.getAttribute(AppStatic.WEB_APP_AUTH_CODE);
 		
 		int errorCode = 0;// 登录日志类型
-		if(serverValidCode == null){
-			return new ResultMessage(false,"验证码错误");
-		}
+//		if(serverValidCode == null){
+//			return new ResultMessage(false,"验证码错误");
+//		}
 		
 		ResultMessage msg = null;
 //		if(!StringUtils.equalsIgnoreCase(serverValidCode, randcode)){// 验证码不匹配
