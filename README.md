@@ -73,4 +73,4 @@ MRCMS并没有特意采集用户信息。
 ### docker 部署环境
 
 
-
+CATALINA_OPTS=-Dspring.profiles.active=prod
