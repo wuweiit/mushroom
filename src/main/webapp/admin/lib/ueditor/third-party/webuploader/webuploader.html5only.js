@@ -1834,6 +1834,372 @@
         });
     });
     /**
+     * @fileOverview Image
+     */
+    define('lib/image',[
+        'base',
+        'runtime/client',
+        'lib/blob'
+    ], function( Base, RuntimeClient, Blob ) {
+        var $ = Base.$;
+    
+        // 构造器。
+        function Image( opts ) {
+            this.options = $.extend({}, Image.options, opts );
+            RuntimeClient.call( this, 'Image' );
+    
+            this.on( 'load', function() {
+                this._info = this.exec('info');
+                this._meta = this.exec('meta');
+            });
+        }
+    
+        // 默认选项。
+        Image.options = {
+    
+            // 默认的图片处理质量
+            quality: 90,
+    
+            // 是否裁剪
+            crop: false,
+    
+            // 是否保留头部信息
+            preserveHeaders: true,
+    
+            // 是否允许放大。
+            allowMagnify: true
+        };
+    
+        // 继承RuntimeClient.
+        Base.inherits( RuntimeClient, {
+            constructor: Image,
+    
+            info: function( val ) {
+    
+                // setter
+                if ( val ) {
+                    this._info = val;
+                    return this;
+                }
+    
+                // getter
+                return this._info;
+            },
+    
+            meta: function( val ) {
+    
+                // setter
+                if ( val ) {
+                    this._meta = val;
+                    return this;
+                }
+    
+                // getter
+                return this._meta;
+            },
+    
+            loadFromBlob: function( blob ) {
+                var me = this,
+                    ruid = blob.getRuid();
+    
+                this.connectRuntime( ruid, function() {
+                    me.exec( 'init', me.options );
+                    me.exec( 'loadFromBlob', blob );
+                });
+            },
+    
+            resize: function() {
+                var args = Base.slice( arguments );
+                return this.exec.apply( this, [ 'resize' ].concat( args ) );
+            },
+    
+            getAsDataUrl: function( type ) {
+                return this.exec( 'getAsDataUrl', type );
+            },
+    
+            getAsBlob: function( type ) {
+                var blob = this.exec( 'getAsBlob', type );
+    
+                return new Blob( this.getRuid(), blob );
+            }
+        });
+    
+        return Image;
+    });
+    /**
+     * @fileOverview 图片操作, 负责预览图片和上传前压缩图片
+     */
+    define('widgets/image',[
+        'base',
+        'uploader',
+        'lib/image',
+        'widgets/widget'
+    ], function( Base, Uploader, Image ) {
+    
+        var $ = Base.$,
+            throttle;
+    
+        // 根据要处理的文件大小来节流，一次不能处理太多，会卡。
+        throttle = (function( max ) {
+            var occupied = 0,
+                waiting = [],
+                tick = function() {
+                    var item;
+    
+                    while ( waiting.length && occupied < max ) {
+                        item = waiting.shift();
+                        occupied += item[ 0 ];
+                        item[ 1 ]();
+                    }
+                };
+    
+            return function( emiter, size, cb ) {
+                waiting.push([ size, cb ]);
+                emiter.once( 'destroy', function() {
+                    occupied -= size;
+                    setTimeout( tick, 1 );
+                });
+                setTimeout( tick, 1 );
+            };
+        })( 5 * 1024 * 1024 );
+    
+        $.extend( Uploader.options, {
+    
+            /**
+             * @property {Object} [thumb]
+             * @namespace options
+             * @for Uploader
+             * @description 配置生成缩略图的选项。
+             *
+             * 默认为：
+             *
+             * ```javascript
+             * {
+             *     width: 110,
+             *     height: 110,
+             *
+             *     // 图片质量，只有type为`image/jpeg`的时候才有效。
+             *     quality: 70,
+             *
+             *     // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+             *     allowMagnify: true,
+             *
+             *     // 是否允许裁剪。
+             *     crop: true,
+             *
+             *     // 是否保留头部meta信息。
+             *     preserveHeaders: false,
+             *
+             *     // 为空的话则保留原有图片格式。
+             *     // 否则强制转换成指定的类型。
+             *     type: 'image/jpeg'
+             * }
+             * ```
+             */
+            thumb: {
+                width: 110,
+                height: 110,
+                quality: 70,
+                allowMagnify: true,
+                crop: true,
+                preserveHeaders: false,
+    
+                // 为空的话则保留原有图片格式。
+                // 否则强制转换成指定的类型。
+                // IE 8下面 base64 大小不能超过 32K 否则预览失败，而非 jpeg 编码的图片很可
+                // 能会超过 32k, 所以这里设置成预览的时候都是 image/jpeg
+                type: 'image/jpeg'
+            },
+    
+            /**
+             * @property {Object} [compress]
+             * @namespace options
+             * @for Uploader
+             * @description 配置压缩的图片的选项。如果此选项为`false`, 则图片在上传前不进行压缩。
+             *
+             * 默认为：
+             *
+             * ```javascript
+             * {
+             *     width: 1600,
+             *     height: 1600,
+             *
+             *     // 图片质量，只有type为`image/jpeg`的时候才有效。
+             *     quality: 90,
+             *
+             *     // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+             *     allowMagnify: false,
+             *
+             *     // 是否允许裁剪。
+             *     crop: false,
+             *
+             *     // 是否保留头部meta信息。
+             *     preserveHeaders: true
+             * }
+             * ```
+             */
+            compress: {
+                width: 1600,
+                height: 1600,
+                quality: 90,
+                allowMagnify: false,
+                crop: false,
+                preserveHeaders: true
+            }
+        });
+    
+        return Uploader.register({
+            'make-thumb': 'makeThumb',
+            'before-send-file': 'compressImage'
+        }, {
+    
+    
+            /**
+             * 生成缩略图，此过程为异步，所以需要传入`callback`。
+             * 通常情况在图片加入队里后调用此方法来生成预览图以增强交互效果。
+             *
+             * `callback`中可以接收到两个参数。
+             * * 第一个为error，如果生成缩略图有错误，此error将为真。
+             * * 第二个为ret, 缩略图的Data URL值。
+             *
+             * **注意**
+             * Date URL在IE6/7中不支持，所以不用调用此方法了，直接显示一张暂不支持预览图片好了。
+             *
+             *
+             * @method makeThumb
+             * @grammar makeThumb( file, callback ) => undefined
+             * @grammar makeThumb( file, callback, width, height ) => undefined
+             * @for Uploader
+             * @example
+             *
+             * uploader.on( 'fileQueued', function( file ) {
+             *     var $li = ...;
+             *
+             *     uploader.makeThumb( file, function( error, ret ) {
+             *         if ( error ) {
+             *             $li.text('预览错误');
+             *         } else {
+             *             $li.append('<img alt="" src="' + ret + '" />');
+             *         }
+             *     });
+             *
+             * });
+             */
+            makeThumb: function( file, cb, width, height ) {
+                var opts, image;
+    
+                file = this.request( 'get-file', file );
+    
+                // 只预览图片格式。
+                if ( !file.type.match( /^image/ ) ) {
+                    cb( true );
+                    return;
+                }
+    
+                opts = $.extend({}, this.options.thumb );
+    
+                // 如果传入的是object.
+                if ( $.isPlainObject( width ) ) {
+                    opts = $.extend( opts, width );
+                    width = null;
+                }
+    
+                width = width || opts.width;
+                height = height || opts.height;
+    
+                image = new Image( opts );
+    
+                image.once( 'load', function() {
+                    file._info = file._info || image.info();
+                    file._meta = file._meta || image.meta();
+                    image.resize( width, height );
+                });
+    
+                image.once( 'complete', function() {
+                    cb( false, image.getAsDataUrl( opts.type ) );
+                    image.destroy();
+                });
+    
+                image.once( 'error', function() {
+                    cb( true );
+                    image.destroy();
+                });
+    
+                throttle( image, file.source.size, function() {
+                    file._info && image.info( file._info );
+                    file._meta && image.meta( file._meta );
+                    image.loadFromBlob( file.source );
+                });
+            },
+    
+            compressImage: function( file ) {
+                var opts = this.options.compress || this.options.resize,
+                    compressSize = opts && opts.compressSize || 300 * 1024,
+                    image, deferred;
+    
+                file = this.request( 'get-file', file );
+    
+                // 只预览图片格式。
+                if ( !opts || !~'image/jpeg,image/jpg'.indexOf( file.type ) ||
+                        file.size < compressSize ||
+                        file._compressed ) {
+                    return;
+                }
+    
+                opts = $.extend({}, opts );
+                deferred = Base.Deferred();
+    
+                image = new Image( opts );
+    
+                deferred.always(function() {
+                    image.destroy();
+                    image = null;
+                });
+                image.once( 'error', deferred.reject );
+                image.once( 'load', function() {
+                    file._info = file._info || image.info();
+                    file._meta = file._meta || image.meta();
+                    image.resize( opts.width, opts.height );
+                });
+    
+                image.once( 'complete', function() {
+                    var blob, size;
+    
+                    // 移动端 UC / qq 浏览器的无图模式下
+                    // ctx.getImageData 处理大图的时候会报 Exception
+                    // INDEX_SIZE_ERR: DOM Exception 1
+                    try {
+                        blob = image.getAsBlob( opts.type );
+    
+                        size = file.size;
+    
+                        // 如果压缩后，比原来还大则不用压缩后的。
+                        if ( blob.size < size ) {
+                            // file.source.destroy && file.source.destroy();
+                            file.source = blob;
+                            file.size = blob.size;
+    
+                            file.trigger( 'resize', blob.size, size );
+                        }
+    
+                        // 标记，避免重复压缩。
+                        file._compressed = true;
+                        deferred.resolve();
+                    } catch ( e ) {
+                        // 出错了直接继续，让其上传原始图片
+                        deferred.resolve();
+                    }
+                });
+    
+                file._info && image.info( file._info );
+                file._meta && image.meta( file._meta );
+    
+                image.loadFromBlob( file.source );
+                return deferred.promise();
+            }
+        });
+    });
+    /**
      * @fileOverview 文件属性封装
      */
     define('file',[
@@ -4047,6 +4413,946 @@
         });
     });
     /**
+     * Terms:
+     *
+     * Uint8Array, FileReader, BlobBuilder, atob, ArrayBuffer
+     * @fileOverview Image控件
+     */
+    define('runtime/html5/util',[
+        'base'
+    ], function( Base ) {
+    
+        var urlAPI = window.createObjectURL && window ||
+                window.URL && URL.revokeObjectURL && URL ||
+                window.webkitURL,
+            createObjectURL = Base.noop,
+            revokeObjectURL = createObjectURL;
+    
+        if ( urlAPI ) {
+    
+            // 更安全的方式调用，比如android里面就能把context改成其他的对象。
+            createObjectURL = function() {
+                return urlAPI.createObjectURL.apply( urlAPI, arguments );
+            };
+    
+            revokeObjectURL = function() {
+                return urlAPI.revokeObjectURL.apply( urlAPI, arguments );
+            };
+        }
+    
+        return {
+            createObjectURL: createObjectURL,
+            revokeObjectURL: revokeObjectURL,
+    
+            dataURL2Blob: function( dataURI ) {
+                var byteStr, intArray, ab, i, mimetype, parts;
+    
+                parts = dataURI.split(',');
+    
+                if ( ~parts[ 0 ].indexOf('base64') ) {
+                    byteStr = atob( parts[ 1 ] );
+                } else {
+                    byteStr = decodeURIComponent( parts[ 1 ] );
+                }
+    
+                ab = new ArrayBuffer( byteStr.length );
+                intArray = new Uint8Array( ab );
+    
+                for ( i = 0; i < byteStr.length; i++ ) {
+                    intArray[ i ] = byteStr.charCodeAt( i );
+                }
+    
+                mimetype = parts[ 0 ].split(':')[ 1 ].split(';')[ 0 ];
+    
+                return this.arrayBufferToBlob( ab, mimetype );
+            },
+    
+            dataURL2ArrayBuffer: function( dataURI ) {
+                var byteStr, intArray, i, parts;
+    
+                parts = dataURI.split(',');
+    
+                if ( ~parts[ 0 ].indexOf('base64') ) {
+                    byteStr = atob( parts[ 1 ] );
+                } else {
+                    byteStr = decodeURIComponent( parts[ 1 ] );
+                }
+    
+                intArray = new Uint8Array( byteStr.length );
+    
+                for ( i = 0; i < byteStr.length; i++ ) {
+                    intArray[ i ] = byteStr.charCodeAt( i );
+                }
+    
+                return intArray.buffer;
+            },
+    
+            arrayBufferToBlob: function( buffer, type ) {
+                var builder = window.BlobBuilder || window.WebKitBlobBuilder,
+                    bb;
+    
+                // android不支持直接new Blob, 只能借助blobbuilder.
+                if ( builder ) {
+                    bb = new builder();
+                    bb.append( buffer );
+                    return bb.getBlob( type );
+                }
+    
+                return new Blob([ buffer ], type ? { type: type } : {} );
+            },
+    
+            // 抽出来主要是为了解决android下面canvas.toDataUrl不支持jpeg.
+            // 你得到的结果是png.
+            canvasToDataUrl: function( canvas, type, quality ) {
+                return canvas.toDataURL( type, quality / 100 );
+            },
+    
+            // imagemeat会复写这个方法，如果用户选择加载那个文件了的话。
+            parseMeta: function( blob, callback ) {
+                callback( false, {});
+            },
+    
+            // imagemeat会复写这个方法，如果用户选择加载那个文件了的话。
+            updateImageHead: function( data ) {
+                return data;
+            }
+        };
+    });
+    /**
+     * Terms:
+     *
+     * Uint8Array, FileReader, BlobBuilder, atob, ArrayBuffer
+     * @fileOverview Image控件
+     */
+    define('runtime/html5/imagemeta',[
+        'runtime/html5/util'
+    ], function( Util ) {
+    
+        var api;
+    
+        api = {
+            parsers: {
+                0xffe1: []
+            },
+    
+            maxMetaDataSize: 262144,
+    
+            parse: function( blob, cb ) {
+                var me = this,
+                    fr = new FileReader();
+    
+                fr.onload = function() {
+                    cb( false, me._parse( this.result ) );
+                    fr = fr.onload = fr.onerror = null;
+                };
+    
+                fr.onerror = function( e ) {
+                    cb( e.message );
+                    fr = fr.onload = fr.onerror = null;
+                };
+    
+                blob = blob.slice( 0, me.maxMetaDataSize );
+                fr.readAsArrayBuffer( blob.getSource() );
+            },
+    
+            _parse: function( buffer, noParse ) {
+                if ( buffer.byteLength < 6 ) {
+                    return;
+                }
+    
+                var dataview = new DataView( buffer ),
+                    offset = 2,
+                    maxOffset = dataview.byteLength - 4,
+                    headLength = offset,
+                    ret = {},
+                    markerBytes, markerLength, parsers, i;
+    
+                if ( dataview.getUint16( 0 ) === 0xffd8 ) {
+    
+                    while ( offset < maxOffset ) {
+                        markerBytes = dataview.getUint16( offset );
+    
+                        if ( markerBytes >= 0xffe0 && markerBytes <= 0xffef ||
+                                markerBytes === 0xfffe ) {
+    
+                            markerLength = dataview.getUint16( offset + 2 ) + 2;
+    
+                            if ( offset + markerLength > dataview.byteLength ) {
+                                break;
+                            }
+    
+                            parsers = api.parsers[ markerBytes ];
+    
+                            if ( !noParse && parsers ) {
+                                for ( i = 0; i < parsers.length; i += 1 ) {
+                                    parsers[ i ].call( api, dataview, offset,
+                                            markerLength, ret );
+                                }
+                            }
+    
+                            offset += markerLength;
+                            headLength = offset;
+                        } else {
+                            break;
+                        }
+                    }
+    
+                    if ( headLength > 6 ) {
+                        if ( buffer.slice ) {
+                            ret.imageHead = buffer.slice( 2, headLength );
+                        } else {
+                            // Workaround for IE10, which does not yet
+                            // support ArrayBuffer.slice:
+                            ret.imageHead = new Uint8Array( buffer )
+                                    .subarray( 2, headLength );
+                        }
+                    }
+                }
+    
+                return ret;
+            },
+    
+            updateImageHead: function( buffer, head ) {
+                var data = this._parse( buffer, true ),
+                    buf1, buf2, bodyoffset;
+    
+    
+                bodyoffset = 2;
+                if ( data.imageHead ) {
+                    bodyoffset = 2 + data.imageHead.byteLength;
+                }
+    
+                if ( buffer.slice ) {
+                    buf2 = buffer.slice( bodyoffset );
+                } else {
+                    buf2 = new Uint8Array( buffer ).subarray( bodyoffset );
+                }
+    
+                buf1 = new Uint8Array( head.byteLength + 2 + buf2.byteLength );
+    
+                buf1[ 0 ] = 0xFF;
+                buf1[ 1 ] = 0xD8;
+                buf1.set( new Uint8Array( head ), 2 );
+                buf1.set( new Uint8Array( buf2 ), head.byteLength + 2 );
+    
+                return buf1.buffer;
+            }
+        };
+    
+        Util.parseMeta = function() {
+            return api.parse.apply( api, arguments );
+        };
+    
+        Util.updateImageHead = function() {
+            return api.updateImageHead.apply( api, arguments );
+        };
+    
+        return api;
+    });
+    /**
+     * 代码来自于：https://github.com/blueimp/JavaScript-Load-Image
+     * 暂时项目中只用了orientation.
+     *
+     * 去除了 Exif Sub IFD Pointer, GPS Info IFD Pointer, Exif Thumbnail.
+     * @fileOverview EXIF解析
+     */
+    
+    // Sample
+    // ====================================
+    // Make : Apple
+    // Model : iPhone 4S
+    // Orientation : 1
+    // XResolution : 72 [72/1]
+    // YResolution : 72 [72/1]
+    // ResolutionUnit : 2
+    // Software : QuickTime 7.7.1
+    // DateTime : 2013:09:01 22:53:55
+    // ExifIFDPointer : 190
+    // ExposureTime : 0.058823529411764705 [1/17]
+    // FNumber : 2.4 [12/5]
+    // ExposureProgram : Normal program
+    // ISOSpeedRatings : 800
+    // ExifVersion : 0220
+    // DateTimeOriginal : 2013:09:01 22:52:51
+    // DateTimeDigitized : 2013:09:01 22:52:51
+    // ComponentsConfiguration : YCbCr
+    // ShutterSpeedValue : 4.058893515764426
+    // ApertureValue : 2.5260688216892597 [4845/1918]
+    // BrightnessValue : -0.3126686601998395
+    // MeteringMode : Pattern
+    // Flash : Flash did not fire, compulsory flash mode
+    // FocalLength : 4.28 [107/25]
+    // SubjectArea : [4 values]
+    // FlashpixVersion : 0100
+    // ColorSpace : 1
+    // PixelXDimension : 2448
+    // PixelYDimension : 3264
+    // SensingMethod : One-chip color area sensor
+    // ExposureMode : 0
+    // WhiteBalance : Auto white balance
+    // FocalLengthIn35mmFilm : 35
+    // SceneCaptureType : Standard
+    define('runtime/html5/imagemeta/exif',[
+        'base',
+        'runtime/html5/imagemeta'
+    ], function( Base, ImageMeta ) {
+    
+        var EXIF = {};
+    
+        EXIF.ExifMap = function() {
+            return this;
+        };
+    
+        EXIF.ExifMap.prototype.map = {
+            'Orientation': 0x0112
+        };
+    
+        EXIF.ExifMap.prototype.get = function( id ) {
+            return this[ id ] || this[ this.map[ id ] ];
+        };
+    
+        EXIF.exifTagTypes = {
+            // byte, 8-bit unsigned int:
+            1: {
+                getValue: function( dataView, dataOffset ) {
+                    return dataView.getUint8( dataOffset );
+                },
+                size: 1
+            },
+    
+            // ascii, 8-bit byte:
+            2: {
+                getValue: function( dataView, dataOffset ) {
+                    return String.fromCharCode( dataView.getUint8( dataOffset ) );
+                },
+                size: 1,
+                ascii: true
+            },
+    
+            // short, 16 bit int:
+            3: {
+                getValue: function( dataView, dataOffset, littleEndian ) {
+                    return dataView.getUint16( dataOffset, littleEndian );
+                },
+                size: 2
+            },
+    
+            // long, 32 bit int:
+            4: {
+                getValue: function( dataView, dataOffset, littleEndian ) {
+                    return dataView.getUint32( dataOffset, littleEndian );
+                },
+                size: 4
+            },
+    
+            // rational = two long values,
+            // first is numerator, second is denominator:
+            5: {
+                getValue: function( dataView, dataOffset, littleEndian ) {
+                    return dataView.getUint32( dataOffset, littleEndian ) /
+                        dataView.getUint32( dataOffset + 4, littleEndian );
+                },
+                size: 8
+            },
+    
+            // slong, 32 bit signed int:
+            9: {
+                getValue: function( dataView, dataOffset, littleEndian ) {
+                    return dataView.getInt32( dataOffset, littleEndian );
+                },
+                size: 4
+            },
+    
+            // srational, two slongs, first is numerator, second is denominator:
+            10: {
+                getValue: function( dataView, dataOffset, littleEndian ) {
+                    return dataView.getInt32( dataOffset, littleEndian ) /
+                        dataView.getInt32( dataOffset + 4, littleEndian );
+                },
+                size: 8
+            }
+        };
+    
+        // undefined, 8-bit byte, value depending on field:
+        EXIF.exifTagTypes[ 7 ] = EXIF.exifTagTypes[ 1 ];
+    
+        EXIF.getExifValue = function( dataView, tiffOffset, offset, type, length,
+                littleEndian ) {
+    
+            var tagType = EXIF.exifTagTypes[ type ],
+                tagSize, dataOffset, values, i, str, c;
+    
+            if ( !tagType ) {
+                Base.log('Invalid Exif data: Invalid tag type.');
+                return;
+            }
+    
+            tagSize = tagType.size * length;
+    
+            // Determine if the value is contained in the dataOffset bytes,
+            // or if the value at the dataOffset is a pointer to the actual data:
+            dataOffset = tagSize > 4 ? tiffOffset + dataView.getUint32( offset + 8,
+                    littleEndian ) : (offset + 8);
+    
+            if ( dataOffset + tagSize > dataView.byteLength ) {
+                Base.log('Invalid Exif data: Invalid data offset.');
+                return;
+            }
+    
+            if ( length === 1 ) {
+                return tagType.getValue( dataView, dataOffset, littleEndian );
+            }
+    
+            values = [];
+    
+            for ( i = 0; i < length; i += 1 ) {
+                values[ i ] = tagType.getValue( dataView,
+                        dataOffset + i * tagType.size, littleEndian );
+            }
+    
+            if ( tagType.ascii ) {
+                str = '';
+    
+                // Concatenate the chars:
+                for ( i = 0; i < values.length; i += 1 ) {
+                    c = values[ i ];
+    
+                    // Ignore the terminating NULL byte(s):
+                    if ( c === '\u0000' ) {
+                        break;
+                    }
+                    str += c;
+                }
+    
+                return str;
+            }
+            return values;
+        };
+    
+        EXIF.parseExifTag = function( dataView, tiffOffset, offset, littleEndian,
+                data ) {
+    
+            var tag = dataView.getUint16( offset, littleEndian );
+            data.exif[ tag ] = EXIF.getExifValue( dataView, tiffOffset, offset,
+                    dataView.getUint16( offset + 2, littleEndian ),    // tag type
+                    dataView.getUint32( offset + 4, littleEndian ),    // tag length
+                    littleEndian );
+        };
+    
+        EXIF.parseExifTags = function( dataView, tiffOffset, dirOffset,
+                littleEndian, data ) {
+    
+            var tagsNumber, dirEndOffset, i;
+    
+            if ( dirOffset + 6 > dataView.byteLength ) {
+                Base.log('Invalid Exif data: Invalid directory offset.');
+                return;
+            }
+    
+            tagsNumber = dataView.getUint16( dirOffset, littleEndian );
+            dirEndOffset = dirOffset + 2 + 12 * tagsNumber;
+    
+            if ( dirEndOffset + 4 > dataView.byteLength ) {
+                Base.log('Invalid Exif data: Invalid directory size.');
+                return;
+            }
+    
+            for ( i = 0; i < tagsNumber; i += 1 ) {
+                this.parseExifTag( dataView, tiffOffset,
+                        dirOffset + 2 + 12 * i,    // tag offset
+                        littleEndian, data );
+            }
+    
+            // Return the offset to the next directory:
+            return dataView.getUint32( dirEndOffset, littleEndian );
+        };
+    
+        // EXIF.getExifThumbnail = function(dataView, offset, length) {
+        //     var hexData,
+        //         i,
+        //         b;
+        //     if (!length || offset + length > dataView.byteLength) {
+        //         Base.log('Invalid Exif data: Invalid thumbnail data.');
+        //         return;
+        //     }
+        //     hexData = [];
+        //     for (i = 0; i < length; i += 1) {
+        //         b = dataView.getUint8(offset + i);
+        //         hexData.push((b < 16 ? '0' : '') + b.toString(16));
+        //     }
+        //     return 'data:image/jpeg,%' + hexData.join('%');
+        // };
+    
+        EXIF.parseExifData = function( dataView, offset, length, data ) {
+    
+            var tiffOffset = offset + 10,
+                littleEndian, dirOffset;
+    
+            // Check for the ASCII code for "Exif" (0x45786966):
+            if ( dataView.getUint32( offset + 4 ) !== 0x45786966 ) {
+                // No Exif data, might be XMP data instead
+                return;
+            }
+            if ( tiffOffset + 8 > dataView.byteLength ) {
+                Base.log('Invalid Exif data: Invalid segment size.');
+                return;
+            }
+    
+            // Check for the two null bytes:
+            if ( dataView.getUint16( offset + 8 ) !== 0x0000 ) {
+                Base.log('Invalid Exif data: Missing byte alignment offset.');
+                return;
+            }
+    
+            // Check the byte alignment:
+            switch ( dataView.getUint16( tiffOffset ) ) {
+                case 0x4949:
+                    littleEndian = true;
+                    break;
+    
+                case 0x4D4D:
+                    littleEndian = false;
+                    break;
+    
+                default:
+                    Base.log('Invalid Exif data: Invalid byte alignment marker.');
+                    return;
+            }
+    
+            // Check for the TIFF tag marker (0x002A):
+            if ( dataView.getUint16( tiffOffset + 2, littleEndian ) !== 0x002A ) {
+                Base.log('Invalid Exif data: Missing TIFF marker.');
+                return;
+            }
+    
+            // Retrieve the directory offset bytes, usually 0x00000008 or 8 decimal:
+            dirOffset = dataView.getUint32( tiffOffset + 4, littleEndian );
+            // Create the exif object to store the tags:
+            data.exif = new EXIF.ExifMap();
+            // Parse the tags of the main image directory and retrieve the
+            // offset to the next directory, usually the thumbnail directory:
+            dirOffset = EXIF.parseExifTags( dataView, tiffOffset,
+                    tiffOffset + dirOffset, littleEndian, data );
+    
+            // 尝试读取缩略图
+            // if ( dirOffset ) {
+            //     thumbnailData = {exif: {}};
+            //     dirOffset = EXIF.parseExifTags(
+            //         dataView,
+            //         tiffOffset,
+            //         tiffOffset + dirOffset,
+            //         littleEndian,
+            //         thumbnailData
+            //     );
+    
+            //     // Check for JPEG Thumbnail offset:
+            //     if (thumbnailData.exif[0x0201]) {
+            //         data.exif.Thumbnail = EXIF.getExifThumbnail(
+            //             dataView,
+            //             tiffOffset + thumbnailData.exif[0x0201],
+            //             thumbnailData.exif[0x0202] // Thumbnail data length
+            //         );
+            //     }
+            // }
+        };
+    
+        ImageMeta.parsers[ 0xffe1 ].push( EXIF.parseExifData );
+        return EXIF;
+    });
+    /**
+     * @fileOverview Image
+     */
+    define('runtime/html5/image',[
+        'base',
+        'runtime/html5/runtime',
+        'runtime/html5/util'
+    ], function( Base, Html5Runtime, Util ) {
+    
+        var BLANK = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
+    
+        return Html5Runtime.register( 'Image', {
+    
+            // flag: 标记是否被修改过。
+            modified: false,
+    
+            init: function() {
+                var me = this,
+                    img = new Image();
+    
+                img.onload = function() {
+    
+                    me._info = {
+                        type: me.type,
+                        width: this.width,
+                        height: this.height
+                    };
+    
+                    // 读取meta信息。
+                    if ( !me._metas && 'image/jpeg' === me.type ) {
+                        Util.parseMeta( me._blob, function( error, ret ) {
+                            me._metas = ret;
+                            me.owner.trigger('load');
+                        });
+                    } else {
+                        me.owner.trigger('load');
+                    }
+                };
+    
+                img.onerror = function() {
+                    me.owner.trigger('error');
+                };
+    
+                me._img = img;
+            },
+    
+            loadFromBlob: function( blob ) {
+                var me = this,
+                    img = me._img;
+    
+                me._blob = blob;
+                me.type = blob.type;
+                img.src = Util.createObjectURL( blob.getSource() );
+                me.owner.once( 'load', function() {
+                    Util.revokeObjectURL( img.src );
+                });
+            },
+    
+            resize: function( width, height ) {
+                var canvas = this._canvas ||
+                        (this._canvas = document.createElement('canvas'));
+    
+                this._resize( this._img, canvas, width, height );
+                this._blob = null;    // 没用了，可以删掉了。
+                this.modified = true;
+                this.owner.trigger('complete');
+            },
+    
+            getAsBlob: function( type ) {
+                var blob = this._blob,
+                    opts = this.options,
+                    canvas;
+    
+                type = type || this.type;
+    
+                // blob需要重新生成。
+                if ( this.modified || this.type !== type ) {
+                    canvas = this._canvas;
+    
+                    if ( type === 'image/jpeg' ) {
+    
+                        blob = Util.canvasToDataUrl( canvas, 'image/jpeg',
+                                opts.quality );
+    
+                        if ( opts.preserveHeaders && this._metas &&
+                                this._metas.imageHead ) {
+    
+                            blob = Util.dataURL2ArrayBuffer( blob );
+                            blob = Util.updateImageHead( blob,
+                                    this._metas.imageHead );
+                            blob = Util.arrayBufferToBlob( blob, type );
+                            return blob;
+                        }
+                    } else {
+                        blob = Util.canvasToDataUrl( canvas, type );
+                    }
+    
+                    blob = Util.dataURL2Blob( blob );
+                }
+    
+                return blob;
+            },
+    
+            getAsDataUrl: function( type ) {
+                var opts = this.options;
+    
+                type = type || this.type;
+    
+                if ( type === 'image/jpeg' ) {
+                    return Util.canvasToDataUrl( this._canvas, type, opts.quality );
+                } else {
+                    return this._canvas.toDataURL( type );
+                }
+            },
+    
+            getOrientation: function() {
+                return this._metas && this._metas.exif &&
+                        this._metas.exif.get('Orientation') || 1;
+            },
+    
+            info: function( val ) {
+    
+                // setter
+                if ( val ) {
+                    this._info = val;
+                    return this;
+                }
+    
+                // getter
+                return this._info;
+            },
+    
+            meta: function( val ) {
+    
+                // setter
+                if ( val ) {
+                    this._meta = val;
+                    return this;
+                }
+    
+                // getter
+                return this._meta;
+            },
+    
+            destroy: function() {
+                var canvas = this._canvas;
+                this._img.onload = null;
+    
+                if ( canvas ) {
+                    canvas.getContext('2d')
+                            .clearRect( 0, 0, canvas.width, canvas.height );
+                    canvas.width = canvas.height = 0;
+                    this._canvas = null;
+                }
+    
+                // 释放内存。非常重要，否则释放不了image的内存。
+                this._img.src = BLANK;
+                this._img = this._blob = null;
+            },
+    
+            _resize: function( img, cvs, width, height ) {
+                var opts = this.options,
+                    naturalWidth = img.width,
+                    naturalHeight = img.height,
+                    orientation = this.getOrientation(),
+                    scale, w, h, x, y;
+    
+                // values that require 90 degree rotation
+                if ( ~[ 5, 6, 7, 8 ].indexOf( orientation ) ) {
+    
+                    // 交换width, height的值。
+                    width ^= height;
+                    height ^= width;
+                    width ^= height;
+                }
+    
+                scale = Math[ opts.crop ? 'max' : 'min' ]( width / naturalWidth,
+                        height / naturalHeight );
+    
+                // 不允许放大。
+                opts.allowMagnify || (scale = Math.min( 1, scale ));
+    
+                w = naturalWidth * scale;
+                h = naturalHeight * scale;
+    
+                if ( opts.crop ) {
+                    cvs.width = width;
+                    cvs.height = height;
+                } else {
+                    cvs.width = w;
+                    cvs.height = h;
+                }
+    
+                x = (cvs.width - w) / 2;
+                y = (cvs.height - h) / 2;
+    
+                opts.preserveHeaders || this._rotate2Orientaion( cvs, orientation );
+    
+                this._renderImageToCanvas( cvs, img, x, y, w, h );
+            },
+    
+            _rotate2Orientaion: function( canvas, orientation ) {
+                var width = canvas.width,
+                    height = canvas.height,
+                    ctx = canvas.getContext('2d');
+    
+                switch ( orientation ) {
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                        canvas.width = height;
+                        canvas.height = width;
+                        break;
+                }
+    
+                switch ( orientation ) {
+                    case 2:    // horizontal flip
+                        ctx.translate( width, 0 );
+                        ctx.scale( -1, 1 );
+                        break;
+    
+                    case 3:    // 180 rotate left
+                        ctx.translate( width, height );
+                        ctx.rotate( Math.PI );
+                        break;
+    
+                    case 4:    // vertical flip
+                        ctx.translate( 0, height );
+                        ctx.scale( 1, -1 );
+                        break;
+    
+                    case 5:    // vertical flip + 90 rotate right
+                        ctx.rotate( 0.5 * Math.PI );
+                        ctx.scale( 1, -1 );
+                        break;
+    
+                    case 6:    // 90 rotate right
+                        ctx.rotate( 0.5 * Math.PI );
+                        ctx.translate( 0, -height );
+                        break;
+    
+                    case 7:    // horizontal flip + 90 rotate right
+                        ctx.rotate( 0.5 * Math.PI );
+                        ctx.translate( width, -height );
+                        ctx.scale( -1, 1 );
+                        break;
+    
+                    case 8:    // 90 rotate left
+                        ctx.rotate( -0.5 * Math.PI );
+                        ctx.translate( -width, 0 );
+                        break;
+                }
+            },
+    
+            // https://github.com/stomita/ios-imagefile-megapixel/
+            // blob/master/src/megapix-image.js
+            _renderImageToCanvas: (function() {
+    
+                // 如果不是ios, 不需要这么复杂！
+                if ( !Base.os.ios ) {
+                    return function( canvas, img, x, y, w, h ) {
+                        canvas.getContext('2d').drawImage( img, x, y, w, h );
+                    };
+                }
+    
+                /**
+                 * Detecting vertical squash in loaded image.
+                 * Fixes a bug which squash image vertically while drawing into
+                 * canvas for some images.
+                 */
+                function detectVerticalSquash( img, iw, ih ) {
+                    var canvas = document.createElement('canvas'),
+                        ctx = canvas.getContext('2d'),
+                        sy = 0,
+                        ey = ih,
+                        py = ih,
+                        data, alpha, ratio;
+    
+    
+                    canvas.width = 1;
+                    canvas.height = ih;
+                    ctx.drawImage( img, 0, 0 );
+                    data = ctx.getImageData( 0, 0, 1, ih ).data;
+    
+                    // search image edge pixel position in case
+                    // it is squashed vertically.
+                    while ( py > sy ) {
+                        alpha = data[ (py - 1) * 4 + 3 ];
+    
+                        if ( alpha === 0 ) {
+                            ey = py;
+                        } else {
+                            sy = py;
+                        }
+    
+                        py = (ey + sy) >> 1;
+                    }
+    
+                    ratio = (py / ih);
+                    return (ratio === 0) ? 1 : ratio;
+                }
+    
+                // fix ie7 bug
+                // http://stackoverflow.com/questions/11929099/
+                // html5-canvas-drawimage-ratio-bug-ios
+                if ( Base.os.ios >= 7 ) {
+                    return function( canvas, img, x, y, w, h ) {
+                        var iw = img.naturalWidth,
+                            ih = img.naturalHeight,
+                            vertSquashRatio = detectVerticalSquash( img, iw, ih );
+    
+                        return canvas.getContext('2d').drawImage( img, 0, 0,
+                            iw * vertSquashRatio, ih * vertSquashRatio,
+                            x, y, w, h );
+                    };
+                }
+    
+                /**
+                 * Detect subsampling in loaded image.
+                 * In iOS, larger images than 2M pixels may be
+                 * subsampled in rendering.
+                 */
+                function detectSubsampling( img ) {
+                    var iw = img.naturalWidth,
+                        ih = img.naturalHeight,
+                        canvas, ctx;
+    
+                    // subsampling may happen overmegapixel image
+                    if ( iw * ih > 1024 * 1024 ) {
+                        canvas = document.createElement('canvas');
+                        canvas.width = canvas.height = 1;
+                        ctx = canvas.getContext('2d');
+                        ctx.drawImage( img, -iw + 1, 0 );
+    
+                        // subsampled image becomes half smaller in rendering size.
+                        // check alpha channel value to confirm image is covering
+                        // edge pixel or not. if alpha value is 0
+                        // image is not covering, hence subsampled.
+                        return ctx.getImageData( 0, 0, 1, 1 ).data[ 3 ] === 0;
+                    } else {
+                        return false;
+                    }
+                }
+    
+    
+                return function( canvas, img, x, y, width, height ) {
+                    var iw = img.naturalWidth,
+                        ih = img.naturalHeight,
+                        ctx = canvas.getContext('2d'),
+                        subsampled = detectSubsampling( img ),
+                        doSquash = this.type === 'image/jpeg',
+                        d = 1024,
+                        sy = 0,
+                        dy = 0,
+                        tmpCanvas, tmpCtx, vertSquashRatio, dw, dh, sx, dx;
+    
+                    if ( subsampled ) {
+                        iw /= 2;
+                        ih /= 2;
+                    }
+    
+                    ctx.save();
+                    tmpCanvas = document.createElement('canvas');
+                    tmpCanvas.width = tmpCanvas.height = d;
+    
+                    tmpCtx = tmpCanvas.getContext('2d');
+                    vertSquashRatio = doSquash ?
+                            detectVerticalSquash( img, iw, ih ) : 1;
+    
+                    dw = Math.ceil( d * width / iw );
+                    dh = Math.ceil( d * height / ih / vertSquashRatio );
+    
+                    while ( sy < ih ) {
+                        sx = 0;
+                        dx = 0;
+                        while ( sx < iw ) {
+                            tmpCtx.clearRect( 0, 0, d, d );
+                            tmpCtx.drawImage( img, -sx, -sy );
+                            ctx.drawImage( tmpCanvas, 0, 0, d, d,
+                                    x + dx, y + dy, dw, dh );
+                            sx += d;
+                            dx += dw;
+                        }
+                        sy += d;
+                        dy += dh;
+                    }
+                    ctx.restore();
+                    tmpCanvas = tmpCtx = null;
+                };
+            })()
+        });
+    });
+    /**
      * @fileOverview Transport
      * @todo 支持chunked传输，优势：
      * 可以将大文件分成小块，挨个传输，可以提高大文件成功率，当失败的时候，也只需要重传那小部分，
@@ -4217,354 +5523,16 @@
         });
     });
     /**
-     * @fileOverview FlashRuntime
+     * @fileOverview 只有html5实现的文件版本。
      */
-    define('runtime/flash/runtime',[
-        'base',
-        'runtime/runtime',
-        'runtime/compbase'
-    ], function( Base, Runtime, CompBase ) {
-    
-        var $ = Base.$,
-            type = 'flash',
-            components = {};
-    
-    
-        function getFlashVersion() {
-            var version;
-    
-            try {
-                version = navigator.plugins[ 'Shockwave Flash' ];
-                version = version.description;
-            } catch ( ex ) {
-                try {
-                    version = new ActiveXObject('ShockwaveFlash.ShockwaveFlash')
-                            .GetVariable('$version');
-                } catch ( ex2 ) {
-                    version = '0.0';
-                }
-            }
-            version = version.match( /\d+/g );
-            return parseFloat( version[ 0 ] + '.' + version[ 1 ], 10 );
-        }
-    
-        function FlashRuntime() {
-            var pool = {},
-                clients = {},
-                destory = this.destory,
-                me = this,
-                jsreciver = Base.guid('webuploader_');
-    
-            Runtime.apply( me, arguments );
-            me.type = type;
-    
-    
-            // 这个方法的调用者，实际上是RuntimeClient
-            me.exec = function( comp, fn/*, args...*/ ) {
-                var client = this,
-                    uid = client.uid,
-                    args = Base.slice( arguments, 2 ),
-                    instance;
-    
-                clients[ uid ] = client;
-    
-                if ( components[ comp ] ) {
-                    if ( !pool[ uid ] ) {
-                        pool[ uid ] = new components[ comp ]( client, me );
-                    }
-    
-                    instance = pool[ uid ];
-    
-                    if ( instance[ fn ] ) {
-                        return instance[ fn ].apply( instance, args );
-                    }
-                }
-    
-                return me.flashExec.apply( client, arguments );
-            };
-    
-            function handler( evt, obj ) {
-                var type = evt.type || evt,
-                    parts, uid;
-    
-                parts = type.split('::');
-                uid = parts[ 0 ];
-                type = parts[ 1 ];
-    
-                // console.log.apply( console, arguments );
-    
-                if ( type === 'Ready' && uid === me.uid ) {
-                    me.trigger('ready');
-                } else if ( clients[ uid ] ) {
-                    clients[ uid ].trigger( type.toLowerCase(), evt, obj );
-                }
-    
-                // Base.log( evt, obj );
-            }
-    
-            // flash的接受器。
-            window[ jsreciver ] = function() {
-                var args = arguments;
-    
-                // 为了能捕获得到。
-                setTimeout(function() {
-                    handler.apply( null, args );
-                }, 1 );
-            };
-    
-            this.jsreciver = jsreciver;
-    
-            this.destory = function() {
-                // @todo 删除池子中的所有实例
-                return destory && destory.apply( this, arguments );
-            };
-    
-            this.flashExec = function( comp, fn ) {
-                var flash = me.getFlash(),
-                    args = Base.slice( arguments, 2 );
-    
-                return flash.exec( this.uid, comp, fn, args );
-            };
-    
-            // @todo
-        }
-    
-        Base.inherits( Runtime, {
-            constructor: FlashRuntime,
-    
-            init: function() {
-                var container = this.getContainer(),
-                    opts = this.options,
-                    html;
-    
-                // if not the minimal height, shims are not initialized
-                // in older browsers (e.g FF3.6, IE6,7,8, Safari 4.0,5.0, etc)
-                container.css({
-                    position: 'absolute',
-                    top: '-8px',
-                    left: '-8px',
-                    width: '9px',
-                    height: '9px',
-                    overflow: 'hidden'
-                });
-    
-                // insert flash object
-                html = '<object id="' + this.uid + '" type="application/' +
-                        'x-shockwave-flash" data="' +  opts.swf + '" ';
-    
-                if ( Base.browser.ie ) {
-                    html += 'classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ';
-                }
-    
-                html += 'width="100%" height="100%" style="outline:0">'  +
-                    '<param name="movie" value="' + opts.swf + '" />' +
-                    '<param name="flashvars" value="uid=' + this.uid +
-                    '&jsreciver=' + this.jsreciver + '" />' +
-                    '<param name="wmode" value="transparent" />' +
-                    '<param name="allowscriptaccess" value="always" />' +
-                '</object>';
-    
-                container.html( html );
-            },
-    
-            getFlash: function() {
-                if ( this._flash ) {
-                    return this._flash;
-                }
-    
-                this._flash = $( '#' + this.uid ).get( 0 );
-                return this._flash;
-            }
-    
-        });
-    
-        FlashRuntime.register = function( name, component ) {
-            component = components[ name ] = Base.inherits( CompBase, $.extend({
-    
-                // @todo fix this later
-                flashExec: function() {
-                    var owner = this.owner,
-                        runtime = this.getRuntime();
-    
-                    return runtime.flashExec.apply( owner, arguments );
-                }
-            }, component ) );
-    
-            return component;
-        };
-    
-        if ( getFlashVersion() >= 11.4 ) {
-            Runtime.addRuntime( type, FlashRuntime );
-        }
-    
-        return FlashRuntime;
-    });
-    /**
-     * @fileOverview FilePicker
-     */
-    define('runtime/flash/filepicker',[
-        'base',
-        'runtime/flash/runtime'
-    ], function( Base, FlashRuntime ) {
-        var $ = Base.$;
-    
-        return FlashRuntime.register( 'FilePicker', {
-            init: function( opts ) {
-                var copy = $.extend({}, opts ),
-                    len, i;
-    
-                // 修复Flash再没有设置title的情况下无法弹出flash文件选择框的bug.
-                len = copy.accept && copy.accept.length;
-                for (  i = 0; i < len; i++ ) {
-                    if ( !copy.accept[ i ].title ) {
-                        copy.accept[ i ].title = 'Files';
-                    }
-                }
-    
-                delete copy.button;
-                delete copy.container;
-    
-                this.flashExec( 'FilePicker', 'init', copy );
-            },
-    
-            destroy: function() {
-                // todo
-            }
-        });
-    });
-    /**
-     * @fileOverview  Transport flash实现
-     */
-    define('runtime/flash/transport',[
-        'base',
-        'runtime/flash/runtime',
-        'runtime/client'
-    ], function( Base, FlashRuntime, RuntimeClient ) {
-        var $ = Base.$;
-    
-        return FlashRuntime.register( 'Transport', {
-            init: function() {
-                this._status = 0;
-                this._response = null;
-                this._responseJson = null;
-            },
-    
-            send: function() {
-                var owner = this.owner,
-                    opts = this.options,
-                    xhr = this._initAjax(),
-                    blob = owner._blob,
-                    server = opts.server,
-                    binary;
-    
-                xhr.connectRuntime( blob.ruid );
-    
-                if ( opts.sendAsBinary ) {
-                    server += (/\?/.test( server ) ? '&' : '?') +
-                            $.param( owner._formData );
-    
-                    binary = blob.uid;
-                } else {
-                    $.each( owner._formData, function( k, v ) {
-                        xhr.exec( 'append', k, v );
-                    });
-    
-                    xhr.exec( 'appendBlob', opts.fileVal, blob.uid,
-                            opts.filename || owner._formData.name || '' );
-                }
-    
-                this._setRequestHeader( xhr, opts.headers );
-                xhr.exec( 'send', {
-                    method: opts.method,
-                    url: server
-                }, binary );
-            },
-    
-            getStatus: function() {
-                return this._status;
-            },
-    
-            getResponse: function() {
-                return this._response;
-            },
-    
-            getResponseAsJson: function() {
-                return this._responseJson;
-            },
-    
-            abort: function() {
-                var xhr = this._xhr;
-    
-                if ( xhr ) {
-                    xhr.exec('abort');
-                    xhr.destroy();
-                    this._xhr = xhr = null;
-                }
-            },
-    
-            destroy: function() {
-                this.abort();
-            },
-    
-            _initAjax: function() {
-                var me = this,
-                    xhr = new RuntimeClient('XMLHttpRequest');
-    
-                xhr.on( 'uploadprogress progress', function( e ) {
-                    return me.trigger( 'progress', e.loaded / e.total );
-                });
-    
-                xhr.on( 'load', function() {
-                    var status = xhr.exec('getStatus'),
-                        err = '';
-    
-                    xhr.off();
-                    me._xhr = null;
-    
-                    if ( status >= 200 && status < 300 ) {
-                        me._response = xhr.exec('getResponse');
-                        me._responseJson = xhr.exec('getResponseAsJson');
-                    } else if ( status >= 500 && status < 600 ) {
-                        me._response = xhr.exec('getResponse');
-                        me._responseJson = xhr.exec('getResponseAsJson');
-                        err = 'server';
-                    } else {
-                        err = 'http';
-                    }
-    
-                    xhr.destroy();
-                    xhr = null;
-    
-                    return err ? me.trigger( 'error', err ) : me.trigger('load');
-                });
-    
-                xhr.on( 'error', function() {
-                    xhr.off();
-                    me._xhr = null;
-                    me.trigger( 'error', 'http' );
-                });
-    
-                me._xhr = xhr;
-                return xhr;
-            },
-    
-            _setRequestHeader: function( xhr, headers ) {
-                $.each( headers, function( key, val ) {
-                    xhr.exec( 'setRequestHeader', key, val );
-                });
-            }
-        });
-    });
-    /**
-     * @fileOverview 没有图像处理的版本。
-     */
-    define('preset/withoutimage',[
+    define('preset/html5only',[
         'base',
     
         // widgets
         'widgets/filednd',
         'widgets/filepaste',
         'widgets/filepicker',
+        'widgets/image',
         'widgets/queue',
         'widgets/runtime',
         'widgets/upload',
@@ -4576,18 +5544,16 @@
         'runtime/html5/dnd',
         'runtime/html5/filepaste',
         'runtime/html5/filepicker',
-        'runtime/html5/transport',
-    
-        // flash
-        'runtime/flash/filepicker',
-        'runtime/flash/transport'
+        'runtime/html5/imagemeta/exif',
+        'runtime/html5/image',
+        'runtime/html5/transport'
     ], function( Base ) {
         return Base;
     });
     define('webuploader',[
-        'preset/withoutimage'
+        'preset/html5only'
     ], function( preset ) {
         return preset;
     });
-    return require('webuploader');
+    return require('src/main/webapp/admin/lib/ueditor/third-party/webuploader/webuploader');
 });

@@ -2383,7 +2383,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
     // CommonJS
-    SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+    SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
     function Brush()
     {
@@ -2427,7 +2427,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
     // CommonJS
-    SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+    SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
     function Brush()
     {
@@ -2486,7 +2486,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2529,7 +2529,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2613,7 +2613,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2694,7 +2694,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2743,7 +2743,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2818,7 +2818,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2857,7 +2857,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2882,7 +2882,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2918,7 +2918,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -2969,7 +2969,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3010,7 +3010,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3052,7 +3052,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3088,7 +3088,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3165,7 +3165,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3237,7 +3237,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3254,7 +3254,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3313,7 +3313,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3361,7 +3361,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3400,7 +3400,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3478,7 +3478,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3513,7 +3513,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3563,7 +3563,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{
@@ -3603,7 +3603,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 ;(function()
 {
 	// CommonJS
-	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('shCore').SyntaxHighlighter : null);
+	SyntaxHighlighter = SyntaxHighlighter || (typeof require !== 'undefined'? require('src/main/webapp/admin/lib/ueditor/third-party/SyntaxHighlighter/shCore').SyntaxHighlighter : null);
 
 	function Brush()
 	{

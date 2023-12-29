@@ -136,7 +136,7 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
     text-align: center;
     width: 97%;
     float: left;
-    background: url(./images/image.png) center 70px no-repeat;
+    background: url(images/image.png) center 70px no-repeat;
     color: #cccccc;
     font-size: 18px;
     position: relative;
@@ -212,7 +212,7 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 #upload .filelist li {
     width: 113px;
     height: 113px;
-    background: url(./images/bg.png);
+    background: url(images/bg.png);
     text-align: center;
     margin: 15px 0 0 20px;
     *margin: 15px 0 0 15px;
@@ -260,7 +260,7 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
     overflow: hidden;
     width: 0;
     height: 100%;
-    background: #1483d8 url(./images/progress.png) repeat-x;
+    background: #1483d8 url(images/progress.png) repeat-x;
 
     -webit-transition: width 200ms linear;
     -moz-transition: width 200ms linear;
@@ -360,14 +360,14 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
     height: 40px;
     width: 100%;
     z-index: 200;
-    background: url(./images/success.png) no-repeat right bottom;
-    background-image: url(./images/success.gif) \9;
+    background: url(images/success.png) no-repeat right bottom;
+    background-image: url(images/success.gif) \9;
 }
 
 #upload .filelist li.filePickerBlock {
     width: 113px;
     height: 113px;
-    background: url(./images/image.png) no-repeat center 12px;
+    background: url(images/image.png) no-repeat center 12px;
     border: 1px solid #eeeeee;
     border-radius: 0;
 }
@@ -400,8 +400,8 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
     float: right;
     text-indent: -9999px;
     overflow: hidden;
-    background: url(./images/icons.png) no-repeat;
-    background: url(./images/icons.gif) no-repeat \9;
+    background: url(images/icons.png) no-repeat;
+    background: url(images/icons.gif) no-repeat \9;
     margin: 5px 1px 1px;
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -542,8 +542,8 @@ i.file-preview {
     margin: 10px auto;
     width: 70px;
     height: 70px;
-    background-image: url("./images/file-icons.png");
-    background-image: url("./images/file-icons.gif") \9;
+    background-image: url("images/file-icons.png");
+    background-image: url("images/file-icons.gif") \9;
     background-position: -140px center;
     background-repeat: no-repeat;
 }

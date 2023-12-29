@@ -90,18 +90,11 @@ public class WebFreeMarkerConfigurer implements InitializingBean,ResourceLoaderA
      * @param templateFilePath 模板路径
      */
     public void mergetemplateLoaderPath(String templateFilePath) {
-
         try {
-
             freeMarkerConfig.setPostTemplateLoaders( new FileTemplateLoader(new File(templateFilePath)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
-
     }
 }
 

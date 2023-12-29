@@ -14,17 +14,17 @@
         <param-value>dev</param-value>
     </context-param>
 
-    <context-param>
-        <param-name>profiles.activation</param-name>
-        <param-value>dev</param-value>
-    </context-param>
+<!--    <context-param>-->
+<!--        <param-name>profiles.activation</param-name>-->
+<!--        <param-value>dev</param-value>-->
+<!--    </context-param>-->
 
     <!-- 在上下文context-param中设置profile.active的默认值 -->
     <!-- 设置active后default失效，web启动时会加载对应的环境信息 -->
-    <context-param>
-        <param-name>spring.profiles.active</param-name>
-        <param-value>${profiles.activation}</param-value>
-    </context-param>
+<!--    <context-param>-->
+<!--        <param-name>spring.profiles.active</param-name>-->
+<!--        <param-value>${profiles.activation}</param-value>-->
+<!--    </context-param>-->
 
 
     <!--  Spring的ApplicationContext 载入 -->

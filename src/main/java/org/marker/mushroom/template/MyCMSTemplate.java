@@ -6,7 +6,6 @@ import freemarker.template.TemplateModelException;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.context.ActionContext;
-import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.ext.tag.TaglibContext;
@@ -174,10 +173,10 @@ public class MyCMSTemplate {
         }
 
 		if(syscfg.isStatistics()){// 是否开启站内统计
-			HttpServletRequest request = ActionContext.getReq();
-			String appurl = (String) request.getAttribute(AppStatic.WEB_APP_URL);
+//			HttpServletRequest request = ActionContext.getReq();
+//			String appurl = (String) request.getAttribute(AppStatic.WEB_APP_URL);
             templateStringBuilder.append("<script type=\"text/javascript\" src=\"")
-                    .append(appurl)
+//                    .append(appurl)
                     .append("/public/fetch/main.js\"></script>");
 		}
 

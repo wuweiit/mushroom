@@ -194,7 +194,7 @@ public class SystemCoreFilter implements Filter {
         req.setAttribute(AppStatic.WEB_APP_LANG, HttpUtils.getLanguage(request));// 网址路径
 		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
 		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
-		req.setAttribute(AppStatic.WEB_APP_THEME_URL, HttpUtils.getRequestURL(request)+"/themes/"+syscfg.getThemeActive());// 网址路径
+		req.setAttribute(AppStatic.WEB_APP_THEME_URL, "/themes/" + syscfg.getThemeActive());// 网址路径
 
 
 

@@ -21,19 +21,16 @@ import java.io.InputStream;
 
 
 /**
- *
  * 静态资源
  *
  * @author marker
- *
- *
- * */
+ */
 public class ThemesResourceFilter implements Filter {
 
-    /** 日志记录器 */
-    protected Logger logger =  LoggerFactory.getLogger(ThemesResourceFilter.class);
-
-
+    /**
+     * 日志记录器
+     */
+    protected Logger logger = LoggerFactory.getLogger(ThemesResourceFilter.class);
 
 
     @Override
@@ -41,7 +38,7 @@ public class ThemesResourceFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
 
 
-        HttpServletRequest request = (HttpServletRequest)req;
+        HttpServletRequest request = (HttpServletRequest) req;
         ServletContext servletContext = request.getServletContext();
 
         String uri = WebUtils.getRequestUri(request);
@@ -51,37 +48,37 @@ public class ThemesResourceFilter implements Filter {
         setHeaders((HttpServletResponse) resp, getMediaType(servletContext, uri));
         String themesPath = syscfg.getThemesPath();
         String file = "";
-        if(uri.startsWith("/themes")){
-            if(org.apache.commons.lang.StringUtils.isEmpty(themesPath)){
+        if (uri.startsWith("/themes")) {
+            if (org.apache.commons.lang.StringUtils.isEmpty(themesPath)) {
                 chain.doFilter(req, resp);
                 return;
-            }else{
-                file  = themesPath + uri.replaceAll("/themes","");
+            } else {
+                file = themesPath + uri.replaceAll("/themes", "");
             }
-        }else if(uri.startsWith("/upload")){
-            if(org.apache.commons.lang.StringUtils.isEmpty(syscfg.getFilePath()) ){
+        } else if (uri.startsWith("/upload")) {
+            if (org.apache.commons.lang.StringUtils.isEmpty(syscfg.getFilePath())) {
                 chain.doFilter(req, resp);
                 return;
-            }else{
-                file  = syscfg.getFilePath() + uri;
+            } else {
+                file = syscfg.getFilePath() + uri;
             }
         }
 
         File fileInfo = new File(file);
-        if(!fileInfo.exists()){
+        if (!fileInfo.exists()) {
             return;
         }
 
         long len = fileInfo.length();
 
-        resp.setContentLength((int)len);
+        resp.setContentLength((int) len);
 
         InputStream inputStream = new FileInputStream(fileInfo);
 
         StreamUtils.copy(inputStream, resp.getOutputStream());
+        inputStream.close();
         return;
     }
-
 
 
     @Override
@@ -96,13 +93,10 @@ public class ThemesResourceFilter implements Filter {
 
     protected void setHeaders(HttpServletResponse response, MediaType mediaType) throws IOException {
 
-        if(mediaType != null) {
+        if (mediaType != null) {
             response.setContentType(mediaType.toString());
         }
     }
-
-
-
 
 
     private static class ActivationMediaTypeFactory {
@@ -113,7 +107,7 @@ public class ThemesResourceFilter implements Filter {
 
         private static FileTypeMap loadFileTypeMapFromContextSupportModule() {
             ClassPathResource mappingLocation = new ClassPathResource("org/springframework/mail/javamail/mime.types");
-            if(mappingLocation.exists()) {
+            if (mappingLocation.exists()) {
                 InputStream inputStream = null;
 
                 MimetypesFileTypeMap ex;
@@ -123,7 +117,7 @@ public class ThemesResourceFilter implements Filter {
                 } catch (IOException var12) {
                     return FileTypeMap.getDefaultFileTypeMap();
                 } finally {
-                    if(inputStream != null) {
+                    if (inputStream != null) {
                         try {
                             inputStream.close();
                         } catch (IOException var11) {
@@ -141,16 +135,15 @@ public class ThemesResourceFilter implements Filter {
 
         public static MediaType getMediaType(String filename) {
             String mediaType = fileTypeMap.getContentType(filename);
-            return StringUtils.hasText(mediaType)?MediaType.parseMediaType(mediaType):null;
+            return StringUtils.hasText(mediaType) ? MediaType.parseMediaType(mediaType) : null;
         }
     }
-
 
 
     protected MediaType getMediaType(ServletContext servletContext, String uri) {
         MediaType mediaType = null;
         String mimeType = servletContext.getMimeType(uri);
-        if(StringUtils.hasText(mimeType)) {
+        if (StringUtils.hasText(mimeType)) {
             mediaType = MediaType.parseMediaType(mimeType);
         }
         return mediaType;

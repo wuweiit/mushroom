@@ -1,6 +1,5 @@
 package org.marker.mushroom.controller;
 
-import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.User;
 import org.marker.mushroom.beans.UserLoginLog;
@@ -169,44 +168,43 @@ public class AdminController extends SupportController {
 		String serverValidCode = (String) session.getAttribute(AppStatic.WEB_APP_AUTH_CODE);
 		
 		int errorCode = 0;// 登录日志类型
-		if(serverValidCode == null){
-			return new ResultMessage(false,"验证码错误");
-		}
+//		if(serverValidCode == null){
+//			return new ResultMessage(false,"验证码错误");
+//		}
 		
 		ResultMessage msg = null;
-		if(!StringUtils.equalsIgnoreCase(serverValidCode, randcode)){// 验证码不匹配
-			msg = new ResultMessage(false,"验证码错误!");
-			errorCode = 1;// 错误
-			return msg;
-		}else{
-			String password2 = null;
-			try {
-				password2 = GeneratePass.encode(password);
-				User user = userDao.queryByNameAndPass(username, password2);
-				if(user != null){
-					if(user.getStatus() == 1){//启用
-						userDao.updateLoginTime(user.getId());// 更新登录时间
-						session.setAttribute(AppStatic.WEB_APP_SESSION_ADMIN, user);
-						session.setAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME, user.getNickname());
-						session.setAttribute(AppStatic.WEB_APP_SESSSION_USER_GROUP_ID, user.getGid());// 设置分组
-						session.setAttribute(AppStatic.USER_GROUP_ID, user.getGid());// 用户组
-						session.removeAttribute(AppStatic.WEB_APP_AUTH_CODE); //移除验证码
-						msg = new ResultMessage(true,"登录成功!");
-					}else{
-						errorCode = 1;
-						msg = new ResultMessage(false,"用户已禁止登录!");
-					}
+//		if(!StringUtils.equalsIgnoreCase(serverValidCode, randcode)){// 验证码不匹配
+//			msg = new ResultMessage(false,"验证码错误!");
+//			errorCode = 1;// 错误
+//			return msg;
+//		}
+		String password2 = null;
+		try {
+			password2 = GeneratePass.encode(password);
+			User user = userDao.queryByNameAndPass(username, password2);
+			if(user != null){
+				if(user.getStatus() == 1){//启用
+					userDao.updateLoginTime(user.getId());// 更新登录时间
+					session.setAttribute(AppStatic.WEB_APP_SESSION_ADMIN, user);
+					session.setAttribute(AppStatic.WEB_APP_SESSSION_LOGINNAME, user.getNickname());
+					session.setAttribute(AppStatic.WEB_APP_SESSSION_USER_GROUP_ID, user.getGid());// 设置分组
+					session.setAttribute(AppStatic.USER_GROUP_ID, user.getGid());// 用户组
+					session.removeAttribute(AppStatic.WEB_APP_AUTH_CODE); //移除验证码
+					msg = new ResultMessage(true,"登录成功!");
 				}else{
 					errorCode = 1;
-					msg = new ResultMessage(false,"用户名或者密码错误!");
+					msg = new ResultMessage(false,"用户已禁止登录!");
 				}
-			} catch (Exception e) {
+			}else{
 				errorCode = 1;
-				msg = new ResultMessage(false,"系统加密算法异常!");
-				log.error("系统加密算法异常!", e);
+				msg = new ResultMessage(false,"用户名或者密码错误!");
 			}
-
+		} catch (Exception e) {
+			errorCode = 1;
+			msg = new ResultMessage(false,"系统加密算法异常!");
+			log.error("系统加密算法异常!", e);
 		}
+
 		// 获取真实IP地址
 		String ip = HttpUtils.getRemoteHost(request);
 		

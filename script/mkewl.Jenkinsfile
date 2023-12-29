@@ -23,10 +23,11 @@ pipeline {
 
                    sh '''
                        echo "mrcms-${BRANCH_NAME}.war deploying...."
-                       scp ./target/mrcms-1.0.0.war root@192.168.1.6:/opt/data/tomcat/mrcms/tomcat/webapps/ROOT.war
+                       scp ./target/mrcms-1.0.0.war root@192.168.1.6:/opt/data/tomcat/mkewl/tomcat/webapps/ROOT.war
                        echo "mrcms-${BRANCH_NAME} docker deploying...."
 
-                       ssh -o StrictHostKeyChecking=no root@192.168.1.6 "kubectl rollout restart deployment mrcms --namespace home"
+
+                       ssh -o StrictHostKeyChecking=no root@192.168.1.6 "kubectl rollout restart deployment mkewl --namespace home"
 
                    '''
                }
