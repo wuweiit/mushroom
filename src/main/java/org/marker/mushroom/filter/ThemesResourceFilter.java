@@ -42,7 +42,6 @@ public class ThemesResourceFilter implements Filter {
         ServletContext servletContext = request.getServletContext();
 
         String uri = WebUtils.getRequestUri(request);
-
         SystemConfig syscfg = SystemConfig.getInstance();
 
         setHeaders((HttpServletResponse) resp, getMediaType(servletContext, uri));
@@ -65,7 +64,7 @@ public class ThemesResourceFilter implements Filter {
         }
 
         File fileInfo = new File(file);
-        if (!fileInfo.exists()) {
+        if (!fileInfo.exists() && !fileInfo.isFile()) {
             return;
         }
 

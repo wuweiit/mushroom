@@ -1,0 +1,95 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">编辑外链</li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="link/list.do?currentPageNo=1">保 存</button>
+	</div>
+
+
+
+	<form id="myForm" action="link/update.do"  method="post" class="form-horizontal" onsubmit="return false;">
+		<input id="channelIcon" name="icon" type="hidden" value="${entity.icon!}" />
+		<input type="hidden" name="id" value="${entity.id?c}" />
+		<div class="tab_content">
+			<div class="tab_item tab_show">
+
+
+				<div class="control-group">
+					<label class="control-label">链接名称：</label>
+					<div class="controls">
+						<input name="name" type="text" value="${entity.name!}"/>
+						<div class="help-block">
+							外部网站链接名称
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">URL地址：</label>
+					<div class="controls">
+						<input name="url" type="text" value="${entity.url!}"/>
+						<div class="help-block">
+							网站Http地址
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">图标：</label>
+					<div class="controls">
+						<img class="image-upload"
+							 id="link-icon"
+							 onclick="uploadImage()"
+							 title="上传图片"
+							 src="${entity.icon!}" />
+
+						<div class="help-block">
+							上传图片的尺寸为：280 * 120 像素，可能会有拉伸情况，根据前端实际采用的尺寸上传即可。
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">描述信息：</label>
+					<div class="controls">
+						<textarea class="textarea_for_add" name="description">${entity.description!}</textarea>
+						<div class="help-block">
+							外链说明
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+    var linkImageUrl = '${entity.icon!}';
+    if(linkImageUrl != ''){
+        $("#link-icon").css({'background-image': 'none'})
+    }
+
+
+    var _editor = UE.getEditor('upload_ue');
+    _editor.ready(function () {
+        //设置编辑器不可用
+        _editor.setDisabled();
+        //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+        _editor.hide();
+        //侦听图片上传
+        _editor.addListener('beforeInsertImage', function (t, arg) {
+            console.log(arg);
+        })
+        //侦听文件上传
+        _editor.addListener('afterUpfile', function (t, arg) {
+            if(arg.length > 0){
+                $("#link-icon").attr("src", arg[0].src);
+                $("#channelIcon").attr("value", arg[0].src);
+            }
+        })
+    });
+
+    function uploadImage(){
+        var myImage = _editor.getDialog("insertimage");
+        myImage.open();
+    }
+</script>

@@ -12,4 +12,9 @@ public interface CacheO {
 	String CacheManager = "cacheManager";
 
 	String STATIC_HTML = "staticHtmlCache";
+
+	/**
+	 * 站点信息缓存
+	 */
+	String SITE_INFO_CACHE  = "siteInfoCache";
 }

@@ -75,7 +75,7 @@ public class MyCMSTemplate {
 	 * @throws SystemException 
 	 * @throws IOException 
 	 * */
-	public void proxyCompile(String tplFileName) throws SystemException, IOException{
+	public void proxyCompile(String themeName, String tplFileName) throws SystemException, IOException{
 		SystemConfig syscfg = SystemConfig.getInstance();
 		try {
 			config.setSharedVariable("req", ActionContext.getReq());
@@ -86,10 +86,9 @@ public class MyCMSTemplate {
 		// 配置了制定的主题路径
 		String themesPath = syscfg.getThemesPath();
 		// 构造模模版路径
-		StringBuilder tplFilePath = new StringBuilder( themesPath);
-		tplFilePath.append(File.separator).append(syscfg.getThemeActive())
-		.append(File.separator).append(tplFileName);
-		
+		StringBuilder tplFilePath = new StringBuilder(themesPath);
+		tplFilePath.append(File.separator).append(themeName).append(File.separator).append(tplFileName);
+
 		File tplFile = new File(tplFilePath.toString());//模板文件 
 		
 		logger.error(tplFile.getPath());

@@ -8,7 +8,9 @@ import com.wuweibi.module4j.listener.InstallListenter;
 import com.wuweibi.module4j.module.Module;
 import com.wuweibi.module4j.module.ModuleContext;
 import org.marker.mushroom.context.ActionContext;
+import org.marker.mushroom.core.SystemStatic;
 import org.marker.mushroom.core.WebAPP;
+import org.marker.mushroom.core.component.SiteContext;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.URLRewriteConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyKeyWordComputer;
@@ -109,6 +111,7 @@ public class InitBuilderHolder implements ServletContextAware{
 
 
 
+
 		/*
 		 * ============================================================
 		 *               插件加载
@@ -168,7 +171,6 @@ public class InitBuilderHolder implements ServletContextAware{
 		logger.info("mrcms MessageContext init ...");
 		if(WebAPP.install){
 			MessageDBContext messageDBContext = MessageDBContext.getInstance();
-
 			if(!messageDBContext.isInit()){
 				try {
 					messageDBContext.init();
@@ -180,12 +182,16 @@ public class InitBuilderHolder implements ServletContextAware{
 		}
 
 
+		/*
+		 * ============================================================
+		 *               缓存 初始化
+		 * ============================================================
+		 */
+		logger.info("mrcms Cache init ...");
+		SiteContext siteContext = SpringContextHolder.getBean(SystemStatic.SYSTEM_CMS_SITE);
+		siteContext.init();
 
-
-		if(WebAPP.install){
-
-
-
+		if (WebAPP.install) {
 			String moduleDir =  webRootPath + "modules";// 模块目录
 
 			// 缓存目录
@@ -225,20 +231,7 @@ public class InitBuilderHolder implements ServletContextAware{
 			} catch (Exception e) {
 				logger.error("{}", e.getMessage());
 			}
-
-
 		}
-
-
-
-
-
-
-
-
-
-
-
 		logger.info("init Building complete");
 
 	}

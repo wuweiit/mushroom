@@ -171,8 +171,6 @@ public final class WebAPP {
         request.setAttribute("breadNav", breadNavs);
 
 
-
-
 		try {
 			// 这里将模式分为：重定向模型|内容模型
 			int statusCode = cmc.parse(param);
@@ -181,7 +179,9 @@ public final class WebAPP {
 				response.sendRedirect(param.redirect);
 				return;
 			case IContentModelParse.STATUS_MODULE: // 内容模型
-				cmstemplate.proxyCompile(param.template);// 代理编译 
+				String themeName = (String) request.getAttribute(AppStatic.WEB_APP_THEME);// 主题名称
+//				String tplPath = String.format("%s/%s", themeName, param.template);
+				cmstemplate.proxyCompile(themeName, param.template);// 代理编译
 				break;
 			default:
 				response.sendError(404); return;//页面肯定不存在
@@ -264,7 +264,7 @@ public final class WebAPP {
 			}
 		} else {
 			try {
-				cmstemplate.proxyCompile(errorTemplate);
+				cmstemplate.proxyCompile(syscfg.getThemeActive(), errorTemplate);
 				dataToView.process(errorTemplate); 
 			} catch (Exception e3) { 
 				logger.error("",e3); 

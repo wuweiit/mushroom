@@ -66,4 +66,5 @@ public interface DAO {
 	String DOCTORGH = "doctorGhDao";
 	String UserGroupChannelDao = "UserGroupChannelDao";
 	String UserGroupCategoryDao = "UserGroupCategoryDao";
+	String SiteDao = "siteDao";
 }

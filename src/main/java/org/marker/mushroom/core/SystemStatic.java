@@ -16,7 +16,8 @@ public interface SystemStatic {
 	
 	/** CMS碎片组件Bean名称 */
 	String SYSTEM_CMS_CHIP = "chipContext";
-	
+	String SYSTEM_CMS_SITE = "siteContext";
+
 	
 	/* -------------------------------------------------
 	 *                服务层Bean变量名称

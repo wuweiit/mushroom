@@ -30,7 +30,8 @@ public interface AppStatic {
 	public static final String WEB_APP_LANG = "lang";
 	/** WEB主题变量名 */
 	public static final String WEB_APP_THEME_URL = "themeurl";
-	
+	public static final String WEB_APP_THEME = "theme";
+
 	/** WEB会话变量名 */
 	public static final String WEB_APP_SESSION_ADMIN = "admin";
 	/** WEB会话变量名 */

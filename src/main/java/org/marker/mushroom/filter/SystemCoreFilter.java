@@ -1,5 +1,7 @@
 package org.marker.mushroom.filter;
 
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebAPP;
@@ -189,12 +191,21 @@ public class SystemCoreFilter implements Filter {
 			url = "cms";
 		}
 
+		// 根据域名选择主题
+		org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.SITE_INFO_CACHE);
+		String theme = syscfg.getThemeActive();
+		String host = req.getServerName();
+		JSONObject siteInfo = cache.get(host, JSONObject.class);
+		if (siteInfo != null && StringUtils.isNotBlank(siteInfo.getString("theme"))) {
+			theme = siteInfo.getString("theme");
+		}
 		
 		String ip = HttpUtils.getRemoteHost(request);// IP地址获取
         req.setAttribute(AppStatic.WEB_APP_LANG, HttpUtils.getLanguage(request));// 网址路径
 		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
 		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
-		req.setAttribute(AppStatic.WEB_APP_THEME_URL, "/themes/" + syscfg.getThemeActive());// 网址路径
+		req.setAttribute(AppStatic.WEB_APP_THEME_URL, "/themes/" + theme);// 网址路径
+		req.setAttribute(AppStatic.WEB_APP_THEME, theme);// 主题名称
 
 
 
