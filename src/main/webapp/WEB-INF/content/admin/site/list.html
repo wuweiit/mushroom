@@ -13,6 +13,7 @@
 					<th width="30" class="quanxuan" onclick="allCheck();">全选</th>
 					<th>站点名称</th>
 					<th>站点域名</th>
+					<th>主题</th>
 					<th>链接地址</th>
 					<th>描述</th>
 					<th align="center" width="70">操作</th>
@@ -24,6 +25,7 @@
 						<td class="checkbox1"><input type="checkbox" value="${x.id?c}" /></td>
 						<td>${x.title!}</td>
 						<td>${x.host!}</td>
+						<td>${x.theme!}</td>
 						<td><a href="${x.url!}" target="_blank">${x.url!}</a></td>
 						<td>${x.description!}</td>
 						<td>
