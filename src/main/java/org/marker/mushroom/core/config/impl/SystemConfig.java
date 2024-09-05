@@ -202,6 +202,20 @@ public final class SystemConfig extends ConfigEngine {
 
 
 	/**
+	 * 获取模板配置相对路径
+	 * （相对网站根路径的）
+	 * @return
+	 */
+	public String getThemesRelativePath(){
+		String themesPath = this.properties.getProperty(THEMES_PATH);
+		if (StringUtils.isBlank(themesPath)) {
+			return "/themes";
+		}
+    	return themesPath.replace(WebRealPathHolder.REAL_PATH,"");
+	}
+
+
+	/**
 	 * 获取当前使用的主题
 	 * @return
 	 */

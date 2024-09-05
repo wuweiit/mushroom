@@ -211,14 +211,11 @@ public class FileController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/delete")
 	public Object delete(@RequestParam("path") String path, @RequestParam("name") String name){
-
         if(fileManager.checkPath(path)){
             return new ResultMessage(false, "路径检查异常，删除失败!");
         }
-
-		File file = new File(WebRealPathHolder.REAL_PATH + encoding(path + File.separator + name));
-        return fileManager.delete(file);
-
+		String filePath = WebRealPathHolder.REAL_PATH + encoding(path + File.separator + name);
+        return fileManager.delete(new File(filePath));
 	}
 	
 	
