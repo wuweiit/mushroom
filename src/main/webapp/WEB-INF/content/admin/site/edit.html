@@ -1,14 +1,14 @@
 <div class="content">
 	<div class="tab_bar">
 		<ul>
-			<li class="tab_index" onclick="setTabContent(this);">编辑外链</li>
+			<li class="tab_index" onclick="setTabContent(this);">编辑站点</li>
 		</ul>
-		<button class="btn_tabbar" onclick="submitActionForm(this);" return="link/list.do?currentPageNo=1">保 存</button>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="site/list.do?currentPageNo=1">保 存</button>
 	</div>
 
 
 
-	<form id="myForm" action="link/update.do"  method="post" class="form-horizontal" onsubmit="return false;">
+	<form id="myForm" action="site/update.do"  method="post" class="form-horizontal" onsubmit="return false;">
 		<input id="channelIcon" name="icon" type="hidden" value="${entity.icon!}" />
 		<input type="hidden" name="id" value="${entity.id?c}" />
 		<div class="tab_content">
@@ -16,43 +16,38 @@
 
 
 				<div class="control-group">
-					<label class="control-label">链接名称：</label>
+					<label class="control-label">站点名称：</label>
 					<div class="controls">
-						<input name="name" type="text" value="${entity.name!}"/>
+						<input name="title" type="text" value="${entity.title!}"/>
 						<div class="help-block">
-							外部网站链接名称
+							站点名称
 						</div>
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">URL地址：</label>
+					<label class="control-label">站点域名：</label>
 					<div class="controls">
-						<input name="url" type="text" value="${entity.url!}"/>
+						<input name="host" type="text" value="${entity.host!}"/>
 						<div class="help-block">
-							网站Http地址
-						</div>
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label">图标：</label>
-					<div class="controls">
-						<img class="image-upload"
-							 id="link-icon"
-							 onclick="uploadImage()"
-							 title="上传图片"
-							 src="${entity.icon!}" />
 
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">主题：</label>
+					<div class="controls">
+						<input name="theme" type="text" value="${entity.theme!}"/>
 						<div class="help-block">
-							上传图片的尺寸为：280 * 120 像素，可能会有拉伸情况，根据前端实际采用的尺寸上传即可。
+
 						</div>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">描述信息：</label>
 					<div class="controls">
-						<textarea class="textarea_for_add" name="description">${entity.description!}</textarea>
+						<textarea class="textarea_for_add" name="describe">${entity.describe!}</textarea>
 						<div class="help-block">
-							外链说明
+
 						</div>
 					</div>
 				</div>

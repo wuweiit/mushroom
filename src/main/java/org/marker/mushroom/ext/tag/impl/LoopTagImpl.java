@@ -1,12 +1,5 @@
 package org.marker.mushroom.ext.tag.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.alias.DAO;
@@ -15,13 +8,18 @@ import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.channel.TreeUtils;
 import org.marker.mushroom.core.exception.SystemException;
 import org.marker.mushroom.dao.IChannelDao;
-import org.marker.mushroom.dao.impl.ChannelDaoImpl;
 import org.marker.mushroom.ext.tag.MatchRule;
 import org.marker.mushroom.ext.tag.Taglib;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.template.MyCMSTemplate;
-import org.marker.mushroom.template.tags.res.ObjectDataSourceImpl;
 import org.marker.mushroom.template.tags.res.PageDataSourceImpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -114,38 +112,33 @@ public class LoopTagImpl extends Taglib{
 
             // 限制在当前栏目下的数据
             WebParam param = WebParam.get();
+            if("search".equals(param.action)){
 
-            int cid = param.channel.getId();
+            }else{
+                int cid = param.channel.getId();
 
-            IChannelDao channelDao = SpringContextHolder.getBean(DAO.CHANNEL);
-
-
-            // 计算子节点
-            List<Channel> channelList = channelDao.findAll();
-
-            List<Integer> cidList  = new ArrayList<>();
-            cidList.add(cid);
-            TreeUtils.buildChildIdList(channelList , cidList, cid);
-
-            String cids = StringUtils.join(cidList,",");
-            data.setWhereIn("cid in ("+cids+") ");
+                IChannelDao channelDao = SpringContextHolder.getBean(DAO.CHANNEL);
 
 
+                // 计算子节点
+                List<Channel> channelList = channelDao.findAll();
 
+                List<Integer> cidList  = new ArrayList<>();
+                cidList.add(cid);
+                TreeUtils.buildChildIdList(channelList , cidList, cid);
 
+                String cids = StringUtils.join(cidList,",");
+                data.setWhereIn("cid in ("+cids+") ");
 
-
+                MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE);
+                cmstemplate.put(data);
+            }
 
 
 			// page.data为内容模型中使用的查询
 			String re = "<#list page.data as " + var + ">";
 			
 			content = content.replace(text, re);// 替换采用UUID生成必须的
-
-			MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE);
-
-			cmstemplate.put(data);
-
 
 		}
 	}

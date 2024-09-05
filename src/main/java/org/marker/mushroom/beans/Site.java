@@ -12,6 +12,9 @@ import java.io.Serializable;
 public class Site implements Serializable{
 
 	private Integer id = 0;
-	private Integer title;
+	private String title;
+	private String host;
+	private String theme;
+	private String describe;
 
 }

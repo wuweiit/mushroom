@@ -138,24 +138,23 @@ public final class WebAPP {
 		
 		WebParam param = WebParam.get(); // 解析地址
 
-		if("page".equals(param.action)){ // 页面
+		if ("page".equals(param.action)) { // 页面
 			// 获取当前栏目信息
-			if(param.existsContentId()){
+			if (param.existsContentId()) {
 				param.prefix = cmc.getPrefix(param.modelType);
 				String tableName = param.prefix + param.modelType;
 				param.channel = channelService.getChannel(tableName, param.contentId);
 				param.pageName = param.channel.getUrl();
-			}else{
+			} else {
 				param.channel = channelService.getByUrl(param.pageName);
 			}
 
-		}else if("search".equals(param.action)){// 搜索
-            param.template = "search.html";
+		} else if ("search".equals(param.action)) {// 搜索
+            param.template = String.format("%s-%s", request.getParameter("model"), "search.html");
             ArticleService articleService = SpringContextHolder.getBean(Services.ARTICLE);
-
-
             Page page = articleService.search(param);
-            request.setAttribute("page", page);
+			param.channel = new Channel();
+			request.setAttribute("page", page);
             request.setAttribute("keywrods", param.keywords);
 		}
 

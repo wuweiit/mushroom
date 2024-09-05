@@ -14,7 +14,6 @@
 					<th>站点名称</th>
 					<th>站点域名</th>
 					<th>主题</th>
-					<th>链接地址</th>
 					<th>描述</th>
 					<th align="center" width="70">操作</th>
 				</tr>
@@ -24,13 +23,12 @@
 					<tr>
 						<td class="checkbox1"><input type="checkbox" value="${x.id?c}" /></td>
 						<td>${x.title!}</td>
-						<td>${x.host!}</td>
+						<td><a href="http://${x.host!}" target="_blank">${x.host!}</a></td>
 						<td>${x.theme!}</td>
-						<td><a href="${x.url!}" target="_blank">${x.url!}</a></td>
-						<td>${x.description!}</td>
+						<td>${x.describe!}</td>
 						<td>
 							<a href="#" action="site/edit.do?id=${x.id?c}&amp;currentPageNo=${page.currentPageNo?c}" onclick="refreshContentByElement(this);">修改</a> |
-							<a href="#" action="site/delete.do?rid=${x.id?c}" return="site/list.do?currentPageNo=${page.currentPageNo?c}" onclick="deleteById(this);">删除</a>
+							<a href="#" action="site/delete.do?id=${x.id?c}" return="site/list.do?currentPageNo=${page.currentPageNo?c}" onclick="deleteById(this);">删除</a>
 						</td>
 					</tr>
 				</#list>

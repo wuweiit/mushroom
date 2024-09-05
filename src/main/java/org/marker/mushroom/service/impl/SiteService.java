@@ -3,6 +3,7 @@ package org.marker.mushroom.service.impl;
 import org.marker.mushroom.alias.Core;
 import org.marker.mushroom.alias.Services;
 import org.marker.mushroom.beans.Category;
+import org.marker.mushroom.beans.Site;
 import org.marker.mushroom.core.channel.CategoryItem;
 import org.marker.mushroom.core.channel.TreeUtils;
 import org.marker.mushroom.dao.ISiteDao;
@@ -89,11 +90,11 @@ public class SiteService extends BaseService {
 
 
 	public Map<String,Object> get(int id) {
-		return siteDao.findById(Category.class,id);
+		return siteDao.findById(Site.class,id);
 	}
 
     public Object getAll() {
-        return siteDao.findAll(Category.class);
+        return siteDao.findAll(Site.class);
     }
 
 

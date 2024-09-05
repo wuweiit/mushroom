@@ -36,6 +36,24 @@
 				</div>
 			</div>
 			<div class="control-group">
+				<label class="control-label">栏目地址：</label>
+				<div class="controls">
+					<input class="input_for_add" name="url" type="text" value="defalut"/>
+					<div class="help-block">地址不能重复哦</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">栏目模板：</label>
+				<div class="controls">
+					<select id="template" name="template">
+						<#list templateList as tpl>
+						<option value="${tpl}">${tpl}</option>
+					</#list>
+					</select>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
 				<label class="control-label">语言引用：</label>
 				<div class="controls">
 					<input class="input_for_add" name="langkey" type="text" />
@@ -72,26 +90,6 @@
 
 					<button onclick="uploadImage()">上传图片</button>
 					<div class="help-block"></div>
-				</div>
-			</div>
-
-			<div class="control-group">
-				<label class="control-label">栏目模板：</label>
-				<div class="controls">
-					<select id="template" name="template">
-						<#list templateList as tpl>
-							<option value="${tpl}">${tpl}</option>
-						</#list>
-					</select>
-					<div class="help-block"></div>
-				</div>
-			</div>
-
-			<div class="control-group">
-				<label class="control-label">栏目地址：</label>
-				<div class="controls">
-					<input class="input_for_add" name="url" type="text" value="defalut"/>
-					<div class="help-block">地址不能重复哦</div>
 				</div>
 			</div>
 

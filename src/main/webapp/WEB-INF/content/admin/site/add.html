@@ -1,54 +1,50 @@
 <div class="content">
 	<div class="tab_bar">
 		<ul>
-			<li class="tab_index" onclick="setTabContent(this);">添加外链</li>
+			<li class="tab_index" onclick="setTabContent(this);">添加站点</li>
 		</ul>
-		<button class="btn_tabbar" onclick="submitActionForm(this);" return="link/list.do?currentPageNo=1">保 存</button>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="site/list.do?currentPageNo=1">保 存</button>
 	</div>
 
-	<form id="myForm" action="link/save.do"  method="post" class="form-horizontal" onsubmit="return false;">
+	<form id="myForm" action="site/save.do"  method="post" class="form-horizontal" onsubmit="return false;">
 		<input id="channelIcon" name="icon" type="hidden" value="" />
 
 	<div class="tab_content">
 		<div class="tab_item tab_show">
 
 			<div class="control-group">
-				<label class="control-label">链接名称：</label>
+				<label class="control-label">站点名称：</label>
 				<div class="controls">
-					<input name="name" type="text" placeholder=""/>
+					<input name="title" type="text" placeholder=""/>
 					<div class="help-block">
-						外部网站链接名称
+						站点名称
 					</div>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">URL地址：</label>
+				<label class="control-label">域名：</label>
 				<div class="controls">
-					<input name="url" type="text" placeholder=""/>
+					<input name="host" type="text" placeholder=""/>
 					<div class="help-block">
-						网站Http地址
+						请将域名的A记录解析到服务器IP
 					</div>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">图标：</label>
+				<label class="control-label">主题：</label>
 				<div class="controls">
-					<img class="image-upload"
-						 id="link-icon"
-						 onclick="uploadImage()"
-						 title="上传图片" />
-
+					<input name="theme" type="text" placeholder=""/>
 					<div class="help-block">
-						上传图片的尺寸为：280 * 120 像素，可能会有拉伸情况，根据前端实际采用的尺寸上传即可。
+						请将域名的A记录解析到服务器IP
 					</div>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">描述信息：</label>
 				<div class="controls">
-					<textarea class="textarea_for_add" name="description"></textarea>
+					<textarea class="textarea_for_add" name="describe"></textarea>
 					<div class="help-block">
-						外链说明
+						说明
 					</div>
 				</div>
 			</div>
