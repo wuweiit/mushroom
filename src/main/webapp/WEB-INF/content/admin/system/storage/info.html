@@ -1,0 +1,114 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">基础配置</li>
+			<li onclick="setTabContent(this);">本地存储</li>
+			<li onclick="setTabContent(this);">阿里云OSS</li>
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="system/storage/info.do">保 存</button>
+	</div>
+	<form id="myForm" action="system/storage/info.do" method="post" class="form-horizontal">
+    <div class="tab_content">
+		<div class="tab_item tab_show">
+            <div style="margin: 10px;">
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="label label-warning">注意</span><br/>
+                    1、切换存储引擎需要手动迁移数据。<br/>
+                    2、缩略图根据三房oss规则动态生成<br/>
+                    3、未设置按照系统默认生成，系统默认：大图800*800，中图300*300，小图150*150<br/>
+                    4、水印只在上传图片时生成，原图，大中小缩略图上都按照比例存在。<br/>
+                    5、若上传图片时未开启水印，则该图在开启水印之后依旧无水印效果。<br/>
+                </div>
+            </div>
+
+			<div class="control-group">
+				<label class="control-label">存储引擎：</label>
+				<div class="controls">
+					<input id="storageLocalOss" name="storageType" type="radio" value="LOCAL_OSS"/>
+					<label for="storageLocalOss">本地存储</label> &nbsp; &nbsp;
+
+					<input id="storageAliyunOss" name="storageType" type="radio" value="ALIYUN_OSS"/>
+					<label for="storageAliyunOss">阿里云OSS</label>
+
+                    <div class="help-block">
+                        请选择存储引擎，切换存储引擎需要手动迁移数据
+                    </div>
+				</div>
+			</div>
+
+		</div>
+		<div class="tab_item"><!-- 本地存储 -->
+			<div style="margin: 10px;">
+				<div class="alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					1、本地存储是基于网站目录配置的，支持绝对路径相对路径，站外路径；<br/>
+					2、支持nginx转发到对应的存储路径；
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">本地存储路径：</label>
+				<div class="controls">
+					<input name="localOss.baseFilePath" type="text" value="${config['localOss.baseFilePath']!}"/>
+					<div class="help-block">上传文件存储路径需要配置Nginx代理访问CSS、图片等文件! </div>
+					<span class="tip_text"></span>
+				</div>
+			</div>
+		</div>
+		<div class="tab_item"><!-- 阿里云OSS存储 -->
+			<div style="margin: 10px;">
+				<div class="alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					1、阿里云oss开通方法：<a href="https://doc.crmeb.com/single/v5/7790">点击查看</a><br/>
+					2、第一步： 添加【存储空间】（空间名称不能重复）<br/>
+					3、第二步： 开启【使用状态】<br/>
+					4、第三步（可选）： 选择云存储空间列表上的修改【空间域名操作】<br/>
+					5、第四步（可选）： 选择云存储空间列表上的修改【CNAME配置】，打开后复制记录值到对应的平台解析<br/>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">AccessKeyId：</label>
+				<div class="controls">
+					<input name="aliyunOss.accessKeyId" type="text" value="${config['aliyunOss.accessKeyId']!}"
+						   placeholder=""/>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">AccessKeySecret：</label>
+				<div class="controls">
+					<input name="aliyunOss.accessKeySecret" type="text" value="${config['aliyunOss.accessKeySecret']!}"
+						   placeholder=""/>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Bucket：</label>
+				<div class="controls">
+					<input name="aliyunOss.bucket" type="text" value="${config['aliyunOss.bucket']!}"
+						   placeholder=""/>
+					<div class="help-block"></div>
+				</div>
+			</div>
+<!--			<div class="control-group">-->
+<!--				<label class="control-label">OSS地域：</label>-->
+<!--				<div class="controls">-->
+<!--					<div class="help-block"></div>-->
+<!--				</div>-->
+<!--			</div>-->
+		</div>
+		<div class="tab_item"><!-- 高级配置 -->
+
+		</div>
+	</div>	
+	</form>  
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$("input[name='storageType'][value='${config.storageType!}']").prop('checked', true).change();
+});
+</script>
+
+

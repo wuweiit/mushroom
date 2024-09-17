@@ -1,9 +1,12 @@
 package org.marker.mushroom.core.config;
 
-import lombok.extern.slf4j.Slf4j;
+import org.marker.mushroom.core.config.annotation.IgnoreCopyProperties;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
+import org.marker.mushroom.holder.SpringContextHolder;
+import org.marker.mushroom.utils.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.*;
@@ -25,34 +28,34 @@ import java.util.*;
  * @time 2013-11-15
  * @author marker
  * */
-@Slf4j
-public abstract class ConfigDBEngine {
+public abstract class ConfigDBEngine<S extends ConfigDBEngine> implements InitializingBean {
 
 	/** 日志记录器 */
-	protected Logger logger = LoggerFactory.getLogger(ConfigDBEngine.class);
+	protected static Logger logger = LoggerFactory.getLogger(ConfigDBEngine.class);
 
 
 	/**
 	 * 配置信息存放对象
 	 *(API: Properties类是线程安全的：多个线程可以共享单个Properties对象而无需进行外部同步)
 	 * */
+	@IgnoreCopyProperties
 	protected Properties properties = new Properties();
 
 	/** 配置文件编码集UTF-8 */
 	public static final String FILE_ENCODEING = "utf-8";
 
-
-	/** 带注入 */
-	private JdbcTemplate jdbcTemplate;
-
-
 	/**
 	 * 初始化就读取配置文件哦
 	 */
-	public ConfigDBEngine(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
+	public ConfigDBEngine() {
+	}
+
+	@Override
+	public void afterPropertiesSet() {
+		logger.debug("[{}] load db config", this.getClass().getSimpleName());
 		this.read();
 	}
+
 
 
 	/**
@@ -88,8 +91,7 @@ public abstract class ConfigDBEngine {
 	 * 线程安全
 	 */
 	public synchronized void read(){
-	    if(jdbcTemplate == null)
-	        return;
+		JdbcTemplate jdbcTemplate = SpringContextHolder.getApplicationContext().getBean(JdbcTemplate.class);
 		String name = this.getClass().getSimpleName();
 
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
@@ -106,6 +108,9 @@ public abstract class ConfigDBEngine {
 			String value = (String)map.get("value");
 			properties.put(key,value);
 		}
+
+
+
 	}
 
 
@@ -114,14 +119,19 @@ public abstract class ConfigDBEngine {
 	 * @return
 	 */
 	public void storeAsync() {
-		log.info("ConfigDBEngine store async...");
-		new Thread(){
-			@Override
-			public void run() {
-				store();
-				log.info("ConfigDBEngine store async end.");
-			}
-		}.start();
+		logger.info("ConfigDBEngine store async...");
+
+		logger.debug("ConfigDBEngine copy bean to this.properties...");
+		Properties properties = ArrayUtils.beanToPropertiesConverter(this);
+//		this.properties.putAll(properties);
+
+		logger.debug("ConfigDBEngine copy properties to [{}].properties...",this.getClass().getSimpleName());
+		ConfigDBEngine configDBEngine = SpringContextHolder.getApplicationContext().getBean(this.getClass());
+		configDBEngine.properties.putAll(properties);
+
+		configDBEngine.store();
+		logger.info("ConfigDBEngine store async end.");
+
 	}
 
 
@@ -135,16 +145,20 @@ public abstract class ConfigDBEngine {
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
         String prefix = dbcfg.getPrefix();
 
+
+
         String sql = "update "+prefix+"sys_config set value=? where config=? and `key`=?";
-		List<Object[]> paramsList = new ArrayList<>(properties.entrySet().size());
-		Iterator<Map.Entry<Object, Object>> it = properties.entrySet().iterator();
+		List<Object[]> paramsList = new ArrayList<>(this.properties.entrySet().size());
+		Iterator<Map.Entry<Object, Object>> it = this.properties.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Object, Object> entry = it.next();
 			Object key = entry.getKey();
 			Object value = entry.getValue();
 			paramsList.add(new Object[]{value, name, key});
 		}
+		JdbcTemplate jdbcTemplate = SpringContextHolder.getApplicationContext().getBean(JdbcTemplate.class);
 		jdbcTemplate.batchUpdate(sql, paramsList);
+
 	}
 
     public void loadFile(String file ) {

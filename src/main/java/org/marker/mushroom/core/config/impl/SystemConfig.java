@@ -1,6 +1,7 @@
 package org.marker.mushroom.core.config.impl;
 
 
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.holder.SpringContextHolder;
@@ -14,7 +15,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * 在系统StartListener监听器中进行配置文件地址的初始化
  * @author marker
  * */
-public final class SystemConfig extends ConfigDBEngine {
+@NoArgsConstructor
+public final class SystemConfig extends ConfigDBEngine<ConfigDBEngine> {
 
 
 	
@@ -65,12 +67,8 @@ public final class SystemConfig extends ConfigDBEngine {
 
 	/**
 	 * 初始化就读取配置文件哦
-	 *
-	 * @param jdbcTemplate
 	 */
-	private SystemConfig(JdbcTemplate jdbcTemplate) {
-		super(jdbcTemplate);
-	}
+
 
 	/**
 	 * 获取实例
@@ -82,7 +80,7 @@ public final class SystemConfig extends ConfigDBEngine {
 			synchronized (SystemConfig.class){
 				if(systemConfig == null){
 					JdbcTemplate jdbcTemplate = SpringContextHolder.getBean("jdbcTemplate");
-					systemConfig = new SystemConfig(jdbcTemplate);
+					systemConfig = new SystemConfig( );
 				}
 			}
 		}

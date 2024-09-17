@@ -3,7 +3,7 @@
 	<encoder>
 		<charset class="java.nio.charset.Charset">UTF-8</charset>
 	</encoder>
-	<property name="PROJECT_HOME" value="/data/logs/mrcms" />
+	<property name="PROJECT_HOME" value="./data/logs/mrcms" />
 	<property name="MAX_FILE_SIZE" value="300mb" />
 	<property name="MAX_HISTORY" value="5" />
 	<property name="MYBATIS_MAX_HISTORY" value="${MAX_HISTORY}" />
@@ -29,7 +29,7 @@
    
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      		<level>debug</level>
+      		<level>DEBUG</level>
     	</filter>
 		<encoder>
 			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -99,7 +99,7 @@
 
 
 
-	<root level="debug">
+	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ERROR-ROLLING"/>
 		<appender-ref ref="INFO-ROLLING"/>
