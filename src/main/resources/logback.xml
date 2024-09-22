@@ -3,7 +3,7 @@
 	<encoder>
 		<charset class="java.nio.charset.Charset">UTF-8</charset>
 	</encoder>
-	<property name="PROJECT_HOME" value="./data/logs/mrcms" />
+	<property name="PROJECT_HOME" value="./logs" />
 	<property name="MAX_FILE_SIZE" value="300mb" />
 	<property name="MAX_HISTORY" value="5" />
 	<property name="MYBATIS_MAX_HISTORY" value="${MAX_HISTORY}" />
