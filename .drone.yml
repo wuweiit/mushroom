@@ -1,0 +1,74 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: resource fix
+    image: nas.mrcms.cn:8082/wuweiit/alpine:3.20.2
+    pull: if-not-exists
+    volumes:
+      - name: ssh
+        path: /root/.ssh
+    commands:
+      - chmod 600 /root/.ssh/id_rsa
+    when:
+      branch:
+        - release
+
+  - name: build
+    image: nas.mrcms.cn:8082/maven:3.8.6-jdk-8-slim
+    pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
+    volumes:
+      - name: mavenRep
+        path: /root/.m2
+    commands:
+      - echo 构建号：${DRONE_BRANCH}
+      - echo "识别环境 决定资源"
+      - if [ "${DRONE_BRANCH}" != "prod" ]; then echo 'prod' ;fi
+      - mvn package -DskipTests=true -Dmaven.javadoc.skip=true -U
+    branch:
+      - release
+
+  - name: scp to ${DRONE_BRANCH}
+    image: nas.mrcms.cn:8082/appleboy/drone-scp
+    pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
+#    environment:
+#      SSH_KEY_PATH: /root/.ssh/id_rsa
+    volumes:
+      - name: ssh
+        path: /root/.ssh
+    settings:
+      host: 192.168.1.6
+      username: root
+      key:
+        from_secret: ssh_rsa
+      port: 22
+      strip_components: 2
+      target: /opt/baota/www/wwwroot/open.joggle.cn/mrcms/
+      source: ./target/ROOT.war
+    when:
+      branch:
+        - release
+
+
+
+volumes:
+  - name: ssh
+    host:
+      path: /root/.ssh
+  - name: kube
+    host:
+      path: /root/.kube
+  - name: mavenRep
+    host:
+      path: /opt/data/drone/.m2
+  - name: dockerSock
+    host:
+      path: /var/run/docker.sock
+trigger:
+  event:
+    include:
+      - push
+      - custom
+  branch:
+    - release
