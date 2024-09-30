@@ -1,5 +1,6 @@
 package org.marker.mushroom.filter;
 
+import org.marker.mushroom.core.config.impl.StorageConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.utils.WebUtils;
 import org.slf4j.Logger;
@@ -43,6 +44,8 @@ public class ThemesResourceFilter implements Filter {
 
         String uri = WebUtils.getRequestUri(request);
         SystemConfig syscfg = SystemConfig.getInstance();
+        StorageConfig storageConfig = StorageConfig.getInstance();
+
 
         setHeaders((HttpServletResponse) resp, getMediaType(servletContext, uri));
         String themesPath = syscfg.getThemesPath();
@@ -55,7 +58,7 @@ public class ThemesResourceFilter implements Filter {
                 file = themesPath + uri.replaceAll("/themes", "");
             }
         } else if (uri.startsWith("/upload")) {
-            if (org.apache.commons.lang.StringUtils.isEmpty(syscfg.getFilePath())) {
+            if (org.apache.commons.lang.StringUtils.isEmpty(storageConfig.getLocalOss().getBaseFilePath())) {
                 chain.doFilter(req, resp);
                 return;
             } else {
