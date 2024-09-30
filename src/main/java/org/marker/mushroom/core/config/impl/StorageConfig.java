@@ -51,6 +51,25 @@ public final class StorageConfig extends ConfigDBEngine<StorageConfig> {
         return this.storageType;
     }
 
+    public AliyunOssProperties getAliyunOss() {
+        if (this.aliyunOss == null) {
+            AliyunOssProperties propertiesTmp = new AliyunOssProperties();
+            propertiesTmp.setBucket(this.properties.getProperty("aliyunOss.bucket"));
+            propertiesTmp.setAccessKeyId(this.properties.getProperty("aliyunOss.accessKeyId"));
+            propertiesTmp.setAccessKeySecret(this.properties.getProperty("aliyunOss.accessKeySecret"));
+            this.aliyunOss = propertiesTmp;
+        }
+        return aliyunOss;
+    }
+
+    public LocalStorageProperties getLocalOss() {
+        if (this.localOss == null) {
+            LocalStorageProperties localStorageProperties = new LocalStorageProperties();
+            localStorageProperties.setBaseFilePath(this.properties.getProperty("localOss.baseFilePath"));
+            this.localOss = localStorageProperties;
+        }
+        return localOss;
+    }
 
     /**
      * 阿里云OSS配置

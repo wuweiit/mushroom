@@ -6,10 +6,10 @@ import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.utils.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.io.*;
 import java.util.*;
 
 
@@ -97,7 +97,6 @@ public abstract class ConfigDBEngine<S extends ConfigDBEngine> implements Initia
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
         String prefix = dbcfg.getPrefix();
 
-
 		String sql = "select * from "+prefix+"sys_config where config=?";
 		List<Map<String,Object>> list =  jdbcTemplate.queryForList(sql, name);
 		Iterator<Map<String,Object>> it = list.iterator();
@@ -108,6 +107,7 @@ public abstract class ConfigDBEngine<S extends ConfigDBEngine> implements Initia
 			String value = (String)map.get("value");
 			properties.put(key,value);
 		}
+		BeanUtils.copyProperties(properties, this);
 
 
 
@@ -160,65 +160,65 @@ public abstract class ConfigDBEngine<S extends ConfigDBEngine> implements Initia
 		jdbcTemplate.batchUpdate(sql, paramsList);
 
 	}
+//
+//    public void loadFile(String file ) {
+//
+//	    File _cfgFile = new File(file);
+//        FileInputStream in = null;
+//        InputStreamReader isr = null;
+//        try {
+//            in = new FileInputStream(_cfgFile);
+//            isr = new InputStreamReader(in, FILE_ENCODEING);
+//            this.properties.load(isr);//读取配置文件
+//        } catch (IOException e) {
+//            logger.error("IOException " , e);
+//        }finally{
+//            try {
+//                if (isr != null) {
+//                    isr.close();
+//                }
+//                if (in != null) {
+//                    in.close();
+//                }
+//            } catch (IOException e) {
+//            }
+//        }
+//
+//    }
 
-    public void loadFile(String file ) {
 
-	    File _cfgFile = new File(file);
-        FileInputStream in = null;
-        InputStreamReader isr = null;
-        try {
-            in = new FileInputStream(_cfgFile);
-            isr = new InputStreamReader(in, FILE_ENCODEING);
-            this.properties.load(isr);//读取配置文件
-        } catch (IOException e) {
-            logger.error("IOException " , e);
-        }finally{
-            try {
-                if (isr != null) {
-                    isr.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException e) {
-            }
-        }
-
-    }
-
-
-	/**
-	 * 配置持久化
-	 */
-	public void storeFile(File cfgFile){
-		OutputStream out = null;
-		OutputStreamWriter osw = null;
-		try{
-			out = new FileOutputStream(cfgFile);
-			osw = new OutputStreamWriter(out, FILE_ENCODEING);
-			this.properties.store(osw, "");
-
-		}catch (FileNotFoundException e) {
-			logger.error("config file not found " + cfgFile.getAbsolutePath(), e);
-		} catch (UnsupportedEncodingException e) {
-			logger.error("not supported encoding " + FILE_ENCODEING,e);
-		} catch (IOException e) {
-			logger.error("IOException " + cfgFile.getAbsolutePath(), e);
-		}finally{
-			try {
-				if(osw != null){
-					osw.close();
-				}
-				if(out != null){
-					out.close();
-				}
-			} catch (IOException e) {
-				logger.error(
-						"close stream IOException "
-								+ cfgFile.getAbsolutePath(), e);
-			}
-		}
-	}
+//	/**
+//	 * 配置持久化
+//	 */
+//	public void storeFile(File cfgFile){
+//		OutputStream out = null;
+//		OutputStreamWriter osw = null;
+//		try{
+//			out = new FileOutputStream(cfgFile);
+//			osw = new OutputStreamWriter(out, FILE_ENCODEING);
+//			this.properties.store(osw, "");
+//
+//		}catch (FileNotFoundException e) {
+//			logger.error("config file not found " + cfgFile.getAbsolutePath(), e);
+//		} catch (UnsupportedEncodingException e) {
+//			logger.error("not supported encoding " + FILE_ENCODEING,e);
+//		} catch (IOException e) {
+//			logger.error("IOException " + cfgFile.getAbsolutePath(), e);
+//		}finally{
+//			try {
+//				if(osw != null){
+//					osw.close();
+//				}
+//				if(out != null){
+//					out.close();
+//				}
+//			} catch (IOException e) {
+//				logger.error(
+//						"close stream IOException "
+//								+ cfgFile.getAbsolutePath(), e);
+//			}
+//		}
+//	}
 }
 
 
