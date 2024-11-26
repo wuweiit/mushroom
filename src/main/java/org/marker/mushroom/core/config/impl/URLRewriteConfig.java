@@ -1,6 +1,6 @@
 package org.marker.mushroom.core.config.impl;
 
-import org.marker.mushroom.core.config.ConfigEngine;
+import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.urlrewrite.URLRewriteEngine;
@@ -13,7 +13,7 @@ import org.marker.urlrewrite.URLRewriteEngine;
  * @blog www.yl-blog.com
  * @weibo http://t.qq.com/wuweiit
  */
-public class URLRewriteConfig extends ConfigEngine {
+public class URLRewriteConfig extends ConfigDBEngine {
 
 	/** 页面后缀key */
 	public static final String PAGE_SUFFIX = "page.suffix";
@@ -36,7 +36,7 @@ public class URLRewriteConfig extends ConfigEngine {
 	 *
 	 */
 	public URLRewriteConfig() {
-        super("WEB-INF/conf/urlrewrite.properties");
+		super.read();
 		init();// 初始化
 	}
 
@@ -46,7 +46,7 @@ public class URLRewriteConfig extends ConfigEngine {
      * @return
      */
     public static URLRewriteConfig getInstance() {
-        return SpringContextHolder.getBean("URLRewriteConfig");
+		return SpringContextHolder.getApplicationContext().getBean(URLRewriteConfig.class);
     }
 
 
