@@ -19,7 +19,7 @@ public class Uploader {
 		String storageType = (String) this.conf.get("storageType");
 		State state = null;
 		if ("ALIYUN_OSS".equals(storageType)) { // 阿里云上传
-			state = BinaryUploader.saveAliyunOSS(this.request, this.conf);
+			state = BinaryUploader.saveAliyunOSS(this.request, this.conf, null);
 			return state;
 		}
 

@@ -98,7 +98,9 @@ public class ActionEnter {
 				conf = configManager.getConfig( actionCode );
 				String[] list = this.request.getParameterValues( (String)conf.get( "fieldName" ) );
 				conf.put("saveRootPath",this.saveRootPath);
-				state = new ImageHunter( conf ).capture( list );
+				conf.put("storageType",this.storageType);
+				conf.put("storageConfig",this.storageConfig);
+				state = new ImageHunter(request, conf ).capture( list );
 				break;
 				
 			case ActionMap.LIST_IMAGE:

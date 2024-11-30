@@ -105,7 +105,7 @@ public abstract class ConfigDBEngine<S extends ConfigDBEngine> implements Initia
 			Map map = it.next();
 			String key = (String)map.get("key");
 			String value = (String)map.get("value");
-			properties.put(key,value);
+			properties.put(key, value == null?"":value);
 		}
 		BeanUtils.copyProperties(properties, this);
 
