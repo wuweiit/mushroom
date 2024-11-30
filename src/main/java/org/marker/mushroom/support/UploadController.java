@@ -36,14 +36,14 @@ public class UploadController extends SupportController {
 	private SystemConfig config;
 
 
-
-
-	// 网站基本信息
+	/**
+	 * 实现是基于filter实现的
+	 * @param multipartHttpServletRequest
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("/upload")
-	public void upload(DefaultMultipartHttpServletRequest multipartHttpServletRequest, HttpServletResponse response) throws IOException {
-
-
-	}
+	public void upload(DefaultMultipartHttpServletRequest multipartHttpServletRequest, HttpServletResponse response) throws IOException {}
 
 
 

@@ -48,7 +48,8 @@ public class UploadFilter implements Filter {
 
 
 		String storageType = storageConfig.getStorageType();
-		if ("LOCAL_OSS".equals(storageType)) {
+		request.setAttribute("storageType", storageType);
+		if ("LOCAL_OSS".equals(storageType)) { // 本地存储的配置
 			// 获取文件存储地址
 			String saveRootPath = storageConfig.getProperties().getProperty("localOss.baseFilePath");
 			if (!(saveRootPath != null && !"".equals(saveRootPath))) {
@@ -58,6 +59,19 @@ public class UploadFilter implements Filter {
 
 			Writer out = response.getWriter();
 			out.write(new ActionEnter(request, rootPath, saveRootPath).exec());
+		} else if("ALIYUN_OSS".equals(storageType)){
+			request.setAttribute("storageConfig", storageConfig.getProperties());
+
+			// 获取文件存储地址
+			String saveRootPath = storageConfig.getProperties().getProperty("localOss.baseFilePath");
+			if (!(saveRootPath != null && !"".equals(saveRootPath))) {
+				saveRootPath = rootPath;
+			}
+			log.debug("rootPath:{}", saveRootPath);
+
+			Writer out = response.getWriter();
+			out.write(new ActionEnter(request, rootPath, saveRootPath).exec());
+
 		}
 	}
 

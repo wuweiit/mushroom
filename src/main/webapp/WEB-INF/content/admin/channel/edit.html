@@ -229,6 +229,7 @@ _editor.ready(function () {
     //侦听文件上传
     _editor.addListener('afterUpfile', function (t, arg) {
         console.log(arg);
+		debugger
         $("#channelIcon").attr("value", arg[0].src);
     })
 });

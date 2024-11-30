@@ -68,6 +68,22 @@
 			</div>
 
 			<div class="control-group">
+				<label class="control-label">EndPoint：</label>
+				<div class="controls">
+					<input name="aliyunOss.endpoint" type="text" value="${config['aliyunOss.endpoint']!}"
+						   placeholder=""/>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">自定义域名：</label>
+				<div class="controls">
+					<input name="aliyunOss.domain" type="text" value="${config['aliyunOss.domain']!}"
+						   placeholder=""/>
+					<div class="help-block">需要配置自定义域名绑定到OSS的bucket</div>
+				</div>
+			</div>
+			<div class="control-group">
 				<label class="control-label">AccessKeyId：</label>
 				<div class="controls">
 					<input name="aliyunOss.accessKeyId" type="text" value="${config['aliyunOss.accessKeyId']!}"

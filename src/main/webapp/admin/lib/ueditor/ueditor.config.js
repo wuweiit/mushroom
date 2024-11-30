@@ -32,7 +32,8 @@
         // 服务器统一请求接口路径
         // , serverUrl: URL +　"jsp/controller.jsp"
         , serverUrl:  　"/admin/upload.do"
-        ,imageUrlPrefix: BASEURL
+        // ,imageUrlPrefix: BASEURL
+        ,imageUrlPrefix: ''
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         , toolbars: [[
             'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -361,20 +362,12 @@
     }
 
     function getBasePath(docUrl, confUrl) {
-
         var basePath = confUrl;
-
-
         if (/^(\/|\\\\)/.test(confUrl)) {
-
             basePath = /^.+?\w(\/|\\\\)/.exec(docUrl)[0] + confUrl.replace(/^(\/|\\\\)/, '');
-
         } else if (!/^[a-z]+:/i.test(confUrl)) {
-
             docUrl = docUrl.split("#")[0].split("?")[0].replace(/[^\\\/]+$/, '');
-
             basePath = docUrl + "" + confUrl;
-
         }
 
         return optimizationPath(basePath);
