@@ -64,6 +64,8 @@ public class ThemesResourceFilter implements Filter {
             } else {
                 file = syscfg.getFilePath() + uri;
             }
+        } else if (uri.startsWith("/wp-content")) { // 兼容wordpress地址
+            file = syscfg.getFilePath() + uri;
         }
 
         File fileInfo = new File(file);
