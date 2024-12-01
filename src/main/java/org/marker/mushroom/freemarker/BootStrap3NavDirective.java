@@ -68,7 +68,7 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 
 		String web = (String) ActionContext.getReq().getAttribute(AppStatic.WEB_APP_URL);
 
-		str.append("<ul class=\"nav navbar-nav\">\n");
+		str.append("<ul>\n");
 		
 		
 		List<ChannelItem> items = root.getChild();
@@ -77,7 +77,7 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 			ChannelItem item = it.next();
 			Channel c = item.getChannel();
 			
-			str.append("  <li>\n")
+			str.append("  <li data-id='"+item.getChannel().getId()+"'>\n")
 				.append("    <a ");
 				boolean hasChild = item.hasChild();
 				if(hasChild){
