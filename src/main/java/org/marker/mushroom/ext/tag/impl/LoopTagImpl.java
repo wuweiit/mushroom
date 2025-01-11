@@ -114,7 +114,7 @@ public class LoopTagImpl extends Taglib{
             WebParam param = WebParam.get();
             if("search".equals(param.action)){
 
-            }else{
+            } else{
                 int cid = param.channel.getId();
 
                 IChannelDao channelDao = SpringContextHolder.getBean(DAO.CHANNEL);
@@ -128,7 +128,12 @@ public class LoopTagImpl extends Taglib{
                 TreeUtils.buildChildIdList(channelList , cidList, cid);
 
                 String cids = StringUtils.join(cidList,",");
-                data.setWhereIn("cid in ("+cids+") ");
+
+                // 只有子页面需要限制内容cid
+                if (!"index".equals(param.pageName)){
+                    data.setWhereIn("cid in ("+cids+") ");
+                }
+
 
                 MyCMSTemplate cmstemplate = SpringContextHolder.getBean(Core.ENGINE_TEMPLATE);
                 cmstemplate.put(data);
