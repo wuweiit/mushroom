@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" />
     <link rel="stylesheet" type="text/css" href="lib/ztree/css/zTreeStyle/zTreeStyle.css" />
     <link rel="stylesheet" type="text/css" href="lib/ueditor/dialogs/image/image.css" />
 
@@ -17,6 +18,9 @@
     <link id="theme" rel="stylesheet" type="text/css" href="css/themes/default.css" />
     <link rel="stylesheet" href="lib/datepicker/css/datepicker.css" type="text/css" />
     <link rel="stylesheet" href="lib/datepicker/css/layout.css" media="screen" type="text/css" />
+
+    <!-- highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
 
 
     <script type="text/javascript">
@@ -79,6 +83,7 @@
 </body>
 <script type="text/javascript" src="lib/jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="lib/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="lib/bootstrap/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 <!-- baidu tools -->
 <script type="text/javascript" charset="utf-8" src="lib/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="lib/ueditor/ueditor.all.js"></script>
@@ -95,8 +100,13 @@
 <script type="text/javascript" src="js/handlebars-v1.3.0.js"></script>
 <script type="text/javascript" src="js/core.js"></script>
 <script type="text/javascript" src="js/showtime.js"></script>
+<!-- highlight.js JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js
+"></script>
 
 <script type="text/javascript">
 var editor = null;

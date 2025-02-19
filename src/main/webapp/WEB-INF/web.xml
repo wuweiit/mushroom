@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         id="WebApp_ID" version="2.5">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         id="WebApp_ID" version="3.0">
 
     <welcome-file-list>
         <welcome-file>cms</welcome-file>
     </welcome-file-list>
-
 
     <!-- 在上下文context-param中设置profile.default的默认值 -->
     <context-param>
@@ -79,74 +78,75 @@
 
 
     <!-- 解决xss漏洞 -->
-    <filter>
-        <filter-name>xssFilter</filter-name>
-        <filter-class>org.marker.mushroom.filter.XSSFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>xssFilter</filter-name>
-        <url-pattern>/plugin/guestbook/add</url-pattern>
-    </filter-mapping>
+<!--    <filter>-->
+<!--        <filter-name>xssFilter</filter-name>-->
+<!--        <filter-class>org.marker.mushroom.filter.XSSFilter</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>xssFilter</filter-name>-->
+<!--        <url-pattern>/plugin/guestbook/add</url-pattern>-->
+<!--    </filter-mapping>-->
 
-    <filter>
-        <filter-name>UploadFilter</filter-name>
-        <filter-class>org.marker.mushroom.filter.UploadFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>UploadFilter</filter-name>
-        <url-pattern>/admin/upload.do</url-pattern>
-    </filter-mapping>
+<!--    <filter>-->
+<!--        <filter-name>UploadFilter</filter-name>-->
+<!--        <filter-class>org.marker.mushroom.filter.UploadFilter</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>UploadFilter</filter-name>-->
+<!--        <url-pattern>/admin/upload.do</url-pattern>-->
+<!--    </filter-mapping>-->
 
 
     <!-- 静态资源映射 -->
-    <filter>
-        <filter-name>ThemesResourceFilter</filter-name>
-        <filter-class>org.marker.mushroom.filter.ThemesResourceFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>ThemesResourceFilter</filter-name>
-        <url-pattern>/themes/*</url-pattern>
-        <url-pattern>/upload/*</url-pattern>
-    </filter-mapping>
+<!--    <filter>-->
+<!--        <filter-name>ThemesResourceFilter</filter-name>-->
+<!--        <filter-class>org.marker.mushroom.filter.ThemesResourceFilter</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>ThemesResourceFilter</filter-name>-->
+<!--        <url-pattern>/themes/*</url-pattern>-->
+<!--        <url-pattern>/upload/*</url-pattern>-->
+<!--    </filter-mapping>-->
 
 
     <!--
          1. 反向代理真实IP获取
         2. URL重写过滤器
     -->
-    <filter>
-        <filter-name>SystemCoreFilter</filter-name>
-        <filter-class>org.marker.mushroom.filter.SystemCoreFilter</filter-class>
-        <init-param>
-            <param-name>exclude_format</param-name>
-            <param-value>css|jpg|js|jpeg|png|gif|htm|do</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>SystemCoreFilter</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
+<!--    <filter>-->
+<!--        <filter-name>SystemCoreFilter</filter-name>-->
+<!--        <filter-class>org.marker.mushroom.filter.SystemCoreFilter</filter-class>-->
+<!--        <async-supported>true</async-supported>-->
+<!--        <init-param>-->
+<!--            <param-name>exclude_format</param-name>-->
+<!--            <param-value>css|jpg|js|jpeg|png|gif|htm|do</param-value>-->
+<!--        </init-param>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>SystemCoreFilter</filter-name>-->
+<!--        <url-pattern>*</url-pattern>-->
+<!--    </filter-mapping>-->
 
 
     <!-- 插件过滤器  -->
-    <filter>
-    <filter-name>pluginFilter</filter-name>
-    <filter-class>org.marker.mushroom.filter.PluginFilter</filter-class>
-    </filter>
-    <filter-mapping>
-    <filter-name>pluginFilter</filter-name>
-    <url-pattern>/plugin/*</url-pattern>
-    </filter-mapping>
+<!--    <filter>-->
+<!--    <filter-name>pluginFilter</filter-name>-->
+<!--    <filter-class>org.marker.mushroom.filter.PluginFilter</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--    <filter-name>pluginFilter</filter-name>-->
+<!--    <url-pattern>/plugin/*</url-pattern>-->
+<!--    </filter-mapping>-->
 
     <!-- markdown过滤器  -->
-    <filter>
-        <filter-name>markdownFilter</filter-name>
-        <filter-class>org.marker.mushroom.filter.MarkDownFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>markdownFilter</filter-name>
-        <url-pattern>*.md</url-pattern>
-    </filter-mapping>
+<!--    <filter>-->
+<!--        <filter-name>markdownFilter</filter-name>-->
+<!--        <filter-class>org.marker.mushroom.filter.MarkDownFilter</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>markdownFilter</filter-name>-->
+<!--        <url-pattern>*.md</url-pattern>-->
+<!--    </filter-mapping>-->
 
 
     <!-- 这是前台系统入口  -->
@@ -165,6 +165,7 @@
         <servlet-name>mushroom</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
+        <async-supported>true</async-supported>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:/config/spring/spring-servlet.xml</param-value>

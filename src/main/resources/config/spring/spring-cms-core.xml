@@ -41,6 +41,8 @@
     </bean>
     <bean id="storageConfig" class="org.marker.mushroom.core.config.impl.StorageConfig" scope="singleton" >
     </bean>
+    <bean id="openAiConfig" class="org.marker.mushroom.core.config.impl.OpenAIConfig" scope="singleton" >
+    </bean>
 
 
 

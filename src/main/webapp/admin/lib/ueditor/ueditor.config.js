@@ -345,6 +345,8 @@
 
         //webAppKey 百度应用的APIkey，每个站长必须首先去百度官网注册一个key后方能正常使用app功能，注册介绍，http://app.baidu.com/static/cms/getapikey.html
         //, webAppKey: ""
+
+        ,plugins: ['codeblock']
     };
 
     function getUEBasePath(docUrl, confUrl) {
@@ -403,5 +405,21 @@
     window.UE = {
         getUEBasePath: getUEBasePath
     };
+
+
+    // 修改代码块的输出格式
+    // window.UE.plugins['code'].outputRule = function (root) {
+    //     var codes = root.getNodesByTagName('pre');
+    //     for (var i = 0, ci; ci = codes[i++];) {
+    //         if (ci.getAttr('class') && ci.getAttr('class').indexOf('brush:') === 0) {
+    //             var language = ci.getAttr('class').replace('brush:', '').replace(';', '');
+    //             var codeNode = ci.firstChild();
+    //             var newCodeNode = UE.uNode.createElement('code');
+    //             newCodeNode.setAttr('class', 'language-' + language);
+    //             newCodeNode.innerText(codeNode.innerText());
+    //             ci.innerHtml(newCodeNode.outerHtml());
+    //         }
+    //     }
+    // };
 
 })();

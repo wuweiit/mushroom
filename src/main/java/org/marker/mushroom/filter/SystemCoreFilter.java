@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +38,7 @@ import java.util.regex.Pattern;
  * 
  * 
  * */
+@WebFilter(filterName = "systemCoreFilter", urlPatterns = {"/*"}, asyncSupported = true)
 public class SystemCoreFilter implements Filter {
 	
 	/** 日志记录器 */ 
@@ -46,7 +48,9 @@ public class SystemCoreFilter implements Filter {
 	private static URLRewriteEngine rewrite = SingletonProxyFrontURLRewrite.getInstance();
  
 	// 排除过滤格式
-	private Pattern suffixPattern; 
+	private Pattern suffixPattern;
+
+	private String excludeFormat = "css|jpg|js|jpeg|png|gif|htm|do";
 	
 	/** 请求字符编码 */
 	private static final String ENCODING = "utf-8";
@@ -224,7 +228,7 @@ public class SystemCoreFilter implements Filter {
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		logger.info("mrcms system filter initing...");
-		String excludeFormat = config.getInitParameter("exclude_format");
+//		String excludeFormat = config.getInitParameter("exclude_format");
 		this.suffixPattern = Pattern.compile("("+excludeFormat+")");
 		
 		logger.info("mrcms Cache initing...");

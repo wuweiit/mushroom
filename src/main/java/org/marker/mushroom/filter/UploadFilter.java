@@ -22,7 +22,7 @@ import java.io.Writer;
  * @author marker
  * */
 @Slf4j
-@WebFilter
+@WebFilter(urlPatterns = "/admin/upload.do")
 public class UploadFilter implements Filter {
 
 	/** 日志记录器 */ 

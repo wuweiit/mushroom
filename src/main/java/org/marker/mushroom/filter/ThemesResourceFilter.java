@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import javax.activation.FileTypeMap;
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -22,10 +23,11 @@ import java.io.InputStream;
 
 
 /**
- * 静态资源
+ * 静态资源映射 静态资源
  *
  * @author marker
  */
+@WebFilter(urlPatterns = {"/themes/*", "/upload/*"})
 public class ThemesResourceFilter implements Filter {
 
     /**

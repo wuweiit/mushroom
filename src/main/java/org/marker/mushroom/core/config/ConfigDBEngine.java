@@ -1,15 +1,16 @@
 package org.marker.mushroom.core.config;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.marker.mushroom.core.config.annotation.IgnoreCopyProperties;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.utils.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 
@@ -107,8 +108,13 @@ public abstract class ConfigDBEngine<S extends ConfigDBEngine> implements Initia
 			String value = (String)map.get("value");
 			properties.put(key, value == null?"":value);
 		}
-		BeanUtils.copyProperties(properties, this);
-
+		try {
+			BeanUtils.copyProperties(properties, this);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
 
 
 	}
@@ -145,19 +151,33 @@ public abstract class ConfigDBEngine<S extends ConfigDBEngine> implements Initia
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
         String prefix = dbcfg.getPrefix();
 
+		JdbcTemplate jdbcTemplate = SpringContextHolder.getApplicationContext().getBean(JdbcTemplate.class);
+		// 先查询现有的当前类配置
+		String selectSql = "select * from "+prefix+"sys_config where `config`=?";
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(selectSql, name);
 
-
-        String sql = "update "+prefix+"sys_config set value=? where config=? and `key`=?";
-		List<Object[]> paramsList = new ArrayList<>(this.properties.entrySet().size());
+        String updateSql = "update "+prefix+"sys_config set `value`=? where `config`=? and `key`=?";
+        String insertSql = "insert into "+prefix+"sys_config(`config`,`key`,`value`) VALUES(?,?,?)";
+		List<Object[]> updateParamsList = new ArrayList<>(this.properties.entrySet().size());
+		List<Object[]> insertParamsList = new ArrayList<>(this.properties.entrySet().size());
 		Iterator<Map.Entry<Object, Object>> it = this.properties.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Object, Object> entry = it.next();
 			Object key = entry.getKey();
 			Object value = entry.getValue();
-			paramsList.add(new Object[]{value, name, key});
+
+			// 使用 Lambda 表达式判断 list 中是否包含某个 key
+			boolean containsKey = list.stream()
+					.anyMatch(map -> key.equals(map.get("key")));
+			if(!containsKey){
+				insertParamsList.add(new Object[]{name, key, value});
+			} else {
+				updateParamsList.add(new Object[]{value, name, key});
+			}
 		}
-		JdbcTemplate jdbcTemplate = SpringContextHolder.getApplicationContext().getBean(JdbcTemplate.class);
-		jdbcTemplate.batchUpdate(sql, paramsList);
+		// 判断写入还是更新
+        if (!updateParamsList.isEmpty()) jdbcTemplate.batchUpdate(updateSql, updateParamsList);
+		if (!insertParamsList.isEmpty()) jdbcTemplate.batchUpdate(insertSql, insertParamsList);
 
 	}
 //
