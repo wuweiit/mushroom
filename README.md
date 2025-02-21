@@ -3,15 +3,17 @@ MRCMS
 
 作者：marker
 
-开源协议：GPL
-https://choosealicense.com/licenses/gpl-2.0/
-
+开源协议：MIT 
 博客：www.yl-blog.com
 
 MRCMS 是一款Java开发的内容管理系统，采用数据模型+模板+插件实现，内置提供了文章模型发布功能。
 
 目标：快速构建中小网站！
 
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+
+注意：拒绝996工作制公司请使用本项目。
 
 
 ### 构建项目
