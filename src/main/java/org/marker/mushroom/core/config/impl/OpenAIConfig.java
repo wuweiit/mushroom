@@ -9,6 +9,10 @@ import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.holder.SpringContextHolder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * OpenAI 配置
@@ -55,12 +59,35 @@ public final class OpenAIConfig extends ConfigDBEngine<OpenAIConfig> {
         throw new RuntimeException("不支持的ai提供商");
     }
 
+    public List<ModelItem> getModelList() {
+        List<ModelItem> list = new ArrayList<>();
+        OpenAIProperties ollama = getOllama();
+        Arrays.stream(ollama.getModel().split(",")).forEach(model -> {
+            ModelItem item = new ModelItem();
+            item.setProvide("OLLAMA");
+            item.setIcon("/admin/images/model-providers/ollama_small.svg");
+            item.setModel(model);
+            list.add(item);
+        });
+        OpenAIProperties deepSeek = getDeepSeek();
+        Arrays.stream(deepSeek.getModel().split(",")).forEach(model -> {
+            ModelItem item = new ModelItem();
+            item.setProvide("DEEP_SEEK");
+            item.setIcon("/admin/images/model-providers/deepseek_small.svg");
+            item.setModel(model);
+            list.add(item);
+        });
+        return list;
+    }
+
     /**
      *  标准OpenAI 配置
      * @author marker
      */
     @Data
     public static class OpenAIProperties {
+
+        private String icon;
         /**
          * apiUrl
          */
@@ -87,13 +114,13 @@ public final class OpenAIConfig extends ConfigDBEngine<OpenAIConfig> {
         }
     }
 
-    @Data
-    public static class Model {
-        /**
-         * 模型名称
-         */
-        private String name;
 
+
+    @Data
+    public static class ModelItem {
+        private String provide;
+        private String model;
+        private String icon;
     }
 
     public String getType() {

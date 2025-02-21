@@ -6,17 +6,21 @@ import com.theokanning.openai.completion.chat.UserMessage;
 import com.theokanning.openai.service.OpenAiService;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.config.impl.OpenAIConfig;
+import org.marker.mushroom.utils.HttpUtils;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @EnableAsync
@@ -92,4 +96,25 @@ public class OpenAIController {
 
         return emitter;
     }
+
+
+    /**
+     * 新增一个获取模型清单接口
+     *
+     * @return 模型清单列表
+     */
+    @GetMapping(value = "/models")
+    public List<OpenAIConfig.ModelItem> getModelList(HttpServletRequest request) {
+        // 这里可以添加具体的业务逻辑，例如从数据库或其他服务获取模型清单
+        List<OpenAIConfig.ModelItem> list = config.getModelList();
+
+        String baseUrl = HttpUtils.getRequestURL(request);
+
+        list.forEach(item -> {
+            item.setIcon(baseUrl + item.getIcon());
+        });
+        return list;
+    }
+
 }
+

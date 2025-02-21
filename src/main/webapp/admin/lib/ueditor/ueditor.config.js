@@ -232,24 +232,91 @@
         //打开右键菜单功能
         //,enableContextMenu: true
         //右键菜单的内容，可以参考plugins/contextmenu.js里边的默认菜单的例子，label留空支持国际化，否则以此配置为准
-        //,contextMenu:[
-        //    {
-        //        label:'',       //显示的名称
-        //        cmdName:'selectall',//执行的command命令，当点击这个右键菜单时
-        //        //exec可选，有了exec就会在点击时执行这个function，优先级高于cmdName
-        //        exec:function () {
-        //            //this是当前编辑器的实例
-        //            //this.ui._dialogs['inserttableDialog'].open();
-        //        }
-        //    }
-        //]
+        ,contextMenu:[
+           {
+               label:'AI生成代码',       //显示的名称
+               cmdName:'selectall',//执行的command命令，当点击这个右键菜单时
+               //exec可选，有了exec就会在点击时执行这个function，优先级高于cmdName
+               exec:function () {
+                   // 获取选中范围
+                   var range = this.selection.getRange();
+                   // 移动插入点到选中范围的末尾
+                   range.collapse(false);
+
+                   // 获取选中内容
+                   var selectedText = this.selection.getText();
+                   if (selectedText) {
+                       // 简单示例，可根据需求实现更复杂的复制逻辑
+                       console.log('用户提示词：', selectedText);
+
+                       this.focus()
+
+                       let content = "";
+
+                       let model = window.aiModel.model;
+                       let provide = window.aiModel.provide;
+
+                       let url = "/admin/openai/stream.do?provide="+provide+"&model="+model+"&prompt="+selectedText;
+                       const eventSource = new EventSource(url);
+
+                       // let oldContent = editor.getContent();
+
+                       let dynamicDiv = document.createElement('p');
+                       dynamicDiv.id = 'dynamicDiv_'+Math.random()*1000000000;
+                       // 移动插入点到选中范围的末尾
+                       range.collapse(false);
+                       editor.execCommand('insertHtml', dynamicDiv.outerHTML);
+                       // 获取目标容器
+                       // 获取 UEditor 的 iframe 文档对象
+                       var editorDocument = editor.iframe.contentDocument || editor.iframe.contentWindow.document;
+                       // 根据 ID 找到插入的 DOM 元素
+                       var targetElement = editorDocument.getElementById(dynamicDiv.id);
+                       // if (targetElement) {
+                       //     // 更新元素内容
+                       //     targetElement.textContent = '更新后的内容';
+                       // }
+
+
+                       eventSource.onmessage = function(event) {
+                           // 将接收到的内容追加到页面上
+                           console.log(event)
+                           let obj = JSON.parse(event.data);
+
+                           content += obj.content;
+                           // 解析markdown->html
+                           const md = markdownit({
+                               html: true,
+                               linkify: true,
+                               typographer: true ,
+                               breaks:       true, // \n转 M<br>
+                           })
+                           // content = content.replaceAll('\n','<br/>')
+                           let doc = md.render(content);
+
+                           targetElement.innerHTML = doc;
+
+                           // editor.setContent(oldContent +"<br/>"+ doc );
+                           // 当需要时调用sync来更新视图
+                           // editor.sync();
+                       };
+
+                       eventSource.onerror = function(event) {
+                           console.log(event)
+                           eventSource.close();
+                       };
+
+
+                   }
+               }
+           }
+        ]
 
         //快捷菜单
-        //,shortcutMenu:["fontfamily", "fontsize", "bold", "italic", "underline", "forecolor", "backcolor", "insertorderedlist", "insertunorderedlist"]
+        // ,shortcutMenu:["fontfamily", "fontsize", "bold", "italic", "underline", "forecolor", "backcolor", "insertorderedlist", "insertunorderedlist"]
 
         //elementPathEnabled
         //是否启用元素路径，默认是显示
-        ,elementPathEnabled : false
+        ,elementPathEnabled : true
 
         //wordCount
         ,wordCount:false          //是否开启字数统计
@@ -279,7 +346,7 @@
 
         //autoHeightEnabled
         // 是否自动长高,默认true
-        //,autoHeightEnabled:true
+        ,autoHeightEnabled:true
 
         //scaleEnabled
         //是否可以拉伸长高,默认true(当开启时，自动长高失效)
@@ -346,7 +413,7 @@
         //webAppKey 百度应用的APIkey，每个站长必须首先去百度官网注册一个key后方能正常使用app功能，注册介绍，http://app.baidu.com/static/cms/getapikey.html
         //, webAppKey: ""
 
-        ,plugins: ['codeblock']
+        ,plugins: ['code', 'codeblock',]
     };
 
     function getUEBasePath(docUrl, confUrl) {
@@ -407,19 +474,22 @@
     };
 
 
-    // 修改代码块的输出格式
-    // window.UE.plugins['code'].outputRule = function (root) {
-    //     var codes = root.getNodesByTagName('pre');
-    //     for (var i = 0, ci; ci = codes[i++];) {
-    //         if (ci.getAttr('class') && ci.getAttr('class').indexOf('brush:') === 0) {
-    //             var language = ci.getAttr('class').replace('brush:', '').replace(';', '');
-    //             var codeNode = ci.firstChild();
-    //             var newCodeNode = UE.uNode.createElement('code');
-    //             newCodeNode.setAttr('class', 'language-' + language);
-    //             newCodeNode.innerText(codeNode.innerText());
-    //             ci.innerHtml(newCodeNode.outerHtml());
-    //         }
+    // window.UEDITOR_CONFIG['contextMenu'] = [];
+    // window.UEDITOR_CONFIG['contextMenu'].push({
+    //     label: '调用第三方接口',
+    //     cmdName: 'callThirdPartyApi',
+    //     exec: function () {
+    //         // 获取选中内容
+    //         var selectedText = this.selection.getText();
+    //         console.log(selectedText)
     //     }
-    // };
+    // })
+
+})();
+
+
+(function () {
+
+
 
 })();

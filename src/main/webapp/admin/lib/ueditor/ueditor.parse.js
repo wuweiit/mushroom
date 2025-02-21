@@ -1019,4 +1019,44 @@ UE.parse.register('vedio',function(utils){
     }
 });
 
+// UE.registerUI('myCustomContextMenu', function(editor, uiName) {
+//     editor.addListener('contextmenu', function(type, evt) {
+//         // 你的自定义代码来添加菜单项
+//         // alert('Custom Context Menu Item');
+//
+//
+//
+//     });
+// }, 50); // 优先级为50，确保在默认菜单之后执行
+
+
+
+        // 修改代码块的输出格式
+    // UE.plugins['code'].outputRule = function (root) {
+    //         var codes = root.getNodesByTagName('pre');
+    //         for (var i = 0, ci; ci = codes[i++];) {
+    //             if (ci.getAttr('class') && ci.getAttr('class').indexOf('brush:') === 0) {
+    //                 var language = ci.getAttr('class').replace('brush:', '').replace(';', '');
+    //                 var codeNode = ci.firstChild();
+    //                 var newCodeNode = UE.uNode.createElement('code');
+    //                 newCodeNode.setAttr('class', 'language-' + language);
+    //                 newCodeNode.innerText(codeNode.innerText());
+    //                 ci.innerHtml(newCodeNode.outerHtml());
+    //             }
+    //         }
+    //     };
+    //     // 监听 UEditor 内容变化事件
+    // UE.addListener('aftersetcontent', function () {
+    //         console.log('dsds')
+    //         // 获取 UEditor 的 iframe 文档对象
+    //         var editorDocument = UE.iframe.contentDocument || UE.iframe.contentWindow.document;
+    //         // 查找所有代码块
+    //         var codeBlocks = editorDocument.querySelectorAll('pre code');
+    //         // 对每个代码块应用 Highlight.js 高亮
+    //         codeBlocks.forEach(function (block) {
+    //             hljs.highlightElement(block);
+    //         });
+    //     });
+
+
 })();

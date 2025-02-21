@@ -8,13 +8,10 @@
 
 
 	<form id="myForm" action="article/update.do" method="post" class="form-horizontal" onsubmit="return false;">
-
-
 		<input name="id" type="hidden" value="${article.id?c}" />
+
 	<div class="tab_content">
 		<div class="tab_item tab_show">
-
-
 
 			<div class="control-group">
 				<label class="control-label">所属栏目：</label>
@@ -172,10 +169,11 @@ $(function(){
 		</#if> 
 		editor.setContent($("#mrcmsContent").val());
 
-		document.querySelectorAll('pre code').forEach((block) => {
-			hljs.highlightBlock(block);
-		});
+		// document.querySelectorAll('pre code').forEach((block) => {
+		// 	hljs.highlightBlock(block);
+		// });
 
+		SyntaxHighlighter.highlight();
 	});
 });
 

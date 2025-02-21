@@ -20,10 +20,16 @@
     <link rel="stylesheet" href="lib/datepicker/css/layout.css" media="screen" type="text/css" />
 
     <!-- highlight.js CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">-->
 
+    <link rel="stylesheet" href="lib/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+    <script src="lib/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
 
     <script type="text/javascript">
+    function showAiModelSelect() {
+        $('#aiModelModal').modal()
+    }
+
      window.UEDITOR_HOME_URL = "/admin/lib/ueditor/";
      window.BASE_URL = '${url}';
     </script>
@@ -45,10 +51,17 @@
         </ul>
     </div>
     <div id="admin_info" class="fr layout_info">
-    	当前用户: ${loginusername!} &nbsp;[<a href="logout.do">注销</a>] &nbsp;<a href="${url}" target="_blank">[网站首页]</a>
-        <br/>
-             <div id="index_time">loading...</div>
-             
+        <div   style="display: inline-block; padding-top: 10px;">
+            <div class="btn-aimodel"  onclick="showAiModelSelect()">
+                <img class="ai-icon" src="http://192.168.1.7:8080/console/api/workspaces/current/model-providers/deepseek/icon_small/zh_Hans" />&nbsp; DeepSeek-chat
+            </div>
+        </div>
+        <div style="display: inline-block; padding: 8px;">
+
+            当前用户: ${loginusername!} &nbsp;[<a href="logout.do">注销</a>] &nbsp;<a href="${url}" target="_blank">[网站首页]</a>
+            <br/>
+            <div id="index_time">loading...</div>
+        </div>
    	    
     </div>
     <!--<div id="admin_face" class="pa" onclick="addStyle('css/themes/flat.css')"></div>-->
@@ -78,6 +91,31 @@
     </div>
 </div>
 
+<!-- AI模态框 -->
+<div class="modal fade" id="aiModelModal"  >
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div style="position: relative">
+                    <!-- 搜索输入框 -->
+                    <i class="fa fa-search"
+                       style="font-size: 25px; position: absolute;top: 7px; left: 10px; color:#4e4747"></i>
+                    <input type="text" class="form-control" id="searchInput" placeholder="输入模型名称进行搜索"
+                           style="border-radius: 6px !important; font-size: 14px !important; height: 28px; padding-left: 40px; width: 90%;">
+                </div>
+                <hr style="margin: 0">
+
+                <div class="ai-list">
+                    <!-- 搜索结果列表 -->
+                    <ul class="list-group mt-3" id="searchResults">
+                        <!-- 这里会动态添加搜索结果 -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 </body>
@@ -87,6 +125,7 @@
 <!-- baidu tools -->
 <script type="text/javascript" charset="utf-8" src="lib/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="lib/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" charset="utf-8" src="lib/ueditor/ueditor.parse.js"></script>
 <script type="text/javascript" src="lib/echarts/echarts-plain.js"></script>
 <!-- Jquery plugins -->
 <script type="text/javascript" src="js/jquery.form.js"></script>
@@ -101,8 +140,11 @@
 <script type="text/javascript" src="js/core.js"></script>
 <script type="text/javascript" src="js/showtime.js"></script>
 <!-- highlight.js JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>-->
 
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="
 https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js
@@ -118,6 +160,81 @@ $(function(){
 		$(".loading_panel").hide();
 		$(".font_shadow li:first-child").click();
 	});
+
+
+    let aiModelList;
+    $.ajax({
+        url: '/admin/openai/models',
+        type:"get",
+        dataType:"json",
+        data: {},
+        success: function(json){
+            aiModelList = json;
+            showAiModels(json)   // 要确保分组顺序，才能正常渲染
+        },
+        error:function(){
+            zoom.showMessageDialog("网络错误，请重新尝试!","消息提示",2500,function(){
+                $("#password").focus();
+            });
+        }
+    });
+
+
+
+    // 模拟通讯录数据
+    // const aiModelList = [
+    //     { provide: "ollama", model: "deepseek-r1:7b", icon:"http://192.168.1.7:8080/console/api/workspaces/current/model-providers/ollama/icon_small/zh_Hans" },
+    //     { provide: "ollama", model: "deepseek-coder:6.5b", icon:"http://192.168.1.7:8080/console/api/workspaces/current/model-providers/ollama/icon_small/zh_Hans" },
+    //     { provide: "deepseek", model: "deepseek-chat", icon:"http://192.168.1.7:8080/console/api/workspaces/current/model-providers/deepseek/icon_small/zh_Hans" },
+    //     { provide: "deepseek", model: "deepseek-coder", icon:"http://192.168.1.7:8080/console/api/workspaces/current/model-providers/deepseek/icon_small/zh_Hans" },
+    // ];
+    window.aiModel = {
+        model: 'deepseek-chat',
+        provide: 'deepseek'
+    }
+
+
+    // 监听搜索输入框的输入事件
+    $('#searchInput').on('input', function () {
+        const searchTerm = $(this).val().toLowerCase();
+        const results = aiModelList.filter(item => item.model.toLowerCase().includes(searchTerm));
+
+        // 清空搜索结果列表
+        $('#searchResults').empty();
+        showAiModels(results)
+    });
+    function showAiModels(results){
+        // 添加搜索结果到列表
+        let currentProvider;
+        results.forEach(model => {
+            if (!currentProvider) {//如果currentProvider为空，就添加一个h3标签
+                currentProvider = model.provide;
+                $('#searchResults').append('<h5>'+currentProvider+'</h5>');
+            }
+            if(currentProvider != model.provide){//如果当前provider和model的provider不同，就添加一个h3标签
+                currentProvider = model.provide;
+                $('#searchResults').append('<h5>'+currentProvider+'</h5>');
+            }
+            $('#searchResults').append('<li class="list-group-item" icon="'+model.icon+'" model="'+model.model+'" provide="'+model.provide+'"><img class="ai-icon" src="'+model.icon+'" />&nbsp; '+model.model+'</li>');
+        });
+    }
+
+    $(".ai-list").on('click','.list-group-item',function(){
+        $('#aiModelModal').modal('hide')
+        let model = $(this).attr('model')
+        let icon = $(this).attr('icon')
+        let provide = $(this).attr('provide')
+        window.aiModel = {
+            model: model,
+            provide: provide,
+            icon: icon
+        }
+
+        let html = $(this).html();
+        $(".btn-aimodel").html(html)
+
+
+    })
 });
 
 function addStyle(stylePath) {
