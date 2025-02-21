@@ -47,4 +47,23 @@ public class StringUtil {
         }
         return list;
 	}
+
+
+    /**
+     * 拆分为long集合
+     * @param ids id集合
+     * @param charStr 分隔符
+     * @return
+     */
+    public static List<Long> splitLong(String ids, String charStr) {
+        List<Long> list = new ArrayList<>();
+        String[] strList = ids.split(charStr);
+        for(String tmp : strList){
+            if("".equals(tmp)){
+                continue;
+            }
+            list.add(Long.parseLong(tmp));
+        }
+        return list;
+    }
 }
