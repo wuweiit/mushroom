@@ -1,5 +1,7 @@
 package org.marker.mushroom.filter;
 
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.WebAPP;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +38,7 @@ import java.util.regex.Pattern;
  * 
  * 
  * */
+@WebFilter(filterName = "systemCoreFilter", urlPatterns = {"/*"}, asyncSupported = true)
 public class SystemCoreFilter implements Filter {
 	
 	/** 日志记录器 */ 
@@ -44,7 +48,9 @@ public class SystemCoreFilter implements Filter {
 	private static URLRewriteEngine rewrite = SingletonProxyFrontURLRewrite.getInstance();
  
 	// 排除过滤格式
-	private Pattern suffixPattern; 
+	private Pattern suffixPattern;
+
+	private String excludeFormat = "css|jpg|js|jpeg|png|gif|htm|do";
 	
 	/** 请求字符编码 */
 	private static final String ENCODING = "utf-8";
@@ -69,7 +75,7 @@ public class SystemCoreFilter implements Filter {
 
 
 
-	
+
 	
 	// 缓存管理器
 	private EhCacheCacheManager cacheManager;
@@ -87,10 +93,8 @@ public class SystemCoreFilter implements Filter {
 		HttpServletRequest  request  = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
-
-
         String uri = WebUtils.getRequestUri(request);
-		
+
 		
 		/* 
 		 * ============================================
@@ -140,8 +144,7 @@ public class SystemCoreFilter implements Filter {
         }
 		// 页面静态读取
 
-		SystemConfig syscfg = SystemConfig.getInstance(); // Spring 一定要初始化完成
-
+		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
 		if(syscfg.isStaticPage()){
 			org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
 
@@ -178,25 +181,35 @@ public class SystemCoreFilter implements Filter {
 			cookie.setMaxAge(life);// 当天内有效
 			response.addCookie(cookie);
 		}
-
+		
+	
+		
 		/* 
 		 * ============================================
 		 *                URI -> URL 解码操作
 		 * ============================================
 		 */
-        String url = rewrite.decoder(uri);
-
+		String url = rewrite.decoder(uri); 
 		logger.info("URL: {} => {}", uri, url);
 		if("/".equals(url)){ // 修复jetty 默认首页问题
-			url = "/cms?lang=" + syscfg.getDefaultLanguage() ;
+			url = "cms";
 		}
 
+		// 根据域名选择主题
+		org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.SITE_INFO_CACHE);
+		String theme = syscfg.getThemeActive();
+		String host = req.getServerName();
+		JSONObject siteInfo = cache.get(host, JSONObject.class);
+		if (siteInfo != null && StringUtils.isNotBlank(siteInfo.getString("theme"))) {
+			theme = siteInfo.getString("theme");
+		}
 		
 		String ip = HttpUtils.getRemoteHost(request);// IP地址获取
         req.setAttribute(AppStatic.WEB_APP_LANG, HttpUtils.getLanguage(request));// 网址路径
 		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
 		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
-		req.setAttribute(AppStatic.WEB_APP_THEME_URL, HttpUtils.getRequestURL(request)+"/themes/"+syscfg.getThemeActive());// 网址路径
+		req.setAttribute(AppStatic.WEB_APP_THEME_URL, "/themes/" + theme);// 网址路径
+		req.setAttribute(AppStatic.WEB_APP_THEME, theme);// 主题名称
 
 
 
@@ -215,7 +228,7 @@ public class SystemCoreFilter implements Filter {
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		logger.info("mrcms system filter initing...");
-		String excludeFormat = config.getInitParameter("exclude_format");
+//		String excludeFormat = config.getInitParameter("exclude_format");
 		this.suffixPattern = Pattern.compile("("+excludeFormat+")");
 		
 		logger.info("mrcms Cache initing...");

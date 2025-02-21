@@ -1,10 +1,12 @@
 package org.marker.mushroom.controller;
 
+import java.beans.Transient;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSONObject;
@@ -13,6 +15,7 @@ import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.dao.ContentDao;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.IModelDao;
+import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.service.impl.ChannelService;
@@ -22,6 +25,7 @@ import org.marker.mushroom.utils.FileUtils;
 import org.marker.mushroom.utils.TemplateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -95,7 +99,15 @@ public class ChannelController extends SupportController {
         return view;
 	}
 
-	//更新栏目
+    @Resource
+    private SystemConfig systemConfig;
+
+    /**
+     * 更新栏目
+     * @param channel
+     * @return
+     */
+    @Transactional
 	@ResponseBody
 	@RequestMapping("/update")
 	public Object update(Channel channel){
@@ -124,14 +136,22 @@ public class ChannelController extends SupportController {
             contentDao.update(content);
         }
 
+        // 国际化同步
+        String langKey = "site.channel."+channel.getUrl();
+        channel.setLangkey(langKey);
+
+        String defaultLang = systemConfig.getDefaultLanguage();
+
+        MessageDBContext mc = MessageDBContext.getInstance();
+        mc.setProperty(defaultLang, langKey, channel.getName());
+
 
         if(channel.getId() == 0){
             if(commonDao.save(channel)){
-                SystemConfig syscfg = SystemConfig.getInstance();
                 try {
                     String path = WebRealPathHolder.REAL_PATH+"data"+File.separator+"template"+File.separator+"template.html";
                     String topath = WebRealPathHolder.REAL_PATH + "themes" + File.separator
-                            + syscfg.getThemeActive() + File.separator + channel.getTemplate();
+                            + systemConfig.getThemeActive() + File.separator + channel.getTemplate();
 
                     FileTools.copy(path, topath);
 
@@ -148,12 +168,22 @@ public class ChannelController extends SupportController {
 
 
         }else{
+
+
+
+
+
             if(channelDao.update(channel)){
                 return new ResultMessage(true, "更新成功!");
             }else{
                 return new ResultMessage(false, "更新失败!");
             }
         }
+
+
+
+
+
 	}
 	
 	

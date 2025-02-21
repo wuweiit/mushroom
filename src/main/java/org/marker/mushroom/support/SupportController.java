@@ -1,13 +1,15 @@
 package org.marker.mushroom.support;
 
-import javax.servlet.ServletContext;
-
-import org.marker.mushroom.core.config.impl.DataBaseConfig;
+import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.dao.ICommonDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.ServletContext;
 
 
 
@@ -15,11 +17,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * 控制器支撑类
  * @author marker
  * */
-public class SupportController {
+public abstract class SupportController implements InitializingBean {
 
 	/** 日志记录器 */
 	public static Logger log = LoggerFactory.getLogger(SupportController.class);
-	
+
 	@Autowired protected JdbcTemplate dao;
 	 
 	
@@ -28,8 +30,8 @@ public class SupportController {
 	
 	/*  */
 	@Autowired protected ServletContext application;
-	
-	
+
+
 	/**
 	 * viewPath为视图的目录
 	 * */
@@ -46,8 +48,16 @@ public class SupportController {
 	public String getPrefix(){
 		return commonDao.getPreFix();//表前缀，如："yl_"
 	}
-	
-	
-	
- 
+
+
+	@Override
+	public void afterPropertiesSet() {
+		if(StringUtils.isNotBlank(this.viewPath)){
+			return;
+		}
+		RequestMapping requestMapping = this.getClass().getAnnotation(RequestMapping.class);
+		String url = requestMapping.value()[0];
+		log.info("[{}] viewPath: {}", this.getClass().getSimpleName(), url);
+		this.viewPath = url;
+	}
 }

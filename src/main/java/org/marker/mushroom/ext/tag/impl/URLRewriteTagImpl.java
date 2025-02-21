@@ -1,9 +1,9 @@
 package org.marker.mushroom.ext.tag.impl;
 
+import org.marker.mushroom.ext.tag.Taglib;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.marker.mushroom.ext.tag.Taglib;
 
 /**
  * URL重写标签 格式:
@@ -26,7 +26,7 @@ public class URLRewriteTagImpl extends Taglib {
 		
 		// \\\\{?\\w+\\}?\\.?\\w*\\??[\\w+\\-?\\=?\\$?\\{?\\w+\\.\\}?&?]*
 		this.put("href\\=[\"\']\\$\\{(.+\\..+[^!])\\}[\'\"]",
-				"href=\"\\${url}\\${encoder($1)}\"", 0);
+				"href=\"\\${encoder($1)}\"", 0);
 
 	}
 

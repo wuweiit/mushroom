@@ -1,5 +1,6 @@
 package org.marker.mushroom.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.marker.mushroom.beans.FileObject;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.holder.WebRealPathHolder;
@@ -28,6 +29,7 @@ import java.util.List;
  * 文件管理
  * @author marker
  * */
+@Slf4j
 @Controller
 @RequestMapping("/admin/file")
 public class FileController extends SupportController {
@@ -53,7 +55,7 @@ public class FileController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/savefolder")
 	public Object savefolder(@RequestParam("path") String path, @RequestParam("name") String name){
-
+		this.checkPath(path); // 检查路径
         if(fileManager.checkPath(path)){
             return new ResultMessage(false, "路径检查异常，删除失败!");
         }
@@ -81,11 +83,21 @@ public class FileController extends SupportController {
 		view.addObject("path", encoding(path));
 		return view;
 	}
+
+
+	/**
+	 * 检查路径
+	 * */
+	private void checkPath(String path){
+		if(path.startsWith("..")){
+			throw new RuntimeException("文件错误");
+		}
+	}
 	
 	@ResponseBody
 	@RequestMapping("/savefile")
 	public Object savefile(@RequestParam("path") String path, @RequestParam("file") MultipartFile  file){
-	  
+		this.checkPath(path); // 检查路径
 		String filePath = WebRealPathHolder.REAL_PATH+File.separator+path+File.separator+file.getOriginalFilename();
 		File new_file = new File(filePath);
 		 
@@ -112,7 +124,7 @@ public class FileController extends SupportController {
 				return new ResultMessage(true, "上传成功!");
 			} 
 		} catch (Exception e) { 
-			e.printStackTrace();
+			log.error("",e);
 		}
 		return new ResultMessage(false, "上传失败!");
 	}
@@ -126,7 +138,11 @@ public class FileController extends SupportController {
 	 */
 	@RequestMapping("/edit")
 	public ModelAndView edit(@RequestParam("path") String path, @RequestParam("name") String name){
+		this.checkPath(path); // 检查路径
 		ModelAndView view = new ModelAndView(this.viewPath + "edit");
+		if(path.startsWith("..")){
+			return view;
+		}
 		File file = new File(WebRealPathHolder.REAL_PATH + encoding(path + File.separator + name));
 		try {
 			view.addObject("data", FileTools.getFileContet(file, FileTools.FILE_CHARACTER_UTF8));
@@ -140,7 +156,7 @@ public class FileController extends SupportController {
 	
 	@RequestMapping("/rename")
 	public ModelAndView rename(@RequestParam("path") String path, @RequestParam("name") String name){
-
+		this.checkPath(path); // 检查路径
 	    ModelAndView view = new ModelAndView(this.viewPath + "rename");
 		view.addObject("path", encoding(path));
 		view.addObject("name", encoding(name));
@@ -151,7 +167,7 @@ public class FileController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/savename")
 	public Object savename(@RequestParam("path") String path, @RequestParam("name") String name, @RequestParam("rename")String rename){
-
+		this.checkPath(path); // 检查路径
         if(fileManager.checkPath(path)){
             return new ResultMessage(false, "路径检查异常，删除失败!");
         }
@@ -183,7 +199,7 @@ public class FileController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/save")
 	public Object save(@RequestParam("path") String path, @RequestParam("name") String name, @RequestParam("data") String data){
-
+		this.checkPath(path); // 检查路径
         if(fileManager.checkPath(path)){
             return new ResultMessage(false, "路径检查异常，删除失败!");
         }
@@ -211,14 +227,12 @@ public class FileController extends SupportController {
 	@ResponseBody
 	@RequestMapping("/delete")
 	public Object delete(@RequestParam("path") String path, @RequestParam("name") String name){
-
+		this.checkPath(path); // 检查路径
         if(fileManager.checkPath(path)){
             return new ResultMessage(false, "路径检查异常，删除失败!");
         }
-
-		File file = new File(WebRealPathHolder.REAL_PATH + encoding(path + File.separator + name));
-        return fileManager.delete(file);
-
+		String filePath = WebRealPathHolder.REAL_PATH + encoding(path + File.separator + name);
+        return fileManager.delete(new File(filePath));
 	}
 	
 	
@@ -227,6 +241,7 @@ public class FileController extends SupportController {
 	//显示列表
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam("path") String path){
+		this.checkPath(path); // 检查路径
         ModelAndView view = new ModelAndView(this.viewPath + "list");
 
         if (fileManager.checkPath(path)) { // 检查路径

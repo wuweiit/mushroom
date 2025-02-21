@@ -26,6 +26,7 @@
 			  <#list page.getData() as x>
 				<tr>
 					<td class="checkbox1"><input type="checkbox" value="${x.id?c}" /></td>
+					<td>${x.email!}</td>
 					<td>${x.content!}</td>
 					<td>${x.ip!}</td>
 					<td>${x.area!}</td>
@@ -50,7 +51,7 @@
 			  </#list>
 			</tbody>
 		</table>
-            <#include "_page.html" />
+			<#include "guestbook/views/_page.html" />
             <@guestbookPage currentPage=page.currentPageNo totalPage=page.totalPages />
 		</div>
 	</div>

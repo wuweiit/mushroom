@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenAI Stream Example</title>
+</head>
+<body>
+<h1>OpenAI Stream Response</h1>
+<div id="response"></div>
+
+<script>
+  const eventSource = new EventSource("http://localhost:8080/admin/openai/stream.do?prompt=Tell me a story");
+
+
+  eventSource.onmessage = function(event) {
+    // 将接收到的内容追加到页面上
+    document.getElementById("response").innerHTML += event.data;
+  };
+
+  eventSource.onerror = function(event) {
+    console.error("EventSource failed:", event);
+    eventSource.close();
+  };
+</script>
+</body>
+</html>

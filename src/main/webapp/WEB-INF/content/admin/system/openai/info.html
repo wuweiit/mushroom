@@ -1,0 +1,137 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">默认配置</li>
+			<li onclick="setTabContent(this);">DeepSeek</li>
+			<li onclick="setTabContent(this);">Ollama</li>
+<!--			<li onclick="setTabContent(this);">OpenAI</li>-->
+<!--			<li onclick="setTabContent(this);">豆包</li>-->
+<!--			<li onclick="setTabContent(this);">通义千问</li>-->
+		</ul>
+		<button class="btn_tabbar" onclick="submitActionForm(this);" return="system/openai/info.do">保 存</button>
+	</div>
+	<form id="myForm" action="system/openai/info.do" method="post" class="form-horizontal">
+    <div class="tab_content">
+		<div class="tab_item tab_show">
+            <div style="margin: 10px;">
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="label label-warning">注意</span><br/>
+                    1、支持OpenAI标准的服务商配置。<br/>
+                </div>
+            </div>
+
+			<div class="control-group">
+				<label class="control-label">AI服务商：</label>
+				<div class="controls">
+					<input id="storageLocalOss" name="type" type="radio" value="DEEP_SEEK"/>
+					<label for="storageLocalOss">DeepSeek</label> &nbsp; &nbsp;
+
+					<input id="storageAliyunOss" name="type" type="radio" value="OPEN_AI"/>
+					<label for="storageAliyunOss">OpenAI</label>
+
+					<input id="ollamaType" name="type" type="radio" value="OLLAMA"/>
+					<label for="ollamaType">OLLAMA</label>
+
+                    <div class="help-block">
+                        请选择AI服务商引擎，主流的DeepSeek\OpenAI\Ollama
+                    </div>
+				</div>
+			</div>
+
+		</div>
+		<div class="tab_item"><!-- DeepSeek -->
+			<div style="margin: 10px;">
+				<div class="alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					1、API URL地址/v1/chat/completions；<br/>
+					2、支持模型deepseek-chat、deepseek-code；
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">API URL：</label>
+				<div class="controls">
+					<input name="deepSeek.apiUrl" type="text" value="${config['deepSeek.apiUrl']!}"/>
+					<div class="help-block">
+					</div>
+					<span class="tip_text"></span>
+				</div>
+			</div>
+
+
+			<div class="control-group">
+				<label class="control-label">API TOKEN：</label>
+				<div class="controls">
+					<input name="deepSeek.apiToken" type="text" value="${config['deepSeek.apiToken']!}"
+						   placeholder=""/>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">模型：</label>
+				<div class="controls">
+					<input id="deepSeekModel" name="deepSeek.model" type="text" value="${config['deepSeek.model']!}" data-role="tagsinput" placeholder="请输入模型名称并回车">
+					<div class="help-block"></div>
+				</div>
+			</div>
+		</div>
+		<div class="tab_item"><!-- ollama -->
+			<div style="margin: 10px;">
+				<div class="alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					1、API URL地址/v1/chat/completions；<br/>
+					2、支持模型众多；
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">API URL：</label>
+				<div class="controls">
+					<input name="ollama.apiUrl" type="text" value="${config['ollama.apiUrl']!}"/>
+					<div class="help-block">
+					</div>
+					<span class="tip_text"></span>
+				</div>
+			</div>
+
+
+			<div class="control-group">
+				<label class="control-label">API TOKEN：</label>
+				<div class="controls">
+					<input name="ollama.apiToken" type="text" value="${config['ollama.apiToken']!}"
+						   placeholder=""/>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">模型：</label>
+				<div class="controls">
+					<input id="ollamaModel" name="ollama.model" type="text" value="${config['ollama.model']!}" data-role="tagsinput" placeholder="请输入模型名称并回车">
+					<div class="help-block"></div>
+				</div>
+			</div>
+		</div>
+		<div class="tab_item"><!-- 高级配置 -->
+
+		</div>
+	</div>	
+	</form>  
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$("input[name='type'][value='${config.type!}']").prop('checked', true).change();
+
+
+
+	$('#deepSeekModel').tagsinput({
+		typeahead: {
+		}
+	});
+	$('#ollamaModel').tagsinput({
+		typeahead: {
+		}
+	});
+});
+</script>
+
+

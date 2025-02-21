@@ -1,10 +1,12 @@
 package org.marker.mushroom.core.config.impl;
 
 
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
-import org.marker.mushroom.core.config.ConfigEngine;
+import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.holder.WebRealPathHolder;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 
 /**
@@ -13,9 +15,8 @@ import org.marker.mushroom.holder.WebRealPathHolder;
  * 在系统StartListener监听器中进行配置文件地址的初始化
  * @author marker
  * */
-public final class SystemConfig extends ConfigEngine {
-
-
+@NoArgsConstructor
+public final class SystemConfig extends ConfigDBEngine<ConfigDBEngine> {
 
 
 	
@@ -52,28 +53,21 @@ public final class SystemConfig extends ConfigEngine {
 
 	// 文件存储路径
 	public static final String FILE_PATH = "file_path";
+	/**
+	 * 统计脚本
+	 */
+	public static final String STATISTICS_SCRIPT = "statisticsScript";
 	// 登录路径配置
 	public static final String SYSTEM_LOGIN_SAFE = "system.login.safe";
 
-    /** 统计脚本 */
-	public static final String SYSTEM_TONGJI_SCRIPT = "system.tongjiScirpt";
-
-	
 
 	private static SystemConfig systemConfig;
 
 
-	private String dangjian;
-
 
 	/**
 	 * 初始化就读取配置文件哦
-	 *
 	 */
-	public SystemConfig(String profile) {
-		super("WEB-INF/conf/" + profile + "/site.properties");
-	}
-
 
 
 	/**
@@ -81,10 +75,12 @@ public final class SystemConfig extends ConfigEngine {
 	 * @return SystemConfig
 	 */
 	public static SystemConfig getInstance() {
+		systemConfig = SpringContextHolder.getBean("systemConfig");
 		if(systemConfig == null){
 			synchronized (SystemConfig.class){
 				if(systemConfig == null){
-					systemConfig = SpringContextHolder.getBean("SystemConfig");
+					JdbcTemplate jdbcTemplate = SpringContextHolder.getBean("jdbcTemplate");
+					systemConfig = new SystemConfig( );
 				}
 			}
 		}
@@ -92,16 +88,7 @@ public final class SystemConfig extends ConfigEngine {
 	}
 
 
-    /**
-     * 获取统计脚本
-     * @return
-     */
-    public String getTongjiScript() {
-        return this.properties.getProperty(SYSTEM_TONGJI_SCRIPT, "");
-    }
-
-
-    /**
+	/**
 	 * 配置文件中属性名称配置
 	 * */
 	public interface Names{
@@ -198,6 +185,20 @@ public final class SystemConfig extends ConfigEngine {
             return WebRealPathHolder.REAL_PATH + "themes";
         }
     	return themesPath;
+	}
+
+
+	/**
+	 * 获取模板配置相对路径
+	 * （相对网站根路径的）
+	 * @return
+	 */
+	public String getThemesRelativePath(){
+		String themesPath = this.properties.getProperty(THEMES_PATH);
+		if (StringUtils.isBlank(themesPath)) {
+			return "/themes";
+		}
+    	return themesPath.replace(WebRealPathHolder.REAL_PATH,"");
 	}
 
 

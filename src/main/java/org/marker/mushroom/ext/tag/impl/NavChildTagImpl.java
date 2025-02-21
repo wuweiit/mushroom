@@ -32,7 +32,7 @@ import java.util.regex.Matcher;
 
 
 /**
- * 遍历集合标签
+ * 遍历二级栏目集合标签
  * 说明：采用解析结构生成SQL语句进行进一步的查询，最后使用MVC模式传递数据
  * 格式：
  * <code>

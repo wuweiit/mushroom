@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,6 +41,11 @@ public class InstallController extends SupportController {
     public InstallController() {
         this.viewPath = "/install/";
     }
+
+
+
+    @Resource
+    private SystemConfig systemConfig;
 
     /**
      * 添加用户
@@ -166,9 +172,8 @@ public class InstallController extends SupportController {
                  *              3. 系统加密Key持久化
                  * ==============================================
                  */
-                SystemConfig sysconfig = SystemConfig.getInstance();
-                sysconfig.set("secret_key", spot);//更新Key
-                sysconfig.store();//保存
+                systemConfig.set("secret_key", spot);//更新Key
+                systemConfig.store();//保存
 
 
 

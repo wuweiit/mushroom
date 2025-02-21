@@ -1,8 +1,9 @@
 package com.baidu.ueditor.upload;
 
 import com.baidu.ueditor.define.State;
-import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 public class Uploader {
 	private HttpServletRequest request = null;
@@ -15,7 +16,12 @@ public class Uploader {
 
 	public final State doExec() {
 		String filedName = (String) this.conf.get("fieldName");
+		String storageType = (String) this.conf.get("storageType");
 		State state = null;
+		if ("ALIYUN_OSS".equals(storageType)) { // 阿里云上传
+			state = BinaryUploader.saveAliyunOSS(this.request, this.conf, null);
+			return state;
+		}
 
 		if ("true".equals(this.conf.get("isBase64"))) {
 			state = Base64Uploader.save(this.request.getParameter(filedName),

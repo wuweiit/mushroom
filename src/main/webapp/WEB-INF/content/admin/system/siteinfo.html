@@ -12,8 +12,16 @@
 	<form id="myForm" action="system/saveinfo.do" method="post" class="form-horizontal">
 
 
+
     <div class="tab_content">
 		<div class="tab_item tab_show">
+            <div style="margin: 10px;">
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="label label-warning">注意</span>
+                    部分配置保存会同步到对应的语言国际化配置中。
+                </div>
+            </div>
 
 			<div class="control-group">
 				<label class="control-label">站点名称：</label>
@@ -21,7 +29,7 @@
 					<input name="config.title" type="text" value="${config.title}"
 						   placeholder="站点名称"/>
                     <div class="help-block">
-                        网站标题
+                        网站标题 {config.title}
                     </div>
 				</div>
 			</div>
@@ -42,6 +50,9 @@
 				<div class="controls">
 					<input name="config.keywords" type="text" value="${config.keywords}"
 						   placeholder="网站关键字"/>
+                    <div class="help-block">
+                        SEO关键字 {config.keywords}
+                    </div>
 				</div>
 			</div>
 			<div class="control-group">
@@ -49,7 +60,7 @@
 				<div class="controls">
 					<textarea class="textarea_for_add" name="config.description" >${config.description}</textarea>
                     <div class="help-block">
-                        该配置与网站SEO有关系
+                        该配置与网站SEO有关系 {config.description}
                     </div>
 				</div>
 			</div>
@@ -219,7 +230,7 @@
             <div class="control-group">
                 <label class="control-label">登录安全码：</label>
                 <div class="controls">
-                    <input name="config.loginSafe" type="text" value="${config['system.login.safe']!}"  />
+                    <input name="config.loginSafe" type="text" value="${config['loginSafe']!}"  />
                     <div class="help-block">例如  安全码为：123，则登录地址为：login.do?safe=123</div>
                     <span class="tip_text"></span>
                 </div>
@@ -228,7 +239,7 @@
             <div class="control-group">
                 <label class="control-label">统计脚本：</label>
                 <div class="controls">
-                    <textarea class="textarea_for_add" style="width:680px;" name="config.tongjiScirpt" >${config['system.tongjiScirpt']!}</textarea>
+                    <textarea class="textarea_for_add" style="width:680px;" name="config.statisticsScript" >${config['statisticsScript']!}</textarea>
                     <div class="help-block">
                         三方统计脚本
                     </div>

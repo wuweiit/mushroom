@@ -1,15 +1,17 @@
 package org.marker.mushroom.core.config;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.marker.mushroom.core.config.annotation.IgnoreCopyProperties;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
+import org.marker.mushroom.holder.SpringContextHolder;
+import org.marker.mushroom.utils.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.io.*;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 
 /**
@@ -27,33 +29,34 @@ import java.util.Properties;
  * @time 2013-11-15
  * @author marker
  * */
-public abstract class ConfigDBEngine {
+public abstract class ConfigDBEngine<S extends ConfigDBEngine> implements InitializingBean {
 
 	/** 日志记录器 */
-	protected Logger logger = LoggerFactory.getLogger(ConfigDBEngine.class);
+	protected static Logger logger = LoggerFactory.getLogger(ConfigDBEngine.class);
 
 
 	/**
 	 * 配置信息存放对象
 	 *(API: Properties类是线程安全的：多个线程可以共享单个Properties对象而无需进行外部同步)
 	 * */
+	@IgnoreCopyProperties
 	protected Properties properties = new Properties();
 
 	/** 配置文件编码集UTF-8 */
 	public static final String FILE_ENCODEING = "utf-8";
 
-
-	/** 带注入 */
-	private JdbcTemplate jdbcTemplate;
-
-
 	/**
 	 * 初始化就读取配置文件哦
 	 */
-	public ConfigDBEngine(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
+	public ConfigDBEngine() {
+	}
+
+	@Override
+	public void afterPropertiesSet() {
+		logger.debug("[{}] load db config", this.getClass().getSimpleName());
 		this.read();
 	}
+
 
 
 	/**
@@ -89,13 +92,11 @@ public abstract class ConfigDBEngine {
 	 * 线程安全
 	 */
 	public synchronized void read(){
-	    if(jdbcTemplate == null)
-	        return;
+		JdbcTemplate jdbcTemplate = SpringContextHolder.getApplicationContext().getBean(JdbcTemplate.class);
 		String name = this.getClass().getSimpleName();
 
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
         String prefix = dbcfg.getPrefix();
-
 
 		String sql = "select * from "+prefix+"sys_config where config=?";
 		List<Map<String,Object>> list =  jdbcTemplate.queryForList(sql, name);
@@ -105,12 +106,42 @@ public abstract class ConfigDBEngine {
 			Map map = it.next();
 			String key = (String)map.get("key");
 			String value = (String)map.get("value");
-			properties.put(key,value);
+			properties.put(key, value == null?"":value);
 		}
+		try {
+			BeanUtils.copyProperties(properties, this);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
+
+
 	}
-	
-	
-	
+
+
+	/**
+	 * 异步存储配置信息到数据库
+	 * @return
+	 */
+	public void storeAsync() {
+		logger.info("ConfigDBEngine store async...");
+
+		logger.debug("ConfigDBEngine copy bean to this.properties...");
+		Properties properties = ArrayUtils.beanToPropertiesConverter(this);
+//		this.properties.putAll(properties);
+
+		logger.debug("ConfigDBEngine copy properties to [{}].properties...",this.getClass().getSimpleName());
+		ConfigDBEngine configDBEngine = SpringContextHolder.getApplicationContext().getBean(this.getClass());
+		configDBEngine.properties.putAll(properties);
+
+		configDBEngine.store();
+		logger.info("ConfigDBEngine store async end.");
+
+	}
+
+
+
 	/**
 	 * 配置持久化
 	 */
@@ -120,86 +151,94 @@ public abstract class ConfigDBEngine {
         DataBaseConfig dbcfg = DataBaseConfig.getInstance();
         String prefix = dbcfg.getPrefix();
 
+		JdbcTemplate jdbcTemplate = SpringContextHolder.getApplicationContext().getBean(JdbcTemplate.class);
+		// 先查询现有的当前类配置
+		String selectSql = "select * from "+prefix+"sys_config where `config`=?";
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(selectSql, name);
 
-
-        String sql = "update "+prefix+"sys_config set value=? where config=? and `key`=?";
-        String sqlInsert = "insert into "+prefix+"sys_config values(null,?,?,?)";
-
-        String sqlExist = "select count(1) from "+prefix+"sys_config where config=? and `key`=?";
-
-		Iterator<Map.Entry<Object, Object>> it = properties.entrySet().iterator();
+        String updateSql = "update "+prefix+"sys_config set `value`=? where `config`=? and `key`=?";
+        String insertSql = "insert into "+prefix+"sys_config(`config`,`key`,`value`) VALUES(?,?,?)";
+		List<Object[]> updateParamsList = new ArrayList<>(this.properties.entrySet().size());
+		List<Object[]> insertParamsList = new ArrayList<>(this.properties.entrySet().size());
+		Iterator<Map.Entry<Object, Object>> it = this.properties.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Object, Object> entry = it.next();
 			Object key = entry.getKey();
 			Object value = entry.getValue();
-			boolean status = jdbcTemplate.queryForObject(sqlExist, Boolean.class,name, key);
-			if(status){
-                jdbcTemplate.update(sql, value,name,key);
-            }else{
-                jdbcTemplate.update(sqlInsert,name,key,value);
-            }
 
-		}
-	}
-
-    public void loadFile(String file ) {
-
-	    File _cfgFile = new File(file);
-        FileInputStream in = null;
-        InputStreamReader isr = null;
-        try {
-            in = new FileInputStream(_cfgFile);
-            isr = new InputStreamReader(in, FILE_ENCODEING);
-            this.properties.load(isr);//读取配置文件
-        } catch (IOException e) {
-            logger.error("IOException " , e);
-        }finally{
-            try {
-                if (isr != null) {
-                    isr.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException e) {
-            }
-        }
-
-    }
-
-
-	/**
-	 * 配置持久化
-	 */
-	public void storeFile(File cfgFile){
-		OutputStream out = null;
-		OutputStreamWriter osw = null;
-		try{
-			out = new FileOutputStream(cfgFile);
-			osw = new OutputStreamWriter(out, FILE_ENCODEING);
-			this.properties.store(osw, "");
-
-		}catch (FileNotFoundException e) {
-			logger.error("config file not found " + cfgFile.getAbsolutePath(), e);
-		} catch (UnsupportedEncodingException e) {
-			logger.error("not supported encoding " + FILE_ENCODEING,e);
-		} catch (IOException e) {
-			logger.error("IOException " + cfgFile.getAbsolutePath(), e);
-		}finally{
-			try {
-				if(osw != null){
-					osw.close();
-				}
-				if(out != null){
-					out.close();
-				}
-			} catch (IOException e) {
-				logger.error(
-						"close stream IOException "
-								+ cfgFile.getAbsolutePath(), e);
+			// 使用 Lambda 表达式判断 list 中是否包含某个 key
+			boolean containsKey = list.stream()
+					.anyMatch(map -> key.equals(map.get("key")));
+			if(!containsKey){
+				insertParamsList.add(new Object[]{name, key, value});
+			} else {
+				updateParamsList.add(new Object[]{value, name, key});
 			}
 		}
+		// 判断写入还是更新
+        if (!updateParamsList.isEmpty()) jdbcTemplate.batchUpdate(updateSql, updateParamsList);
+		if (!insertParamsList.isEmpty()) jdbcTemplate.batchUpdate(insertSql, insertParamsList);
+
 	}
+//
+//    public void loadFile(String file ) {
+//
+//	    File _cfgFile = new File(file);
+//        FileInputStream in = null;
+//        InputStreamReader isr = null;
+//        try {
+//            in = new FileInputStream(_cfgFile);
+//            isr = new InputStreamReader(in, FILE_ENCODEING);
+//            this.properties.load(isr);//读取配置文件
+//        } catch (IOException e) {
+//            logger.error("IOException " , e);
+//        }finally{
+//            try {
+//                if (isr != null) {
+//                    isr.close();
+//                }
+//                if (in != null) {
+//                    in.close();
+//                }
+//            } catch (IOException e) {
+//            }
+//        }
+//
+//    }
+
+
+//	/**
+//	 * 配置持久化
+//	 */
+//	public void storeFile(File cfgFile){
+//		OutputStream out = null;
+//		OutputStreamWriter osw = null;
+//		try{
+//			out = new FileOutputStream(cfgFile);
+//			osw = new OutputStreamWriter(out, FILE_ENCODEING);
+//			this.properties.store(osw, "");
+//
+//		}catch (FileNotFoundException e) {
+//			logger.error("config file not found " + cfgFile.getAbsolutePath(), e);
+//		} catch (UnsupportedEncodingException e) {
+//			logger.error("not supported encoding " + FILE_ENCODEING,e);
+//		} catch (IOException e) {
+//			logger.error("IOException " + cfgFile.getAbsolutePath(), e);
+//		}finally{
+//			try {
+//				if(osw != null){
+//					osw.close();
+//				}
+//				if(out != null){
+//					out.close();
+//				}
+//			} catch (IOException e) {
+//				logger.error(
+//						"close stream IOException "
+//								+ cfgFile.getAbsolutePath(), e);
+//			}
+//		}
+//	}
 }
 
 

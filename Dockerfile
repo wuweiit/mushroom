@@ -1,5 +1,5 @@
 #
-FROM java:8
+FROM bitnami/tomcat:9.0.64
 
 # Set the working directory to /app
 WORKDIR /app
@@ -9,6 +9,7 @@ ADD . /app
 
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
+apt add --update font-adobe-100dpi ttf-dejavu fontconfig
 
 # Make port 80 available to the world outside this container
 EXPOSE 8080
