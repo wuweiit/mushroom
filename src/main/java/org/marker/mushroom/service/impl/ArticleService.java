@@ -1,10 +1,5 @@
 package org.marker.mushroom.service.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.Services;
 import org.marker.mushroom.beans.Article;
@@ -14,15 +9,18 @@ import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.context.ActionContext;
 import org.marker.mushroom.core.WebParam;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
-import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.dao.ICategoryDao;
 import org.marker.mushroom.dao.IChannelDao;
 import org.marker.mushroom.dao.ISupportDao;
 import org.marker.mushroom.service.BaseService;
+import org.marker.mushroom.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 @Service(Services.ARTICLE)
@@ -42,6 +40,12 @@ public class ArticleService extends BaseService{
 		int cid = (Integer)condition.get("cid");
 		int did = (Integer)condition.get("did");
         int userGroupId = (Integer)condition.get("userGroupId");
+
+
+		List<Integer> statusList = StringUtil.splitInt(status,",");
+
+
+
 //		try {
 //			keyword = new String(keyword.getBytes("ISO-8859-1"),"utf-8");
 //		} catch (UnsupportedEncodingException e) {
@@ -53,7 +57,7 @@ public class ArticleService extends BaseService{
 		String sql = "select a.id,a.title, a.author,a.views,a.status, a.time, concat('/cms?type=article','&id=',CAST(a.id as char),'&time=',DATE_FORMAT(a.time,'%Y%m%d'))  url, c.name as cname ,'article' model, a.stick from "+config.getPrefix()+"article as a "
 				+ "left join "+prefix+"channel c on c.id = a.cid ";
 
-        sql +=  "where a.status in ("+status+") ";
+        sql +=  "where a.status in ("+StringUtils.join(statusList,",")+") ";
         if(userGroupId != 1){
             sql += " and a.cid in (select cid from "+prefix+"user_group_channel where gid = "+userGroupId+") ";
         }
