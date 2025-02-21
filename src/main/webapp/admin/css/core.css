@@ -194,5 +194,7 @@ form .n-invalid {
     display: inline-block;
     background-repeat: no-repeat;
     background-position: center;
-
+}
+.pointer{
+    cursor: pointer;
 }

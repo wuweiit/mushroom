@@ -33,8 +33,44 @@ border-bottom: 1px #CCCCCC solid;
 
 
 /* 登录的用户信息 */
-#admin_info {  height:25px; margin:10px; }
+#admin_info {  height:55px; display: flex; }
 
+#admin_info .btn-aimodel{
+	background: #fefefe;
+	height: 35px;
+	line-height: 35px;
+	padding: 1px 20px;
+	border-radius: 4px;
+	color: black;border: 1px solid #fefefe;
+	cursor: pointer;
+}
+#admin_info .btn-aimodel:hover{cursor: pointer; border: 1px solid #bebebe
+}
+.modal-backdrop{
+	background-color: #00000052;
+}
+.ai-icon{
+	width: 20px;
+}
+.ai-list ul h5{
+	padding: 0 20px;
+}
+.ai-list ul{
+	margin: 0;
+}
+.ai-list ul li{
+	padding: 0 20px;
+	list-style-type: none;
+	height: 36px; line-height: 36px;
+	font-size: 15px;
+	border-radius: 8px;
+	cursor: pointer;
+
+}
+.ai-list ul li:hover{
+	list-style-type: none;
+	background: #f6f6f6;
+}
 
 
 /* 皮肤选择器 */

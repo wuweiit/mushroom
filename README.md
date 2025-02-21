@@ -22,7 +22,7 @@ MRCMS 是一款Java开发的内容管理系统，采用数据模型+模板+插�
 
 
 ```
-mvn install -Dmaven.test.skip=true
+mvn install -Dmaven.test.skip=true -P dev
 ```
 
 
@@ -72,4 +72,7 @@ mvn jetty:run
 MRCMS并没有特意采集用户信息。
 
 
+### docker 部署环境
 
+
+CATALINA_OPTS=-Dspring.profiles.active=prod

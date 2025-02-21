@@ -10,122 +10,114 @@
 	<form id="myForm" action="channel/update.do" method="post" class="form-horizontal" onsubmit="return false;">
 
 		<input type="hidden" name="id" value="${channel.id?c}"/>
-        <input type="hidden" name="contentId" value="${channel.contentId?c}"/>
-   		<input type="hidden" id="categoryIds" name="categoryIds" value="${channel.categoryIds!}"/>
-	<div class="tab_content">
-		<div class="tab_item tab_show">
+		<input type="hidden" name="contentId" value="${channel.contentId?c}"/>
+		<input type="hidden" id="categoryIds" name="categoryIds" value="${channel.categoryIds!}"/>
+		<div class="tab_content">
+			<div class="tab_item tab_show">
 
 
-			<div class="control-group">
-				<label class="control-label">所属栏目：</label>
-				<div class="controls">
-					<select id="parentid" class="select_for_add"  name="pid">
-						<option value="0"> -------- 顶级栏目 -------- </option>
-						<#include "/common/channelSelect.html" />
-						<@channelTree id = 0 node = -1/>
-					</select>
-					<div class="help-block">
+				<div class="control-group">
+					<label class="control-label">所属栏目：</label>
+					<div class="controls">
+						<select id="parentid" class="select_for_add"  name="pid">
+							<option value="0"> -------- 顶级栏目 -------- </option>
+							<#include "/common/channelSelect.html" />
+							<@channelTree id = 0 node = -1/>
+						</select>
+						<div class="help-block">
 
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">栏目名称：</label>
-				<div class="controls">
-					<input class="input_for_add" id="name" name="name" type="text" value="${channel.name!}" />
-					<div class="help-block"></div>
+				<div class="control-group">
+					<label class="control-label">栏目名称：</label>
+					<div class="controls">
+						<input class="input_for_add" id="name" name="name" type="text" value="${channel.name!}" />
+						<div class="help-block"></div>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">语言引用：</label>
-				<div class="controls">
-					<input class="input_for_add" name="langkey" type="text" value="${channel.langkey!}" />
-					<div class="help-block"></div>
+				<div class="control-group">
+					<label class="control-label">栏目地址：</label>
+					<div class="controls">
+						<input class="input_for_add" name="url" type="text" value="${channel.url!}" />
+						<div class="help-block">地址不能重复哦</div>
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<label class="control-label">重定向地址：</label>
-				<div class="controls">
-					<input class="input_for_add" id="redirect" name="redirect" type="text" value="${channel.redirect!}"  />
-					<div class="help-block"></div>
+				<div class="control-group">
+					<label class="control-label">重定向地址：</label>
+					<div class="controls">
+						<input class="input_for_add" id="redirect" name="redirect" type="text" value="${channel.redirect!}"  />
+						<div class="help-block"></div>
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<label class="control-label">栏目关键字：</label>
-				<div class="controls">
-					<input class="input_for_add" name="keywords" type="text" value="${channel.keywords!}"  />
-					<div class="help-block"></div>
+				<div class="control-group">
+					<label class="control-label">栏目关键字：</label>
+					<div class="controls">
+						<input class="input_for_add" name="keywords" type="text" value="${channel.keywords!}"  />
+						<div class="help-block"></div>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">栏目描述：</label>
-				<div class="controls">
-					<textarea class="textarea_for_add" name="description">${channel.description!}</textarea>
-					<div class="help-block"></div>
+				<div class="control-group">
+					<label class="control-label">栏目描述：</label>
+					<div class="controls">
+						<textarea class="textarea_for_add" name="description">${channel.description!}</textarea>
+						<div class="help-block"></div>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">栏目图标：</label>
-				<div class="controls">
-					<input id="channelIcon" class="input_for_add" name="icon" type="text" value="${channel.icon!}" />
+				<div class="control-group">
+					<label class="control-label">栏目图标：</label>
+					<div class="controls">
+						<input id="channelIcon" class="input_for_add" name="icon" type="text" value="${channel.icon!}" />
 
-					<button onclick="uploadImage()">上传图片</button>
-					<div class="help-block"></div>
+						<button onclick="uploadImage()">上传图片</button>
+						<div class="help-block"></div>
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<label class="control-label">栏目模板：</label>
-				<div class="controls">
-					<select id="template" name="template">
-						<#list templateList as tpl>
+				<div class="control-group">
+					<label class="control-label">栏目模板：</label>
+					<div class="controls">
+						<select id="template" name="template">
+							<#list templateList as tpl>
 							<option value="${tpl}">${tpl}</option>
 						</#list>
-					</select>
-					<div class="help-block"></div>
+						</select>
+						<div class="help-block"></div>
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<label class="control-label">栏目地址：</label>
-				<div class="controls">
-					<input class="input_for_add" name="url" type="text" value="${channel.url!}" />
-					<div class="help-block">地址不能重复哦</div>
-				</div>
-			</div>
-
-			<div class="control-group">
-				<label class="control-label">栏目属性：</label>
-				<div class="controls">
-					<div>
-						<select class="select_for_add" style="width: 60px;" name="hide">
-							<#if channel.hide == true>
+				<div class="control-group">
+					<label class="control-label">栏目属性：</label>
+					<div class="controls">
+						<div>
+							<select class="select_for_add" style="width: 60px;" name="hide">
+								<#if channel.hide == true>
 								<option value="1" selected="selected">显示</option>
 								<option value="0">隐藏</option>
 								<#else>
-									<option value="1">显示</option>
-									<option value="0" selected="selected">隐藏</option>
+								<option value="1">显示</option>
+								<option value="0" selected="selected">隐藏</option>
 							</#if>
-						</select>
-						&nbsp; &nbsp;
-						排序：<input class="input_for_add" name="sort" style="width:50px;" value="${channel.sort!}" type="text" />
-						&nbsp; &nbsp;
-						条数：<input class="input_for_add" name="rows" style="width:50px;" value="${channel.rows!}" type="text" />
+							</select>
+							&nbsp; &nbsp;
+							排序：<input class="input_for_add" name="sort" style="width:50px;" value="${channel.sort!}" type="text" />
+							&nbsp; &nbsp;
+							条数：<input class="input_for_add" name="rows" style="width:50px;" value="${channel.rows!}" type="text" />
 
 
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
-				<textarea id="mrcmsContent" style="display:none">${channel.content!}</textarea>
-			</div>
+				<div class="control-group">
+					<script type="text/plain" id="mushroomeditor" name="content"  style="height:350px;"></script>
+					<textarea id="mrcmsContent" style="display:none">${channel.content!}</textarea>
+				</div>
 
+			</div>
 		</div>
-	</div>
 	</form>
 </div>
 <script type="text/javascript">
@@ -237,6 +229,7 @@ _editor.ready(function () {
     //侦听文件上传
     _editor.addListener('afterUpfile', function (t, arg) {
         console.log(arg);
+		debugger
         $("#channelIcon").attr("value", arg[0].src);
     })
 });

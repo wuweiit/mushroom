@@ -29,4 +29,14 @@
         overflowToDisk="false" 
         diskPersistent="true"
    	/>
+    <!-- 站点信息缓存 -->
+ 	<cache
+        name="siteInfoCache"
+        maxElementsInMemory="10000"
+        eternal="false"
+        timeToIdleSeconds="0"
+        timeToLiveSeconds="0"
+        overflowToDisk="true"
+        diskPersistent="true"
+   	/>
 </ehcache>

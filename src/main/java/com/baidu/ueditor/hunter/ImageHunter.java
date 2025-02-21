@@ -1,5 +1,11 @@
 package com.baidu.ueditor.hunter;
 
+import com.baidu.ueditor.PathFormat;
+import com.baidu.ueditor.define.*;
+import com.baidu.ueditor.upload.BinaryUploader;
+import com.baidu.ueditor.upload.StorageManager;
+
+import javax.servlet.http.HttpServletRequest;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
@@ -7,14 +13,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import com.baidu.ueditor.PathFormat;
-import com.baidu.ueditor.define.AppInfo;
-import com.baidu.ueditor.define.BaseState;
-import com.baidu.ueditor.define.MIMEType;
-import com.baidu.ueditor.define.MultiState;
-import com.baidu.ueditor.define.State;
-import com.baidu.ueditor.upload.StorageManager;
+import java.util.Properties;
 
 /**
  * 图片抓取器
@@ -31,9 +30,18 @@ public class ImageHunter {
 	private String saveRootPath;
 	
 	private List<String> filters = null;
-	
-	public ImageHunter ( Map<String, Object> conf ) {
-		
+	/**
+	 * 类型 LOCAL_OSS ALIYUN_OSS
+	 */
+	private String storageType = null;
+
+	private Properties storageConfig = null;
+
+	private HttpServletRequest request;
+	private Map<String, Object> conf;
+
+	public ImageHunter (HttpServletRequest request, Map<String, Object> conf ) {
+		this.conf = conf;
 		this.filename = (String)conf.get( "filename" );
 		this.savePath = (String)conf.get( "savePath" );
 		this.rootPath = (String)conf.get( "rootPath" );
@@ -41,7 +49,9 @@ public class ImageHunter {
 		this.maxSize = (Long)conf.get( "maxSize" );
 		this.allowTypes = Arrays.asList( (String[])conf.get( "allowFiles" ) );
 		this.filters = Arrays.asList( (String[])conf.get( "filter" ) );
-		
+		this.storageType = (String) request.getAttribute("storageType");
+		this.storageConfig = (Properties) request.getAttribute("storageConfig");
+		this.request = request;
 	}
 	
 	public State capture ( String[] list ) {
@@ -90,16 +100,20 @@ public class ImageHunter {
 			
 			String savePath = this.getPath( this.savePath, this.filename, suffix );
 			String physicalPath = this.saveRootPath + savePath;
+			State state;
 
-			State state = StorageManager.saveFileByInputStream( connection.getInputStream(), physicalPath );
-			
-			if ( state.isSuccess() ) {
-				state.putInfo( "url", PathFormat.format( savePath ) );
+			if ("ALIYUN_OSS".equals(storageType)) { // 阿里云上传
+				state = BinaryUploader.saveAliyunOSSInputStream(this.request, this.conf, connection.getInputStream(), urlStr);
 				state.putInfo( "source", urlStr );
+				return state;
+			} else {
+				state = StorageManager.saveFileByInputStream(connection.getInputStream(), physicalPath);
+				if ( state.isSuccess() ) {
+					state.putInfo( "url", PathFormat.format( savePath ) );
+					state.putInfo( "source", urlStr );
+				}
 			}
-			
 			return state;
-			
 		} catch ( Exception e ) {
 			return new BaseState( false, AppInfo.REMOTE_FAIL );
 		}

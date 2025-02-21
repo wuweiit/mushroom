@@ -8,12 +8,14 @@ package org.marker.mushroom.filter;
 import org.marker.mushroom.filter.xss.XssHttpServletRequestWrapper;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * XSS 代码过滤
+ * 解决xss漏洞 XSS 代码过滤
  */
+@WebFilter(urlPatterns = "/plugin/guestbook/add")
 public class XSSFilter implements Filter {
 
     @Override

@@ -138,30 +138,25 @@ public final class WebAPP {
 		
 		WebParam param = WebParam.get(); // 解析地址
 
-		if("page".equals(param.action)){ // 页面
+		if ("page".equals(param.action)) { // 页面
 			// 获取当前栏目信息
-			if(param.existsContentId()){
+			if (param.existsContentId()) {
 				param.prefix = cmc.getPrefix(param.modelType);
 				String tableName = param.prefix + param.modelType;
 				param.channel = channelService.getChannel(tableName, param.contentId);
 				param.pageName = param.channel.getUrl();
-			}else{
+			} else {
 				param.channel = channelService.getByUrl(param.pageName);
 			}
 
-		}else if("search".equals(param.action)){// 搜索
-            param.template = "search.html";
+		} else if ("search".equals(param.action)) {// 搜索
+            param.template = String.format("%s-%s", request.getParameter("model"), "search.html");
             ArticleService articleService = SpringContextHolder.getBean(Services.ARTICLE);
-
-
             Page page = articleService.search(param);
-            request.setAttribute("page", page);
+			param.channel = new Channel();
+			request.setAttribute("page", page);
             request.setAttribute("keywrods", param.keywords);
 		}
-
-
-
-
 
 		// 查询当前栏目和 面包屑数
 		List<Channel> channelList = channelService.getAll();
@@ -175,8 +170,6 @@ public final class WebAPP {
         request.setAttribute("breadNav", breadNavs);
 
 
-
-
 		try {
 			// 这里将模式分为：重定向模型|内容模型
 			int statusCode = cmc.parse(param);
@@ -185,7 +178,9 @@ public final class WebAPP {
 				response.sendRedirect(param.redirect);
 				return;
 			case IContentModelParse.STATUS_MODULE: // 内容模型
-				cmstemplate.proxyCompile(param.template);// 代理编译 
+				String themeName = (String) request.getAttribute(AppStatic.WEB_APP_THEME);// 主题名称
+//				String tplPath = String.format("%s/%s", themeName, param.template);
+				cmstemplate.proxyCompile(themeName, param.template);// 代理编译
 				break;
 			default:
 				response.sendError(404); return;//页面肯定不存在
@@ -268,7 +263,7 @@ public final class WebAPP {
 			}
 		} else {
 			try {
-				cmstemplate.proxyCompile(errorTemplate);
+				cmstemplate.proxyCompile(syscfg.getThemeActive(), errorTemplate);
 				dataToView.process(errorTemplate); 
 			} catch (Exception e3) { 
 				logger.error("",e3); 

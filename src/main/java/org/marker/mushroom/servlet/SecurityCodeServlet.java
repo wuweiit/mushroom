@@ -53,9 +53,10 @@ public class SecurityCodeServlet extends HttpServlet {
         g.setColor(getRandColor(200, 250));   
         g.fillRect(0, 0, width, height);   
         // 创建字体，字体的大小应该根据图片的高度来定。   
-        Font font = new Font("Times New Roman", Font.HANGING_BASELINE, 28);   
-        // 设置字体。   
-        g.setFont(font);   
+//        Font font = new Font("Times New Roman", Font.HANGING_BASELINE, 28);
+        // 设置字体。
+//        g.setFont(font);
+//        g.getFont()
   
         // 画边框。   
         g.setColor(Color.BLACK);   

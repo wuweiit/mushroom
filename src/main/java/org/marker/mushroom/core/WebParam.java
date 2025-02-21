@@ -28,7 +28,6 @@ public final class WebParam {
 
     public String keywords;
 
-
 	/**
 	 * 语言
 	 */

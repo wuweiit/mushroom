@@ -1,9 +1,5 @@
 package com.baidu.ueditor;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.baidu.ueditor.define.ActionMap;
 import com.baidu.ueditor.define.AppInfo;
 import com.baidu.ueditor.define.BaseState;
@@ -12,6 +8,10 @@ import com.baidu.ueditor.hunter.FileManager;
 import com.baidu.ueditor.hunter.ImageHunter;
 import com.baidu.ueditor.upload.Uploader;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.Properties;
+
 public class ActionEnter {
 	
 	private HttpServletRequest request = null;
@@ -19,7 +19,14 @@ public class ActionEnter {
 	private String rootPath = null;
 	private String contextPath = null;
 	private String saveRootPath = null;
-	
+
+	/**
+	 * 类型 LOCAL_OSS ALIYUN_OSS
+	 */
+	private String storageType = null;
+
+	private Properties storageConfig = null;
+
 	private String actionType = null;
 	
 	private ConfigManager configManager = null;
@@ -31,8 +38,10 @@ public class ActionEnter {
 		this.actionType = request.getParameter( "action" );
 		this.contextPath = request.getContextPath();
 		this.saveRootPath = saveRootPath;
+		this.saveRootPath = saveRootPath;
 		this.configManager = ConfigManager.getInstance( this.rootPath, this.contextPath, request.getRequestURI() );
-		
+		this.storageType = (String) request.getAttribute("storageType");
+		this.storageConfig = (Properties) request.getAttribute("storageConfig");
 	}
 	
 	public String exec () {
@@ -80,6 +89,8 @@ public class ActionEnter {
 			case ActionMap.UPLOAD_FILE:
 				conf = this.configManager.getConfig( actionCode );
 				conf.put("saveRootPath",this.saveRootPath);
+				conf.put("storageType",this.storageType);
+				conf.put("storageConfig",this.storageConfig);
 				state = new Uploader( request, conf ).doExec();
 				break;
 				
@@ -87,7 +98,9 @@ public class ActionEnter {
 				conf = configManager.getConfig( actionCode );
 				String[] list = this.request.getParameterValues( (String)conf.get( "fieldName" ) );
 				conf.put("saveRootPath",this.saveRootPath);
-				state = new ImageHunter( conf ).capture( list );
+				conf.put("storageType",this.storageType);
+				conf.put("storageConfig",this.storageConfig);
+				state = new ImageHunter(request, conf ).capture( list );
 				break;
 				
 			case ActionMap.LIST_IMAGE:

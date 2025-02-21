@@ -37,8 +37,11 @@
     </bean>
 
 	<!--  系统配置组件 -->
-    <bean id="SystemConfig" class="org.marker.mushroom.core.config.impl.SystemConfig"
-			c:profile="#{profileConfig.profile}">
+    <bean id="systemConfig" class="org.marker.mushroom.core.config.impl.SystemConfig" scope="singleton"  >
+    </bean>
+    <bean id="storageConfig" class="org.marker.mushroom.core.config.impl.StorageConfig" scope="singleton" >
+    </bean>
+    <bean id="openAiConfig" class="org.marker.mushroom.core.config.impl.OpenAIConfig" scope="singleton" >
     </bean>
 
 

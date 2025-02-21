@@ -8,13 +8,10 @@
 
 
 	<form id="myForm" action="article/update.do" method="post" class="form-horizontal" onsubmit="return false;">
-
-
 		<input name="id" type="hidden" value="${article.id?c}" />
+
 	<div class="tab_content">
 		<div class="tab_item tab_show">
-
-
 
 			<div class="control-group">
 				<label class="control-label">所属栏目：</label>
@@ -39,6 +36,7 @@
 				<label class="control-label">文章标题：</label>
 				<div class="controls">
 					<input id="title" name="title" type="text" value="${article.title!}" placeholder="请输入文章标题" />
+					<button type="button" onclick="aiContent()">AI生成内容</button>
 					<div class="help-block"></div>
 				</div>
 			</div>
@@ -106,7 +104,6 @@
 
 
 			<#if Session.userGroupId == 1>
-
 				<div class="control-group">
 					<label class="control-label">文章状态：</label>
 					<div class="controls">
@@ -117,13 +114,9 @@
 								<input id="status_1" name="status" type="radio" value="1"/> <label for="status_1">发布</label>
 								<input id="status_0" name="status" type="radio" value="0" checked="checked"/> <label for="status_0">草稿</label>
 						</#if>
-
-
 						<div class="help-block"> </div>
 					</div>
 				</div>
-
-
 				<#else>
 					<input type="hidden" name="status" value="0" />
 			</#if>
@@ -131,11 +124,7 @@
 			<div class="control-group">
 				<label class="control-label">是否推荐：</label>
 				<div class="controls">
-					<#if article.stick?? && article.stick == 1>
-						<input name="stick" type="checkbox" value="1" checked="checked" />
-				    <#else>
-					    <input name="stick" type="checkbox" value="1" />
-					</#if>
+					<input name="stick" type="checkbox"  value="1"   />
 					<div class="help-block"> </div>
 				</div>
 			</div>
@@ -148,6 +137,11 @@
 
 <script type="text/javascript">
 $(function(){
+	// article.stick
+
+	$("input[name='stick']").prop('checked', ${article.stick?c}).change();
+
+
 	$("input[name='type']").click(function(){
  		editor.execCommand( 'source');
 		if($(this).val() == 1){
@@ -173,9 +167,102 @@ $(function(){
  			editor.execCommand( 'source');
 	 		editor.setDisabled();
 		</#if> 
-		editor.setContent($("#mrcmsContent").val()); 
+		editor.setContent($("#mrcmsContent").val());
+
+		// document.querySelectorAll('pre code').forEach((block) => {
+		// 	hljs.highlightBlock(block);
+		// });
+
+		SyntaxHighlighter.highlight();
 	});
 });
+
+function aiContent(){
+	let title = $("#title").val();
+	console.log(title)
+
+	editor.focus()
+
+	let content = "";
+
+	// 获取光标内容
+	// console.log(editor)
+	// let selection = editor.iframe.contentDocument.getSelection();
+	// debugger
+	// let indexOffset = selection.startOffset;
+	// var range = selection.getRangeAt(0); // 获取第一个范围
+	// var startNode = range.startContainer; // 获取起始容器节点
+	// var endNode = range.endContainer; // 获取结束容器节点
+	//
+	// // 通常两者相同，如果不是，你可能需要进一步处理来确定具体节点
+	// if (startNode === endNode) {
+	// 	console.log("光标所在的节点是:", startNode);
+	// } else {
+	// 	console.log("起始节点:", startNode);
+	// 	console.log("结束节点:", endNode);
+	// }
+
+
+	const eventSource = new EventSource("/admin/openai/stream.do?prompt="+title);
+
+	let oldContent= editor.getContent();
+
+	eventSource.onmessage = function(event) {
+		// 将接收到的内容追加到页面上
+		console.log(event)
+		let obj = JSON.parse(event.data);
+
+		content += obj.content;
+		// 解析markdown->html
+		const md = markdownit({
+			html: true,
+			linkify: true,
+			typographer: true ,
+			breaks:       true, // \n转 M<br>
+		})
+		// content = content.replaceAll('\n','<br/>')
+		doc = md.render(content);
+
+		editor.setContent(oldContent +"<br/>"+ doc );
+		// 当需要时调用sync来更新视图
+		// editor.sync();
+	};
+
+	eventSource.onerror = function(event) {
+		console.log(event)
+		eventSource.close();
+	};
+
+
+}
+
+/**
+ * byte[] 格式转字符串
+ * @param {byte[]} arr
+ */
+function byteToString(arr) {
+	if(typeof arr === 'string') {
+		return arr;
+	}
+	var str = '',
+			_arr = arr;
+	for(var i = 0; i < _arr.length; i++) {
+		var one = _arr[i].toString(2),
+				v = one.match(/^1+?(?=0)/);
+		if(v && one.length == 8) {
+			var bytesLength = v[0].length;
+			var store = _arr[i].toString(2).slice(7 - bytesLength);
+			for(var st = 1; st < bytesLength; st++) {
+				store += _arr[st + i].toString(2).slice(2);
+			}
+			str += String.fromCharCode(parseInt(store, 2));
+			i += bytesLength - 1;
+		} else {
+			str += String.fromCharCode(_arr[i]);
+		}
+	}
+	return str;
+}
 
 function mySubmitForm(obj){
  	window.editor.sync();//手动提交需要手动同步编辑器数据 

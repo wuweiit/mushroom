@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.io.IOException;
  *  插件过滤器
  * @author marker
  * */
+@WebFilter(urlPatterns = "*.md")
 public class MarkDownFilter implements Filter {
 
 	/** 日志记录器 */ 
@@ -31,6 +33,7 @@ public class MarkDownFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest  request  = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
+		response.setCharacterEncoding("UTF-8");
 		// 线程绑定请求对象和响应对象
 		ActionContext.currentThreadBindRequestAndResponse(request, response);
 		

@@ -13,9 +13,9 @@
 	        <td class="text-center">${comment.sort?c}</td>
 	        <td class="text-center">
 				<#if comment.hide == true>
-					<i class="fa fa-eye"></i>
+					<i class="fa fa-eye pointer" onclick="channelHide(0)"></i>
 				<#else>
-					<i class="fa fa-eye-slash"></i>
+					<i class="fa fa-eye-slash pointers" onclick="channelHide(1)"></i>
 				</#if>
 			</td>
 	        <td class="text-center">
@@ -25,5 +25,8 @@
 		</tr>
 	    <@tree id = comment.id node=temp/>
       </#if>
-	</#list> 
+	</#list>
+
+
+
 </#macro>

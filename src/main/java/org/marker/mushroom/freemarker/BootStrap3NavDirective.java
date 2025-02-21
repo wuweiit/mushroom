@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -36,8 +37,8 @@ import java.util.Map;
  */
 public class BootStrap3NavDirective implements TemplateDirectiveModel{
 
-	
-	
+
+
 	private IChannelDao channelDao;
 	
 	
@@ -67,7 +68,7 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 
 		String web = (String) ActionContext.getReq().getAttribute(AppStatic.WEB_APP_URL);
 
-		str.append("<ul class=\"nav navbar-nav\">\n");
+		str.append("<ul>\n");
 		
 		
 		List<ChannelItem> items = root.getChild();
@@ -76,7 +77,7 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 			ChannelItem item = it.next();
 			Channel c = item.getChannel();
 			
-			str.append("  <li>\n")
+			str.append("  <li data-id='"+item.getChannel().getId()+"'>\n")
 				.append("    <a ");
 				boolean hasChild = item.hasChild();
 				if(hasChild){
@@ -86,11 +87,14 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 				String url = urlrewrite.encoder("/cms?p=" + c.getUrl()+"&lang=" + WebParam.get().language);
 				
 				str.append("href=\"").append(url).append("\">");
+				String name = c.getName();
                 if(!StringUtils.isEmpty(c.getLangkey())){
-                    str.append(languageModel.get(c.getLangkey()));
-                }else{
-                    str.append(c.getName());
+					TemplateModel templateModel = languageModel.get(c.getLangkey()) ;
+					if (Objects.nonNull(templateModel) ) {
+						name = templateModel.toString();
+					}
                 }
+				str.append(name);
 				if(hasChild){
 					str.append(" <span class=\"caret\"></span>\n"); 
 					str.append("    <ul class=\"dropdown-menu\" role=\"menu\">\n"); 
@@ -99,17 +103,18 @@ public class BootStrap3NavDirective implements TemplateDirectiveModel{
 					while(cit.hasNext()){
 						ChannelItem citem = cit.next();
 						Channel cc = citem.getChannel();
-
-
 						String url2 = urlrewrite.encoder("/cms?p=" + cc.getUrl()+"&lang=" + WebParam.get().language);
 
 						str.append("      <li><a href=\"").append(url2).append("\">");
 
+						String name2 = cc.getName();
 						if(!StringUtils.isEmpty(cc.getLangkey())){
-							str.append(languageModel.get(cc.getLangkey()));
-						}else{
-							str.append(cc.getName());
+							TemplateModel templateModel = languageModel.get(cc.getLangkey()) ;
+							if (Objects.nonNull(templateModel) ) {
+								name2 = templateModel.toString();
+							}
 						}
+						str.append(name2);
 						str.append("</a></li>\n");
 					}
 					str.append("    </ul>\n");

@@ -32,11 +32,10 @@ public final class ActionContext {
 	
 	/**
 	 * 绑定当前Request和Response对象到当前线程
-	 * 增加同步解决并发问题
 	 * @param request
 	 * @param response
 	 */
-	public synchronized static final void currentThreadBindRequestAndResponse(
+	public static void currentThreadBindRequestAndResponse(
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionScopeData scopeData = ActionScopeData.getInstance();
 		scopeData.setRequest(request);
@@ -73,7 +72,9 @@ class ActionScopeData {
 	public static ActionScopeData getInstance() {
 		ActionScopeData instance = threadLocalData.get();
 		if (instance == null) {
-			threadLocalData.set(instance = new ActionScopeData());
+			synchronized (ActionContext.class){
+				threadLocalData.set(instance = new ActionScopeData());
+			}
 		}
 		return instance;
 	}

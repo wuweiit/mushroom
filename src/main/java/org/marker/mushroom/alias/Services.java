@@ -10,4 +10,6 @@ public interface Services {
 	String DOCTOR = "doctorService";
 	String CHANNEL = "channelService";
 	String PROJECT = "projectService";
+
+	String SITE = "siteService";
 }
