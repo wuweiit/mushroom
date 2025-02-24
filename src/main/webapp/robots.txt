@@ -1,6 +1,5 @@
 User-agent: * 
 Disallow: /install/
-Disallow: /plugin/
 Disallow: /admin/
 Disallow: /public/
 Disallow: /themes/

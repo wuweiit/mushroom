@@ -8,16 +8,18 @@
 
 <body>
 <div id="install">
-    <h1>安装完成</h1>
+    <h1>安装结果</h1>
     <div class="content">
 
         <#if install>
+
+            <h2 style="color:green;">安装成功！</h2><br />
             默认管理员账号：admin 密码：mrcms <br />
 
             请<a href="${WebRootPath!}/admin/login.do">登录后台</a> 修改密码。<br />
 
         <#else>
-            安装失败！<br />
+            <h2 style="color: red">安装失败！</h2><br />
             原因：${exceptionStr!}<br />
         </#if>
     </div>

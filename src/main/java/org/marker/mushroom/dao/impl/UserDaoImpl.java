@@ -1,8 +1,5 @@
 package org.marker.mushroom.dao.impl;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.marker.mushroom.beans.User;
 import org.marker.mushroom.beans.UserGroup;
 import org.marker.mushroom.dao.DaoEngine;
@@ -10,6 +7,9 @@ import org.marker.mushroom.dao.IUserDao;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper.RowMapperUser;
 import org.marker.mushroom.dao.mapper.ObjectRowMapper.RowMapperUserGroup;
 import org.springframework.stereotype.Repository;
+
+import java.io.Serializable;
+import java.util.List;
 
 
 @Repository("userDao")

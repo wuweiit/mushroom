@@ -25,9 +25,9 @@ function test_data(){
 		 DB_NAME:$('#DB_NAME').val(),
 		 DB_USER:$('#DB_USER').val(),
 		 DB_PWD: $('#DB_PWD').val(),
-		 create:create
+		 create: create
 	 }, function(res){
-	     res = JSON.parse(res);
+		 console.log(res);
 		 if(res.status == 0){
 			 $('.msg').html('<span style="color:green">数据库连接成功</span>');
 			 $('#test_conn').val('1');

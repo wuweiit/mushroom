@@ -1,6 +1,0 @@
-#
-#Sat Aug 11 14:21:25 CST 2018
-url.channel=/{channel}
-url.content=/{type}/{id}
-url.page=/{channel}-{page}
-page.suffix=.html

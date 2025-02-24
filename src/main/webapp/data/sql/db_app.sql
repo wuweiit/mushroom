@@ -9,7 +9,7 @@ CREATE TABLE `common_city` (
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `fcode` varchar(11) DEFAULT NULL COMMENT '父级编码',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=346 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=346 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `common_city`
@@ -27,7 +27,7 @@ CREATE TABLE `common_province` (
   `name` varchar(255) DEFAULT NULL,
   `code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `common_province`
@@ -56,7 +56,7 @@ CREATE TABLE `ext_plugins` (
   `keywords` varchar(256) DEFAULT NULL,
   `content` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 --  Records of `ext_plugins`
@@ -77,7 +77,7 @@ CREATE TABLE `friendlink` (
   `visited` bigint(11) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `friendlink`
@@ -110,7 +110,7 @@ CREATE TABLE `mr_article` (
   `stick` int(1) DEFAULT '0' COMMENT '是否置顶',
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=378 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
  
 
@@ -130,7 +130,7 @@ CREATE TABLE `mr_category` (
   `type` varchar(255) DEFAULT NULL,
   `model` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_category`
@@ -161,7 +161,7 @@ CREATE TABLE `mr_channel` (
   `categoryIds` varchar(255) DEFAULT NULL,
   `contentId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=158 DEFAULT CHARSET=gbk ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=gbk ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_channel`
@@ -180,7 +180,7 @@ CREATE TABLE `mr_chip` (
   `mark` varchar(50) DEFAULT NULL,
   `content` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=182 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
  
 
@@ -194,7 +194,7 @@ CREATE TABLE `mr_content` (
   `time` datetime DEFAULT NULL,
   `model` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 --  Table structure for `mr_doctor`
@@ -216,7 +216,7 @@ CREATE TABLE `mr_doctor` (
   `keywords` varchar(255) DEFAULT NULL,
   `updateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 
 -- ----------------------------
@@ -238,7 +238,7 @@ CREATE TABLE `mr_goods` (
   `info` text,
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_goods`
@@ -259,7 +259,7 @@ CREATE TABLE `mr_guestbook` (
   `time` datetime DEFAULT NULL,
   `status` int(10) unsigned zerofill DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 
 
@@ -273,7 +273,7 @@ CREATE TABLE `mr_history` (
   `description` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_history`
@@ -293,7 +293,7 @@ CREATE TABLE `mr_honer` (
   `icon` varchar(255) DEFAULT NULL,
   `year` int(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_honer`
@@ -314,7 +314,7 @@ CREATE TABLE `mr_link` (
   `icon` varchar(255) DEFAULT NULL,
   `views` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_link`
@@ -338,7 +338,7 @@ CREATE TABLE `mr_model` (
   `time` datetime DEFAULT NULL,
   `module` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=161 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_model`
@@ -359,7 +359,7 @@ CREATE TABLE `mr_plugin` (
   `author` varchar(30) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_plugin`
@@ -378,7 +378,7 @@ CREATE TABLE `mr_position` (
   `description` varchar(255) DEFAULT NULL,
   `company` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_position`
@@ -416,7 +416,7 @@ CREATE TABLE `mr_project` (
   `stick` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=413 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=413 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_project`
@@ -435,7 +435,7 @@ CREATE TABLE `mr_searchinfo` (
   `ip` varchar(255) DEFAULT NULL,
   `time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Table structure for `mr_sys_config`
@@ -447,7 +447,7 @@ CREATE TABLE `mr_sys_config` (
   `key` varchar(255) DEFAULT NULL,
   `value` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=120 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 
 
@@ -462,7 +462,7 @@ CREATE TABLE `mr_sys_language` (
   `value` text,
   `updateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=609 DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB AUTO_INCREMENT=609 DEFAULT CHARSET=utf8 ;
 
 -- ----------------------------
 --  Records of `mr_sys_language`
@@ -487,7 +487,7 @@ CREATE TABLE `mr_template` (
   `views` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_template`
@@ -518,13 +518,13 @@ CREATE TABLE `mr_user` (
   `sex` int(11) DEFAULT NULL,
   `points` bigint(22) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=149 DEFAULT CHARSET=gbk ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=gbk ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `mr_user` VALUES ('1', '1', null, 'admin', '7a8c6aa691085a97a3c66937a9e9daf6', '1', '雨林博客', '2013-06-12 15:27:53', '2018-08-11 08:36:08', '1', '网站超级管理员', null, null, null, null, null), ('145', '98', null, 'marker', '7a8c6aa691085a97a3c66937a9e9daf6', '1', '马克', '2014-11-16 11:39:12', '2017-06-23 15:28:13', '1', 'marker', null, null, null, '0', '0');
+INSERT INTO `mr_user` VALUES ('1', '1', null, 'admin', '7a8c6aa691085a97a3c66937a9e9daf6', '1', '雨林博客', '2013-06-12 15:27:53', '2018-08-11 08:36:08', '1', '网站超级管理员', null, null, null, null, null) ;
 COMMIT;
 
 -- ----------------------------
@@ -537,7 +537,7 @@ CREATE TABLE `mr_user_group` (
   `scope` int(4) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_user_group`
@@ -554,7 +554,7 @@ CREATE TABLE `mr_user_group_category` (
   `gid` int(11) NOT NULL DEFAULT '0',
   `cid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`gid`,`cid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `mr_user_group_category`
@@ -571,7 +571,7 @@ CREATE TABLE `mr_user_group_channel` (
   `gid` int(11) NOT NULL DEFAULT '0',
   `cid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`gid`,`cid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 -- ----------------------------
 --  Records of `mr_user_group_channel`
@@ -588,7 +588,7 @@ CREATE TABLE `mr_user_group_menu` (
   `gid` int(11) NOT NULL DEFAULT '0',
   `mid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`gid`,`mid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 -- ----------------------------
 --  Records of `mr_user_group_menu`
@@ -611,7 +611,7 @@ CREATE TABLE `mr_user_login_log` (
   `errorCode` int(11) DEFAULT NULL,
   `device` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1210 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=1210 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
  
 
@@ -631,13 +631,13 @@ CREATE TABLE `mr_user_menu` (
   `end` int(11) DEFAULT NULL,
   `moduleId` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=205 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `mr_user_menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `mr_user_menu` VALUES ('1', '0', 'fa-home', '首页', 'systeminfo.do', '1', '后台主界面，不解释。', 'b8db3088786a43e2916b810bbab8425b', '0', null), ('2', '0', 'fa-cog', '系统', '', '10', '', 'a1d6ac255acf4feab32ee70795b7b265', '0', null), ('3', '0', 'fa-archive', '页面', '', '20', '', '91ea1c25538b4c4e90401289cbe981fb', '0', null), ('4', '0', 'fa-list-alt', '内容', '', '30', '', 'bb2bc5fb802544a2a4634013d2c19936', '0', null), ('5', '0', 'fa-users', '用户', '', '40', '', 'c18166b148444928a4bab628da4190c8', '0', null), ('6', '0', 'fa-bullseye', '扩展', '', '50', '', 'bf41a349eec94e039648cc6de833440a', '0', null), ('18', '2', 'fa-info-circle', '基本信息', 'system/siteinfo.do', '10', '基本信息的管理', null, '0', null), ('19', '2', 'fa-clipboard', '数据配置', 'system/dbinfo.do', '20', '数据库配置', null, '0', null), ('20', '5', 'fa-user', '用户管理', 'user/list.do?currentPageNo=1', '30', '管理用户信息', null, '0', null), ('21', '5', 'fa-users', '分组管理', 'group/list.do', '40', '', null, '1', null), ('22', '2', 'fa-terminal', '登录日志', 'user/loginlog/list.do?currentPageNo=1', '50', '', null, '0', null), ('24', '3', 'fa-archive', '栏目管理', 'channel/list.do?currentPageNo=1', '20', '', null, '0', null), ('198', '4', 'fa-th', '文章管理', 'article/list.do', '0', '系统基础内容管理', '6cd7004ae4bc4aaca1435708cb7dd079', '0', null), ('27', '4', 'fa-th', '碎片管理', 'chip/list.do?currentPageNo=1', '30', '', null, '0', null), ('28', '4', 'fa-folder-o', '文件管理', 'file/list.do?path=/', '40', '', null, '0', null), ('165', '0', 'fa-bar-chart-o', '统计', '', '55', '', null, '0', null), ('30', '6', 'fa-plus-square', '模型列表', 'model/list.do', '20', '', null, '0', null), ('34', '6', 'fa-plus-square', '插件列表', 'plugin/list.do?currentPageNo=1', '30', '', null, '0', null), ('204', '4', 'fa-comments-o', '留言管理', '/plugin/guestbook/list', '1000', null, null, '0', '唯一标记'), ('37', '2', 'fa-search', 'SEO配置', 'system/seoinfo.do', '80', '', null, '0', null), ('38', '2', 'fa-bars', '菜单管理', 'menu/list.do', '90', '', null, '0', null), ('39', '1', 'fa-shield', '关于系统', 'center/software.html', '10', '', null, '0', null), ('40', '1', 'fa-shield', '关于我们', 'center/about.html', '20', '', null, '1', null), ('49', '2', 'fa-cogs', '缓存管理', 'system/cache.do', '50', '', null, '0', null), ('50', '2', 'fa-envelope', '邮箱配置', 'system/mailinfo.do', '50', '', null, '0', null), ('193', '2', 'fa-bars', '国际化站', 'international/list.do', '200', '网站国际化配置', null, '1', null), ('52', '6', 'fa-bullseye', '备份管理', '', '90', '为防止意外情况，对系统，或者内容模型、插件数据进行备份。', null, '1', null), ('53', '3', 'fa-archive', '专题管理', '', '200', '', null, '1', null), ('54', '6', 'fa-bullseye', '标签列表', 'taglib/list.do', '40', '标签', null, '0', null), ('166', '165', 'fa-bar-chart-o', '昨日统计', 'statistics/yesterday.do', '200', '', null, '0', null), ('164', '165', 'fa-bar-chart-o', '今日统计', 'statistics/today.do', '100', '', null, '0', null), ('167', '165', 'fa-bar-chart-o', '百度统计', 'https://tongji.baidu.com', '300', '', null, '1', null), ('202', '6', 'fa-bullseye', 'URL替换', 'urlreplace/list.do', '50', '', null, '0', null), ('169', '3', 'fa-clipboard', '分类管理', 'category/list.do', '30', '', null, '0', null), ('199', '4', '', '幻灯管理', 'slide/list.do', '0', '', null, '0', null), ('201', '3', 'fa-link', '外链管理', 'link/list.do?currentPageNo=1', '40', '', null, '0', null);
+INSERT INTO `mr_user_menu` VALUES ('1', '0', 'fa-home', '首页', 'systeminfo.do', '1', '后台主界面，不解释。', 'b8db3088786a43e2916b810bbab8425b', '0', null), ('2', '0', 'fa-cog', '系统', '', '10', '', 'a1d6ac255acf4feab32ee70795b7b265', '0', null), ('3', '0', 'fa-archive', '页面', '', '20', '', '91ea1c25538b4c4e90401289cbe981fb', '0', null), ('4', '0', 'fa-list-alt', '内容', '', '30', '', 'bb2bc5fb802544a2a4634013d2c19936', '0', null), ('5', '0', 'fa-users', '用户', '', '40', '', 'c18166b148444928a4bab628da4190c8', '0', null), ('6', '0', 'fa-bullseye', '扩展', '', '50', '', 'bf41a349eec94e039648cc6de833440a', '0', null), ('18', '2', 'fa-info-circle', '基本信息', 'system/siteinfo.do', '10', '基本信息的管理', null, '0', null), ('19', '2', 'fa-clipboard', '数据配置', 'system/dbinfo.do', '20', '数据库配置', null, '0', null), ('20', '5', 'fa-user', '用户管理', 'user/list.do?currentPageNo=1', '30', '管理用户信息', null, '0', null), ('21', '5', 'fa-users', '分组管理', 'group/list.do', '40', '', null, '1', null), ('22', '2', 'fa-terminal', '登录日志', 'user/loginlog/list.do?currentPageNo=1', '50', '', null, '0', null), ('24', '3', 'fa-archive', '栏目管理', 'channel/list.do?currentPageNo=1', '20', '', null, '0', null), ('198', '4', 'fa-th', '文章管理', 'article/list.do', '0', '系统基础内容管理', '6cd7004ae4bc4aaca1435708cb7dd079', '0', null), ('27', '4', 'fa-th', '碎片管理', 'chip/list.do?currentPageNo=1', '30', '', null, '0', null), ('28', '4', 'fa-folder-o', '文件管理', 'file/list.do?path=/', '40', '', null, '0', null), ('165', '0', 'fa-bar-chart-o', '统计', '', '55', '', null, '0', null), ('30', '6', 'fa-plus-square', '模型列表', 'model/list.do', '20', '', null, '0', null), ('34', '6', 'fa-plus-square', '插件列表', 'plugin/list.do?currentPageNo=1', '30', '', null, '0', null),  ('37', '2', 'fa-search', 'SEO配置', 'system/seoinfo.do', '80', '', null, '0', null), ('38', '2', 'fa-bars', '菜单管理', 'menu/list.do', '90', '', null, '0', null), ('39', '1', 'fa-shield', '关于系统', 'center/software.html', '10', '', null, '0', null), ('40', '1', 'fa-shield', '关于我们', 'center/about.html', '20', '', null, '1', null), ('49', '2', 'fa-cogs', '缓存管理', 'system/cache.do', '50', '', null, '0', null), ('50', '2', 'fa-envelope', '邮箱配置', 'system/mailinfo.do', '50', '', null, '0', null), ('193', '2', 'fa-bars', '国际化站', 'international/list.do', '200', '网站国际化配置', null, '1', null), ('52', '6', 'fa-bullseye', '备份管理', '', '90', '为防止意外情况，对系统，或者内容模型、插件数据进行备份。', null, '1', null), ('53', '3', 'fa-archive', '专题管理', '', '200', '', null, '1', null), ('54', '6', 'fa-bullseye', '标签列表', 'taglib/list.do', '40', '标签', null, '0', null), ('166', '165', 'fa-bar-chart-o', '昨日统计', 'statistics/yesterday.do', '200', '', null, '0', null), ('164', '165', 'fa-bar-chart-o', '今日统计', 'statistics/today.do', '100', '', null, '0', null), ('167', '165', 'fa-bar-chart-o', '百度统计', 'https://tongji.baidu.com', '300', '', null, '1', null), ('202', '6', 'fa-bullseye', 'URL替换', 'urlreplace/list.do', '50', '', null, '0', null), ('169', '3', 'fa-clipboard', '分类管理', 'category/list.do', '30', '', null, '0', null), ('199', '4', '', '幻灯管理', 'slide/list.do', '0', '', null, '0', null), ('201', '3', 'fa-link', '外链管理', 'link/list.do?currentPageNo=1', '40', '', null, '0', null);
 COMMIT;
 
 -- ----------------------------
@@ -662,7 +662,7 @@ CREATE TABLE `mr_visited_his` (
   `leavetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `time` (`time`)
-) ENGINE=MyISAM AUTO_INCREMENT=252039 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=252039 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
  
 
 -- ----------------------------
@@ -674,7 +674,7 @@ CREATE TABLE `public_sensitive` (
   `type` int(11) DEFAULT NULL,
   `value` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1060 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=1060 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 --  Records of `public_sensitive`
@@ -685,19 +685,13 @@ COMMIT;
 
 -- 3.1.1 版本
 
-ALTER TABLE `mr_project` ADD COLUMN `stick` int AFTER `extJson`;
-ALTER TABLE `mr_article` ADD COLUMN `stick` int AFTER `updateTime`;
 
-ALTER TABLE `mr_honer` CHANGE COLUMN `icon` `icon` text DEFAULT NULL;
-
-ALTER TABLE  `mr_user_menu` ADD COLUMN `moduleId` int AFTER `end`;
 
 -- 3.1.2
 ALTER TABLE `mr_sys_config`
     MODIFY COLUMN `value` varchar(1000) NULL DEFAULT NULL AFTER `key`;
 
 -- 3.1.3
-INSERT INTO  `mr_sys_config`(`id`, `config`, `key`, `value`) VALUES (120, 'StorageConfig', 'storageType', NULL);
 ALTER TABLE `mr_article`
     MODIFY COLUMN `stick` tinyint(1) NULL DEFAULT 0 COMMENT '是否置顶 1是 0否' AFTER `updateTime`;
 
@@ -746,7 +740,7 @@ INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (115, 'Syste
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (116, 'SystemConfig', 'qq', '903595558');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (117, 'SystemConfig', 'mobile', '131515');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (118, 'SystemConfig', 'system.login.safe', '');
-INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (119, 'SystemConfig', 'statisticsScript', '<script>\n    var _hmt = _hmt || [];\n    (function() {\n        var hm = document.createElement(\"script\");\n        hm.src = \"https://hm.baidu.com/hm.js?b95fa522256c86470a70cfabd9014928\";\n        var s = document.getElementsByTagName(\"script\")[0];\n        s.parentNode.insertBefore(hm, s);\n    })();\n</script>');
+INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (119, 'SystemConfig', 'statisticsScript', '');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (120, 'StorageConfig', 'storageType', 'ALIYUN_OSS');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (121, 'StorageConfig', 'aliyunOss.accessKeyId', 'xxx');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (122, 'StorageConfig', 'aliyunOss.accessKeySecret', 'xxxx');
@@ -761,3 +755,445 @@ INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (134, 'OpenA
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (135, 'OpenAIConfig', 'ollama.model', 'deepseek-coder:6.7b,qwen2.5-coder:7b,deepseek-r1:8b');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (136, 'OpenAIConfig', 'ollama.apiUrl', 'http://192.168.1.8:11434/v1/');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (137, 'OpenAIConfig', 'ollama.apiToken', 'xxx');
+
+
+INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (203, 2, 'fa-clipboard', '站点管理', 'site/list.do', 1, '站点管理', NULL, 0, NULL);
+INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (204, 2, 'fa-clipboard', '存储配置', 'system/storage/info.do', 0, '', NULL, 0, NULL);
+INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (205, 2, 'fa-clipboard', 'AI模型', 'system/openai/info.do', 0, '', NULL, 0, NULL);
+
+
+DROP TABLE IF EXISTS `mr_site`;
+CREATE TABLE `mr_site`  (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标题',
+    `describe` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '站点描述',
+    `host` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+    `theme` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主题',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '站点' ROW_FORMAT = Dynamic;
+
+
+
+
+-- ----------------------------
+-- Records of mr_sys_language
+-- ----------------------------
+INSERT INTO `mr_sys_language` VALUES (1, 'default', 'doc.template.name.title', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (2, 'default', 'mrcms.feature.textediting', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (3, 'default', 'about.name.title', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (4, 'default', 'mrcms.feature.markdown.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (5, 'default', 'index.title.description', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (6, 'default', 'mrcms.feature.markdown', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (7, 'default', 'mrcms.feature.webstatic', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (8, 'default', 'document.name.title', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (9, 'default', 'guestbook.name.title', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (10, 'default', 'mrcms.feature.compress.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (11, 'default', 'index.get.started', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (12, 'default', 'mrcms.feature.distributed.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (13, 'default', 'ddd.titi.tflf', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (14, 'default', 'mrcms.feature.theme', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (15, 'default', 'mrcms.feature.high.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (16, 'default', 'mrcms.feature.webstatic.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (17, 'default', 'mrcms.feature.seo.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (18, 'default', 'mrcms.feature.textediting.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (19, 'default', 'index.mrcms.feature.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (20, 'default', 'mrcms.builder.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (21, 'default', 'mrcms.feature.distributed', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (22, 'default', 'mrcms.feature.internationalization.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (23, 'default', 'mrcms.feature.crossplatform.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (24, 'default', 'mrcms.feature.theme.desc', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (25, 'default', 'qq.title', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (26, 'default', 'logger.name.title', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (27, 'default', 'index.mrcms.feature', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (28, 'default', 'mrcms.feature.file', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (29, 'default', 'mrcms.feature.compress', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (30, 'default', 'doc.module.name.title', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (31, 'default', 'mrcms.feature.internationalization', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (32, 'default', 'mrcms.builder.title', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (33, 'default', 'mrcms.feature.extensible', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (34, 'default', 'mrcms.feature.cache.desc', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (35, 'default', 'mrcms.feature.seo', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (36, 'default', 'mrcms.feature.contentmodel', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (37, 'default', 'mrcms.feature.templateengine.desc', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (38, 'default', 'index.wen.info', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (39, 'default', 'doc.groovy.name.title', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (40, 'default', 'mrcms.feature.file.desc', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (41, 'default', 'mrcms.feature.contentmodel.desc', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (42, 'default', 'mrcms.feature.cache', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (43, 'default', 'mrcms.feature.extensible.desc', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (44, 'default', 'index.info.title', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (45, 'default', 'mrcms.feature.templateengine', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (46, 'default', 'config.title', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (47, 'default', 'index.name.title', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (48, 'default', 'mrcms.feature.high', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (49, 'default', 'mrcms.feature.crossplatform', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (50, 'ko', 'doc.template.name.title', 'Template DOC', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (51, 'ko', 'mrcms.feature.textediting', '文本編輯器', '2017-06-17 15:10:54');
+INSERT INTO `mr_sys_language` VALUES (52, 'ko', 'about.name.title', '관한 사항', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (53, 'ko', 'mrcms.feature.markdown.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (54, 'ko', 'index.title.description', '빨리 와서 보아라!강한 사이트 응용 프레임 종결자 위해 고효율, 간단한, 확장 웹 응용 개발 해결 방안을 제공하다.', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (55, 'ko', 'mrcms.feature.markdown', 'MarkDown', '2017-06-17 15:11:02');
+INSERT INTO `mr_sys_language` VALUES (56, 'ko', 'mrcms.feature.webstatic', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (57, 'ko', 'document.name.title', '도움말 문서', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (58, 'ko', 'guestbook.name.title', '온라인', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (59, 'ko', 'mrcms.feature.compress.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (60, 'ko', 'index.get.started', '지금 공부', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (61, 'ko', 'mrcms.feature.distributed.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (62, 'ko', 'ddd.titi.tflf', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (63, 'ko', 'mrcms.feature.theme', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (64, 'ko', 'mrcms.feature.high.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (65, 'ko', 'mrcms.feature.webstatic.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (66, 'ko', 'mrcms.feature.seo.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (67, 'ko', 'mrcms.feature.textediting.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (68, 'ko', 'index.mrcms.feature.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (69, 'ko', 'mrcms.builder.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (70, 'ko', 'mrcms.feature.distributed', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (71, 'ko', 'mrcms.feature.internationalization.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (72, 'ko', 'mrcms.feature.crossplatform.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (73, 'ko', 'mrcms.feature.theme.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (74, 'ko', 'qq.title', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (75, 'ko', 'logger.name.title', '변경 기록', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (76, 'ko', 'index.mrcms.feature', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (77, 'ko', 'mrcms.feature.file', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (78, 'ko', 'mrcms.feature.compress', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (79, 'ko', 'doc.module.name.title', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (80, 'ko', 'mrcms.feature.internationalization', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (81, 'ko', 'mrcms.builder.title', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (82, 'ko', 'mrcms.feature.extensible', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (83, 'ko', 'mrcms.feature.cache.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (84, 'ko', 'mrcms.feature.seo', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (85, 'ko', 'mrcms.feature.contentmodel', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (86, 'ko', 'mrcms.feature.templateengine.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (87, 'ko', 'index.wen.info', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (88, 'ko', 'doc.groovy.name.title', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (89, 'ko', 'mrcms.feature.file.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (90, 'ko', 'mrcms.feature.contentmodel.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (91, 'ko', 'mrcms.feature.cache', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (92, 'ko', 'mrcms.feature.extensible.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (93, 'ko', 'index.info.title', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (94, 'ko', 'mrcms.feature.templateengine', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (95, 'ko', 'config.title', '成都码克尔网络科技官网', '2022-07-03 14:13:15');
+INSERT INTO `mr_sys_language` VALUES (96, 'ko', 'index.name.title', '사이트 홈페이지', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (97, 'ko', 'mrcms.feature.high', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (98, 'ko', 'mrcms.feature.crossplatform', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (99, 'zh-HK', 'doc.template.name.title', 'Template DOC', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (100, 'zh-HK', 'mrcms.feature.textediting', '文本編輯器', '2017-06-17 15:10:54');
+INSERT INTO `mr_sys_language` VALUES (101, 'zh-HK', 'about.name.title', '關於項目', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (102, 'zh-HK', 'mrcms.feature.markdown.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (103, 'zh-HK', 'index.title.description', '快來看呀！強大的網站應用框架終結者 為高效、簡單、可擴展的 Web應用開發提供解決方案', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (104, 'zh-HK', 'mrcms.feature.markdown', 'MarkDown', '2017-06-17 15:11:02');
+INSERT INTO `mr_sys_language` VALUES (105, 'zh-HK', 'mrcms.feature.webstatic', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (106, 'zh-HK', 'document.name.title', '幫助文檔', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (107, 'zh-HK', 'guestbook.name.title', '在線留言', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (108, 'zh-HK', 'mrcms.feature.compress.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (109, 'zh-HK', 'index.get.started', '現在開始學習', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (110, 'zh-HK', 'mrcms.feature.distributed.desc', '目前还没有使用太多分布式技术，暂时只是实现了Nginx反向代理服务器集群。 ', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (111, 'zh-HK', 'ddd.titi.tflf', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (112, 'zh-HK', 'mrcms.feature.theme', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (113, 'zh-HK', 'mrcms.feature.high.desc', '采用高性能的Spring作为核心框架，Spring提供的IOC容器可以方便的管理各种扩展组件、服务、数据库操作对象等，并集成数据压缩、数据库连接池、线程池、多线程数据绑定技术，构建安全的Web应用。 ', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (114, 'zh-HK', 'mrcms.feature.webstatic.desc', '', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (115, 'zh-HK', 'mrcms.feature.seo.desc', '提供各项搜索引擎优化解决方案，其中最个性的是URL规则引擎。 ', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (116, 'zh-HK', 'mrcms.feature.textediting.desc', '百度web前端研发部开发的所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点。开源基于BSD协议，允许自由使用和修改代码。 ', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (117, 'zh-HK', 'index.mrcms.feature.desc', '選擇使用蘑菇內容管理系統的理由，趕緊來看看吧！', '2017-06-17 14:18:19');
+INSERT INTO `mr_sys_language` VALUES (118, 'zh-HK', 'mrcms.builder.desc', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (119, 'zh-HK', 'mrcms.feature.distributed', '分佈式', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (120, 'zh-HK', 'mrcms.feature.internationalization.desc', '网站内容国际化是一个企业或者个人面向全球的一种服务概念，能帮助您发展国外客户。', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (121, 'zh-HK', 'mrcms.feature.crossplatform.desc', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (122, 'zh-HK', 'mrcms.feature.theme.desc', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (123, 'zh-HK', 'qq.title', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (124, 'zh-HK', 'logger.name.title', '更新日誌', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (125, 'zh-HK', 'index.mrcms.feature', '蘑菇內容管理系統(MRCMS)的特點', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (126, 'zh-HK', 'mrcms.feature.file', '文件管理', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (127, 'zh-HK', 'mrcms.feature.compress', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (128, 'zh-HK', 'doc.module.name.title', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (129, 'zh-HK', 'mrcms.feature.internationalization', '國際化', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (130, 'zh-HK', 'mrcms.builder.title', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (131, 'zh-HK', 'mrcms.feature.extensible', '可擴展', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (132, 'zh-HK', 'mrcms.feature.cache.desc', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (133, 'zh-HK', 'mrcms.feature.seo', '搜索引擎優化', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (134, 'zh-HK', 'mrcms.feature.contentmodel', '內容模型', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (135, 'zh-HK', 'mrcms.feature.templateengine.desc', '内置freemarker模板引擎，对模板引擎进行了扩展处理，提供自定义注释标签语法开发网页模板，将提高工作效率。提供一系列指令方式操作数据。 ', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (136, 'zh-HK', 'index.wen.info', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (137, 'zh-HK', 'doc.groovy.name.title', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (138, 'zh-HK', 'mrcms.feature.file.desc', '在线文件管理，可以方便的管理服务器文件的上传、删除、修改、浏览等功能。并集成了模型、插件安装接口，快速安装插件无需登录服务器。', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (139, 'zh-HK', 'mrcms.feature.contentmodel.desc', '对不同的产品展示界面我们可以自己设计不同的对象模型表示改产品。 在内容模型中我们还可以通过ActionAcontext类来获取请求对象和响应对象，使系统更加灵活多样。 ', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (140, 'zh-HK', 'mrcms.feature.cache', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (141, 'zh-HK', 'mrcms.feature.extensible.desc', '集成Java无缝链接的Groovy动态脚本语言。只要遵循MRCMS扩展规范，可开发动态扩展的模型、插件、扩展标签库等扩展项目。 通过文件管理器可以安装扩展文件。 ', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (142, 'zh-HK', 'index.info.title', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (143, 'zh-HK', 'mrcms.feature.templateengine', '模板引擎', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (144, 'zh-HK', 'config.title', '成都码克尔网络科技官网', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (145, 'zh-HK', 'index.name.title', '網站主頁', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (146, 'zh-HK', 'mrcms.feature.high', '高性能', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (147, 'zh-HK', 'mrcms.feature.crossplatform', '', '2017-06-17 14:18:20');
+INSERT INTO `mr_sys_language` VALUES (358, 'zh-CN', 'doc.template.name.title', '模板文档', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (359, 'zh-CN', 'mrcms.feature.textediting', '文本编辑器', '2017-06-17 15:10:54');
+INSERT INTO `mr_sys_language` VALUES (360, 'zh-CN', 'about.name.title', '关于项目', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (361, 'zh-CN', 'mrcms.feature.markdown.desc', 'Markdown的语法简洁明了、学习容易，而且功能比纯文本更强，因此有很多人用它写博客和文档。', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (362, 'zh-CN', 'index.title.description', '快来看呀！强大的网站应用框架终结者 为高效、简单、可扩展的 Web应用开发提供解决方案。', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (363, 'zh-CN', 'mrcms.feature.markdown', 'MarkDown', '2017-06-17 15:11:02');
+INSERT INTO `mr_sys_language` VALUES (364, 'zh-CN', 'mrcms.feature.webstatic', '站内统计', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (365, 'zh-CN', 'document.name.title', '帮助文档', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (366, 'zh-CN', 'guestbook.name.title', '在线留言', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (367, 'zh-CN', 'mrcms.feature.compress.desc', 'Web前端性能优化中减少网络数据传输量，使用代码压缩技术，可以压缩模板页面中的HTML、CSS、JavaScript代码。', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (368, 'zh-CN', 'index.get.started', '现在开始学习', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (369, 'zh-CN', 'mrcms.feature.distributed.desc', '目前还没有使用太多分布式技术，暂时只是实现了Nginx反向代理服务器集群。 ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (370, 'zh-CN', 'ddd.titi.tflf', '����', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (371, 'zh-CN', 'mrcms.feature.theme', '界面主题化', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (372, 'zh-CN', 'mrcms.feature.high.desc', '采用高性能的Spring作为核心框架，Spring提供的IOC容器可以方便的管理各种扩展组件、服务、数据库操作对象等，并集成数据压缩、数据库连接池、线程池、多线程数据绑定技术，构建安全的Web应用。 ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (373, 'zh-CN', 'mrcms.feature.webstatic.desc', '采用百度Echarts统计图表工具作为表现层，提供强大的站内访问统计信息，为用户数据挖掘分析提供一手数据。', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (374, 'zh-CN', 'mrcms.feature.seo.desc', '提供各项搜索引擎优化解决方案，其中最个性的是URL规则引擎。 ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (375, 'zh-CN', 'mrcms.feature.textediting.desc', '百度web前端研发部开发的所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点。开源基于BSD协议，允许自由使用和修改代码。 ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (376, 'zh-CN', 'index.mrcms.feature.desc', '选择使用蘑菇内容管理系统的理由，赶紧来看看吧！', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (377, 'zh-CN', 'mrcms.builder.desc', '这么多网站都是采用蘑菇内容管理系统呢，这是为什么呢？', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (378, 'zh-CN', 'mrcms.feature.distributed', '分布式', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (379, 'zh-CN', 'mrcms.feature.internationalization.desc', '网站内容国际化是一个企业或者个人面向全球的一种服务概念，能帮助您发展国外客户。', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (380, 'zh-CN', 'web.intot.title', '[Ljava.lang.String;@1c3ff69', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (381, 'zh-CN', 'mrcms.feature.crossplatform.desc', '采用跨平台语言Java开发的Web应用框架。经过项目部署测试，完美运行在Debian(Linux)、Windows Server。\n         ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (382, 'zh-CN', 'mrcms.feature.theme.desc', '支持前后台界面主题，后台采用扁平化设计风格，主题更随意，不受图片困扰；前台通过开发主题模板，让您的Web应用更加多样化。', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (383, 'zh-CN', 'qq.title', 'xxxQQ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (384, 'zh-CN', 'logger.name.title', '更新日志', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (385, 'zh-CN', 'index.mrcms.feature', '蘑菇内容管理系统(MRCMS)的特点', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (386, 'zh-CN', 'mrcms.feature.file', '文件管理', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (387, 'zh-CN', 'mrcms.feature.compress', '代码压缩', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (388, 'zh-CN', 'doc.module.name.title', '模块文档', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (389, 'zh-CN', 'mrcms.feature.internationalization', '国际化', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (390, 'zh-CN', 'mrcms.builder.title', '蘑菇内容管理系统构建的应用', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (391, 'zh-CN', 'mrcms.feature.extensible', '可扩展', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (392, 'zh-CN', 'mrcms.feature.cache.desc', '由于IO瓶颈问题，需要使用缓存解决资源访问速度问题。我们采用EHCache作为缓存框架，提高系统吞吐量。', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (393, 'zh-CN', 'mrcms.feature.seo', '搜索引擎优化', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (394, 'zh-CN', 'mrcms.feature.contentmodel', '內容模型', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (395, 'zh-CN', 'mrcms.feature.templateengine.desc', '内置freemarker模板引擎，对模板引擎进行了扩展处理，提供自定义注释标签语法开发网页模板，将提高工作效率。提供一系列指令方式操作数据。 ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (396, 'zh-CN', 'index.wen.info', 'xxx', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (397, 'zh-CN', 'doc.groovy.name.title', 'Groovy文档', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (398, 'zh-CN', 'mrcms.feature.file.desc', '在线文件管理，可以方便的管理服务器文件的上传、删除、修改、浏览等功能。并集成了模型、插件安装接口，快速安装插件无需登录服务器。', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (399, 'zh-CN', 'mrcms.feature.contentmodel.desc', '对不同的产品展示界面我们可以自己设计不同的对象模型表示改产品。 在内容模型中我们还可以通过ActionAcontext类来获取请求对象和响应对象，使系统更加灵活多样。 ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (400, 'zh-CN', 'mrcms.feature.cache', '高速缓存', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (401, 'zh-CN', 'mrcms.feature.extensible.desc', '集成Java无缝链接的Groovy动态脚本语言。只要遵循MRCMS扩展规范，可开发动态扩展的模型、插件、扩展标签库等扩展项目。 通过文件管理器可以安装扩展文件。 ', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (402, 'zh-CN', 'index.info.title', 'MRCMSxxx', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (403, 'zh-CN', 'mrcms.feature.templateengine', '模板引擎', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (404, 'zh-CN', 'config.title', '成都码克尔网络科技官网', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (405, 'zh-CN', 'index.name.title', '网站主页', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (406, 'zh-CN', 'mrcms.feature.high', '高性能', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (407, 'zh-CN', 'mrcms.feature.crossplatform', '跨平台', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (408, 'ko', 'doc.template.name.title', 'Template DOC', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (409, 'ko', 'mrcms.feature.textediting', '文本編輯器', '2017-06-17 15:10:54');
+INSERT INTO `mr_sys_language` VALUES (410, 'ko', 'about.name.title', '관한 사항', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (411, 'ko', 'mrcms.feature.markdown.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (412, 'ko', 'index.title.description', '빨리 와서 보아라!강한 사이트 응용 프레임 종결자 위해 고효율, 간단한, 확장 웹 응용 개발 해결 방안을 제공하다.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (413, 'ko', 'mrcms.feature.markdown', 'MarkDown', '2017-06-17 15:11:02');
+INSERT INTO `mr_sys_language` VALUES (414, 'ko', 'mrcms.feature.webstatic', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (415, 'ko', 'document.name.title', '도움말 문서', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (416, 'ko', 'guestbook.name.title', '온라인', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (417, 'ko', 'mrcms.feature.compress.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (418, 'ko', 'index.get.started', '지금 공부', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (419, 'ko', 'mrcms.feature.distributed.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (420, 'ko', 'ddd.titi.tflf', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (421, 'ko', 'mrcms.feature.theme', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (422, 'ko', 'mrcms.feature.high.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (423, 'ko', 'mrcms.feature.webstatic.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (424, 'ko', 'mrcms.feature.seo.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (425, 'ko', 'mrcms.feature.textediting.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (426, 'ko', 'index.mrcms.feature.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (427, 'ko', 'mrcms.builder.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (428, 'ko', 'mrcms.feature.distributed', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (429, 'ko', 'mrcms.feature.internationalization.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (430, 'ko', 'mrcms.feature.crossplatform.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (431, 'ko', 'mrcms.feature.theme.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (432, 'ko', 'qq.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (433, 'ko', 'logger.name.title', '변경 기록', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (434, 'ko', 'index.mrcms.feature', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (435, 'ko', 'mrcms.feature.file', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (436, 'ko', 'mrcms.feature.compress', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (437, 'ko', 'doc.module.name.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (438, 'ko', 'mrcms.feature.internationalization', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (439, 'ko', 'mrcms.builder.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (440, 'ko', 'mrcms.feature.extensible', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (441, 'ko', 'mrcms.feature.cache.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (442, 'ko', 'mrcms.feature.seo', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (443, 'ko', 'mrcms.feature.contentmodel', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (444, 'ko', 'mrcms.feature.templateengine.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (445, 'ko', 'index.wen.info', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (446, 'ko', 'mrcms.feature.contentmodel.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (447, 'ko', 'mrcms.feature.file.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (448, 'ko', 'doc.groovy.name.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (449, 'ko', 'mrcms.feature.cache', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (450, 'ko', 'init', 'true', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (451, 'ko', 'mrcms.feature.extensible.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (452, 'ko', 'config.title', '成都码克尔网络科技官网', '2022-07-03 14:13:15');
+INSERT INTO `mr_sys_language` VALUES (453, 'ko', 'mrcms.feature.templateengine', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (454, 'ko', 'index.info.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (455, 'ko', 'index.name.title', '사이트 홈페이지', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (456, 'ko', 'mrcms.feature.crossplatform', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (457, 'ko', 'mrcms.feature.high', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (458, 'zh-HK', 'doc.template.name.title', 'Template DOC', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (459, 'zh-HK', 'mrcms.feature.textediting', '文本編輯器', '2017-06-17 15:10:54');
+INSERT INTO `mr_sys_language` VALUES (460, 'zh-HK', 'about.name.title', '關於項目', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (461, 'zh-HK', 'mrcms.feature.markdown.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (462, 'zh-HK', 'index.title.description', '快來看呀！強大的網站應用框架終結者 為高效、簡單、可擴展的 Web應用開發提供解決方案', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (463, 'zh-HK', 'mrcms.feature.markdown', 'MarkDown', '2017-06-17 15:11:02');
+INSERT INTO `mr_sys_language` VALUES (464, 'zh-HK', 'mrcms.feature.webstatic', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (465, 'zh-HK', 'document.name.title', '幫助文檔', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (466, 'zh-HK', 'guestbook.name.title', '在線留言', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (467, 'zh-HK', 'mrcms.feature.compress.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (468, 'zh-HK', 'index.get.started', '現在開始學習', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (469, 'zh-HK', 'mrcms.feature.distributed.desc', '目前还没有使用太多分布式技术，暂时只是实现了Nginx反向代理服务器集群。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (470, 'zh-HK', 'ddd.titi.tflf', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (471, 'zh-HK', 'mrcms.feature.theme', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (472, 'zh-HK', 'mrcms.feature.high.desc', '采用高性能的Spring作为核心框架，Spring提供的IOC容器可以方便的管理各种扩展组件、服务、数据库操作对象等，并集成数据压缩、数据库连接池、线程池、多线程数据绑定技术，构建安全的Web应用。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (473, 'zh-HK', 'mrcms.feature.webstatic.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (474, 'zh-HK', 'mrcms.feature.seo.desc', '提供各项搜索引擎优化解决方案，其中最个性的是URL规则引擎。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (475, 'zh-HK', 'mrcms.feature.textediting.desc', '百度web前端研发部开发的所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点。开源基于BSD协议，允许自由使用和修改代码。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (476, 'zh-HK', 'index.mrcms.feature.desc', '選擇使用蘑菇內容管理系統的理由，趕緊來看看吧！', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (477, 'zh-HK', 'mrcms.builder.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (478, 'zh-HK', 'mrcms.feature.distributed', '分佈式', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (479, 'zh-HK', 'mrcms.feature.internationalization.desc', '网站内容国际化是一个企业或者个人面向全球的一种服务概念，能帮助您发展国外客户。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (480, 'zh-HK', 'mrcms.feature.crossplatform.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (481, 'zh-HK', 'mrcms.feature.theme.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (482, 'zh-HK', 'qq.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (483, 'zh-HK', 'logger.name.title', '更新日誌', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (484, 'zh-HK', 'index.mrcms.feature', '蘑菇內容管理系統(MRCMS)的特點', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (485, 'zh-HK', 'mrcms.feature.file', '文件管理', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (486, 'zh-HK', 'mrcms.feature.compress', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (487, 'zh-HK', 'doc.module.name.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (488, 'zh-HK', 'mrcms.feature.internationalization', '國際化', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (489, 'zh-HK', 'mrcms.builder.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (490, 'zh-HK', 'mrcms.feature.extensible', '可擴展', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (491, 'zh-HK', 'mrcms.feature.cache.desc', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (492, 'zh-HK', 'mrcms.feature.seo', '搜索引擎優化', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (493, 'zh-HK', 'mrcms.feature.contentmodel', '內容模型', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (494, 'zh-HK', 'mrcms.feature.templateengine.desc', '内置freemarker模板引擎，对模板引擎进行了扩展处理，提供自定义注释标签语法开发网页模板，将提高工作效率。提供一系列指令方式操作数据。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (495, 'zh-HK', 'index.wen.info', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (496, 'zh-HK', 'mrcms.feature.contentmodel.desc', '对不同的产品展示界面我们可以自己设计不同的对象模型表示改产品。 在内容模型中我们还可以通过ActionAcontext类来获取请求对象和响应对象，使系统更加灵活多样。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (497, 'zh-HK', 'mrcms.feature.file.desc', '在线文件管理，可以方便的管理服务器文件的上传、删除、修改、浏览等功能。并集成了模型、插件安装接口，快速安装插件无需登录服务器。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (498, 'zh-HK', 'doc.groovy.name.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (499, 'zh-HK', 'mrcms.feature.cache', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (500, 'zh-HK', 'init', 'true', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (501, 'zh-HK', 'mrcms.feature.extensible.desc', '集成Java无缝链接的Groovy动态脚本语言。只要遵循MRCMS扩展规范，可开发动态扩展的模型、插件、扩展标签库等扩展项目。 通过文件管理器可以安装扩展文件。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (502, 'zh-HK', 'config.title', '成都码克尔网络科技官网', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (503, 'zh-HK', 'mrcms.feature.templateengine', '模板引擎', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (504, 'zh-HK', 'index.info.title', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (505, 'zh-HK', 'index.name.title', '網站主頁', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (506, 'zh-HK', 'mrcms.feature.crossplatform', '', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (507, 'zh-HK', 'mrcms.feature.high', '高性能', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (508, 'en', 'doc.template.name.title', 'Template DOC', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (509, 'en', 'mrcms.feature.textediting', 'Text Editing', '2017-06-17 15:10:54');
+INSERT INTO `mr_sys_language` VALUES (510, 'en', 'about.name.title', 'ABOUT', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (511, 'en', 'mrcms.feature.markdown.desc', 'Markdown syntax is concise, easy to learn, but also the function is stronger than the pure text, so there are a lot of people write blogs to use it and document.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (512, 'en', 'index.title.description', 'Fast come see! powerful website application framework author. high efficiency simple expand Web Application develop solve case.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (513, 'en', 'mrcms.feature.markdown', 'MarkDown', '2017-06-17 15:11:02');
+INSERT INTO `mr_sys_language` VALUES (514, 'en', 'mrcms.feature.webstatic', 'Web Static', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (515, 'en', 'document.name.title', 'DOCUMENT', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (516, 'en', 'guestbook.name.title', 'GUESTBOOK', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (517, 'en', 'mrcms.feature.compress.desc', 'Network data transmission to reduce the amount of Web front-end performance optimization, the use of code compression technology, can compress the template page HTML, CSS, JavaScript code.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (518, 'en', 'index.get.started', 'now get started', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (519, 'en', 'mrcms.feature.distributed.desc', 'There is no use too many distributed technology, temporarily is the realization of the Nginx reverse proxy server cluster.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (520, 'en', 'ddd.titi.tflf', 'Test', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (521, 'en', 'mrcms.feature.theme', 'Themes', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (522, 'en', 'mrcms.feature.high.desc', 'Using the high performance Spring as the core framework, the IOC container provided by Spring can facilitate the management of various extensions, service, operation of the database objects, and integration of data compression, database connection pool, thread pool, multi thread data binding technology, building a secure Web application.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (523, 'en', 'mrcms.feature.webstatic.desc', 'As the presentation layer uses Baidu Echarts statistic chart tools, provide powerful station access to statistical information, provide the first-hand data for the user data mining analysis.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (524, 'en', 'mrcms.feature.seo.desc', 'Provide all kinds of search engine optimization solution, the personality is to URL rule engine.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (525, 'en', 'mrcms.feature.textediting.desc', 'Baidu web front-end R & D department development WYSIWYG web editor rich text, with light weight, can be customized, characteristics of paying more attention to the user experience. Open source based on BSD protocol, allowing free to use and modify the code.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (526, 'en', 'index.mrcms.feature.desc', 'Choose to use mushroom content management system reason, hurry to have a look!', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (527, 'en', 'mrcms.builder.desc', 'So many websites are using mushroom content management system, is this why?', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (528, 'en', 'mrcms.feature.distributed', 'Distributed', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (529, 'en', 'mrcms.feature.internationalization.desc', 'Website content internationalization is an enterprise or individual for a global service concept, can help you develop foreign customers.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (530, 'en', 'mrcms.feature.crossplatform.desc', 'Use Web application framework of cross platform Java language development. After project deployment testing, the perfect run in Debian (Linux), Windows Server.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (531, 'en', 'mrcms.feature.theme.desc', 'Support Taiwan before and after the interface theme, background using flat design style, the theme is more casual, without pictures of distress; the front through the development of theme template, make your Web application more diversified.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (532, 'en', 'qq.title', 'tencent QQ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (533, 'en', 'logger.name.title', 'Update Log', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (534, 'en', 'index.mrcms.feature', 'MushRoom Content Management System Feature', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (535, 'en', 'mrcms.feature.file', 'File Management', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (536, 'en', 'mrcms.feature.compress', 'Code Compress', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (537, 'en', 'doc.module.name.title', 'Module DOC', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (538, 'en', 'mrcms.feature.internationalization', 'Internationalization', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (539, 'en', 'mrcms.builder.title', 'MushRoom(MRCMS) Building Applications', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (540, 'en', 'mrcms.feature.extensible', 'Extensible', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (541, 'en', 'mrcms.feature.cache.desc', 'Because the IO bottleneck problem, need to use the cache access speed problem solving resources. We use EHCache as the caching framework, improve the system throughput.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (542, 'en', 'mrcms.feature.seo', 'SEO', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (543, 'en', 'mrcms.feature.contentmodel', 'Content Model', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (544, 'en', 'mrcms.feature.templateengine.desc', 'The built-in FreeMarker template engine, the template engine is extended to provide custom processing, annotation tag grammar development Webpage template, will improve the work efficiency. The operation data provides a series of instruction mode.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (545, 'en', 'index.wen.info', 'xxxx', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (546, 'en', 'mrcms.feature.contentmodel.desc', 'For different product display interface we can design their own different object models represent the product. In the content model we can also through the ActionAcontext class to get request and response object, make the system more flexible.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (547, 'en', 'mrcms.feature.file.desc', 'Online document management, can facilitate the management server file upload, delete, modify, browsing. And integrated model, plug-in installation interface, fast to install the plugin without login server.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (548, 'en', 'doc.groovy.name.title', 'Groovy DOC', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (549, 'en', 'mrcms.feature.cache', 'Hi-speed Cahce', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (550, 'en', 'init', 'true', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (551, 'en', 'mrcms.feature.extensible.desc', 'Groovy dynamic script language integrated Java seamless link. As long as we follow the MRCMS specification, development and dynamic expansion model, plug-ins, extended tag library expansion project. The file manager can install file extension.', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (552, 'en', 'config.title', 'cheng du marker network keji', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (553, 'en', 'mrcms.feature.templateengine', 'Template Engine', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (554, 'en', 'index.info.title', '13213213', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (555, 'en', 'index.name.title', 'HOME', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (556, 'en', 'mrcms.feature.crossplatform', 'Cross platform', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (557, 'en', 'mrcms.feature.high', 'High performance', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (558, 'zh-CN', 'doc.template.name.title', '模板文档', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (559, 'zh-CN', 'mrcms.feature.textediting', '文本编辑器', '2017-06-17 15:10:54');
+INSERT INTO `mr_sys_language` VALUES (560, 'zh-CN', 'about.name.title', '关于项目', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (561, 'zh-CN', 'mrcms.feature.markdown.desc', 'Markdown的语法简洁明了、学习容易，而且功能比纯文本更强，因此有很多人用它写博客和文档。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (562, 'zh-CN', 'index.title.description', '快来看呀！强大的网站应用框架终结者 为高效、简单、可扩展的 Web应用开发提供解决方案。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (563, 'zh-CN', 'mrcms.feature.markdown', 'MarkDown', '2017-06-17 15:11:02');
+INSERT INTO `mr_sys_language` VALUES (564, 'zh-CN', 'mrcms.feature.webstatic', '站内统计', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (565, 'zh-CN', 'document.name.title', '帮助文档', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (566, 'zh-CN', 'guestbook.name.title', '在线留言', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (567, 'zh-CN', 'mrcms.feature.compress.desc', 'Web前端性能优化中减少网络数据传输量，使用代码压缩技术，可以压缩模板页面中的HTML、CSS、JavaScript代码。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (568, 'zh-CN', 'index.get.started', '现在开始学习', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (569, 'zh-CN', 'mrcms.feature.distributed.desc', '目前还没有使用太多分布式技术，暂时只是实现了Nginx反向代理服务器集群。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (570, 'zh-CN', 'ddd.titi.tflf', 'xxx', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (571, 'zh-CN', 'mrcms.feature.theme', '界面主题化', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (572, 'zh-CN', 'mrcms.feature.high.desc', '采用高性能的Spring作为核心框架，Spring提供的IOC容器可以方便的管理各种扩展组件、服务、数据库操作对象等，并集成数据压缩、数据库连接池、线程池、多线程数据绑定技术，构建安全的Web应用。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (573, 'zh-CN', 'mrcms.feature.webstatic.desc', '采用百度Echarts统计图表工具作为表现层，提供强大的站内访问统计信息，为用户数据挖掘分析提供一手数据。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (574, 'zh-CN', 'mrcms.feature.seo.desc', '提供各项搜索引擎优化解决方案，其中最个性的是URL规则引擎。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (575, 'zh-CN', 'mrcms.feature.textediting.desc', '百度web前端研发部开发的所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点。开源基于BSD协议，允许自由使用和修改代码。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (576, 'zh-CN', 'index.mrcms.feature.desc', '选择使用蘑菇内容管理系统的理由，赶紧来看看吧！', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (577, 'zh-CN', 'mrcms.builder.desc', '这么多网站都是采用蘑菇内容管理系统呢，这是为什么呢？', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (578, 'zh-CN', 'mrcms.feature.distributed', '分布式', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (579, 'zh-CN', 'mrcms.feature.internationalization.desc', '网站内容国际化是一个企业或者个人面向全球的一种服务概念，能帮助您发展国外客户。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (580, 'zh-CN', 'web.intot.title', 'xxx', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (581, 'zh-CN', 'mrcms.feature.crossplatform.desc', '采用跨平台语言Java开发的Web应用框架。经过项目部署测试，完美运行在Debian(Linux)、Windows Server。\n         ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (582, 'zh-CN', 'mrcms.feature.theme.desc', '支持前后台界面主题，后台采用扁平化设计风格，主题更随意，不受图片困扰；前台通过开发主题模板，让您的Web应用更加多样化。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (583, 'zh-CN', 'qq.title', 'QQ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (584, 'zh-CN', 'logger.name.title', '更新日志', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (585, 'zh-CN', 'index.mrcms.feature', '蘑菇内容管理系统(MRCMS)的特点', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (586, 'zh-CN', 'mrcms.feature.file', '文件管理', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (587, 'zh-CN', 'mrcms.feature.compress', '代码压缩', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (588, 'zh-CN', 'doc.module.name.title', '模块文档', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (589, 'zh-CN', 'mrcms.feature.internationalization', '国际化', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (590, 'zh-CN', 'mrcms.builder.title', '蘑菇内容管理系统构建的应用', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (591, 'zh-CN', 'mrcms.feature.extensible', '可扩展', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (592, 'zh-CN', 'mrcms.feature.cache.desc', '由于IO瓶颈问题，需要使用缓存解决资源访问速度问题。我们采用EHCache作为缓存框架，提高系统吞吐量。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (593, 'zh-CN', 'mrcms.feature.seo', '搜索引擎优化', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (594, 'zh-CN', 'mrcms.feature.contentmodel', '內容模型', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (595, 'zh-CN', 'mrcms.feature.templateengine.desc', '内置freemarker模板引擎，对模板引擎进行了扩展处理，提供自定义注释标签语法开发网页模板，将提高工作效率。提供一系列指令方式操作数据。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (596, 'zh-CN', 'index.wen.info', ' ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (597, 'zh-CN', 'mrcms.feature.contentmodel.desc', '对不同的产品展示界面我们可以自己设计不同的对象模型表示改产品。 在内容模型中我们还可以通过ActionAcontext类来获取请求对象和响应对象，使系统更加灵活多样。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (598, 'zh-CN', 'mrcms.feature.file.desc', '在线文件管理，可以方便的管理服务器文件的上传、删除、修改、浏览等功能。并集成了模型、插件安装接口，快速安装插件无需登录服务器。', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (599, 'zh-CN', 'doc.groovy.name.title', 'Groovy文档', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (600, 'zh-CN', 'mrcms.feature.cache', '高速缓存', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (601, 'zh-CN', 'init', 'true', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (602, 'zh-CN', 'mrcms.feature.extensible.desc', '集成Java无缝链接的Groovy动态脚本语言。只要遵循MRCMS扩展规范，可开发动态扩展的模型、插件、扩展标签库等扩展项目。 通过文件管理器可以安装扩展文件。 ', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (603, 'zh-CN', 'config.title', '成都码克尔网络科技官网', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (604, 'zh-CN', 'mrcms.feature.templateengine', '模板引擎', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (605, 'zh-CN', 'index.info.title', 'MRCMS主页', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (606, 'zh-CN', 'index.name.title', '网站主页', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (607, 'zh-CN', 'mrcms.feature.crossplatform', '跨平台', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (608, 'zh-CN', 'mrcms.feature.high', '高性能', '2017-06-17 14:39:42');
+INSERT INTO `mr_sys_language` VALUES (609, 'default', 'config.description', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (610, 'default', 'config.keywords', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (611, 'zh-CN', 'config.keywords', '互联网 码克尔 网络 科技 小程序开发 app开发', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (612, 'zh-CN', 'config.description', '成都码克尔网络科技是一家拥有互联网技术能力的科技公司，主要业务包含：App软件开发、微信小程序开发、物联网开发、大数据平台搭建等业务。公司已 开源项目包含MRCMS建站系统、Joggle内网穿透平台等优秀项目。\n\n', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (613, 'ko', 'site.channel.index', '首页', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (614, 'zh-HK', 'site.channel.index', '首页', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (615, 'en', 'site.channel.index', 'Home', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (616, 'zh-CN', 'site.channel.index', '首页', '2022-07-03 14:13:16');
+INSERT INTO `mr_sys_language` VALUES (617, 'default', 'site.channel.index', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (618, 'ko', 'site.channel.case', '服务案例', '2022-07-03 15:04:46');
+INSERT INTO `mr_sys_language` VALUES (619, 'zh-HK', 'site.channel.case', '服务案例', '2022-07-03 15:04:46');
+INSERT INTO `mr_sys_language` VALUES (620, 'en', 'site.channel.case', 'Services', '2022-07-03 15:04:46');
+INSERT INTO `mr_sys_language` VALUES (621, 'zh-CN', 'site.channel.document', '产品中心', '2022-07-03 15:04:46');
+INSERT INTO `mr_sys_language` VALUES (622, 'zh-CN', 'site.channel.about', '关于我们', '2022-07-03 15:05:23');
+INSERT INTO `mr_sys_language` VALUES (623, 'zh-CN', 'site.channel.case', '服务案例', '2022-07-03 15:04:46');
+INSERT INTO `mr_sys_language` VALUES (624, 'default', 'site.channel.document', '', '2024-09-22 09:45:03');
+INSERT INTO `mr_sys_language` VALUES (625, 'default', 'site.channel.about', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (626, 'default', 'site.channel.case', '', '2024-09-22 09:45:04');
+INSERT INTO `mr_sys_language` VALUES (627, 'ko', 'site.channel.about', '关于我们', '2022-07-03 15:05:23');
+INSERT INTO `mr_sys_language` VALUES (628, 'zh-HK', 'site.channel.about', '关于我们', '2022-07-03 15:05:23');
+INSERT INTO `mr_sys_language` VALUES (629, 'en', 'site.channel.about', 'About Us', '2022-07-03 15:05:23');
