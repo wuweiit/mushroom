@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="${current.description!}">
+    <meta name="keywords" content="${current.keywords!}">
+    <title>${current.name!} - ${config.title!}</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.common.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.nav.css" />
+</head>
+<body>
+
+<!--#include file="header.html"-->
+
+<div class="layout_center">
+
+    <div class="introduce">
+        <h1>${current.name!}</h1>
+        <p>我们是一个年轻的团队，我们用心创造无限可能。</p>
+    </div>
+</div>
+<div class="about-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <dl class="nav-left">
+                    <dt><b>下载</b></dt>
+                    <!--{c:channel}-->
+                    <dd class="<#if c.active == 1 >active</#if>"><a href="${c.url}"><span></span>${c.name!}</a></dd>
+                    <!-- {/list} -->
+                </dl>
+
+            </div>
+            <div class="col-md-8">
+                <article class="content">
+                    ${current.content!}
+                </article>
+
+            </div>
+            <div class="col-md-2">
+
+                <section id="myAffix" class="navbar-build affix">
+                    <div class="blog-section">
+                        <h3></h3>
+                    </div>
+                    <div class="nav">
+
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="lib/jquery.min.js"></script>
+
+
+<script src="lib/bootstrap.min.js"></script>
+<!--#include file="footer.html"-->
+<script src="js/about.js"></script>
+</body>
+</html>

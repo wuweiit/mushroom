@@ -49,6 +49,7 @@
             <map>
                 <entry key="load"><bean class="org.marker.mushroom.freemarker.LoadDirective" /></entry>
                 <entry key="Boostrap3Nav"><bean class="org.marker.mushroom.freemarker.BootStrap3NavDirective" /></entry>
+                <entry key="Bootstrap3NavHome"><bean class="org.marker.mushroom.freemarker.Bootstrap3NavHomeDirective" /></entry>
                 <entry key="HuaXiSiYuanNav"><bean class="org.marker.mushroom.freemarker.HuaxiSiYuanNavDirective" /></entry>
                 <entry key="HuaXiSiYuanPCNav"><bean class="org.marker.mushroom.freemarker.HuaxiSiYuanPCNavDirective" /></entry>
                 <entry key="Nav"><bean class="org.marker.mushroom.freemarker.NavDirective" /></entry>
