@@ -101,7 +101,7 @@ public class SecurityCodeServlet extends HttpServlet {
             randomCode.append(strRand);   
         }   
         // 将四位数字的验证码保存到Session中。   
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         session.setAttribute(AppStatic.WEB_APP_AUTH_CODE, randomCode.toString().toLowerCase());   
   
         //图象生效   

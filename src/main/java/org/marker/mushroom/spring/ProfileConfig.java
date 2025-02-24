@@ -3,6 +3,8 @@ package org.marker.mushroom.spring;
  * Created by marker on 2018/11/24.
  */
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -28,6 +30,11 @@ public class ProfileConfig implements Serializable{
 
 
     public String getConfig() {
+        // 尝试获取 -Dmrcms.config 参数
+        String mrcmsConfig = System.getProperty("mrcms.config");
+        if (StringUtils.isNotBlank(mrcmsConfig)) {
+            this.config = "file:" + mrcmsConfig;
+        }
         return config;
     }
 

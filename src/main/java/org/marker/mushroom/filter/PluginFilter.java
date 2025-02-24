@@ -34,6 +34,7 @@ public class PluginFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest  request  = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
+		response.setCharacterEncoding("UTF-8");
 		
 		// 线程绑定请求对象和响应对象
 		ActionContext.currentThreadBindRequestAndResponse(request, response);
