@@ -736,7 +736,7 @@ INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (111, 'URLRe
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (112, 'URLRewriteConfig', 'url.content', '/{type}/{id}');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (113, 'URLRewriteConfig', 'url.page', '/{channel}-{page}');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (114, 'URLRewriteConfig', 'page.suffix', '.html');
-INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (115, 'SystemConfig', 'themes_active', 'flat2');
+INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (115, 'SystemConfig', 'themes_active', 'flatweb');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (116, 'SystemConfig', 'qq', '903595558');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (117, 'SystemConfig', 'mobile', '131515');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (118, 'SystemConfig', 'system.login.safe', '');
