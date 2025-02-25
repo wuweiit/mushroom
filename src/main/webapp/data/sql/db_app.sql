@@ -701,7 +701,7 @@ ALTER TABLE `mr_article`
     ADD COLUMN `createTime` datetime NULL COMMENT '创建时间' AFTER `stick`;
 
 
-INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (26, 'SystemConfig', 'themes_path', '/etc/mrcms/themes');
+INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (26, 'SystemConfig', 'themes_path', '');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (27, 'SystemConfig', 'copyright', '2024 码克尔网络科技');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (28, 'SystemConfig', 'mastermail', 'admin@wuweibi.com');
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (29, 'SystemConfig', 'gzip', 'false');

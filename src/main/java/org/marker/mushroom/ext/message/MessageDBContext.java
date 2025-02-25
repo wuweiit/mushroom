@@ -95,10 +95,8 @@ public class MessageDBContext {
 	 * @throws URISyntaxException 
 	 */
 	public void init() throws Exception {
-
 		DataBaseConfig dbcfg = DataBaseConfig.getInstance();
 		String prefix = dbcfg.getPrefix();
-
 
 		String sql = "select * from "+prefix+"sys_language";
 
@@ -129,6 +127,10 @@ public class MessageDBContext {
             }
             properties.put(key, value);
 
+			// 新增语言
+			if (!checkLocal(lang)) {
+				locales.add(getLocal(lang));
+			}
         }
         init = true;
 	}

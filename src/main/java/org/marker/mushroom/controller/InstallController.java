@@ -1,6 +1,7 @@
 package org.marker.mushroom.controller;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.DataSourceProxy;
@@ -9,6 +10,7 @@ import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.domain.MessageResult;
+import org.marker.mushroom.ext.message.MessageDBContext;
 import org.marker.mushroom.holder.SpringContextHolder;
 import org.marker.mushroom.spring.ProfileConfig;
 import org.marker.mushroom.support.SupportController;
@@ -39,6 +41,7 @@ import java.util.Map;
  * @author marker
  */
 @Controller
+@Slf4j
 @RequestMapping("/install")
 public class InstallController extends SupportController {
 
@@ -252,6 +255,18 @@ public class InstallController extends SupportController {
                     log.info("加载DB配置文件：{}", config.getClass().getSimpleName());
                     config.read();
                 });
+
+
+                MessageDBContext messageDBContext = MessageDBContext.getInstance();
+                if(!messageDBContext.isInit()){
+                    try {
+                        messageDBContext.init();
+                    } catch (Exception e) {
+                        log.error("", e);
+                    }
+                }
+
+
 
                 /* ==============================================
                  *              7. 系统加密Key持久化
