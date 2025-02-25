@@ -234,79 +234,46 @@
         //右键菜单的内容，可以参考plugins/contextmenu.js里边的默认菜单的例子，label留空支持国际化，否则以此配置为准
         ,contextMenu:[
            {
+               label:'AI生成内容',       //显示的名称
+               cmdName:'selectall',//执行的command命令，当点击这个右键菜单时
+               //exec可选，有了exec就会在点击时执行这个function，优先级高于cmdName
+               exec:function () {
+                   let range = this.selection.getRange();  // 获取选中范围
+                   range.collapse(false);// 移动插入点到选中范围的末尾
+                   let userPrompt = this.selection.getText(); // 获取选中内容
+                   this.focus();
+                   range.collapse(false);// 移动插入点到选中范围的末尾
+                   if (!userPrompt) {
+                       return;
+                   }
+                   let systemPrompt = "你是一个文案编写专家，能够根据以下内容生成";
+                   console.log('系统提示词：', systemPrompt);
+                   console.log('用户提示词：', userPrompt);
+                   // 调用openaiChat函数
+                   openaiChat(systemPrompt, userPrompt, function ( ) {
+
+                   });
+               }
+           },
+           {
                label:'AI生成代码',       //显示的名称
                cmdName:'selectall',//执行的command命令，当点击这个右键菜单时
                //exec可选，有了exec就会在点击时执行这个function，优先级高于cmdName
                exec:function () {
-                   // 获取选中范围
-                   var range = this.selection.getRange();
-                   // 移动插入点到选中范围的末尾
-                   range.collapse(false);
-
-                   // 获取选中内容
-                   var selectedText = this.selection.getText();
-                   if (selectedText) {
-                       // 简单示例，可根据需求实现更复杂的复制逻辑
-                       console.log('用户提示词：', selectedText);
-
-                       this.focus()
-
-                       let content = "";
-
-                       let model = window.aiModel.model;
-                       let provide = window.aiModel.provide;
-
-                       let url = "/admin/openai/stream.do?provide="+provide+"&model="+model+"&prompt="+selectedText;
-                       const eventSource = new EventSource(url);
-
-                       // let oldContent = editor.getContent();
-
-                       let dynamicDiv = document.createElement('p');
-                       dynamicDiv.id = 'dynamicDiv_'+Math.random()*1000000000;
-                       // 移动插入点到选中范围的末尾
-                       range.collapse(false);
-                       editor.execCommand('insertHtml', dynamicDiv.outerHTML);
-                       // 获取目标容器
-                       // 获取 UEditor 的 iframe 文档对象
-                       var editorDocument = editor.iframe.contentDocument || editor.iframe.contentWindow.document;
-                       // 根据 ID 找到插入的 DOM 元素
-                       var targetElement = editorDocument.getElementById(dynamicDiv.id);
-                       // if (targetElement) {
-                       //     // 更新元素内容
-                       //     targetElement.textContent = '更新后的内容';
-                       // }
-
-
-                       eventSource.onmessage = function(event) {
-                           // 将接收到的内容追加到页面上
-                           console.log(event)
-                           let obj = JSON.parse(event.data);
-
-                           content += obj.content;
-                           // 解析markdown->html
-                           const md = markdownit({
-                               html: true,
-                               linkify: true,
-                               typographer: true ,
-                               breaks:       true, // \n转 M<br>
-                           })
-                           // content = content.replaceAll('\n','<br/>')
-                           let doc = md.render(content);
-
-                           targetElement.innerHTML = doc;
-
-                           // editor.setContent(oldContent +"<br/>"+ doc );
-                           // 当需要时调用sync来更新视图
-                           // editor.sync();
-                       };
-
-                       eventSource.onerror = function(event) {
-                           console.log(event)
-                           eventSource.close();
-                       };
-
-
+                   let range = this.selection.getRange();  // 获取选中范围
+                   range.collapse(false);// 移动插入点到选中范围的末尾
+                   let userPrompt = this.selection.getText(); // 获取选中内容
+                   this.focus();
+                   if (!userPrompt) {
+                       return;
                    }
+                   let systemPrompt = "你是一个开发者，编程高手，能够解决";
+                   console.log('系统提示词：', systemPrompt);
+                   console.log('用户提示词：', userPrompt);
+                   // 调用openaiChat函数
+                   openaiChat(systemPrompt, userPrompt, function ( ) {
+
+                   });
                }
            }
         ]

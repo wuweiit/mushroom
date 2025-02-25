@@ -52,8 +52,8 @@
     </div>
     <div id="admin_info" class="fr layout_info">
         <div   style="display: inline-block; padding-top: 10px;">
-            <div class="btn-aimodel"  onclick="showAiModelSelect()">
-                <img class="ai-icon" src="http://192.168.1.7:8080/console/api/workspaces/current/model-providers/deepseek/icon_small/zh_Hans" />&nbsp; DeepSeek-chat
+            <div class="btn-aimodel" onclick="showAiModelSelect()">
+                <img class="ai-icon" src="http://192.168.1.7:8080/console/api/workspaces/current/model-providers/deepseek/icon_small/zh_Hans" />&nbsp; Deepseek-chat
             </div>
         </div>
         <div style="display: inline-block; padding: 8px;">
@@ -139,13 +139,14 @@
 <script type="text/javascript" src="js/handlebars-v1.3.0.js"></script>
 <script type="text/javascript" src="js/core.js"></script>
 <script type="text/javascript" src="js/showtime.js"></script>
+<script type="text/javascript" src="js/ueditor-openai-sdk.js"></script>
 <!-- highlight.js JS -->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>-->
 
 <script type="text/javascript">
     SyntaxHighlighter.all();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>-->
 <script src="
 https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js
 "></script>
@@ -171,6 +172,9 @@ $(function(){
         success: function(json){
             aiModelList = json;
             showAiModels(json)   // 要确保分组顺序，才能正常渲染
+            if(aiModelList.length > 0){
+                setCurrentModel(aiModelList[0])
+            }
         },
         error:function(){
             zoom.showMessageDialog("网络错误，请重新尝试!","消息提示",2500,function(){
@@ -178,21 +182,6 @@ $(function(){
             });
         }
     });
-
-
-
-    // 模拟通讯录数据
-    // const aiModelList = [
-    //     { provide: "ollama", model: "deepseek-r1:7b", icon:"http://192.168.1.7:8080/console/api/workspaces/current/model-providers/ollama/icon_small/zh_Hans" },
-    //     { provide: "ollama", model: "deepseek-coder:6.5b", icon:"http://192.168.1.7:8080/console/api/workspaces/current/model-providers/ollama/icon_small/zh_Hans" },
-    //     { provide: "deepseek", model: "deepseek-chat", icon:"http://192.168.1.7:8080/console/api/workspaces/current/model-providers/deepseek/icon_small/zh_Hans" },
-    //     { provide: "deepseek", model: "deepseek-coder", icon:"http://192.168.1.7:8080/console/api/workspaces/current/model-providers/deepseek/icon_small/zh_Hans" },
-    // ];
-    window.aiModel = {
-        model: 'deepseek-chat',
-        provide: 'deepseek'
-    }
-
 
     // 监听搜索输入框的输入事件
     $('#searchInput').on('input', function () {
@@ -224,17 +213,21 @@ $(function(){
         let model = $(this).attr('model')
         let icon = $(this).attr('icon')
         let provide = $(this).attr('provide')
-        window.aiModel = {
+
+        setCurrentModel({
             model: model,
             provide: provide,
             icon: icon
-        }
-
-        let html = $(this).html();
-        $(".btn-aimodel").html(html)
-
-
+        })
     })
+
+    // 设置当前模型
+    function setCurrentModel(model){
+        let html = '<img class="ai-icon" src="'+model.icon+'" />&nbsp; '+model.model;
+        window.aiModel = model;
+        $(".btn-aimodel").html(html)
+    }
+
 });
 
 function addStyle(stylePath) {

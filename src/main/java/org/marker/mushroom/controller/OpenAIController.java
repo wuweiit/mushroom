@@ -2,8 +2,11 @@ package org.marker.mushroom.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
+import com.theokanning.openai.completion.chat.ChatMessage;
+import com.theokanning.openai.completion.chat.SystemMessage;
 import com.theokanning.openai.completion.chat.UserMessage;
 import com.theokanning.openai.service.OpenAiService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.config.impl.OpenAIConfig;
 import org.marker.mushroom.utils.HttpUtils;
@@ -19,10 +22,11 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @EnableAsync
 @RestController
 @RequestMapping("/admin/openai")
@@ -44,8 +48,9 @@ public class OpenAIController {
      */
     @RequestMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamCompletion(
-            @RequestParam(required = false) String provide, @RequestParam(required = false) String model,
-            @RequestParam String prompt, HttpServletResponse response) {
+            @RequestParam(required = false) String provide,
+            @RequestParam(required = false) String model,
+            @RequestParam String prompt, @RequestParam String systemPrompt, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         if (StringUtils.isBlank(provide)) {
             provide = config.getType();
@@ -55,41 +60,50 @@ public class OpenAIController {
         if (StringUtils.isBlank(model)) {
             model = openAIProperties.getDefaultModel();
         }
+        Duration timeoutDuration = Duration.ofMinutes(30L);
 
-        SseEmitter emitter = new SseEmitter();
-        OpenAiService openAiService = new OpenAiService(openAIProperties.getApiToken(), openAIProperties.getApiUrl());
+        SseEmitter emitter = new SseEmitter(timeoutDuration.toMillis());
+        OpenAiService openAiService = new OpenAiService(openAIProperties.getApiToken(), timeoutDuration, openAIProperties.getApiUrl());
+
+        List<ChatMessage> modelList = new java.util.ArrayList<>();
+        if (StringUtils.isNotBlank(systemPrompt)) {
+            modelList.add(new SystemMessage(systemPrompt, "system"));
+        }
+        modelList.add(new UserMessage(prompt, "user" ));
 
         // 创建流式请求
-        ChatCompletionRequest request = ChatCompletionRequest.builder()
+        ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
                 .model(model) //
-                .messages(Collections.singletonList(new UserMessage(prompt, "user" )))
+                .messages(modelList)
                 .stream(true) // 启用流式响应
                 .build();
 
         // 异步处理流式响应
         new Thread(() -> {
             try {
-                openAiService.streamChatCompletion(request)
-                        .doOnError(emitter::completeWithError)
-                        .timeout(60, TimeUnit.SECONDS)
-                        .blockingForEach(chunk -> {
-                            try {
-                                // 发送每个 chunk 的内容
-                                String chars = chunk.getChoices().get(0).getMessage().getContent();
-//                                chars = chars.replaceAll("\n","[]");
-                                System.out.print(chars);
-                                JSONObject map = new JSONObject();
-                                map.put("content", chars);
-                                emitter.send(map.toJSONString() );
-
-                            } catch (IOException e) {
-                                emitter.completeWithError(e);
+                openAiService.streamChatCompletion(chatCompletionRequest)
+                    .doOnError(emitter::completeWithError)
+                    .timeout(30, TimeUnit.MINUTES)
+                    .blockingForEach(chunk -> {
+                        try {
+                            if (chunk.getChoices().isEmpty()) {
+                                return;
                             }
-                        });
+                            // 发送每个 chunk 的内容
+                            String chars = chunk.getChoices().get(0).getMessage().getContent();
+//                                chars = chars.replaceAll("\n","[]");
+                            System.out.print(chars);
+                            JSONObject map = new JSONObject();
+                            map.put("content", chars);
+                            emitter.send(map.toJSONString() );
 
-                // 完成响应
-                emitter.complete();
+                        } catch (IOException e) {
+                            emitter.completeWithError(e);
+                        }
+                    });
+                emitter.complete();// 完成响应
             } catch (Exception e) {
+                log.error("SSE 异常", e);
                 emitter.completeWithError(e);
             }
         }).start();
@@ -107,9 +121,7 @@ public class OpenAIController {
     public List<OpenAIConfig.ModelItem> getModelList(HttpServletRequest request) {
         // 这里可以添加具体的业务逻辑，例如从数据库或其他服务获取模型清单
         List<OpenAIConfig.ModelItem> list = config.getModelList();
-
         String baseUrl = HttpUtils.getRequestURL(request);
-
         list.forEach(item -> {
             item.setIcon(baseUrl + item.getIcon());
         });
