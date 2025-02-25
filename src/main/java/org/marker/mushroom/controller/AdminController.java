@@ -206,7 +206,7 @@ public class AdminController extends SupportController {
 		}
 
 		// 获取真实IP地址
-		String ip = HttpUtils.getRemoteHost(request);
+		String ip = HttpUtils.getRemoteIP(request);
 		
 		// IP归属地获取工具
 		IPTool ipTool = IPTool.getInstance();

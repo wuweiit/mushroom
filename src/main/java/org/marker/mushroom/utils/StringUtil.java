@@ -2,6 +2,8 @@ package org.marker.mushroom.utils;/**
  * Created by marker on 2017/9/2.
  */
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,5 +67,9 @@ public class StringUtil {
             list.add(Long.parseLong(tmp));
         }
         return list;
+    }
+
+    public static boolean isBlank(String ip) {
+        return StringUtils.isBlank(ip);
     }
 }
