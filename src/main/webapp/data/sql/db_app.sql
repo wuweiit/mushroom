@@ -1197,3 +1197,10 @@ INSERT INTO `mr_sys_language` VALUES (626, 'default', 'site.channel.case', '', '
 INSERT INTO `mr_sys_language` VALUES (627, 'ko', 'site.channel.about', '关于我们', '2022-07-03 15:05:23');
 INSERT INTO `mr_sys_language` VALUES (628, 'zh-HK', 'site.channel.about', '关于我们', '2022-07-03 15:05:23');
 INSERT INTO `mr_sys_language` VALUES (629, 'en', 'site.channel.about', 'About Us', '2022-07-03 15:05:23');
+
+-- 菜单定义 10000用户自定义菜单，10000以内系统菜单
+ALTER TABLE `mr_user_menu` AUTO_INCREMENT = 10000;
+
+
+
+
