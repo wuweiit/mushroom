@@ -216,7 +216,7 @@ public class InstallController extends SupportController {
                 sql = sql.replaceAll("`mr_", "`"+prefix);//替换前缀
 //                System.out.println(sql);
 
-                String[] sqla = sql.split(";");
+                String[] sqla = sql.split(";\n");
                 conn.setCatalog(name);
                 Statement statement = conn.createStatement();
                 log.info("===========SQL执行开始===========");
