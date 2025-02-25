@@ -947,7 +947,7 @@ INSERT INTO `mr_sys_language` VALUES (376, 'zh-CN', 'index.mrcms.feature.desc', 
 INSERT INTO `mr_sys_language` VALUES (377, 'zh-CN', 'mrcms.builder.desc', '这么多网站都是采用蘑菇内容管理系统呢，这是为什么呢？', '2017-06-17 14:19:32');
 INSERT INTO `mr_sys_language` VALUES (378, 'zh-CN', 'mrcms.feature.distributed', '分布式', '2017-06-17 14:19:32');
 INSERT INTO `mr_sys_language` VALUES (379, 'zh-CN', 'mrcms.feature.internationalization.desc', '网站内容国际化是一个企业或者个人面向全球的一种服务概念，能帮助您发展国外客户。', '2017-06-17 14:19:32');
-INSERT INTO `mr_sys_language` VALUES (380, 'zh-CN', 'web.intot.title', '[Ljava.lang.String;@1c3ff69', '2017-06-17 14:19:32');
+INSERT INTO `mr_sys_language` VALUES (380, 'zh-CN', 'web.intot.title', 'xxx', '2017-06-17 14:19:32');
 INSERT INTO `mr_sys_language` VALUES (381, 'zh-CN', 'mrcms.feature.crossplatform.desc', '采用跨平台语言Java开发的Web应用框架。经过项目部署测试，完美运行在Debian(Linux)、Windows Server。\n         ', '2017-06-17 14:19:32');
 INSERT INTO `mr_sys_language` VALUES (382, 'zh-CN', 'mrcms.feature.theme.desc', '支持前后台界面主题，后台采用扁平化设计风格，主题更随意，不受图片困扰；前台通过开发主题模板，让您的Web应用更加多样化。', '2017-06-17 14:19:32');
 INSERT INTO `mr_sys_language` VALUES (383, 'zh-CN', 'qq.title', 'xxxQQ', '2017-06-17 14:19:32');
