@@ -36,7 +36,7 @@
 				<label class="control-label">文章标题：</label>
 				<div class="controls">
 					<input id="title" name="title" type="text" value="${article.title!}" placeholder="请输入文章标题" />
-					<button type="button" onclick="aiContent()">AI生成内容</button>
+<!--					<button type="button" onclick="aiContent()">AI生成内容</button>-->
 					<div class="help-block"></div>
 				</div>
 			</div>
@@ -63,9 +63,8 @@
 			</div>
 
 			<div class="control-group">
-				<script type="text/plain" id="mushroomeditor" name="content" style="height:350px;;"></script>
+				<script type="text/plain" id="mushroomeditor" name="content" style=" min-height:350px;;"></script>
 				<textarea id="mrcmsContent" style="display:none"><#if article.type == 0>${article.content!}<#else>${article.orginal!}</#if></textarea>
-
 			</div>
 
 

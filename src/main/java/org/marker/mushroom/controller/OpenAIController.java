@@ -86,7 +86,7 @@ public class OpenAIController {
                     .timeout(30, TimeUnit.MINUTES)
                     .blockingForEach(chunk -> {
                         try {
-                            if (chunk.getChoices().isEmpty()) {
+                            if (chunk.getChoices()!=null && chunk.getChoices().isEmpty()) {
                                 return;
                             }
                             // 发送每个 chunk 的内容

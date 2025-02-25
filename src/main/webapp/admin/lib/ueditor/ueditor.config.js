@@ -91,7 +91,7 @@
         //首行缩进距离,默认是2em
         //,indentValue:'2em'
 
-        //,initialFrameWidth:1000  //初始化编辑器宽度,默认1000
+        ,initialFrameWidth:1200  //初始化编辑器宽度,默认1000
         //,initialFrameHeight:320  //初始化编辑器高度,默认320
 
         //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
@@ -275,6 +275,26 @@
 
                    });
                }
+           },
+           {
+               label:'内容关键字提取',       //显示的名称
+               cmdName:'selectall',//执行的command命令，当点击这个右键菜单时
+               //exec可选，有了exec就会在点击时执行这个function，优先级高于cmdName
+               exec:function () {
+                   let userPrompt = editor.getContentTxt()
+                   this.focus();
+                   if (!userPrompt) {
+                       return;
+                   }
+                   // let systemPrompt = "我是内容编辑高手，擅长提炼出文本内容的关键词";
+                   let systemPrompt = "请将内容提取6个中文关键字，以逗号分隔。例如： 关键词1,关键词2,关键词3,关键词4,关键词5,关键词6";
+                   console.log('系统提示词：', systemPrompt);
+                   console.log('用户提示词：', "<b>"+userPrompt +"</b> \n");
+                   // 调用openaiChat函数
+                   openaiChat(systemPrompt, userPrompt, function (text) {
+
+                   });
+               }
            }
         ]
 
@@ -318,7 +338,7 @@
         //scaleEnabled
         //是否可以拉伸长高,默认true(当开启时，自动长高失效)
         //,scaleEnabled:false
-        //,minFrameWidth:800    //编辑器拖动时最小宽度,默认800
+        ,minFrameWidth:800    //编辑器拖动时最小宽度,默认800
         //,minFrameHeight:220  //编辑器拖动时最小高度,默认220
 
         //autoFloatEnabled
