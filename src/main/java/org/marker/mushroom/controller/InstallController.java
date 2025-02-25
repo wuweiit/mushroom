@@ -139,17 +139,15 @@ public class InstallController extends SupportController {
         ModelAndView view = new ModelAndView(this.viewPath + "complete");
         // 项目真实路径
         String WebRootRealPath = application.getRealPath(File.separator);
+        // 虚拟路径
+        String WebRootPath = HttpUtils.getRequestURL(request);
 
         if (this.checkInstall()) {
             view.addObject("install", WebAPP.install);
             view.addObject("exceptionStr", "已经安装过了！");
-            view.addObject("WebRootPath", WebRootRealPath);
+            view.addObject("WebRootPath", WebRootPath);
             return view;
         }
-
-
-        // 虚拟路径
-        String WebRootPath = HttpUtils.getRequestURL(request);
 
         String host = request.getParameter("DB_HOST");
         String name = request.getParameter("DB_NAME");
