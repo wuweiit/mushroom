@@ -37,6 +37,8 @@
     </bean>
 
 	<!--  系统配置组件 -->
+    <bean id="dataBaseConfig" class="org.marker.mushroom.core.config.impl.DataBaseConfig" scope="singleton"  >
+    </bean>
     <bean id="systemConfig" class="org.marker.mushroom.core.config.impl.SystemConfig" scope="singleton"  >
     </bean>
     <bean id="storageConfig" class="org.marker.mushroom.core.config.impl.StorageConfig" scope="singleton" >

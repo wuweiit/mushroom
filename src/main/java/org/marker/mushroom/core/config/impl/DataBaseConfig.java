@@ -38,9 +38,15 @@ public class DataBaseConfig extends ConfigEngine {
 	/**
 	 * 获取数据库配置实例
 	 * */
-	public static synchronized DataBaseConfig getInstance(){
-		if(null == instance)
-		  instance = new DataBaseConfig();
+	public static synchronized DataBaseConfig getInstance() {
+		instance = SpringContextHolder.getBean("dataBaseConfig");
+		if (instance == null) {
+			synchronized (SystemConfig.class) {
+				if (instance == null) {
+					instance = new DataBaseConfig();
+				}
+			}
+		}
 		return instance;
 	}
 	
@@ -68,7 +74,7 @@ public class DataBaseConfig extends ConfigEngine {
 	 * @return boolean
 	 */
 	public boolean isInstall() {
-		String isInstall = (String) this.properties.get("mushroom.db.install");
+		String isInstall = (String) this.properties.get("mrcms.install");
 		logger.info("mrcms.install = {}", isInstall);
 		return Boolean.parseBoolean(isInstall);
 	}
