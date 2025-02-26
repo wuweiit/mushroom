@@ -85,13 +85,16 @@ public class OpenAIController {
                     .timeout(30, TimeUnit.MINUTES)
                     .blockingForEach(chunk -> {
                         try {
+                            // 处理每个 chunk 数据判断
                             if (chunk.getChoices()==null || chunk.getChoices().isEmpty() || chunk.getChoices().get(0).getMessage() == null) {
-                                emitter.complete();// 完成响应
                                 return;
                             }
                             // 发送每个 chunk 的内容
                             String chars = chunk.getChoices().get(0).getMessage().getContent();
 //                                chars = chars.replaceAll("\n","[]");
+                            if (StringUtils.isBlank(chars)) { // 为空则跳过
+                                return;
+                            }
                             System.out.print(chars);
                             JSONObject map = new JSONObject();
                             map.put("content", chars);
