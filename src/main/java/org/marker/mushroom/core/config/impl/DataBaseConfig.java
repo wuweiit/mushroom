@@ -68,7 +68,9 @@ public class DataBaseConfig extends ConfigEngine {
 	 * @return boolean
 	 */
 	public boolean isInstall() {
-		return Boolean.parseBoolean(this.properties.getProperty("mrcms.install"));
+		String isInstall = (String) this.properties.get("mushroom.db.install");
+		logger.info("mrcms.install = {}", isInstall);
+		return Boolean.parseBoolean(isInstall);
 	}
 
 	public interface Names{

@@ -66,7 +66,7 @@ public class InitBuilderHolder implements ServletContextAware{
 		dataBaseConfig.init();
 
 		logger.info("check mrcms install?");
-		application.setAttribute(AppStatic.WEB_APP_INSTALL,  dataBaseConfig.isInstall());
+		application.setAttribute(AppStatic.WEB_APP_INSTALL, dataBaseConfig.isInstall());
 		logger.info("check success. install = {}", dataBaseConfig.isInstall());//  系统是否被安装
 
 		/*
