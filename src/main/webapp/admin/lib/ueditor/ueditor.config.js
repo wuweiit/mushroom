@@ -287,7 +287,7 @@
                        return;
                    }
                    // let systemPrompt = "我是内容编辑高手，擅长提炼出文本内容的关键词";
-                   let systemPrompt = "请将内容提取6个中文关键字，以逗号分隔。例如： 关键词1,关键词2,关键词3,关键词4,关键词5,关键词6";
+                   let systemPrompt = "请将描述的内容提取为6个中文关键字，以逗号分隔。你的回复格式：关键词1,关键词2,关键词3,关键词4,关键词5,关键词6";
                    console.log('系统提示词：', systemPrompt);
                    console.log('用户提示词：', "<b>"+userPrompt +"</b> \n");
                    // 调用openaiChat函数
@@ -303,7 +303,7 @@
 
         //elementPathEnabled
         //是否启用元素路径，默认是显示
-        ,elementPathEnabled : true
+        ,elementPathEnabled : false
 
         //wordCount
         ,wordCount:false          //是否开启字数统计
@@ -343,7 +343,7 @@
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true
-        //,autoFloatEnabled:true
+        ,autoFloatEnabled: true
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
         //,topOffset:30
         //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)

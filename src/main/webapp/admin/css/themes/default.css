@@ -92,4 +92,11 @@ button:hover{ color:RGB(225,233,220) ; }
 .dialog_style_content{
     background:#1ec0ae;
     color:#FFF;}
- 
+
+.edui-default .edui-editor-iframeholder{
+	max-width: 950px;
+	margin: 0 auto;
+}
+.edui-default .edui-editor{
+	border: none !important;
+}
