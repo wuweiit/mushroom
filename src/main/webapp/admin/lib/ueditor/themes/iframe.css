@@ -1,1 +1,43 @@
 /*可以在这里添加你自己的css*/
+
+/* AI思考动效 */
+.thinking-wave {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto;
+}
+
+.thinking-wave span {
+    display: inline-block;
+    width: 10px;
+    height: 30px;
+    background-color: #007BFF;
+    margin: 0 3px;
+    animation: wave 1s infinite ease-in-out;
+}
+
+.thinking-wave span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.thinking-wave span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.thinking-wave span:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.thinking-wave span:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+@keyframes wave {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1);
+    }
+}

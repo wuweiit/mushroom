@@ -9,13 +9,11 @@ import com.theokanning.openai.service.OpenAiService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.config.impl.OpenAIConfig;
+import org.marker.mushroom.system.domain.dto.AIModelPromptDTO;
 import org.marker.mushroom.utils.HttpUtils;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.annotation.Resource;
@@ -41,17 +39,18 @@ public class OpenAIController {
     /**
      * SSE 流式响应· AI问答
      *
-     * @param provide
-     * @param model
-     * @param prompt
+     * @param aiModelPromptDTO
      * @return
      */
-    @RequestMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamCompletion(
-            @RequestParam(required = false) String provide,
-            @RequestParam(required = false) String model,
-            @RequestParam String prompt, @RequestParam String systemPrompt, HttpServletRequest request, HttpServletResponse response) {
+            @RequestBody AIModelPromptDTO aiModelPromptDTO, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
+        String provide = aiModelPromptDTO.getProvide();
+        String model = aiModelPromptDTO.getModel();
+        String prompt = aiModelPromptDTO.getPrompt();
+        String systemPrompt = aiModelPromptDTO.getSystemPrompt();
+
         if (StringUtils.isBlank(provide)) {
             provide = config.getType();
         }
@@ -86,7 +85,8 @@ public class OpenAIController {
                     .timeout(30, TimeUnit.MINUTES)
                     .blockingForEach(chunk -> {
                         try {
-                            if (chunk.getChoices()!=null && chunk.getChoices().isEmpty()) {
+                            if (chunk.getChoices()==null || chunk.getChoices().isEmpty() || chunk.getChoices().get(0).getMessage() == null) {
+                                emitter.complete();// 完成响应
                                 return;
                             }
                             // 发送每个 chunk 的内容

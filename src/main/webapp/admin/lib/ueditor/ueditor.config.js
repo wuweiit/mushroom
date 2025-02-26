@@ -85,7 +85,7 @@
         //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
         //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
 
-        //,iframeCssUrl: URL + '/themes/iframe.css' //给编辑器内部引入一个css文件
+        ,iframeCssUrl: URL + '/themes/iframe.css' //给编辑器内部引入一个css文件
 
         //indentValue
         //首行缩进距离,默认是2em
@@ -287,7 +287,7 @@
                        return;
                    }
                    // let systemPrompt = "我是内容编辑高手，擅长提炼出文本内容的关键词";
-                   let systemPrompt = "请将描述的内容提取为6个中文关键字，以逗号分隔。你的回复格式：关键词1,关键词2,关键词3,关键词4,关键词5,关键词6";
+                   let systemPrompt = "请将描述的内容提取为6个中文关键字，以逗号分隔，你的回复格式案例：关键词1,关键词2,关键词3,关键词4,关键词5,关键词6，请严格按照格式回复，不能使用案例回复。";
                    console.log('系统提示词：', systemPrompt);
                    console.log('用户提示词：', "<b>"+userPrompt +"</b> \n");
                    // 调用openaiChat函数

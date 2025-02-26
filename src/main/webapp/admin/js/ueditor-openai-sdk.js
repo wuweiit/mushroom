@@ -5,8 +5,13 @@ function openaiChat(systemPrompt, userPrompt, callback) {
     let content = "";
     let model = window.aiModel.model;
     let provide = window.aiModel.provide;
-    let url = "/admin/openai/stream.do?provide="+provide+"&model="+model+"&prompt="+userPrompt+"&systemPrompt="+systemPrompt;
-    const eventSource = new EventSource(url);
+     let data = {
+        provide: provide,
+        model: model,
+        systemPrompt: systemPrompt,
+        prompt: userPrompt,
+    }
+
     let dynamicDiv = document.createElement('p');
     dynamicDiv.id = 'dynamicDiv_'+Math.random()*1000000000;
     editor.execCommand('insertHtml', dynamicDiv.outerHTML);
@@ -19,33 +24,44 @@ function openaiChat(systemPrompt, userPrompt, callback) {
     //     // 更新元素内容
     //     targetElement.textContent = '更新后的内容';
     // }
+    let randomGif = String(Math.floor(Math.random() * 40) + 1).padStart(2, '0');
+    targetElement.innerHTML = "<img src='http://img.baidu.com/hi/tsj/t_00"+randomGif+".gif' />AI思考中...";  // 展示AI思考中
 
+    SSE.fetchEventSource("/admin/openai/stream.do", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        onmessage(event) {
+            console.log('Received message:', event.data);
+            // 这里可以根据接收到的流式数据更新前端界面
+            // 将接收到的内容追加到页面上
+            let obj = JSON.parse(event.data);
 
-    eventSource.onmessage = function(event) {
-        // 将接收到的内容追加到页面上
-        console.log(event)
-        let obj = JSON.parse(event.data);
+            content += obj.content;
+            // 解析markdown->html
+            const md = markdownit({
+                html: true,
+                linkify: true,
+                typographer: true ,
+                breaks:       true, // \n转 M<br>
+            })
+            // content = content.replaceAll('\n','<br/>')
+            let doc = md.render(content);
 
-        content += obj.content;
-        // 解析markdown->html
-        const md = markdownit({
-            html: true,
-            linkify: true,
-            typographer: true ,
-            breaks:       true, // \n转 M<br>
-        })
-        // content = content.replaceAll('\n','<br/>')
-        let doc = md.render(content);
+            targetElement.innerHTML = doc;
 
-        targetElement.innerHTML = doc;
-
-        // editor.setContent(oldContent +"<br/>"+ doc );
-        // 当需要时调用sync来更新视图
-        editor.sync();
-    };
-
-    eventSource.onerror = function(event) {
-        console.log(event)
-        eventSource.close();
-    };
+            // editor.setContent(oldContent +"<br/>"+ doc );
+            // 当需要时调用sync来更新视图
+            editor.sync();
+        },
+        onclose() {
+            console.log('Connection closed by server');
+        },
+        onerror(err) {
+            console.error('Error received:', err);
+            SSE.close();
+        },
+    });
 }
