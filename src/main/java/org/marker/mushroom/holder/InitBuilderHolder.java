@@ -8,8 +8,8 @@ import com.wuweibi.module4j.listener.InstallListenter;
 import com.wuweibi.module4j.module.Module;
 import com.wuweibi.module4j.module.ModuleContext;
 import org.marker.mushroom.context.ActionContext;
+import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.SystemStatic;
-import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.component.SiteContext;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.URLRewriteConfig;
@@ -47,12 +47,6 @@ public class InitBuilderHolder implements ServletContextAware{
 		String webRootPath = WebRealPathHolder.REAL_PATH;//网站根目录路径
 		logger.info("mrcms runtime on path = {}", webRootPath);
 
-		logger.info("check mrcms whether install?");
-		WebAPP.install = isInstall(webRootPath);// 设置系统是否被安装
-		logger.info("check success. install = {}", WebAPP.install);
-
-
-
 		/*
 		 * ============================================================
 		 *          ActionContext bind (application)应用作用域
@@ -67,10 +61,13 @@ public class InitBuilderHolder implements ServletContextAware{
 		 *          Database config bind
 		 * ============================================================
 		 */
-		DataBaseConfig.getInstance().init();
+		DataBaseConfig dataBaseConfig = DataBaseConfig.getInstance();
+		logger.info("application DataBaseConfig init");
+		dataBaseConfig.init();
 
-
-
+		logger.info("check mrcms install?");
+		application.setAttribute(AppStatic.WEB_APP_INSTALL,  dataBaseConfig.isInstall());
+		logger.info("check success. install = {}", dataBaseConfig.isInstall());//  系统是否被安装
 
 		/*
 		 * ============================================================
@@ -169,7 +166,7 @@ public class InitBuilderHolder implements ServletContextAware{
 		 * ============================================================
 		 */
 		logger.info("mrcms MessageContext init ...");
-		if(WebAPP.install){
+		if(dataBaseConfig.isInstall()){
 			MessageDBContext messageDBContext = MessageDBContext.getInstance();
 			if(!messageDBContext.isInit()){
 				try {
@@ -191,7 +188,7 @@ public class InitBuilderHolder implements ServletContextAware{
 		SiteContext siteContext = SpringContextHolder.getBean(SystemStatic.SYSTEM_CMS_SITE);
 		siteContext.init();
 
-		if (WebAPP.install) {
+		if (dataBaseConfig.isInstall()) {
 			String moduleDir =  webRootPath + "modules";// 模块目录
 
 			// 缓存目录

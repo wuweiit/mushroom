@@ -1,9 +1,12 @@
 
 package org.marker.mushroom.utils;
 
+import org.marker.mushroom.context.ActionContext;
+import org.marker.mushroom.core.AppStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -195,5 +198,14 @@ public class WebUtils {
 		} catch (IOException e) {
 			logger.error("",e);
 		}
+	}
+
+	/**
+	 * 检查系统是否安装
+	 * @return
+	 */
+	public static boolean checkInstall() {
+		ServletContext servletContext = ActionContext.getApplication();
+		return new Boolean((Boolean) servletContext.getAttribute(AppStatic.WEB_APP_INSTALL));
 	}
 }

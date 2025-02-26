@@ -35,7 +35,7 @@ public abstract class ConfigEngine implements IConfig {
 	public static final String FILE_ENCODEING = "utf-8";
 	
 	/** 系统版权信息 */
-	public static final String COPY_RIGHT = "mrcms Power By marker. 2012-2014 @wuweiit";
+	public static final String COPY_RIGHT = "mrcms Power By marker. 2012-2025 抖音：吴捞施 www.mrcms.cn";
 	
 	/** 配置文件路径 */
 	protected File cfgFile;

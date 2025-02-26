@@ -20,6 +20,7 @@ import org.marker.mushroom.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -46,6 +47,7 @@ public final class WebAPP {
 	/** 请求响应相关的对象 */
 	private HttpServletRequest request;
 	private HttpServletResponse response; 
+	private ServletContext applicationContext;
 
 
 	/** 模版引擎 */
@@ -55,12 +57,7 @@ public final class WebAPP {
 	
 	/** 发送数据到视图对象 */
 	private static SendDataToView dataToView;
-	
-	/**
-	 * 安装状态（注意：容器初始化赋值）
-	 * @see org.marker.mushroom.holder.InitBuilderHolder
-	 */
-	public static boolean install = false;
+
 	
 	// 成员变量是否初始化
 	public static boolean initialization = false;
@@ -83,7 +80,7 @@ public final class WebAPP {
 	private WebAPP() {
 		this.request     = ActionContext.getReq();
 		this.response    = ActionContext.getResp();
-//		this.application = ActionContext.getApplication();
+		this.applicationContext = ActionContext.getApplication();
 		 
 		/*
 		 * 项目刚初始化成功，能处理大批量的并发请求
@@ -121,7 +118,7 @@ public final class WebAPP {
 		 *                 检查系统是否安装
 		 * ====================================================
 		 */
-		if ( !install ) {
+		if (!WebUtils.checkInstall()) {
 			WebUtils.jumpInstall(response);
 			return;
 		}

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.CacheO;
 import org.marker.mushroom.core.AppStatic;
-import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.holder.SpringContextHolder;
@@ -128,7 +127,7 @@ public class SystemCoreFilter implements Filter {
 		 *                 检查系统是否安装
 		 * ====================================================
 		 */
-        if ( !WebAPP.install ) {
+		if(!WebUtils.checkInstall()){
 			WebUtils.jumpInstall(response);
             return;
         }

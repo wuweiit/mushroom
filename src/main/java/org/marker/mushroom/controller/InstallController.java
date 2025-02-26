@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.core.AppStatic;
 import org.marker.mushroom.core.DataSourceProxy;
-import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.ConfigDBEngine;
 import org.marker.mushroom.core.config.impl.DataBaseConfig;
 import org.marker.mushroom.core.config.impl.SystemConfig;
@@ -116,15 +115,16 @@ public class InstallController extends SupportController {
     /**
      * 检查是否安装过MRCMS
      */
-    private boolean checkInstall( ) {
+    private boolean checkInstall() {
         // 设置安装状态
-        application.setAttribute(AppStatic.WEB_APP_INSTALL, true);
-        String BasePath = application.getRealPath("/data/");
-        File installFile = new File(BasePath + "/install.lock");
-        if(installFile.exists()){
-            return true; // 已安装
-        }
-        return false;
+        DataBaseConfig dataBaseConfig = DataBaseConfig.getInstance();
+        return dataBaseConfig.isInstall();
+//        String BasePath = application.getRealPath("/data/");
+//        File installFile = new File(BasePath + "/install.lock");
+//        if(installFile.exists()){
+//            return true; // 已安装
+//        }
+//        return false;
     }
     /**
      * 执行安装
@@ -143,7 +143,7 @@ public class InstallController extends SupportController {
         String WebRootPath = HttpUtils.getRequestURL(request);
 
         if (this.checkInstall()) {
-            view.addObject("install", WebAPP.install);
+            view.addObject("install",true);
             view.addObject("exceptionStr", "已经安装过了！");
             view.addObject("WebRootPath", WebRootPath);
             return view;
@@ -195,6 +195,7 @@ public class InstallController extends SupportController {
                 dbc.set("mushroom.db.user", user);
                 dbc.set("mushroom.db.pass", pass);
                 dbc.set("mushroom.db.prefix", prefix);
+                dbc.set("mrcms.install", "true");
                 dbc.store();//保存
 
                 /* =======================================================
@@ -280,7 +281,7 @@ public class InstallController extends SupportController {
                 ps.close();
                 conn.close();
 
-                //设置安装状态
+                // 设置安装状态文件
                 application.setAttribute(AppStatic.WEB_APP_INSTALL, true);
                 String BasePath = application.getRealPath("/data/");
                 OutputStream os = new FileOutputStream(new File(BasePath + "/install.lock"));
@@ -288,15 +289,16 @@ public class InstallController extends SupportController {
                 os.flush();
                 os.close();
 
-
-                WebAPP.install = true;// 设置安装状态(必须)
+                // 设置安装状态(必须)
+                dbc.set("mrcms.install", "true");
+                dbc.store();//保存
             } catch (Exception e) {
                 exceptionStr = e.getMessage();
                 log.error("mrcms install exception", e);
             }
         }
 
-        view.addObject("install", WebAPP.install);
+        view.addObject("install", true);
         view.addObject("exceptionStr", exceptionStr);
         view.addObject("WebRootPath", WebRootPath);
 

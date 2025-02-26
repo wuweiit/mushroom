@@ -4,7 +4,6 @@ import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.User;
 import org.marker.mushroom.beans.UserLoginLog;
 import org.marker.mushroom.core.AppStatic;
-import org.marker.mushroom.core.WebAPP;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.dao.IMenuDao;
 import org.marker.mushroom.dao.IUserDao;
@@ -12,6 +11,7 @@ import org.marker.mushroom.dao.IUserLoginLogDao;
 import org.marker.mushroom.support.SupportController;
 import org.marker.mushroom.utils.GeneratePass;
 import org.marker.mushroom.utils.HttpUtils;
+import org.marker.mushroom.utils.WebUtils;
 import org.marker.qqwryip.IPLocation;
 import org.marker.qqwryip.IPTool;
 import org.slf4j.Logger;
@@ -49,7 +49,8 @@ public class AdminController extends SupportController {
 	@Autowired IUserDao userDao;
 	@Autowired IUserLoginLogDao userLoginLogDao;
 	@Autowired IMenuDao menuDao;
-	@Autowired ServletContext application;
+	@Autowired
+	ServletContext application;
 	@Resource
 	private SystemConfig syscfg;
 
@@ -64,9 +65,9 @@ public class AdminController extends SupportController {
 	
 	/** 后台主界面 */ 
 	@RequestMapping("/index")
-	public String index(HttpServletRequest request){ 
+	public String index(HttpServletRequest request){
 		// 如果没有安装系统
-		if(!WebAPP.install)
+		if(!WebUtils.checkInstall())
 			return "redirect:../install/index.do";
 		
 		request.setAttribute("url", HttpUtils.getRequestURL(request)); 
@@ -123,13 +124,10 @@ public class AdminController extends SupportController {
 			HttpServletRequest request,
             HttpServletResponse response) throws IOException {
 		// 如果没有安装系统
-		if(!WebAPP.install)
+		if(!WebUtils.checkInstall())
 			return "redirect:../install/index.do";
 
-
-
         request.setAttribute("url", HttpUtils.getRequestURL(request));
-
 
         String systemLoginSafe = syscfg.getLoginSafe();
 

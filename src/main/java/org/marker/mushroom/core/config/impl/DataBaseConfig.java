@@ -63,7 +63,15 @@ public class DataBaseConfig extends ConfigEngine {
         this.properties = SpringContextHolder.getBean("configProperties");
     }
 
-    public interface Names{
+	/**
+	 * 是否安装
+	 * @return boolean
+	 */
+	public boolean isInstall() {
+		return Boolean.parseBoolean(this.properties.getProperty("mrcms.install"));
+	}
+
+	public interface Names{
 		String DESCRIPTION = "desription";
 	}
 
