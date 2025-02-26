@@ -59,7 +59,7 @@ public class FetchServlet  extends HttpServlet{
 			String bVersion = req.getParameter("v5");// 浏览器
 			String language = req.getParameter("v6");// 浏览器语言
 			String isFlash  = req.getParameter("v7");// 是否安装Flash
-			String ipv4 = HttpUtils.getRemoteHost(req);// 用户真实IP，处理了ngnix的代理IP
+			String ipv4 = HttpUtils.getRemoteIP(req);// 用户真实IP，处理了ngnix的代理IP
 			String visitorId = HttpUtils.getCookie(req, "FETCHSESSIONID");// UV统计使用
 			
 			

@@ -29,7 +29,7 @@
 
 
 
-
+    <bean id="springUtils" class="org.marker.mushroom.utils.SpringUtils"> </bean>
 
     <!-- URL重写规则引擎配置配置组件 -->
     <bean id="URLRewriteConfig" class="org.marker.mushroom.core.config.impl.URLRewriteConfig">

@@ -129,4 +129,17 @@ public class SpringUtils implements ApplicationContextAware {
 		String active = env.getProperty("spring.profiles.active");
 		return active;
 	}
+
+	/**
+	 * 是否演示模式
+	 * @return
+	 */
+	public static boolean isDemo(){
+		Environment env = getBean(Environment.class);
+		String isDemo = env.getProperty("mrcms.demo");
+		if("true".equals(isDemo)){
+			return true;
+		}
+		return false;
+	}
 }

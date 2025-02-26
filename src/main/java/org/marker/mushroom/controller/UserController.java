@@ -1,10 +1,5 @@
 package org.marker.mushroom.controller;
 
-import java.util.Date;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.User;
@@ -12,12 +7,17 @@ import org.marker.mushroom.dao.IUserDao;
 import org.marker.mushroom.dao.IUserLoginLogDao;
 import org.marker.mushroom.support.SupportController;
 import org.marker.mushroom.utils.GeneratePass;
+import org.marker.mushroom.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.Map;
 
 
 
@@ -72,8 +72,10 @@ public class UserController extends SupportController {
 		if(null != user.getPass() && !"".equals(user.getPass())){
 			Map<String,Object> olduser = commonDao.findById(User.class,user.getId());
 			String oldPass = (String) olduser.get("pass");
-			
-			
+
+			if (SpringUtils.isDemo()) {
+				return new ResultMessage(false, "演示模式 不支持修改admin密码!");
+			}
 			if(!oldPass.equals(user.getPass())){//修改了密码
 				try {
 					user.setPass(GeneratePass.encode(user.getPass()));

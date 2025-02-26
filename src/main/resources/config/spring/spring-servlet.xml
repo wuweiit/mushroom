@@ -79,12 +79,13 @@
 			<bean class="org.marker.mushroom.interceptor.RequestParamsInterceptor"></bean>
 		</mvc:interceptor>
 
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/admin/**.do"/>-->
-			<!--<mvc:exclude-mapping path="/admin/login.*"/>-->
-            <!--<mvc:exclude-mapping path="/admin/loginSystem.*"/>-->
-            <!--<bean class="org.marker.mushroom.interceptor.LoginInterceptor" />-->
-        <!--</mvc:interceptor>-->
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/*.do"/>
+            <mvc:mapping path="/admin/**/**.do"/>
+			<mvc:exclude-mapping path="/admin/login.*"/>
+            <mvc:exclude-mapping path="/admin/loginSystem.*"/>
+            <bean class="org.marker.mushroom.interceptor.LoginInterceptor" />
+        </mvc:interceptor>
 	</mvc:interceptors>
 
 
