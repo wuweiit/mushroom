@@ -9,12 +9,10 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
 import java.util.Map;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import java.util.zip.GZIPOutputStream;
  
@@ -202,10 +200,23 @@ public class WebUtils {
 
 	/**
 	 * 检查系统是否安装
+	 *
 	 * @return
 	 */
 	public static boolean checkInstall() {
 		ServletContext servletContext = ActionContext.getApplication();
-		return new Boolean((Boolean) servletContext.getAttribute(AppStatic.WEB_APP_INSTALL));
+		Object installObj = servletContext.getAttribute(AppStatic.WEB_APP_INSTALL);
+		logger.info("[安装状态] 判断上下文 AppStatic.WEB_APP_INSTALL 对象是否存在");
+		if (Objects.nonNull(installObj)) { // 优先判断上下文的安装状态
+			return (Boolean) installObj;
+		}
+		logger.info("[安装状态] 降级判断install.lock文件是否存在");
+		// 上下文安装状态null， 降级判断本地安装文件（能够兼容tomcat容器部署场景）
+		String BasePath = servletContext.getRealPath("/data/");
+		File installFile = new File(BasePath + "/install.lock");
+		if (installFile.exists()) {
+			return true; // 已安装
+		}
+		return false;
 	}
 }

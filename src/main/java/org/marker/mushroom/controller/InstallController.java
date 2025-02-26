@@ -16,6 +16,7 @@ import org.marker.mushroom.support.SupportController;
 import org.marker.mushroom.utils.FileTools;
 import org.marker.mushroom.utils.GeneratePass;
 import org.marker.mushroom.utils.HttpUtils;
+import org.marker.mushroom.utils.WebUtils;
 import org.marker.security.DES;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -113,20 +114,6 @@ public class InstallController extends SupportController {
 
 
     /**
-     * 检查是否安装过MRCMS
-     */
-    private boolean checkInstall() {
-        // 设置安装状态
-        DataBaseConfig dataBaseConfig = DataBaseConfig.getInstance();
-        return dataBaseConfig.isInstall();
-//        String BasePath = application.getRealPath("/data/");
-//        File installFile = new File(BasePath + "/install.lock");
-//        if(installFile.exists()){
-//            return true; // 已安装
-//        }
-//        return false;
-    }
-    /**
      * 执行安装
      */
     @RequestMapping("/progress")
@@ -142,7 +129,7 @@ public class InstallController extends SupportController {
         // 虚拟路径
         String WebRootPath = HttpUtils.getRequestURL(request);
 
-        if (this.checkInstall()) {
+        if (WebUtils.checkInstall()) {
             view.addObject("install",true);
             view.addObject("exceptionStr", "已经安装过了！");
             view.addObject("WebRootPath", WebRootPath);
@@ -195,7 +182,6 @@ public class InstallController extends SupportController {
                 dbc.set("mushroom.db.user", user);
                 dbc.set("mushroom.db.pass", pass);
                 dbc.set("mushroom.db.prefix", prefix);
-                dbc.set("mrcms.install", "true");
                 dbc.store();//保存
 
                 /* =======================================================
@@ -281,7 +267,7 @@ public class InstallController extends SupportController {
                 ps.close();
                 conn.close();
 
-                // 设置安装状态文件
+                // 设置安装状态文件(降级判断会通过文件判断)
                 application.setAttribute(AppStatic.WEB_APP_INSTALL, true);
                 String BasePath = application.getRealPath("/data/");
                 OutputStream os = new FileOutputStream(new File(BasePath + "/install.lock"));

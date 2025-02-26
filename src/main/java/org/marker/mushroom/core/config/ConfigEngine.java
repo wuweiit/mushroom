@@ -140,14 +140,13 @@ public abstract class ConfigEngine implements IConfig {
 			out = new FileOutputStream(cfgFile);
 			osw = new OutputStreamWriter(out, FILE_ENCODEING);
 			this.properties.store(osw, COPY_RIGHT);
-			
-		}catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			logger.error("config file not found " + cfgFile.getAbsolutePath(), e);
 		} catch (UnsupportedEncodingException e) {
 			logger.error("not supported encoding " + FILE_ENCODEING,e);
 		} catch (IOException e) {
 			logger.error("IOException " + cfgFile.getAbsolutePath(), e);
-		}finally{
+		} finally {
 			try {
 				if(osw != null){
 					osw.close(); 
