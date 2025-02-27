@@ -634,10 +634,14 @@ CREATE TABLE `mr_user_menu` (
 ) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Records of `mr_user_menu`
+--  功能菜单
 -- ----------------------------
 BEGIN;
 INSERT INTO `mr_user_menu` VALUES ('1', '0', 'fa-home', '首页', 'systeminfo.do', '1', '后台主界面，不解释。', 'b8db3088786a43e2916b810bbab8425b', '0', null), ('2', '0', 'fa-cog', '系统', '', '10', '', 'a1d6ac255acf4feab32ee70795b7b265', '0', null), ('3', '0', 'fa-archive', '页面', '', '20', '', '91ea1c25538b4c4e90401289cbe981fb', '0', null), ('4', '0', 'fa-list-alt', '内容', '', '30', '', 'bb2bc5fb802544a2a4634013d2c19936', '0', null), ('5', '0', 'fa-users', '用户', '', '40', '', 'c18166b148444928a4bab628da4190c8', '0', null), ('6', '0', 'fa-bullseye', '扩展', '', '50', '', 'bf41a349eec94e039648cc6de833440a', '0', null), ('18', '2', 'fa-info-circle', '基本信息', 'system/siteinfo.do', '10', '基本信息的管理', null, '0', null), ('19', '2', 'fa-clipboard', '数据配置', 'system/dbinfo.do', '20', '数据库配置', null, '0', null), ('20', '5', 'fa-user', '用户管理', 'user/list.do?currentPageNo=1', '30', '管理用户信息', null, '0', null), ('21', '5', 'fa-users', '分组管理', 'group/list.do', '40', '', null, '1', null), ('22', '2', 'fa-terminal', '登录日志', 'user/loginlog/list.do?currentPageNo=1', '50', '', null, '0', null), ('24', '3', 'fa-archive', '栏目管理', 'channel/list.do?currentPageNo=1', '20', '', null, '0', null), ('198', '4', 'fa-th', '文章管理', 'article/list.do', '0', '系统基础内容管理', '6cd7004ae4bc4aaca1435708cb7dd079', '0', null), ('27', '4', 'fa-th', '碎片管理', 'chip/list.do?currentPageNo=1', '30', '', null, '0', null), ('28', '4', 'fa-folder-o', '文件管理', 'file/list.do?path=/', '40', '', null, '0', null), ('165', '0', 'fa-bar-chart-o', '统计', '', '55', '', null, '0', null), ('30', '6', 'fa-plus-square', '模型列表', 'model/list.do', '20', '', null, '0', null), ('34', '6', 'fa-plus-square', '插件列表', 'plugin/list.do?currentPageNo=1', '30', '', null, '0', null),  ('37', '2', 'fa-search', 'SEO配置', 'system/seoinfo.do', '80', '', null, '0', null), ('38', '2', 'fa-bars', '菜单管理', 'menu/list.do', '90', '', null, '0', null), ('39', '1', 'fa-shield', '关于系统', 'center/software.html', '10', '', null, '0', null), ('40', '1', 'fa-shield', '关于我们', 'center/about.html', '20', '', null, '1', null), ('49', '2', 'fa-cogs', '缓存管理', 'system/cache.do', '50', '', null, '0', null), ('50', '2', 'fa-envelope', '邮箱配置', 'system/mailinfo.do', '50', '', null, '0', null), ('193', '2', 'fa-bars', '国际化站', 'international/list.do', '200', '网站国际化配置', null, '1', null), ('52', '6', 'fa-bullseye', '备份管理', '', '90', '为防止意外情况，对系统，或者内容模型、插件数据进行备份。', null, '1', null), ('53', '3', 'fa-archive', '专题管理', '', '200', '', null, '1', null), ('54', '6', 'fa-bullseye', '标签列表', 'taglib/list.do', '40', '标签', null, '0', null), ('166', '165', 'fa-bar-chart-o', '昨日统计', 'statistics/yesterday.do', '200', '', null, '0', null), ('164', '165', 'fa-bar-chart-o', '今日统计', 'statistics/today.do', '100', '', null, '0', null), ('167', '165', 'fa-bar-chart-o', '百度统计', 'https://tongji.baidu.com', '300', '', null, '1', null), ('202', '6', 'fa-bullseye', 'URL替换', 'urlreplace/list.do', '50', '', null, '0', null), ('169', '3', 'fa-clipboard', '分类管理', 'category/list.do', '30', '', null, '0', null), ('199', '4', '', '幻灯管理', 'slide/list.do', '0', '', null, '0', null), ('201', '3', 'fa-link', '外链管理', 'link/list.do?currentPageNo=1', '40', '', null, '0', null);
+INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (203, 2, 'fa-clipboard', '站点管理', 'site/list.do', 1, '站点管理', NULL, 0, NULL);
+INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (204, 2, 'fa-clipboard', '存储配置', 'system/storage/info.do', 0, '', NULL, 0, NULL);
+INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (205, 2, 'fa-clipboard', 'AI模型', 'system/openai/info.do', 0, '', NULL, 0, NULL);
+
 COMMIT;
 
 -- ----------------------------
@@ -757,9 +761,6 @@ INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (136, 'OpenA
 INSERT INTO `mr_sys_config` (`id`, `config`, `key`, `value`) VALUES (137, 'OpenAIConfig', 'ollama.apiToken', 'xxx');
 
 
-INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (203, 2, 'fa-clipboard', '站点管理', 'site/list.do', 1, '站点管理', NULL, 0, NULL);
-INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (204, 2, 'fa-clipboard', '存储配置', 'system/storage/info.do', 0, '', NULL, 0, NULL);
-INSERT INTO `mr_user_menu` (`id`, `pid`, `icon`, `name`, `url`, `sort`, `description`, `type`, `end`, `moduleId`) VALUES (205, 2, 'fa-clipboard', 'AI模型', 'system/openai/info.do', 0, '', NULL, 0, NULL);
 
 
 DROP TABLE IF EXISTS `mr_site`;

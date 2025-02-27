@@ -3,16 +3,12 @@ package com.baidu.ueditor.upload;
 import com.baidu.ueditor.define.AppInfo;
 import com.baidu.ueditor.define.BaseState;
 import com.baidu.ueditor.define.State;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
+import java.io.*;
+
+@Slf4j
 public class StorageManager {
 	public static final int BUFFER_SIZE = 8192;
 
@@ -34,7 +30,8 @@ public class StorageManager {
 			bos.write(data);
 			bos.flush();
 			bos.close();
-		} catch (IOException ioe) {
+		} catch (IOException e) {
+			log.error("", e);
 			return new BaseState(false, AppInfo.IO_ERROR);
 		}
 
@@ -78,6 +75,7 @@ public class StorageManager {
 			return state;
 			
 		} catch (IOException e) {
+			log.error("", e);
 		}
 		return new BaseState(false, AppInfo.IO_ERROR);
 	}
@@ -109,6 +107,7 @@ public class StorageManager {
 
 			return state;
 		} catch (IOException e) {
+			log.error("", e);
 		}
 		return new BaseState(false, AppInfo.IO_ERROR);
 	}
@@ -129,6 +128,7 @@ public class StorageManager {
 		try {
 			FileUtils.moveFile(tmpFile, targetFile);
 		} catch (IOException e) {
+			log.error("", e);
 			return new BaseState(false, AppInfo.IO_ERROR);
 		}
 

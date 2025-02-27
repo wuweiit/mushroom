@@ -7,6 +7,7 @@ import com.baidu.ueditor.define.AppInfo;
 import com.baidu.ueditor.define.BaseState;
 import com.baidu.ueditor.define.FileType;
 import com.baidu.ueditor.define.State;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+@Slf4j
 public class BinaryUploader {
 
 	public static final State save(HttpServletRequest request,
@@ -89,8 +91,10 @@ public class BinaryUploader {
 
 			return storageState;
 		} catch (FileUploadException e) {
+			log.error("", e);
 			return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
 		} catch (IOException e) {
+			log.error("", e);
 		}
 		return new BaseState(false, AppInfo.IO_ERROR);
 	}
@@ -215,8 +219,10 @@ storageState.putInfo("original", originFileName + suffix);
 			//System.out.println("storageState="+storageState);
 			return storageState;
 		} catch (FileUploadException e) {
+			log.error("", e);
 			return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
 		} catch (IOException e) {
+			log.error("", e);
 		}
 		return new BaseState(false, AppInfo.IO_ERROR);
 	}
@@ -282,8 +288,7 @@ storageState.putInfo("original", originFileName + suffix);
 				storageState.putInfo("title", originFileName);
 				storageState.putInfo("original", originFileName);
 			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println(e.getMessage());
+				log.error("", e);
 				storageState.putInfo("state", "文件上传失败!");
 				storageState.putInfo("url","");
 				storageState.putInfo("title", "");
@@ -301,6 +306,7 @@ storageState.putInfo("original", originFileName + suffix);
 			//System.out.println("storageState="+storageState);
 			return storageState;
 		} catch (IOException e) {
+			log.error("", e);
 		}
 		return new BaseState(false, AppInfo.IO_ERROR);
 	}
