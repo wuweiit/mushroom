@@ -48,7 +48,6 @@ public class ThemesResourceFilter implements Filter {
         SystemConfig syscfg = SystemConfig.getInstance();
         StorageConfig storageConfig = StorageConfig.getInstance();
 
-
         setHeaders((HttpServletResponse) resp, getMediaType(servletContext, uri));
         String themesPath = syscfg.getThemesPath();
         String file = "";
@@ -59,15 +58,14 @@ public class ThemesResourceFilter implements Filter {
             } else {
                 file = themesPath + uri.replaceAll("/themes", "");
             }
-        } else if (uri.startsWith("/upload")) {
-            if (org.apache.commons.lang.StringUtils.isEmpty(storageConfig.getLocalOss().getBaseFilePath())) {
+        } else if (uri.startsWith("/upload") || uri.startsWith("/wp-content")) { // 兼容wordpress地址
+            String localFilePath = storageConfig.getLocalOss().getBaseFilePath();
+            if (org.apache.commons.lang.StringUtils.isEmpty(localFilePath)) {
                 chain.doFilter(req, resp);
                 return;
             } else {
-                file = syscfg.getFilePath() + uri;
+                file = localFilePath + uri;
             }
-        } else if (uri.startsWith("/wp-content")) { // 兼容wordpress地址
-            file = syscfg.getFilePath() + uri;
         }
 
         File fileInfo = new File(file);
@@ -98,7 +96,6 @@ public class ThemesResourceFilter implements Filter {
 
 
     protected void setHeaders(HttpServletResponse response, MediaType mediaType) throws IOException {
-
         if (mediaType != null) {
             response.setContentType(mediaType.toString());
         }
@@ -132,7 +129,6 @@ public class ThemesResourceFilter implements Filter {
                     }
 
                 }
-
                 return ex;
             } else {
                 return FileTypeMap.getDefaultFileTypeMap();
