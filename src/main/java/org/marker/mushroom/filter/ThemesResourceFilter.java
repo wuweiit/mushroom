@@ -6,6 +6,7 @@ import org.marker.mushroom.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
@@ -42,6 +43,7 @@ public class ThemesResourceFilter implements Filter {
 
 
         HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) resp;
         ServletContext servletContext = request.getServletContext();
 
         String uri = WebUtils.getRequestUri(request);
@@ -70,13 +72,12 @@ public class ThemesResourceFilter implements Filter {
 
         File fileInfo = new File(file);
         if (!fileInfo.exists() && !fileInfo.isFile()) {
+            response.setStatus(HttpStatus.NOT_FOUND.value());
             return;
         }
 
         long len = fileInfo.length();
-
         resp.setContentLength((int) len);
-
         InputStream inputStream = new FileInputStream(fileInfo);
 
         StreamUtils.copy(inputStream, resp.getOutputStream());
