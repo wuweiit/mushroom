@@ -152,7 +152,7 @@ public final class WebAPP {
             Page page = articleService.search(param);
 			param.channel = new Channel();
 			request.setAttribute("page", page);
-            request.setAttribute("keywrods", param.keywords);
+            request.setAttribute("keywords", param.keywords);
 		}
 
 		// 查询当前栏目和 面包屑数
