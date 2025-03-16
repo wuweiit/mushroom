@@ -295,6 +295,26 @@
 
                    });
                }
+           },
+           {
+               label:'文章内容描述提取',       //显示的名称
+               cmdName:'selectall',//执行的command命令，当点击这个右键菜单时
+               //exec可选，有了exec就会在点击时执行这个function，优先级高于cmdName
+               exec:function () {
+                   let userPrompt = editor.getContentTxt()
+                   this.focus();
+                   if (!userPrompt) {
+                       return;
+                   }
+                   // let systemPrompt = "我是内容编辑高手，擅长提炼出文本内容的关键词";
+                   let systemPrompt = "你是文章SEO内容提炼高手，请将描述的内容提炼为90汉字的描述，请严格按照90个汉字回复。";
+                   console.log('系统提示词：', systemPrompt);
+                   console.log('用户提示词：', "<b>"+userPrompt +"</b> \n");
+                   // 调用openaiChat函数
+                   openaiChat(systemPrompt, userPrompt, function (text) {
+
+                   });
+               }
            }
         ]
 
