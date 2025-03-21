@@ -92,8 +92,9 @@
 	<!-- 静态资源配置 -->
     <mvc:resources mapping="/public/**" location="/public/"/>
     <mvc:resources mapping="/upload/**" location="/upload/"/>
-    <mvc:resources mapping="/install/**" location="/WEB-INF/content/install/"/>
     <mvc:resources mapping="/admin/**" location="/admin/"/>
+	<mvc:resources mapping="/install/**" location="/WEB-INF/content/install/"/>
+	<mvc:resources mapping="/robots.txt" location="/robots.txt" />
 
 
 
