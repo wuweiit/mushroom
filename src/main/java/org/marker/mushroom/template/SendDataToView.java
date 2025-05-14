@@ -156,7 +156,8 @@ public class SendDataToView {
 
             org.springframework.cache.Cache cache = cm.getCache(CacheO.STATIC_HTML);
 
-            String path =  "data" + File.separator+"cache" + File.separator +
+			String host = request.getServerName(); // 针对多站点控制缓存路径
+            String path =  "data" + File.separator+"cache"+ File.separator +host+ File.separator +
                     lang + File.separator + request.getAttribute("rewriterUrl");
 
 
@@ -185,7 +186,7 @@ public class SendDataToView {
 
             // lang+"_"+uri
 
-            String key = lang + "_" + request.getAttribute("rewriterUrl");
+            String key = host+"_"+lang + "_" + request.getAttribute("rewriterUrl");
 
 
             cache.put(key, path);
