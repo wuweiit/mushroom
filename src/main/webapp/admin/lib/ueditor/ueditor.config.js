@@ -85,7 +85,7 @@
         //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
         //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
 
-        ,iframeCssUrl: URL + '/themes/iframe.css' //给编辑器内部引入一个css文件
+        ,iframeCssUrl: URL + 'themes/iframe.css' //给编辑器内部引入一个css文件
 
         //indentValue
         //首行缩进距离,默认是2em
@@ -363,9 +363,9 @@
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true
-        ,autoFloatEnabled: true
+        ,autoFloatEnabled: false
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
-        //,topOffset:30
+        ,topOffset:30
         //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
         //,toolbarTopOffset:400
 
