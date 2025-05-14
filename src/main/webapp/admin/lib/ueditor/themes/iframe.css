@@ -1,5 +1,13 @@
 /*可以在这里添加你自己的css*/
 
+body {
+    font-size: 16px;line-height: 1.6;
+}
+/* 针对所有段落 */
+p {
+
+}
+
 /* AI思考动效 */
 .thinking-wave {
     display: inline-block;
