@@ -95,7 +95,6 @@ function submitActionForm(obj){
 		var options = {
 			type : "POST",
 			dataType: 'json',
-
 			success: function(data) {
 				zoom.closeConfirmDialog();//关闭确定提示
 				if(data.status){
