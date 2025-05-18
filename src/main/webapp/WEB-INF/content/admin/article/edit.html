@@ -172,7 +172,7 @@ $(function(){
 		// 	hljs.highlightBlock(block);
 		// });
 
-		SyntaxHighlighter.highlight();
+		// SyntaxHighlighter.highlight();
 	});
 });
 
@@ -264,7 +264,8 @@ function byteToString(arr) {
 }
 
 function mySubmitForm(obj){
- 	window.editor.sync();//手动提交需要手动同步编辑器数据 
+ 	window.editor.sync();//手动提交需要手动同步编辑器数据
+
 	submitActionForm(obj);
 } 
 
@@ -293,6 +294,15 @@ _editor.ready(function () {
         console.log(arg);
         $("#articleIcon").attr("value", arg[0].src);
     })
+	editor.addListener('contentChange', function() {
+		var content = this.getContent();
+		console.log('HTML内容长度:', content.length);
+	});
+	editor.addListener('beforepaste', function (type, html) {
+		// 在粘贴前处理内容，例如添加<code>标签
+		html = html.replace(/<pre>/g, '<pre><code>').replace(/<\/pre>/g, '</code></pre>');
+		return html;
+	});
 });
 
 function uploadImage(){
@@ -300,8 +310,6 @@ function uploadImage(){
     myImage.open();
 }
 </script>
-
-
 
 <#macro categoryTree id node>
 	<#local temp = node + 1 />
