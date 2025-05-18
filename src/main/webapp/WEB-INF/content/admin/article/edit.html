@@ -265,7 +265,6 @@ function byteToString(arr) {
 
 function mySubmitForm(obj){
  	window.editor.sync();//手动提交需要手动同步编辑器数据
-
 	submitActionForm(obj);
 } 
 
@@ -298,11 +297,11 @@ _editor.ready(function () {
 		var content = this.getContent();
 		console.log('HTML内容长度:', content.length);
 	});
-	editor.addListener('beforepaste', function (type, html) {
-		// 在粘贴前处理内容，例如添加<code>标签
-		html = html.replace(/<pre>/g, '<pre><code>').replace(/<\/pre>/g, '</code></pre>');
-		return html;
-	});
+	// editor.addListener('beforepaste', function (type, html) {
+	// 	// 在粘贴前处理内容，例如添加<code>标签
+	// 	html = html.replace(/<pre>/g, '<pre><code>').replace(/<\/pre>/g, '</code></pre>');
+	// 	return html;
+	// });
 });
 
 function uploadImage(){
