@@ -13,15 +13,15 @@ import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.StreamUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -94,6 +94,8 @@ public class SystemCoreFilter implements Filter {
 
         String uri = WebUtils.getRequestUri(request);
 
+
+
 		
 		/* 
 		 * ============================================
@@ -132,9 +134,48 @@ public class SystemCoreFilter implements Filter {
             return;
         }
 
+		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+
+		// 根据域名选择主题
+		org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.SITE_INFO_CACHE);
+		String theme = syscfg.getThemeActive();
+		String host = req.getServerName();
+		JSONObject siteInfo = cache.get(host, JSONObject.class);
+		if (siteInfo != null && StringUtils.isNotBlank(siteInfo.getString("theme"))) {
+			theme = siteInfo.getString("theme");
+		}
+
+		String ip = HttpUtils.getRemoteHost(request);// IP地址获取
+		req.setAttribute(AppStatic.WEB_APP_LANG, HttpUtils.getLanguage(request));// 网址路径
+		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
+		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
+		req.setAttribute(AppStatic.WEB_APP_THEME_URL, "/themes/" + theme);// 网址路径
+		req.setAttribute(AppStatic.WEB_APP_THEME, theme);// 主题名称
+
+		if (uri.startsWith("/ads.txt")) {
+			// 配置了制定的主题路径
+			String themesPath = syscfg.getThemesPath();
+			// 构造模模版路径
+			StringBuilder adsFile = new StringBuilder(themesPath).append(File.separator).append(theme).append(File.separator).append("ads.txt");
+
+			File fileInfo = new File(adsFile.toString());
+			if (!fileInfo.exists() && !fileInfo.isFile()) {
+				response.setStatus(HttpStatus.NOT_FOUND.value());
+				return;
+			}
+			long len = fileInfo.length();
+			response.setContentLength((int) len);
+			InputStream inputStream = new FileInputStream(fileInfo);
+			StreamUtils.copy(inputStream, response.getOutputStream());
+			inputStream.close();
+			return;
+		}
 
 
-        String lang = HttpUtils.getLanguage(request);
+
+
+
+		String lang = HttpUtils.getLanguage(request);
         if(!(lang != null && !lang.equals(""))){// 语言为null；
             String cookieLang = HttpUtils.getCookie(request,"lang");
             if(!lang.equals(cookieLang)){
@@ -142,10 +183,8 @@ public class SystemCoreFilter implements Filter {
             }
         }
 		// 页面静态读取
-
-		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
 		if(syscfg.isStaticPage()){
-			org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.STATIC_HTML);
+			org.springframework.cache.Cache cacheStaticHTML = cacheManager.getCache(CacheO.STATIC_HTML);
 
 			// 传递页面URI给缓存模块
 			String pageName = "/".equals(uri)? syscfg.getHomePage() : uri;
@@ -153,7 +192,7 @@ public class SystemCoreFilter implements Filter {
 			request.setAttribute("rewriterUrl", pageName);
 			
 			
-			String htmlFilePath = cache.get(lang+"_" + pageName, String.class);
+			String htmlFilePath = cacheStaticHTML.get(lang+"_" + pageName, String.class);
 			if(htmlFilePath != null){ 
 				String filePath = WebRealPathHolder.REAL_PATH + htmlFilePath;
 				 
@@ -193,23 +232,6 @@ public class SystemCoreFilter implements Filter {
 		if("/".equals(url)){ // 修复jetty 默认首页问题
 			url = "cms";
 		}
-
-		// 根据域名选择主题
-		org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.SITE_INFO_CACHE);
-		String theme = syscfg.getThemeActive();
-		String host = req.getServerName();
-		JSONObject siteInfo = cache.get(host, JSONObject.class);
-		if (siteInfo != null && StringUtils.isNotBlank(siteInfo.getString("theme"))) {
-			theme = siteInfo.getString("theme");
-		}
-		
-		String ip = HttpUtils.getRemoteHost(request);// IP地址获取
-        req.setAttribute(AppStatic.WEB_APP_LANG, HttpUtils.getLanguage(request));// 网址路径
-		req.setAttribute(AppStatic.REAL_IP, ip);// 将用户真实IP写入请求属性
-		req.setAttribute(AppStatic.WEB_APP_URL, HttpUtils.getRequestURL(request));// 网址路径
-		req.setAttribute(AppStatic.WEB_APP_THEME_URL, "/themes/" + theme);// 网址路径
-		req.setAttribute(AppStatic.WEB_APP_THEME, theme);// 主题名称
-
 
 
 		/*
