@@ -165,6 +165,7 @@ public class SystemCoreFilter implements Filter {
 			}
 			long len = fileInfo.length();
 			response.setContentLength((int) len);
+			response.setContentType("text/plain; charset=utf-8");
 			InputStream inputStream = new FileInputStream(fileInfo);
 			StreamUtils.copy(inputStream, response.getOutputStream());
 			inputStream.close();
