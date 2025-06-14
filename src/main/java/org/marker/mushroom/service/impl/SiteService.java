@@ -38,7 +38,7 @@ public class SiteService extends BaseService {
 	 */
 	public List<Map<String, Object>> list() {
 		String sql = "select * from "+config.getPrefix()+"site ";
-		return commonDao.queryForObject(sql, null);
+		return commonDao.queryForList(sql, null);
 	}
 
 	/**
