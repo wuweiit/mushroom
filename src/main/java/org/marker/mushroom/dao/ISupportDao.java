@@ -1,11 +1,10 @@
 package org.marker.mushroom.dao;
 
+import org.marker.mushroom.beans.Page;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import org.marker.mushroom.beans.Category;
-import org.marker.mushroom.beans.Page;
 
 
 /**
@@ -80,6 +79,17 @@ public interface ISupportDao {
 	public List<Map<String, Object>> queryFotList(int currentPageNo, int pageSize, String sql, Object... args);
 	
 	public List<Map<String, Object>> queryForList(String sql, Object... args);
+
+
+	/**
+	 * 查询多个对象
+	 * @param sql sql语句
+	 * @param clzz 实体类
+	 * @param args 参数
+	 * @return
+	 * @param <T>
+	 */
+ 	<T> List<T>  queryForList(String sql, Class<T> clzz, Object... args);
 	
 	public <T> T queryForObject(String sql, Class<T> clzz, Object... args);
 

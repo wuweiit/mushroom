@@ -4,7 +4,6 @@ import org.marker.mushroom.beans.Page;
 import org.marker.mushroom.beans.ResultMessage;
 import org.marker.mushroom.beans.Site;
 import org.marker.mushroom.core.component.SiteContext;
-import org.marker.mushroom.dao.IModelDao;
 import org.marker.mushroom.service.impl.SiteService;
 import org.marker.mushroom.support.SupportController;
 import org.springframework.stereotype.Controller;
@@ -34,8 +33,6 @@ public class SiteController extends SupportController {
 	@Resource
 	private SiteService siteService;
 
-	@Resource
-	private IModelDao modelDao;
 
 	/** 构造方法初始化一些成员变量 */
 	public SiteController() {
@@ -43,16 +40,12 @@ public class SiteController extends SupportController {
 	}
 
 
-
-
-	
 	/**
 	 * 添加站点
 	 * */
 	@RequestMapping("/add")
 	public ModelAndView add(HttpServletRequest req){
 		ModelAndView view = new ModelAndView(this.viewPath + "add");
-
 		return view;
 	}
 	
@@ -62,7 +55,6 @@ public class SiteController extends SupportController {
 	@RequestMapping("/edit")
 	public ModelAndView edit(@RequestParam("id") int id){
 		ModelAndView view = new ModelAndView(this.viewPath + "edit");
-
 		view.addObject("entity", siteService.get(id));
 		return view;
 	}
@@ -75,7 +67,7 @@ public class SiteController extends SupportController {
 	public Object save(Site site, Errors errors){
 		commonDao.save(site);
 		// 刷新站点缓存
-		siteContext.init();
+		siteContext.refreshCache();
 		return new ResultMessage(true, "批量添加成功!");
 	}
 
@@ -92,8 +84,7 @@ public class SiteController extends SupportController {
 			return new ResultMessage(false,"id不能空!");
 		}
 		if(commonDao.update(site)){
-			// 刷新站点缓存
-			siteContext.init();
+			siteContext.refreshCache();// 刷新站点缓存
 			return new ResultMessage(true, "更新成功!");
 		}
 		return new ResultMessage(false,"更新失败!");
@@ -104,6 +95,7 @@ public class SiteController extends SupportController {
 	@RequestMapping("/delete")
 	public Object delete(@RequestParam("id") Integer id){
 		boolean status = commonDao.deleteByIds(Site.class, id + "");
+		siteContext.refreshCache();// 刷新站点缓存
 		if (status) {
 			return new ResultMessage(true, "删除成功!");
 		} else {

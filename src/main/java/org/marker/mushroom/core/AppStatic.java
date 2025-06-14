@@ -17,9 +17,9 @@ public interface AppStatic {
 	/** WEB应用安装状态 */
 	String WEB_APP_INSTALL = "website_install";
 	/** WEB应用配置变量名 */
-	public static String WEB_APP_CONFIG  = "config";
+ 	String WEB_APP_CONFIG  = "config";
 	/** WEB异常或错误变量名 */
-	public static final String WEB_APP_ERROR   = "error";
+	String WEB_APP_ERROR   = "error";
 	/** WEB错误代码变量名 */
 	public static String WEB_APP_ERROR_CODE = "err_code";
 	/** WEB模板当前栏目变量名 */

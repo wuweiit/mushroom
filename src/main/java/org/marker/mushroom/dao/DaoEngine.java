@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -37,7 +38,6 @@ import java.util.Map;
  * @date 2014-08-10
  * @version 1.0 
  * @blog www.yl-blog.com
- * @weibo http://t.qq.com/wuweiit
  */
 public abstract class DaoEngine implements ISupportDao {
 	
@@ -93,6 +93,20 @@ public abstract class DaoEngine implements ISupportDao {
 	@Override
 	public <T> T queryForObject(String sql, Class<T> clzz, Object... args) {
 		return jdbcTemplate.queryForObject(sql, clzz, args);
+	}
+
+
+	/**
+	 * 查询多个对象
+	 * @param sql sql语句
+	 * @param clzz 实体类
+	 * @param args 参数
+	 * @return
+	 * @param <T>
+	 */
+	@Override
+	public <T> List<T>  queryForList(String sql, Class<T> clzz, Object... args) {
+		return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(clzz), args);
 	}
 
 	// 查询是否存在

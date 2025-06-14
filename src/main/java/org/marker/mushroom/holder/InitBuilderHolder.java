@@ -186,7 +186,7 @@ public class InitBuilderHolder implements ServletContextAware{
 		 */
 		logger.info("mrcms Cache init ...");
 		SiteContext siteContext = SpringContextHolder.getBean(SystemStatic.SYSTEM_CMS_SITE);
-		siteContext.init();
+		siteContext.refreshCache();
 
 		if (dataBaseConfig.isInstall()) {
 			String moduleDir =  webRootPath + "modules";// 模块目录
