@@ -1,9 +1,13 @@
 package org.marker.mushroom.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.marker.mushroom.alias.CacheO;
+import org.marker.mushroom.beans.Site;
 import org.marker.mushroom.core.AppStatic;
+import org.marker.mushroom.core.SystemStatic;
+import org.marker.mushroom.core.component.SiteContext;
 import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.core.proxy.SingletonProxyFrontURLRewrite;
 import org.marker.mushroom.holder.SpringContextHolder;
@@ -135,14 +139,32 @@ public class SystemCoreFilter implements Filter {
         }
 
 		SystemConfig syscfg = SpringContextHolder.getBean("systemConfig");
+		SiteContext siteContext = SpringContextHolder.getBean(SystemStatic.SYSTEM_CMS_SITE);
 
-		// 根据域名选择主题
-		org.springframework.cache.Cache cache = cacheManager.getCache(CacheO.SITE_INFO_CACHE);
+
+		/*
+		 * ============================================================
+		 *                初始化系统配置信息路径
+		 * ============================================================
+		 */
+		JSONObject sysCfg = (JSONObject)JSON.toJSON(syscfg.getProperties());
+		req.setAttribute(AppStatic.WEB_APP_CONFIG, sysCfg);
+
+		// 主题处理
 		String theme = syscfg.getThemeActive();
 		String host = req.getServerName();
-		JSONObject siteInfo = cache.get(host, JSONObject.class);
-		if (siteInfo != null && StringUtils.isNotBlank(siteInfo.getString("theme"))) {
-			theme = siteInfo.getString("theme");
+		Site siteInfo = siteContext.getByHost(host);;
+		if (siteInfo != null && StringUtils.isNotBlank(siteInfo.getTheme())) {
+			theme = siteInfo.getTheme(); // 主题
+			if (StringUtils.isNotBlank(siteInfo.getTitle())) { // 站点标题
+				sysCfg.put("title", siteInfo.getTitle());
+			}
+			if (StringUtils.isNotBlank(siteInfo.getDescribe())) {
+				sysCfg.put("description", siteInfo.getDescribe()); // 站点描述
+			}
+			if (StringUtils.isNotBlank(siteInfo.getKeywords())) {
+				sysCfg.put("keywords", siteInfo.getKeywords()); // 站点描述
+			}
 		}
 
 		String ip = HttpUtils.getRemoteHost(request);// IP地址获取
@@ -172,10 +194,6 @@ public class SystemCoreFilter implements Filter {
 			return;
 		}
 
-
-
-
-
 		String lang = HttpUtils.getLanguage(request);
         if(!(lang != null && !lang.equals(""))){// 语言为null；
             String cookieLang = HttpUtils.getCookie(request,"lang");
@@ -183,33 +201,10 @@ public class SystemCoreFilter implements Filter {
                 response.addCookie(new Cookie("lang",lang));
             }
         }
-		// 页面静态读取
-		if(syscfg.isStaticPage()){
-			org.springframework.cache.Cache cacheStaticHTML = cacheManager.getCache(CacheO.STATIC_HTML);
 
-			// 传递页面URI给缓存模块
-			String pageName = "/".equals(uri)? syscfg.getHomePage() : uri;
 
-			request.setAttribute("rewriterUrl", pageName);
-			
-			
-			String htmlFilePath = cacheStaticHTML.get(lang+"_" + pageName, String.class);
-			if(htmlFilePath != null){ 
-				String filePath = WebRealPathHolder.REAL_PATH + htmlFilePath;
-				 
-				String content = FileTools.getFileContet(new File(filePath), FileTools.FILE_CHARACTER_UTF8);
-				PrintWriter pw = response.getWriter();
-				pw.write(content);
-				pw.flush();
-				pw.close();
-				return; 
-			}
-		}
-		
-		
-		
-		
-		/* 
+
+		/*
 		 * ============================================
 		 *               cookies追中
 		 * ============================================
@@ -220,9 +215,27 @@ public class SystemCoreFilter implements Filter {
 			cookie.setMaxAge(life);// 当天内有效
 			response.addCookie(cookie);
 		}
-		
-	
-		
+
+
+		// 页面静态读取
+		if(syscfg.isStaticPage()){
+			org.springframework.cache.Cache cacheStaticHTML = cacheManager.getCache(CacheO.STATIC_HTML);
+			// 传递页面URI给缓存模块
+			String pageName = "/".equals(uri)? syscfg.getHomePage() : uri;
+			request.setAttribute("rewriterUrl", pageName);
+			String htmlFilePath = cacheStaticHTML.get(lang+"_" + pageName, String.class);
+			if(htmlFilePath != null){ 
+				String filePath = WebRealPathHolder.REAL_PATH + htmlFilePath;
+				String content = FileTools.getFileContet(new File(filePath), FileTools.FILE_CHARACTER_UTF8);
+				PrintWriter pw = response.getWriter();
+				pw.write(content);
+				pw.flush();
+				pw.close();
+				return; 
+			}
+		}
+
+
 		/* 
 		 * ============================================
 		 *                URI -> URL 解码操作
@@ -233,15 +246,6 @@ public class SystemCoreFilter implements Filter {
 		if("/".equals(url)){ // 修复jetty 默认首页问题
 			url = "cms";
 		}
-
-
-		/*
-		 * ============================================================
-		 *                初始化系统配置信息路径
-		 * ============================================================
-		 */
-		req.setAttribute(AppStatic.WEB_APP_CONFIG, syscfg.getProperties());
-
 		req.getRequestDispatcher(url).forward(request, response);// 请求转发
 	}
 
