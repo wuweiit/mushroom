@@ -220,5 +220,15 @@
     <!--<location>/public/errorpage/404.htm</location>-->
     <!--</error-page>-->
 
-
+    <!-- 【安全】移除JSP相关部分 -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Disable JSP</web-resource-name>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.jspx</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <!-- 无角色，禁止访问 -->
+        </auth-constraint>
+    </security-constraint>
 </web-app>

