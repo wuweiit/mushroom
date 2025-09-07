@@ -12,6 +12,8 @@
 	<!-- 启用注解支持 -->
  	<cache:annotation-driven />
 
+	<bean id="springUtils" class="org.marker.mushroom.utils.SpringUtils"> </bean>
+
     <!-- 通过springContextHolder可以获取applicationContext中的数据信息 -->
     <bean id="webRealPathHolder" class="org.marker.mushroom.holder.WebRealPathHolder" />
     <bean id="springContextHolder" class="org.marker.mushroom.holder.SpringContextHolder" />

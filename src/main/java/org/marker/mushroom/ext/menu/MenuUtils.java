@@ -1,12 +1,13 @@
 package org.marker.mushroom.ext.menu;
 
-import java.io.Serializable;
-import java.util.Map;
-
+import lombok.extern.slf4j.Slf4j;
 import org.marker.mushroom.alias.DAO;
 import org.marker.mushroom.beans.Menu;
 import org.marker.mushroom.dao.IMenuDao;
 import org.marker.mushroom.holder.SpringContextHolder;
+
+import java.io.Serializable;
+import java.util.Map;
 
 
 /**
@@ -18,7 +19,8 @@ import org.marker.mushroom.holder.SpringContextHolder;
  * 
  * @author marker
  * @version 1.0
- */ 
+ */
+@Slf4j
 public class MenuUtils {
 
 	/** 首页 */
@@ -116,14 +118,14 @@ public class MenuUtils {
 			Menu m = menuDao.findByModuleId(menu.getModuleId());
 			if(null == m){
 				// 保存操作
-//				menuDao.save(menu);
+				menuDao.save(menu);
 //				// 将菜单添加给内置管理员组
-//				menuDao.saveMenuToAdminGroup(menu.getId());
+				menuDao.saveMenuToAdminGroup(menu.getId());
 			}else{
 				return m;
 			} 
 		}catch(Exception e){
-			e.printStackTrace();
+			log.error("", e);
 		}
 		return menu;
 	}

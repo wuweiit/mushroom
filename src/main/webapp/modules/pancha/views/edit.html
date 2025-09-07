@@ -1,0 +1,120 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">编辑盘查</li>
+		</ul>
+		 <button class="btn_tabbar submit_it" onclick="mySubmitForm(this);" return="/plugin/pancha/list?currentPageNo=1">保 存</button>
+	</div>
+
+
+	<form id="myForm" action="/plugin/pancha/update" method="post" class="form-horizontal" onsubmit="return false;">
+		<input name="id" type="hidden" value="${article.id?c}" />
+
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+			<div class="control-group">
+				<label class="control-label">文章标题：</label>
+				<div class="controls">
+					<input id="title" name="title" type="text" value="${article.title!}" placeholder="请输入文章标题" readonly />
+<!--					<button type="button" onclick="aiContent()">AI生成内容</button>-->
+					<div class="help-block"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">文章图标：</label>
+				<div class="controls">
+					<input id="articleIcon"   name="icon" type="text" value="${article.icon!}"  readonly />
+					<div class="help-block"></div>
+				</div>
+			</div>
+
+
+
+			<div class="control-group">
+				<label class="control-label">文章作者：</label>
+				<div class="controls">
+					<input class="input_for_add" name="author" type="text" value="${article.author!}" readonly />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">原文地址：</label>
+				<div class="controls">
+					<input name="source" type="text" value="${article.source!}" readonly />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+
+
+			<div class="control-group">
+				<label class="control-label">盘查关键字：</label>
+				<div class="controls">
+					<input id="pKeywords" name="pKeywords" value="${article.pKeywords!}" type="text" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">盘查类型：</label>
+				<div class="controls">
+					<input id="pType" name="pType" value="${article.pType!}" type="text" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">盘查密码：</label>
+				<div class="controls">
+					<input id="pPwd" name="pPwd" value="${article.pPwd!}" type="text" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+	</form> 
+</div>
+
+<script type="text/javascript">
+
+/**
+ * byte[] 格式转字符串
+ * @param {byte[]} arr
+ */
+function byteToString(arr) {
+	if(typeof arr === 'string') {
+		return arr;
+	}
+	var str = '',
+			_arr = arr;
+	for(var i = 0; i < _arr.length; i++) {
+		var one = _arr[i].toString(2),
+				v = one.match(/^1+?(?=0)/);
+		if(v && one.length == 8) {
+			var bytesLength = v[0].length;
+			var store = _arr[i].toString(2).slice(7 - bytesLength);
+			for(var st = 1; st < bytesLength; st++) {
+				store += _arr[st + i].toString(2).slice(2);
+			}
+			str += String.fromCharCode(parseInt(store, 2));
+			i += bytesLength - 1;
+		} else {
+			str += String.fromCharCode(_arr[i]);
+		}
+	}
+	return str;
+}
+
+function mySubmitForm(obj){
+	submitActionForm(obj);
+} 
+
+
+//设置栏目ID
+var cid = '${article.cid?c}';
+$("#channelId").attr('value',cid);
+$("#categoryId").attr('value','${article.did?c}');
+
+
+</script>

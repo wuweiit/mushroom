@@ -1,0 +1,76 @@
+<div class="content">
+	<div class="tab_bar">
+		<ul>
+			<li class="tab_index" onclick="setTabContent(this);">盘查管理</li>
+		</ul>
+	</div>
+
+
+	<div class="tab_content">
+		<div class="tab_item tab_show">
+		<table class="table_for_list">
+			<thead>
+			 <tr>
+				<th width="30" class="quanxuan" onclick="allCheck();">全选</th>
+				<th>内容标题</th>
+				<th width="100">作者</th>
+				<th width="80">流量</th>
+				<th width="120">创建时间</th>
+                <th width="80">发布状态</th>
+				 <th width="130">盘查状态</th>
+				<th width="130">关键字</th>
+				<th width="130">类型</th>
+				<th width="130">密码</th>
+			  </tr>
+			</thead>
+	    	<tbody>
+			  <#list page.getData() as x>
+				<tr>
+					<td class="checkbox1"><input type="checkbox" value="${x.id?c}" /></td>
+					<td>${x.title!}</td>
+					<td>${x.author!}</td>
+					<td>${x.views?c}</td>
+					<td><#if x.time?exists>${x.time?string("yyyy-MM-dd HH:mm:ss")}<#else>null</#if></td>
+					<td class="tac">
+						<#if x.status == 1>
+							<b style="color:green;">已发布</b>
+						<#else>
+							<b style="color:rgb(128,128,128);">未发布</b>
+						</#if>
+					</td>
+					<td class="tac">
+						<a href="#" action="/plugin/pancha/edit?id=${x.id?c}" param="article_id=${x.id?c}" onclick="refreshContentByElement(this);">[绑定盘查]</a>
+					</td>
+					<td>${x.pKeywords!}</td>
+					<td>${x.pType!}</td>
+					<td>${x.pwd!}</td>
+				</tr>
+			  </#list>
+			</tbody>
+		</table>
+			<#include "pancha/views/_page.html" />
+            <@guestbookPage currentPage=page.currentPageNo totalPage=page.totalPages />
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+
+    // 审核
+    function auditContent(obj){
+        var action = $(obj).attr("action");
+        var title  = $(obj).attr("title");
+
+        zoom.showConfirmDialog(""+title+"的留言<br>审核通过后将网站列表中展示！<br>确定审核通过吗？","消息提示", function(){
+            $.getJSON(action, null, function(data){
+                debugger
+                if(data.status){
+                    $(obj).parent().html('<b style="color:green;">已发布</b>');
+                }else{
+                    zoom.showMessageDialog(data.message,"消息提示",1500);
+                }
+                zoom.closeConfirmDialog();
+            });
+        });
+    }
+</script>

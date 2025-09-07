@@ -3,6 +3,8 @@ package org.marker.mushroom.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.Resource;
@@ -19,6 +21,7 @@ import java.util.regex.Pattern;
  * @blog www.yl-blog.com
  * @weibo http://t.qq.com/wuweiit
  */
+@Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class SpringUtils implements ApplicationContextAware {
 
 	private static ApplicationContext applicationContext;
@@ -141,5 +144,14 @@ public class SpringUtils implements ApplicationContextAware {
 			return true;
 		}
 		return false;
+	}
+
+
+	/**
+	 * 自动装配Bean
+	 * @param bean
+	 */
+	public static void autowireBean(Object bean) {
+		applicationContext.getAutowireCapableBeanFactory().autowireBean(bean);
 	}
 }

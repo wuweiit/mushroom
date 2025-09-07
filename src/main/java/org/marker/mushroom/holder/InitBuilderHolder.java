@@ -22,6 +22,8 @@ import org.marker.mushroom.ext.tag.TaglibContext;
 import org.marker.mushroom.ext.tag.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.context.ServletContextAware;
 
 import javax.servlet.ServletContext;
@@ -36,6 +38,7 @@ import java.util.Map;
  *
  * @author marker
  * */
+@Order(Ordered.HIGHEST_PRECEDENCE + 100)
 public class InitBuilderHolder implements ServletContextAware{
 
 	/** 日志记录器 */
