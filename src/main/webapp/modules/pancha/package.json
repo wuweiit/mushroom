@@ -1,0 +1,11 @@
+{
+	"id": "10000001",
+    "icon" : "images/demo.jpg",
+	"name"  : "盘查模块",
+	"author": "marker",
+	"git": "",
+	"version" : "0.1", 
+	"description" : "扩展系统功能模块", 
+	"activator":"src/activator.groovy",
+	"backup":"pancha"
+}

@@ -125,4 +125,5 @@ public interface ISupportDao {
      * @return
      */
     Object findAll(Class<?> clzz);
+
 }

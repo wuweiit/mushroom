@@ -172,8 +172,7 @@ public class ModuleContext {
         logger.info("build module complete...");
 
         Module module = new Module(activator, pageInfo, this);
-
-
+        activator.setModule(module);
 
         // 持久化
         modules.put(moduleFile.getName(), module);

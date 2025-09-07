@@ -3,6 +3,7 @@ package com.wuweibi.module4j;/**
  */
 
 import com.wuweibi.module4j.groovy.GroovyScriptUtil;
+import com.wuweibi.module4j.module.Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,8 @@ public abstract class SupperModule  implements ModuleActivator {
 
     /** 路径  */
     private String path;
+    /** 模块基本信息 */
+    protected Module module;
 
 
     /**
@@ -55,5 +58,11 @@ public abstract class SupperModule  implements ModuleActivator {
         this.path = path;
     }
 
-
+    /**
+     * 设置模块信息
+     * @param module 模块
+     */
+    public void setModule(Module module) {
+        this.module = module;
+    }
 }

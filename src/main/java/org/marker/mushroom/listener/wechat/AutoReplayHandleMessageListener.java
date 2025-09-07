@@ -1,13 +1,11 @@
 package org.marker.mushroom.listener.wechat;
 
-import org.marker.mushroom.utils.SpringUtils;
-import org.marker.weixin.DefaultSession;
 import org.marker.weixin.msg.*;
 import org.springframework.stereotype.Service;
 
 
 /**
- * 自动恢复回调
+ * 自动回复回调(DEMO)
  * @author marker
  */
 @Service
@@ -16,13 +14,13 @@ public class AutoReplayHandleMessageListener implements org.marker.weixin.Handle
     @Override
     public void onTextMsg(Msg4Text msg4Text) {
         // 自动回复
-        Msg4Text reMsg = new Msg4Text();
-        reMsg.setToUserName(msg4Text.getFromUserName());
-        reMsg.setFromUserName(msg4Text.getToUserName());
-        reMsg.setCreateTime(msg4Text.getCreateTime());
-        reMsg.setContent("您说的是："+msg4Text.getContent());
-        SpringUtils.getBean(DefaultSession.class)
-                .callback(reMsg);//回传消息
+//        Msg4Text reMsg = new Msg4Text();
+//        reMsg.setToUserName(msg4Text.getFromUserName());
+//        reMsg.setFromUserName(msg4Text.getToUserName());
+//        reMsg.setCreateTime(msg4Text.getCreateTime());
+//        reMsg.setContent("您说的是："+msg4Text.getContent());
+//        SpringUtils.getBean(DefaultSession.class)
+//                .callback(reMsg);//回传消息
     }
 
     @Override
