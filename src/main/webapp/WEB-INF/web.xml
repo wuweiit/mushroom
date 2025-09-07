@@ -185,7 +185,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>weixinServlet</servlet-name>
-        <url-pattern>/weixin/dealwith.do</url-pattern>
+        <url-pattern>/api/open/wechat/callback</url-pattern>
     </servlet-mapping>
 
     <!-- 验证码Serlvet接口 -->

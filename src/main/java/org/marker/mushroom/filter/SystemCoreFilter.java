@@ -73,7 +73,8 @@ public class SystemCoreFilter implements Filter {
         "/install/",  // 安装路径
         "/SecurityCode",// 验证码接口
         "/fetch", // 统计接口
-        "/druid" // 监控
+        "/druid", // 监控
+        "/api/open/" // 开放接口
 	};
 
 
