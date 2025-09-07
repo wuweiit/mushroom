@@ -56,6 +56,8 @@
         <!-- 间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒，10分钟 -->
         <property name="timeBetweenEvictionRunsMillis" value="60000" />
         <property name="notFullTimeoutRetryCount" value="3" />
+        <property name="connectionErrorRetryAttempts" value="100" />
+        <property name="timeBetweenConnectErrorMillis" value="10000" />
     </bean>
 
 
