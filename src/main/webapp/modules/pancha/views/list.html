@@ -4,7 +4,10 @@
 			<li class="tab_index" onclick="setTabContent(this);">盘查管理</li>
 		</ul>
 	</div>
-
+	<div style=" ">
+		<input id="keyword" class="input_for_add" style="width:180px;border-left-width:1px; "/>
+		<button onclick="queryList();"><i class="fa fa-search"></i></button>
+	</div>
 
 	<div class="tab_content">
 		<div class="tab_item tab_show">
@@ -52,9 +55,71 @@
             <@guestbookPage currentPage=page.currentPageNo totalPage=page.totalPages />
 		</div>
 	</div>
+	<div class="list-footer">
+
+		<div class="left" >
+			<button title="全选" onclick="allCheck();">全选 </button>
+			<button title="反选" onclick="allRecheck();">反选 </button>
+			<button title="删除"  onclick="deleteArticleCheck();">删除</button>
+		</div>
+		<div class="right">
+			每页: <select id="pageSize"  style="height: 27px; width: 50px;" >
+			<option value="10">10</option>
+			<option value="20" selected>20</option>
+			<option value="40">40</option>
+			<option value="60">60</option>
+			<option value="80">80</option>
+			<option value="100">100</option>
+		</select> 条
+
+			<button onclick="prevPage()" title="上一页"><i class="fa fa-step-backward"></i></button>
+			<button onclick="nextPage()" title="下一页"><i class="fa fa-step-forward"></i></button>
+			&nbsp;
+			<input id="currentPageNo" style="height: 25px; width: 50px;text-align: center;" value="1"  /> / <span id="totalPages">12</span>
+			&nbsp;
+			<button onclick="goPage();"  title="GO"><i class="fa fa-arrow-circle-right"></i></button>
+
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
 
+$(function(){
+	// 加载模板
+	var source   = $("#article-template").html();
+	template = Handlebars.compile(source);
+
+
+
+	queryList();
+
+});
+		// 查询文章列表
+	function queryList(){
+		var keyword = $("#keyword").val();
+		var currentPageNo = $("#currentPageNo").val();
+		var pageSize = $("#pageSize").val();
+		var data = {
+			keyword: keyword,
+			currentPageNo: currentPageNo,
+			pageSize: pageSize
+		};
+		$.ajax({
+			url: "/plugin/pancha/page",
+			data: data,
+			type: "get",
+			dataType: "json",
+			success: function(json){
+				$("#totalPages").text(json.totalPages);
+				$("#currentPageNo").val(json.currentPageNo);
+				$("#totalPages").text(json.totalPages);
+
+				var html = template({"data":json.data});
+				$('#list-container').html(html);
+			}
+
+		});
+	}
 
     // 审核
     function auditContent(obj){
@@ -73,4 +138,40 @@
             });
         });
     }
+</script>
+
+
+
+
+<script id="article-template" type="text/x-handlebars-template">
+	{{#each data}}
+	<tr>
+		<td class="checkbox1"><input type="checkbox" value="{{id}}" /></td>
+		<td>[{{cname}}] <a href="{{url}}" target="_blank">{{title}}</a></td>
+
+		<td>{{author}}</td>
+		<td>{{views}}</td>
+		<td>{{dateformat time}}</td>
+		<td class="tac">{{showBoolean stick}}</td>
+		<td class="tac">
+			{{#if status}}
+			<b style="color:green;">已发布</b>
+			{{else}}
+			<#if Session.userGroupId == 1>
+			<a action="article/audit.do?id={{id}}"
+			   title="{{title}}"
+			   onclick="auditContent(this);" style="cursor: pointer;">[审核]</a>
+			<#else>
+			<b style="color:#999;">待审核</b>
+		</#if>
+		{{/if}}
+		</td>
+		<td class="tac">
+
+			<a href="#" action="article/edit.do?id={{id}}" param="" onclick="refreshContentByElement(this);">编辑</a>
+			&nbsp;|&nbsp;
+			<a href="#" data-id="{{id}}" onclick="deleteArticle(this);">删除</a>
+		</td>
+	</tr>
+	{{/each}}
 </script>

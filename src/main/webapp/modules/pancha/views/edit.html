@@ -64,10 +64,18 @@
 			<div class="control-group">
 				<label class="control-label">盘查密码：</label>
 				<div class="controls">
-					<input id="pPwd" name="pPwd" value="${article.pPwd!}" type="text" />
+					<input id="pPwd" name="pPwd" value="${article.pPwd!}" type="text" readonly />
 					<div class="help-block"> </div>
 				</div>
 			</div>
+			<div class="control-group">
+				<label class="control-label">盘查URL：</label>
+				<div class="controls">
+					<input id="pUrl" name="pUrl" onchange="changePUrl(this)" value="${article.pUrl!}" type="text" />
+					<div class="help-block"> </div>
+				</div>
+			</div>
+
 
 
 
@@ -77,6 +85,12 @@
 </div>
 
 <script type="text/javascript">
+	function changePUrl(el) {
+		var url = $(el).val();
+		let pwd = url.substring(url.indexOf("?pwd=")+5);
+		$("#pPwd").val(pwd);
+}
+
 
 /**
  * byte[] 格式转字符串

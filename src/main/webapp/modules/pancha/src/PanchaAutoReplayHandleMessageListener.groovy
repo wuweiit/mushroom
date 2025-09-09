@@ -36,7 +36,7 @@ public class PanchaAutoReplayHandleMessageListener extends HandleMessageAdapter 
         String replayContent = "盘查不存在！"
         if(pancha != null){
             String url = pancha.get("url") as String;
-            replayContent = "网盘地址：" + url
+            replayContent = "地址：" + url
         }
         // TODO msg4Text.getToUserName() 实现多账号自动恢复
 
