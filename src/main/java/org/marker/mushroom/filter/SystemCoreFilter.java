@@ -17,6 +17,8 @@ import org.marker.urlrewrite.URLRewriteEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StreamUtils;
 
@@ -42,6 +44,7 @@ import java.util.regex.Pattern;
  * 
  * */
 @WebFilter(filterName = "systemCoreFilter", urlPatterns = {"/*"}, asyncSupported = true)
+@Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class SystemCoreFilter implements Filter {
 	
 	/** 日志记录器 */ 

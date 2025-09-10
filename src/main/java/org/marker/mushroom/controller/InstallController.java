@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -59,7 +60,11 @@ public class InstallController extends SupportController {
      * 添加用户
      */
     @RequestMapping("/index")
-    public ModelAndView add() {
+    public ModelAndView installIndex(HttpServletResponse response) {
+        if (WebUtils.checkInstall()) {
+            response.setStatus(404);
+            return null;
+        }
         ModelAndView view = new ModelAndView(this.viewPath + "index");
         return view;
     }
@@ -69,7 +74,11 @@ public class InstallController extends SupportController {
      * 安装界面（配置数据库信息）
      */
     @RequestMapping("/install")
-    public ModelAndView install() throws NoSuchAlgorithmException {
+    public ModelAndView install(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
+        if (WebUtils.checkInstall()) {
+            response.setStatus(404);
+            return null;
+        }
         ModelAndView view = new ModelAndView(this.viewPath + "install");
 
         String secretKey = DES.getSecretKey(null);
@@ -84,7 +93,11 @@ public class InstallController extends SupportController {
      */
     @RequestMapping(value = "/check", method = RequestMethod.POST)
     @ResponseBody
-    public MessageResult check(HttpServletRequest request) throws NoSuchAlgorithmException {
+    public MessageResult check(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
+        if (WebUtils.checkInstall()) {
+            response.setStatus(404);
+            return null;
+        }
         Connection conn = null;
         try {
             String host = request.getParameter("DB_HOST");

@@ -6,6 +6,8 @@ import org.marker.mushroom.holder.WebRealPathHolder;
 import org.marker.mushroom.utils.FileTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -19,6 +21,7 @@ import java.io.IOException;
  * @author marker
  * */
 @WebFilter(urlPatterns = "*.md")
+@Order(Ordered.HIGHEST_PRECEDENCE + 1000)
 public class MarkDownFilter implements Filter {
 
 	/** 日志记录器 */ 

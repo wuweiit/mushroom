@@ -1,7 +1,7 @@
 <#macro guestbookPage currentPage totalPage>
 <#if (totalPage <= 0) || (currentPage > totalPage)><#return></#if>
-	<#local actionUrl = "/plugin/pancha/list?">
-	<#local delUrl    = "/plugin/pancha/delete">
+	<#local actionUrl = "/plugin/pancha/list.do?">
+	<#local delUrl    = "/plugin/pancha/delete.do">
 	
 	
 	<#local startPage = currentPage - 4>

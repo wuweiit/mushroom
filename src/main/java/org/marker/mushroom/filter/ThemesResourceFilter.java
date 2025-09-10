@@ -5,6 +5,8 @@ import org.marker.mushroom.core.config.impl.SystemConfig;
 import org.marker.mushroom.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +31,7 @@ import java.io.InputStream;
  * @author marker
  */
 @WebFilter(urlPatterns = {"/themes/*", "/upload/*"})
+@Order(Ordered.HIGHEST_PRECEDENCE + 10000)
 public class ThemesResourceFilter implements Filter {
 
     /**

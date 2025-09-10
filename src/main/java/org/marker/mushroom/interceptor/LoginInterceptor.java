@@ -20,6 +20,7 @@ import java.io.PrintWriter;
  * @author marker
  * 
  * */
+@Deprecated
 public class LoginInterceptor implements HandlerInterceptor  {
 
 

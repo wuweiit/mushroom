@@ -3,11 +3,11 @@
 		<ul>
 			<li class="tab_index" onclick="setTabContent(this);">编辑盘查</li>
 		</ul>
-		 <button class="btn_tabbar submit_it" onclick="mySubmitForm(this);" return="/plugin/pancha/list?currentPageNo=1">保 存</button>
+		 <button class="btn_tabbar submit_it" onclick="mySubmitForm(this);" return="/plugin/pancha/list.do?currentPageNo=1">保 存</button>
 	</div>
 
 
-	<form id="myForm" action="/plugin/pancha/update" method="post" class="form-horizontal" onsubmit="return false;">
+	<form id="myForm" action="/plugin/pancha/update.do" method="post" class="form-horizontal" onsubmit="return false;">
 		<input name="id" type="hidden" value="${article.id?c}" />
 
 	<div class="tab_content">
