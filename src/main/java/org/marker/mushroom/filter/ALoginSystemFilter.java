@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 /**
  * [管理后台登录过滤器]
  * 判断是否登录，如果没有登录就重定向到/admin/login.do
- * 支持admin路径、plugin路径
+ * 支持admin路径、plugin路径， 后缀路径都要有.do
  *  
  * @author marker
  * */
@@ -52,12 +52,6 @@ public class ALoginSystemFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		// 判断不是/plugin/*.do 则直接绕过登录验证
-		if (uri.startsWith("/plugin")) {
-			chain.doFilter(request, response);
-			return;
-		}
-
 
 
 
